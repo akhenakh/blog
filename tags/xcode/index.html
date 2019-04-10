@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xcode &middot; Fabrice Aneche</title>
+
+    <meta name="description" content="">
+
+    <meta name="generator" content="Hugo 0.33" />
+    <meta name="twitter:card" content="summary">
+    
+    <meta name="twitter:title" content="Xcode &middot; Fabrice Aneche">
+    <meta name="twitter:description" content="">
+
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Xcode &middot; Fabrice Aneche">
+    <meta property="og:description" content="">
+
+    <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Oxygen:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/pure-min.css">
+    <!--[if lte IE 8]>
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-old-ie-min.css">
+    <![endif]-->
+    <!--[if gt IE 8]><!-->
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-min.css">
+    <!--<![endif]-->
+
+    <link rel="stylesheet" href="https://blog.nobugware.com/css/all.min.css">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <link rel="alternate" type="application/rss+xml" title="Fabrice Aneche" href="https://blog.nobugware.com/index.xml" />
+    <link href="https://blog.nobugware.com/css/prism.css" rel="stylesheet" />
+</head>
+<body>
+
+
+<div id="layout" class="pure-g">
+    <div class="sidebar pure-u-1 pure-u-md-1-4">
+    <div class="header">
+        <hgroup>
+            <h1 class="brand-title"><a href="https://blog.nobugware.com">Fabrice Aneche</a></h1>
+            <h2 class="brand-tagline"></h2>
+        </hgroup>
+
+        <nav class="nav">
+            <ul class="nav-list">
+                
+                <li class="nav-item">
+                    <a class="pure-button" href="http://www.nobugware.com"><i class="fa fa-building-o"></i> Hiring</a>
+                </li>
+                
+                
+                <li class="nav-item">
+                    <a class="pure-button" href="https://twitter.com/akhenakh"><i class="fa fa-twitter"></i> Twitter</a>
+                </li>
+                
+                
+                <li class="nav-item">
+                    <a class="pure-button" href="https://github.com/akhenakh "><i class="fa fa-github-alt"></i> github</a>
+                </li>
+                
+                <li class="nav-item">
+                    <a class="pure-button" href="https://blog.nobugware.com/index.xml"><i class="fa fa-rss"></i> rss</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+
+    <div class="content pure-u-1 pure-u-md-3-4">
+        <div>
+            
+            <div class="posts">
+                
+                <h1 class="content-subhead">16 Oct 2012, 09:56</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://blog.nobugware.com/post/2012/10/16/appcode-shortcuts/" class="post-title">Appcode shortcuts</a>
+
+                        <p class="post-meta">
+                            
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        <p>^ up and ^ down : navigate methods</p>
+
+<p>⇧ ⌘ up and ⇧ ⌘ down : switch from .h to .m</p>
+
+<p>⇧ ⌘ ⌫ : go to last edit</p>
+
+<p>⇧ esc : hide console/bottom view</p>
+
+<p>⌥ ⌘ L : reindent code (^ i in xcode)</p>
+
+<p>^ r : Run (⌘ + r in xcode)</p>
+
+<p>^ tab : navigate files</p>
+
+<p>⌘ o : open class</p>
+
+<p>⌘ ⇧ o : open files</p>
+
+<p>^ ⇧ space : smart completion (completing blocks arguments)</p>
+
+<p>⇥ : next parameters (⌘/ in xcode)</p>
+
+<p>⌘ F9 : build (⌘ b in xcode)</p>
+
+<p>^ o : override methods</p>
+
+<p>^ i : implements methods</p>
+
+<p>⌘ n : generate code</p>
+
+<p>⌘ ⌥ F7 : show usages</p>
+
+<p>F1 : Fast documentation</p>
+
+<p>⇧ F1 : Apple documentation</p>
+
+                    </div>
+                </section>
+                
+                <h1 class="content-subhead">27 Jan 2009, 20:34</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://blog.nobugware.com/post/2009/01/27/xcode-raccourcis-important/" class="post-title">Xcode raccourcis important</a>
+
+                        <p class="post-meta">
+                            
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        <ul>
+<li><p>Pour changer le nom MyCompanyName dans votre source code:<code>
+defaults write com.apple.Xcode PBXCustomTemplateMacroDefinitions
+'{ORGANIZATIONNAME = &quot;Nobugware&quot;; }'</code></p>
+
+<ul>
+<li>⌘[ et ⌘] pour indenter a droite ou a gauche</li>
+<li>⌃/ pour passer d&rsquo;un champ a l&rsquo;autre quand xcode vous propose la completion d&rsquo;une methode avec plusieurs arguments (⌃⇧/ clavier fr)</li>
+<li>⌥⌘↑ (alt shift curseur haut) passe du fichier .m au .h</li>
+<li>⌘⇧D Open Quickly, permet d&rsquo;ouvrir un popup de rechercher pour ouvrir rapidement un fichier</li>
+<li>⌘d ajouter un bookmark</li>
+<li>^⌘? ouvre Research assistant, une petite fenetre geniale qui vous affiche des aides en fonction du mot sous votre curseur</li>
+<li>⌘↵ Compile and Run, ⌘y compile and debug, ⌘⇧y affiche le debugger</li>
+<li>⌃⌘S faire un snapshot du code</li>
+<li>⌃⇧1 pour acceder a la liste des fichiers ouverts</li>
+<li>⌃⇧2 pour acceder a la liste des fonctions/methods/symbols du fichier en cours</li>
+<li>⌘/ comment, uncomment
+
+<br /></li>
+</ul></li>
+</ul>
+
+<p>⌃ = ctrl</p>
+
+                    </div>
+                </section>
+                
+            </div>
+            
+
+            <div class="footer">
+    <div class="pure-menu pure-menu-horizontal pure-menu-open">
+        <ul>
+            <li>Powered by <a class="hugo" href="http://hugo.spf13.com/" target="_blank">hugo</a></li>
+        </ul>
+    </div>
+</div>
+<script src="https://blog.nobugware.com/js/all.min.js"></script>
+        </div>
+    </div>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-1245966-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+
+</body>
+</html>

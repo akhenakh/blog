@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtio &middot; Fabrice Aneche</title>
+
+    <meta name="description" content="">
+
+    <meta name="generator" content="Hugo 0.33" />
+    <meta name="twitter:card" content="summary">
+    
+    <meta name="twitter:title" content="Virtio &middot; Fabrice Aneche">
+    <meta name="twitter:description" content="">
+
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Virtio &middot; Fabrice Aneche">
+    <meta property="og:description" content="">
+
+    <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Oxygen:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/pure-min.css">
+    <!--[if lte IE 8]>
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-old-ie-min.css">
+    <![endif]-->
+    <!--[if gt IE 8]><!-->
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-min.css">
+    <!--<![endif]-->
+
+    <link rel="stylesheet" href="https://blog.nobugware.com/css/all.min.css">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <link rel="alternate" type="application/rss+xml" title="Fabrice Aneche" href="https://blog.nobugware.com/index.xml" />
+    <link href="https://blog.nobugware.com/css/prism.css" rel="stylesheet" />
+</head>
+<body>
+
+
+<div id="layout" class="pure-g">
+    <div class="sidebar pure-u-1 pure-u-md-1-4">
+    <div class="header">
+        <hgroup>
+            <h1 class="brand-title"><a href="https://blog.nobugware.com">Fabrice Aneche</a></h1>
+            <h2 class="brand-tagline"></h2>
+        </hgroup>
+
+        <nav class="nav">
+            <ul class="nav-list">
+                
+                <li class="nav-item">
+                    <a class="pure-button" href="http://www.nobugware.com"><i class="fa fa-building-o"></i> Hiring</a>
+                </li>
+                
+                
+                <li class="nav-item">
+                    <a class="pure-button" href="https://twitter.com/akhenakh"><i class="fa fa-twitter"></i> Twitter</a>
+                </li>
+                
+                
+                <li class="nav-item">
+                    <a class="pure-button" href="https://github.com/akhenakh "><i class="fa fa-github-alt"></i> github</a>
+                </li>
+                
+                <li class="nav-item">
+                    <a class="pure-button" href="https://blog.nobugware.com/index.xml"><i class="fa fa-rss"></i> rss</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+
+    <div class="content pure-u-1 pure-u-md-3-4">
+        <div>
+            
+            <div class="posts">
+                
+                <h1 class="content-subhead">14 Oct 2011, 13:57</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://blog.nobugware.com/post/2011/10/14/freebsd-90-guest-virtio-support-in-kvm/" class="post-title">FreeBSD 9.0 guest with virtio support in KVM</a>
+
+                        <p class="post-meta">
+                            
+                            
+                                under 
+                                
+                                <a class="post-category post-category-FreeBSD" href="https://blog.nobugware.com/categories/freebsd">FreeBSD</a>
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        <p>Performance are really bad for FreeBSD in KVM, one solution is to use
+paravirtualized driver, virIO.</p>
+
+<p>At the time of writing FreeBSD 9.0 is beta 3 and the last commit in the virtio
+project is
+<a href="http://svnweb.freebsd.org/base?view=revision&amp;revision=225710">225710</a></p>
+
+<pre><code>cd /usr/src/sys/dev
+svn co http://svn.freebsd.org/base/projects/virtio/sys/dev/virtio
+cd /usr/src/sys/modules
+svn co http://svn.freebsd.org/base/projects/virtio/sys/modules/virtio
+cd /usr/src/sys/modules/virtio
+
+make install
+</code></pre>
+
+<p>add this to /boot/loader.conf</p>
+
+<pre><code>virtio_load=&quot;YES&quot;
+virtio_pci_load=&quot;YES&quot;
+virtio_blk_load=&quot;YES&quot;
+if_vtnet_load=&quot;YES&quot;
+virtio_balloon_load=&quot;YES&quot;
+
+# dmesg | grep -i  virtio
+vtnet0:  on virtio_pci0
+virtio_pci1:  port 0xc060-0xc07f irq 11 at device 4.0 on pci0
+vtballoon0:  on virtio_pci1
+virtio_pci2:  port 0xc080-0xc0bf mem 0xf2040000-0xf2040fff irq 10 at device 5.0 on pci0
+vtblk0:  on virtio_pci2
+</code></pre>
+
+<p>It needs further tests, but seems to work except for the net driver which give
+me no links, (you can still use the previous net driver in KVM)</p>
+
+<p>EDIT: the vtnet driver issue is solve and should be in the trunk</p>
+
+                    </div>
+                </section>
+                
+            </div>
+            
+
+            <div class="footer">
+    <div class="pure-menu pure-menu-horizontal pure-menu-open">
+        <ul>
+            <li>Powered by <a class="hugo" href="http://hugo.spf13.com/" target="_blank">hugo</a></li>
+        </ul>
+    </div>
+</div>
+<script src="https://blog.nobugware.com/js/all.min.js"></script>
+        </div>
+    </div>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-1245966-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+
+</body>
+</html>

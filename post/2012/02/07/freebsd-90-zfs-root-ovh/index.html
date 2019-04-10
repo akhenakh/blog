@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FreeBSD 9.0 ZFS root on OVH &middot; Fabrice Aneche</title>
+
+    <meta name="description" content="">
+
+    <meta name="generator" content="Hugo 0.33" />
+    <meta name="twitter:card" content="summary">
+    
+    <meta name="twitter:title" content="FreeBSD 9.0 ZFS root on OVH &middot; Fabrice Aneche">
+    <meta name="twitter:description" content="">
+
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="FreeBSD 9.0 ZFS root on OVH &middot; Fabrice Aneche">
+    <meta property="og:description" content="">
+
+    <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Oxygen:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/pure-min.css">
+    <!--[if lte IE 8]>
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-old-ie-min.css">
+    <![endif]-->
+    <!--[if gt IE 8]><!-->
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-min.css">
+    <!--<![endif]-->
+
+    <link rel="stylesheet" href="https://blog.nobugware.com/css/all.min.css">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <link rel="alternate" type="application/rss+xml" title="Fabrice Aneche" href="https://blog.nobugware.com/index.xml" />
+    <link href="https://blog.nobugware.com/css/prism.css" rel="stylesheet" />
+</head>
+<body>
+
+
+<div id="layout" class="pure-g">
+    <div class="sidebar pure-u-1 pure-u-md-1-4">
+    <div class="header">
+        <hgroup>
+            <h1 class="brand-title"><a href="https://blog.nobugware.com">Fabrice Aneche</a></h1>
+            <h2 class="brand-tagline"></h2>
+        </hgroup>
+
+        <nav class="nav">
+            <ul class="nav-list">
+                
+                <li class="nav-item">
+                    <a class="pure-button" href="http://www.nobugware.com"><i class="fa fa-building-o"></i> Hiring</a>
+                </li>
+                
+                
+                <li class="nav-item">
+                    <a class="pure-button" href="https://twitter.com/akhenakh"><i class="fa fa-twitter"></i> Twitter</a>
+                </li>
+                
+                
+                <li class="nav-item">
+                    <a class="pure-button" href="https://github.com/akhenakh "><i class="fa fa-github-alt"></i> github</a>
+                </li>
+                
+                <li class="nav-item">
+                    <a class="pure-button" href="https://blog.nobugware.com/index.xml"><i class="fa fa-rss"></i> rss</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+
+    <div class="content pure-u-1 pure-u-md-3-4">
+        <div>
+            
+            <div class="posts">
+                <h1 class="content-subhead">07 Feb 2012, 15:05</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://blog.nobugware.com/post/2012/02/07/freebsd-90-zfs-root-ovh/" class="post-title">FreeBSD 9.0 ZFS root on OVH</a>
+
+                        <p class="post-meta">
+                            
+                            
+                                under 
+                                
+                                <a class="post-category post-category-FreeBSD" href="https://blog.nobugware.com/categories/freebsd">FreeBSD</a>
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-share">
+                        <div class="post-share-links">
+                            <h4 style="">Share</h4>
+                            <a href="#" data-type="facebook" data-url="https://blog.nobugware.com/post/2012/02/07/freebsd-90-zfs-root-ovh/" data-title="FreeBSD 9.0 ZFS root on OVH" data-description="FreeBSD 9.0 ZFS root on OVH" data-media="" class="prettySocial fa fa-facebook"></a>
+                            <a href="#" data-type="googleplus" data-url="https://blog.nobugware.com/post/2012/02/07/freebsd-90-zfs-root-ovh/" data-description="FreeBSD 9.0 ZFS root on OVH" class="prettySocial fa fa-google-plus"></a>
+                            <a href="#" data-type="twitter" data-url="https://blog.nobugware.com/post/2012/02/07/freebsd-90-zfs-root-ovh/" data-description="FreeBSD 9.0 ZFS root on OVH" data-via="akhenakh" class="prettySocial fa fa-twitter"></a>
+                            
+                        </div>
+                    </div>
+                    <div class="post-description">
+                        <p>I had so much pain to make it work so here is how to have a ZFS root with a
+raidz pool on 5 disks, specially with OVH without any console or kvm to debug
+the boot process.</p>
+
+<p>The server has 5 disks that I put in raidz and boot on it, but this should
+apply to most installation.</p>
+
+<pre><code>gpart destroy -F ada0
+gpart destroy -F ada1
+gpart destroy -F ada2
+gpart destroy -F ada3
+gpart destroy -F ada4
+
+gpart create -s gpt ada0
+gpart create -s gpt ada1
+gpart create -s gpt ada2
+gpart create -s gpt ada3
+gpart create -s gpt ada4
+
+gpart add -b 34 -s 64k -t freebsd-boot ada0
+gpart add -b 34 -s 64k -t freebsd-boot ada1
+gpart add -b 34 -s 64k -t freebsd-boot ada2
+gpart add -b 34 -s 64k -t freebsd-boot ada3
+gpart add -b 34 -s 64k -t freebsd-boot ada4
+
+# if you are very low on ram use a real partition for swap otherwise don't  
+gpart add -s 4G -t freebsd-swap -l swap0 ada0 
+gpart add -s 4G -t freebsd-swap -l swap1 ada1 
+gpart add -s 4G -t freebsd-swap -l swap2 ada2 
+gpart add -s 4G -t freebsd-swap -l swap3 ada3 
+gpart add -s 4G -t freebsd-swap -l swap4 ada4  
+
+gpart add -t freebsd-zfs -l disk0 ada0 
+gpart add -t freebsd-zfs -l disk1 ada1 
+gpart add -t freebsd-zfs -l disk2 ada2 
+gpart add -t freebsd-zfs -l disk3 ada3 
+gpart add -t freebsd-zfs -l disk4 ada4  
+
+gpart bootcode -b /boot/pmbr -p /boot/gptzfsboot -i 1 ada0 
+gpart bootcode -b /boot/pmbr -p /boot/gptzfsboot -i 1 ada1 
+gpart bootcode -b /boot/pmbr -p /boot/gptzfsboot -i 1 ada2 
+gpart bootcode -b /boot/pmbr -p /boot/gptzfsboot -i 1 ada3 
+gpart bootcode -b /boot/pmbr -p /boot/gptzfsboot -i 1 ada4  
+
+zpool create -o cachefile=/boot/zfs/zpool.cache -m none -f rpool raidz /dev/gpt/disk0 /dev/gpt/disk1 /dev/gpt/disk2 /dev/gpt/disk3 /dev/gpt/disk4 
+#cannot mount '/rpool': failed to create mountpoint  
+zfs set checksum=fletcher4 rpool 
+zfs create rpool/root 
+mkdir /tmp/mntzfs 
+zfs set mountpoint=/tmp/mntzfs rpool/root  
+zfs create -o canmount=off  rpool/root/usr 
+zfs create  -o canmount=off rpool/root/var 
+zfs create -o compression=on -o exec=on -o setuid=off rpool/root/tmp 
+zfs create -o compression=gzip -o setuid=off  rpool/root/usr/ports 
+zfs create -o compression=off -o exec=off -o setuid=off rpool/root/usr/ports/distfiles 
+zfs create -o compression=off -o exec=off -o setuid=off rpool/root/usr/ports/packages 
+zfs create -o compression=gzip -o exec=off -o setuid=off  rpool/root/usr/src 
+zfs create -o compression=lzjb rpool/root/usr/obj zfs create -o compression=lzjb  -o exec=off     -o setuid=off   rpool/root/var/crash 
+zfs create -o compression=off -o exec=off -o setuid=off   rpool/root/var/empty 
+zfs create -o compression=lzjb  -o exec=on -o setuid=off   rpool/root/var/tmp  
+zpool export rpool 
+zpool import -o cachefile=/tmp/zpool.cache rpool chmod 1777 /tmp/mntzfs/tmp chmod 1777 /tmp/mntzfs/var/tmp  
+sh cd /tmp/mntzfs 
+mkdir fileinstall 
+cd fileinstall 
+fetch http://ftp1.fr.FreeBSD.org/pub/FreeBSD/releases/amd64/9.0-RELEASE/base.txz 
+fetch http://ftp1.fr.FreeBSD.org/pub/FreeBSD/releases/amd64/9.0-RELEASE/kernel.txz 
+fetch http://ftp1.fr.FreeBSD.org/pub/FreeBSD/releases/amd64/9.0-RELEASE/src.txz 
+fetch http://ftp1.fr.FreeBSD.org/pub/FreeBSD/releases/amd64/9.0-RELEASE/doc.txz 
+export DESTDIR=/tmp/mntzfs 
+for file in base.txz kernel.txz doc.txz src.txz; 
+do (cat $file | tar --unlink -xpJf - -C ${DESTDIR:-/}); 
+done
+
+cp /tmp/zpool.cache /tmp/mntzfs/boot/zfs/zpool.cache 
+echo 'zfs_enable=&quot;YES&quot;' &gt;&gt; /tmp/mntzfs/etc/rc.conf 
+echo 'zfs_load=&quot;YES&quot;' &gt;&gt; /tmp/mntzfs/boot/loader.conf 
+echo 'if_em_load=&quot;YES&quot;' &gt;&gt; /tmp/mntzfs/boot/loader.conf 
+echo 'vfs.root.mountfrom=&quot;zfs:rpool/root&quot;' &gt;&gt; /tmp/mntzfs/boot/loader.conf  
+echo 'sshd_enable=&quot;YES&quot;' &gt;&gt; /tmp/mntzfs/etc/rc.conf 
+echo 'ifconfig_em0=&quot;inet 188.165.XXX.XXX netmask 255.255.255.0 broadcast 188.165.XXX.255&quot;' &gt;&gt; /tmp/mntzfs/etc/rc.conf 
+echo 'defaultrouter=&quot;188.165.XXX.254&quot;' &gt;&gt; /tmp/mntzfs/etc/rc.conf 
+echo 'hostname=&quot;ksXXXX.kimsufi.com&quot;' &gt;&gt; /tmp/mntzfs/etc/rc.conf  
+chroot /tmp/mntzfs /bin/sh 
+passwd root 
+vi /etc/ssh/sshd_config 
+# Change PermitRootLogin to yes for debug only exit  
+
+zfs set mountpoint=legacy rpool/root
+zfs set mountpoint=/tmp rpool/root/tmp 
+zfs set mountpoint=/usr rpool/root/usr 
+zfs set mountpoint=/var rpool/root/var 
+zpool set bootfs=rpool/root rpool  
+
+# not if you are low on RAM 
+zfs create -V 8G rpool/swap 
+zfs set checksum=off rpool/swap 
+zfs set org.freebsd:swap=on rpool/swap  
+
+zfs set readonly=on rpool/root/var/empty 
+touch /tmp/mntzfs/etc/fstab 
+# or add the swap if you use real partition 
+cd /   
+zfs umount -a
+</code></pre>
+
+<p>EDIT: as mentioned here do not put the swap in the zpool if you are low on ram
+or unstability will occur. <a href="http://lists.freebsd.org/pipermail
+/freebsd-current/2007-September/076831.html">http://lists.freebsd.org/pipermail/freebsd-
+current/2007-September/076831.html</a></p>
+
+                    </div>
+                </section>
+            </div>
+            <div class="footer">
+    <div class="pure-menu pure-menu-horizontal pure-menu-open">
+        <ul>
+            <li>Powered by <a class="hugo" href="http://hugo.spf13.com/" target="_blank">hugo</a></li>
+        </ul>
+    </div>
+</div>
+<script src="https://blog.nobugware.com/js/all.min.js"></script>
+        </div>
+    </div>
+</div>
+
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-1245966-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+
+</body>
+</html>

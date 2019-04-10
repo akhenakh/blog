@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Glassfish on Fabrice Aneche</title>
+    <link>https://blog.nobugware.com/tags/glassfish/</link>
+    <description>Recent content in Glassfish on Fabrice Aneche</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 08 Nov 2010 17:30:03 -0400</lastBuildDate>
+    
+	<atom:link href="https://blog.nobugware.com/tags/glassfish/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>JMX query in Python (CPython)</title>
+      <link>https://blog.nobugware.com/post/2010/11/08/jmx-query-python-cpython/</link>
+      <pubDate>Mon, 08 Nov 2010 17:30:03 -0400</pubDate>
+      
+      <guid>https://blog.nobugware.com/post/2010/11/08/jmx-query-python-cpython/</guid>
+      <description>JMX had good intentions but the API is only implemented in Java, a Java product for Java, with no access to the outside world.
+Jython was one of the solution but many times I had needed to call JMX from a CPython.
+Jpype solved this problem and works extremely well.
+Just install Jpype then try something like this:
+The execution is really really fast, faster than a jvm run ?? and memory usage is really really slow !</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Own Car System, Rear Camera, Offline Maps &amp; Routing, Map Matching with Go on Raspberry Pi part II &middot; Fabrice Aneche</title>
+
+    <meta name="description" content="">
+
+    <meta name="generator" content="Hugo 0.33" />
+    <meta name="twitter:card" content="summary">
+    
+    <meta name="twitter:title" content="My Own Car System, Rear Camera, Offline Maps &amp; Routing, Map Matching with Go on Raspberry Pi part II &middot; Fabrice Aneche">
+    <meta name="twitter:description" content="">
+
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="My Own Car System, Rear Camera, Offline Maps &amp; Routing, Map Matching with Go on Raspberry Pi part II &middot; Fabrice Aneche">
+    <meta property="og:description" content="">
+
+    <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Oxygen:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/pure-min.css">
+    <!--[if lte IE 8]>
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-old-ie-min.css">
+    <![endif]-->
+    <!--[if gt IE 8]><!-->
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-min.css">
+    <!--<![endif]-->
+
+    <link rel="stylesheet" href="https://blog.nobugware.com/css/all.min.css">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <link rel="alternate" type="application/rss+xml" title="Fabrice Aneche" href="https://blog.nobugware.com/index.xml" />
+    <link href="https://blog.nobugware.com/css/prism.css" rel="stylesheet" />
+</head>
+<body>
+
+
+<div id="layout" class="pure-g">
+    <div class="sidebar pure-u-1 pure-u-md-1-4">
+    <div class="header">
+        <hgroup>
+            <h1 class="brand-title"><a href="https://blog.nobugware.com">Fabrice Aneche</a></h1>
+            <h2 class="brand-tagline"></h2>
+        </hgroup>
+
+        <nav class="nav">
+            <ul class="nav-list">
+                
+                <li class="nav-item">
+                    <a class="pure-button" href="http://www.nobugware.com"><i class="fa fa-building-o"></i> Hiring</a>
+                </li>
+                
+                
+                <li class="nav-item">
+                    <a class="pure-button" href="https://twitter.com/akhenakh"><i class="fa fa-twitter"></i> Twitter</a>
+                </li>
+                
+                
+                <li class="nav-item">
+                    <a class="pure-button" href="https://github.com/akhenakh "><i class="fa fa-github-alt"></i> github</a>
+                </li>
+                
+                <li class="nav-item">
+                    <a class="pure-button" href="https://blog.nobugware.com/index.xml"><i class="fa fa-rss"></i> rss</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+
+    <div class="content pure-u-1 pure-u-md-3-4">
+        <div>
+            
+            <div class="posts">
+                <h1 class="content-subhead">01 Aug 2018, 00:19</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://blog.nobugware.com/post/2018/my_own_car_system_raspberry_pi_offline_mapping_map_matching_places_part2/" class="post-title">My Own Car System, Rear Camera, Offline Maps &amp; Routing, Map Matching with Go on Raspberry Pi part II</a>
+
+                        <p class="post-meta">
+                            
+                            
+                                under 
+                                
+                                <a class="post-category post-category-Geo" href="https://blog.nobugware.com/categories/geo">Geo</a>
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-share">
+                        <div class="post-share-links">
+                            <h4 style="">Share</h4>
+                            <a href="#" data-type="facebook" data-url="https://blog.nobugware.com/post/2018/my_own_car_system_raspberry_pi_offline_mapping_map_matching_places_part2/" data-title="My Own Car System, Rear Camera, Offline Maps &amp; Routing, Map Matching with Go on Raspberry Pi part II" data-description="My Own Car System, Rear Camera, Offline Maps &amp; Routing, Map Matching with Go on Raspberry Pi part II" data-media="" class="prettySocial fa fa-facebook"></a>
+                            <a href="#" data-type="googleplus" data-url="https://blog.nobugware.com/post/2018/my_own_car_system_raspberry_pi_offline_mapping_map_matching_places_part2/" data-description="My Own Car System, Rear Camera, Offline Maps &amp; Routing, Map Matching with Go on Raspberry Pi part II" class="prettySocial fa fa-google-plus"></a>
+                            <a href="#" data-type="twitter" data-url="https://blog.nobugware.com/post/2018/my_own_car_system_raspberry_pi_offline_mapping_map_matching_places_part2/" data-description="My Own Car System, Rear Camera, Offline Maps &amp; Routing, Map Matching with Go on Raspberry Pi part II" data-via="akhenakh" class="prettySocial fa fa-twitter"></a>
+                            
+                        </div>
+                    </div>
+                    <div class="post-description">
+                        
+
+<p>This is my journey building an open source car system with Go &amp; Qt, rear camera, live OpenGL map &hellip;</p>
+
+<h2 id="cross-compilation">Cross compilation</h2>
+
+<p><a href="https://blog.nobugware.com/post/2018/my_own_car_system_raspberry_pi_offline_mapping/">In Part I</a>, I had to patch qtmultimedia for the camera to work, but Qt compilation is resource hungry, same goes for the osrm compilation, the memory of the Raspberry Pi is too small.</p>
+
+<p>I had to to set up a <a href="https://wiki.archlinux.org/index.php/Distcc#Arch_Linux_ARM">cross compilation system</a> in my case for armv7h.</p>
+
+<h2 id="qml-development">QML Development</h2>
+
+<p>Since most of the application is in <a href="https://en.wikipedia.org/wiki/QML">QML</a>, I&rsquo;ve used the c++ <code>main.cpp</code> launcher as long as possible for the development.<br />
+At the moment I needed to inject data from the outside world (like the GPS location) to QML via Qt, so I switched to Go using <a href="https://github.com/therecipe/qt">therecipe Qt Go bindings</a>.</p>
+
+<p>The Go bindings project is young but the main author is really active fixing issues.</p>
+
+<p>It makes desktop applications easy to code without the assle of C++ (at least for me).</p>
+
+<p>About QML, by separating the logic and forms using <code>.qml.ui</code> you still can edit your views with <a href="https://wiki.qt.io/Qt_Creator">Qt Creator</a>:<br />
+That&rsquo;s just the narrative, truth is Creator is really buggy and I edited the ui files by hand most of the time.<br />
+I worked with Interface Builder on iOS for years, Qt is painful, lack of decent visual editor for QML really hurts.</p>
+
+<h2 id="serving-the-map-without-internet-access">Serving the map without internet access</h2>
+
+<p><a href="https://blog.nobugware.com/post/2018/my_own_car_system_raspberry_pi_offline_mapping/">In Part I</a>, we talked about OpenMapTiles and OpenGL rendering, but I needed a web server capable of reading MBTiles format and serving the necessary assets for the map to be rendered.</p>
+
+<p>I&rsquo;ve created <a href="https://github.com/akhenakh/mbmatch">mbmatch</a> in Go for that purpose so <a href="https://github.com/akhenakh/mocs">mocs</a> can render the map without Internet access, it will also map match the positions in the future.</p>
+
+<h2 id="experimenting-with-another-touch-screen">Experimenting with another touch screen</h2>
+
+<p>I&rsquo;m using a less performant but smaller <a href="https://www.amazon.ca/gp/product/B01I9DS2G8">LANDZO 5 Inch Touch Display</a> 800x480<br />
+This touchscreen is handled as a one button mouse.</p>
+
+<p>It can be calibrate using <a href="https://github.com/kergoth/tslib/">tslib</a> <code>ts_calibrate</code> command.</p>
+
+<p>Then in your start env tell Qt to use tslib.</p>
+
+<pre><code>TSLIB_TSDEVICE=/dev/input/event0
+QT_QPA_GENERIC_PLUGINS=tslib:/dev/input/event0
+QT_QPA_FB_TSLIB=1
+</code></pre>
+
+<h2 id="gps">GPS</h2>
+
+<p>Like I said in <a href="https://blog.nobugware.com/post/2018/my_own_car_system_raspberry_pi_offline_mapping/">part I</a>, the Linux gps daemons are using obscure and over complicated protocols so <a href="https://xkcd.com/927/">I&rsquo;ve decided</a> to write my own gps daemon in Go using a gRPC stream interface. You can <a href="https://github.com/akhenakh/gpsd">find it here</a>.</p>
+
+<p>I&rsquo;m also not satisfied with the map matching of OSRM for real time display, I may rewrite one using <a href="https://github.com/akhenakh/mbmatch">mbmatch</a>.</p>
+
+<h2 id="pois">POIs</h2>
+
+<p>I&rsquo;ve started POIs lookups with full text search and geo proximity using <a href="http://github.com/blevesearch/bleve">bleve</a> by exposing an API compatible with the OSM API so it can be used directly by QML Locations.</p>
+
+<h2 id="night-map">Night Map</h2>
+
+<p>I&rsquo;m a huge fan of the <a href="https://github.com/altercation/solarized">Solarized colors</a>, I&rsquo;ve made a style for the map you can find it <a href="https://github.com/akhenakh/mocs/blob/master/external/solarized-dark.style">here</a></p>
+
+<p><img src="https://blog.nobugware.com/img/mocssolarized.jpg" alt="Solarized" /></p>
+
+<h2 id="speeding-up-boot">Speeding up boot</h2>
+
+<pre><code>systemctl mask systemd-udev-settle.service
+systemctl mask lvm2-activation-net.service
+systemctl mask lvm2-monitor.service
+</code></pre>
+
+<h2 id="status">Status</h2>
+
+<p>The project is far from finished and not ready for everybody but it&rsquo;s fun to play with.</p>
+
+<p>I&rsquo;ve <a href="https://github.com/akhenakh/mocs">open sourced most of the code for Mocs on github</a>, feel free to contribute.</p>
+
+                    </div>
+                </section>
+            </div>
+            <div class="footer">
+    <div class="pure-menu pure-menu-horizontal pure-menu-open">
+        <ul>
+            <li>Powered by <a class="hugo" href="http://hugo.spf13.com/" target="_blank">hugo</a></li>
+        </ul>
+    </div>
+</div>
+<script src="https://blog.nobugware.com/js/all.min.js"></script>
+        </div>
+    </div>
+</div>
+
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-1245966-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+
+</body>
+</html>

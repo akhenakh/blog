@@ -1,0 +1,1031 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Posts &middot; Fabrice Aneche</title>
+
+    <meta name="description" content="">
+
+    <meta name="generator" content="Hugo 0.33" />
+    <meta name="twitter:card" content="summary">
+    
+    <meta name="twitter:title" content="Posts &middot; Fabrice Aneche">
+    <meta name="twitter:description" content="">
+
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Posts &middot; Fabrice Aneche">
+    <meta property="og:description" content="">
+
+    <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Oxygen:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/pure-min.css">
+    <!--[if lte IE 8]>
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-old-ie-min.css">
+    <![endif]-->
+    <!--[if gt IE 8]><!-->
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-min.css">
+    <!--<![endif]-->
+
+    <link rel="stylesheet" href="https://blog.nobugware.com/css/all.min.css">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <link rel="alternate" type="application/rss+xml" title="Fabrice Aneche" href="https://blog.nobugware.com/index.xml" />
+    <link href="https://blog.nobugware.com/css/prism.css" rel="stylesheet" />
+</head>
+<body>
+
+
+<div id="layout" class="pure-g">
+    <div class="sidebar pure-u-1 pure-u-md-1-4">
+    <div class="header">
+        <hgroup>
+            <h1 class="brand-title"><a href="https://blog.nobugware.com">Fabrice Aneche</a></h1>
+            <h2 class="brand-tagline"></h2>
+        </hgroup>
+
+        <nav class="nav">
+            <ul class="nav-list">
+                
+                <li class="nav-item">
+                    <a class="pure-button" href="http://www.nobugware.com"><i class="fa fa-building-o"></i> Hiring</a>
+                </li>
+                
+                
+                <li class="nav-item">
+                    <a class="pure-button" href="https://twitter.com/akhenakh"><i class="fa fa-twitter"></i> Twitter</a>
+                </li>
+                
+                
+                <li class="nav-item">
+                    <a class="pure-button" href="https://github.com/akhenakh "><i class="fa fa-github-alt"></i> github</a>
+                </li>
+                
+                <li class="nav-item">
+                    <a class="pure-button" href="https://blog.nobugware.com/index.xml"><i class="fa fa-rss"></i> rss</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+
+    <div class="content pure-u-1 pure-u-md-3-4">
+        <div>
+            
+            <div class="posts">
+                
+                <h1 class="content-subhead">22 Jul 2017, 21:28</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://blog.nobugware.com/post/2017/asus_c301s_arch_linux_chromeos_write_protection/" class="post-title">Arch Linux on a Chromebook Asus C301SA</a>
+
+                        <p class="post-meta">
+                            
+                            
+                                under 
+                                
+                                <a class="post-category post-category-Linux" href="https://blog.nobugware.com/categories/linux">Linux</a>
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        <p>I&rsquo;ve got an <a href="https://www.amazon.ca/Asus-Chromebook-C301SA-DB04-Celeron-Silver/dp/B01INVHL2C/ref=sr_1_1?ie=UTF8&amp;qid=1497662974&amp;sr=8-1&amp;keywords=c301">Asus C301S</a> at work, it&rsquo;s a Chromebook with Chromeos.</p>
+
+<p>I like those little laptops, for the price it&rsquo;s actually a very good little machine.<br />
+ChromeOS is responding very well, ssh and Chrome are working too.<br />
+But I often need more, like X11 forwarding or offline coding &hellip;</p>
+
+<p>You will see the C301SA is marked as a C300SA internally.</p>
+
+<p>Here are the steps to install Arch Linux on it, do it at your own risk, you can brick your computer, you will need an external USB keyboard.</p>
+
+<ul>
+<li><p>Activate the recovery mode, by using ESC + F3 (refresh) and the power key</p></li>
+
+<li><p>Activate the developer mode with ctrl + d, confirm you want to continue, it will take a long time before it&rsquo;s finished preparing the developer mode.</p></li>
+
+<li><p>Shutdown and remove the write protection screw<br />
+It&rsquo;s actually written as not mandatory but also &ldquo;could be dangerous&rdquo;, didn&rsquo;t take the chance.<br />
+Gently dismount the keyboard (by removing the back screws), warning the screws are different, so remember their positions.<br />
+Locate the write protection screw, mine was covered with a black tape, (on the left close to the USB port) and remove it<br />
+<img src="https://blog.nobugware.com/img/c301.jpg" alt="c301 screw" /></p></li>
+
+<li><p>Reboot into ChromeOS by pressing ctrl + d</p></li>
+
+<li><p>Patch the firmware
+[Ctrl+Alt+T] to get a ChromeOS terminal<br />
+type or copy paste <code>cd; curl -LO https://mrchromebox.tech/firmware-util.sh &amp;&amp; sudo bash firmware-util.sh</code><br />
+Choose 1 to enable legacy boot then n to boot from internal then shutdown the computer.</p></li>
+
+<li><p>Create a bootable USB key for Arch Linux<br />
+<code>sudo dd if=/home/akh/Downloads/archlinux-2017.06.01-x86_64.iso of=/dev/sde bs=512</code></p></li>
+
+<li><p>Boot on Arch by pressing ctrl + l then ctrl + u, sometimes it fails</p></li>
+
+<li><p>The actual Arch kernel does not see the keyboard &hellip;  you&rsquo;ll need an external USB keyboard.</p></li>
+
+<li><p>Perform a normal installation of Arch (I&rsquo;ve totally removed ChromeOS partitions) and even performed an MBR install (instead of GPT) with only 2 partitions.<br />
+The internal SSD disk is <code>/dev/mmcblk0</code></p></li>
+
+<li><p>Install grub<br />
+<code>grub-install --target=i386-pc /dev/mmcblk0</code><br />
+<code>grub-mkconfig -o /boot/grub/grub.cfg</code></p></li>
+
+<li><p>Install yaourt</p></li>
+</ul>
+
+<pre><code>git clone https://aur.archlinux.org/package-query.git
+cd package-query
+makepkg -si
+cd ..
+git clone https://aur.archlinux.org/yaourt.git
+cd yaourt
+makepkg -si
+cd ..
+</code></pre>
+
+<ul>
+<li>Install the galliumos patched kernel, you can go to bed coz it will take a long time to compile<br />
+<code>yaourt --tmp /var/tmp -S aur/linux-galliumos-braswell</code></li>
+</ul>
+
+<p>The keyboard should work now.<br />
+Also install or grab the config file from <code>aur/galliumos-braswell-config</code> for audio support.</p>
+
+<p>If it won&rsquo;t boot don&rsquo;t worry you can still boot using the Arch USB key, then remount your system:</p>
+
+<pre><code>mount /dev/mmcblk0p1 /mnt
+arch-chroot /mnt
+</code></pre>
+
+<p>Touch pad config:</p>
+
+<pre><code>Section &quot;InputClass&quot;
+    Identifier &quot;Elan Touchpad&quot;
+    Driver &quot;libinput&quot;
+    MatchIsTouchpad &quot;on&quot;
+    Option &quot;Tapping&quot; &quot;on&quot;
+    Option &quot;NaturalScrolling&quot; &quot;true&quot;  
+    Option &quot;ClickMethod&quot; &quot;clickfinger&quot;
+EndSection
+</code></pre>
+
+<p>Congratulations you have a fully working computer.</p>
+
+<p>EDIT: Arch kernel 4.12 is fully working without the need to use <code>aur/linux-galliumos-braswell</code>, but 4.13 breaks this support, so keep 4.12 for now.</p>
+
+                    </div>
+                </section>
+                
+                <h1 class="content-subhead">25 Feb 2017, 09:57</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://blog.nobugware.com/post/2017/back_from_osx_to_linux/" class="post-title">From OSX to Linux</a>
+
+                        <p class="post-meta">
+                            
+                            
+                                under 
+                                
+                                <a class="post-category post-category-Linux" href="https://blog.nobugware.com/categories/linux">Linux</a>
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        
+
+<p>I&rsquo;ve been a long time UNIX user, ditched Microsoft back in the 90s for FreeBSD, Solaris and Linux on the desktop, but when Apple released MacOS X, I&rsquo;ve used it as a workstation.</p>
+
+<p>For the last years I&rsquo;ve used Linux desktops but not on my main computer, today here I am switching back to Linux.</p>
+
+<p>This post is not about the reasons I&rsquo;m switching, they are simple.<br />
+My typical work day is mostly about parsing giant files, running VM and Dockers, coding in Go and not about developing for iOS anymore.</p>
+
+<p>I&rsquo;m using Arch Linux and KDE/Plasma but many items from this list apply to any Linux distributions.</p>
+
+<p>Put your user in the following groups <code>uucp audio input lp</code>.</p>
+
+<h2 id="bonjour-mdns-and-local">Bonjour, mDNS and .local</h2>
+
+<p>I was used to query the .local domain to ssh my laptop back.</p>
+
+<ul>
+<li>Install <code>nss-mdns</code>, add <code>mdns_minimal [NOTFOUND=return]</code> before <code>resolve</code> in <code>/etc/nsswith.conf</code><br /></li>
+<li>Install <code>avahi</code> and start <code>avahi-daemon.service</code>.<br /></li>
+<li>To make your ssh server visible to others, <code>cp /usr/share/doc/avahi/ssh.service /etc/avahi/services/</code></li>
+</ul>
+
+<p>Try pinging a Mac host on your LAN with <code>ping hostname.local</code></p>
+
+<h2 id="google-drive">Google drive</h2>
+
+<p>Install <code>kio-gdrive</code> then start Dolphin and go to Network then Google drive and set up your account or by running the shell command: <code>kioclient5 exec gdrive:/</code>.</p>
+
+<h2 id="emojis-in-color">Emojis in color 💻</h2>
+
+<p>Install <code>noto-fonts-emoji</code> and edit <code>.config/fontconfig/fonts.conf</code> as follow</p>
+
+<pre><code>&lt;?xml version='1.0'?&gt;
+&lt;!DOCTYPE fontconfig SYSTEM 'fonts.dtd'&gt;
+&lt;fontconfig&gt;
+ &lt;alias&gt;
+  &lt;family&gt;sans-serif&lt;/family&gt;
+  &lt;prefer&gt;
+   &lt;family&gt;NotoSans&lt;/family&gt;
+   &lt;family&gt;NotoColorEmoji&lt;/family&gt;
+   &lt;family&gt;NotoEmoji&lt;/family&gt;
+  &lt;/prefer&gt;
+ &lt;/alias&gt;
+ &lt;alias&gt;
+  &lt;family&gt;serif&lt;/family&gt;
+  &lt;prefer&gt;
+   &lt;family&gt;NotoSerif&lt;/family&gt;
+   &lt;family&gt;NotoColorEmoji&lt;/family&gt;
+   &lt;family&gt;NotoEmoji&lt;/family&gt;
+  &lt;/prefer&gt;
+ &lt;/alias&gt;
+ &lt;dir&gt;~/.fonts&lt;/dir&gt;
+&lt;/fontconfig&gt;
+</code></pre>
+
+<p>This setup is working in most applications but can sometimes display weird results in terminals.</p>
+
+<h2 id="2-factor-usb-key-u2f">2 Factor USB key U2F</h2>
+
+<p>I have a cheap Fido U2F key but Chrome was unable to see it.
+Edit <code>/etc/udev/rules.d/50-fido-u2f.rules</code></p>
+
+<pre><code># this udev file should be used with udev 188 and newer
+ACTION!=&quot;add|change&quot;, GOTO=&quot;u2f_end&quot;
+# Key-ID FIDO U2F
+KERNEL==&quot;hidraw*&quot;, SUBSYSTEM==&quot;hidraw&quot;, ATTRS{idVendor}==&quot;096e&quot;, ATTRS{idProduct}==&quot;0850|0880&quot;, TAG+=&quot;uaccess&quot;
+LABEL=&quot;u2f_end&quot;
+</code></pre>
+
+<h2 id="win-key-aka-cmd-key">Win key aka ⌘ cmd key</h2>
+
+<p>On a PC keyboard the left alt and the windows key are inverted in opposite to a Mac where alt is left of ⌘.<br />
+To avoid being lost when I switch back to my Macbook I&rsquo;ve physically inverted the keys and change the behavior in Plasma in &ldquo;Hardware | Input Devices&rdquo;.</p>
+
+<p><img src="https://blog.nobugware.com/img/keyaltwin.png" alt="⌘" /></p>
+
+<h2 id="compose-key">Compose key</h2>
+
+<p>To type special or accentuated characters you&rsquo;ll use the &ldquo;Compose&rdquo; key.<br />
+You can set the compose key in Plasma in &ldquo;Hardware | Input Devices&rdquo;.</p>
+
+<p><img src="https://blog.nobugware.com/img/keycompose.png" alt="Compose" /></p>
+
+<p>I&rsquo;m using the right alt, which is the right  ⌘ cmd on a Mac (and also a compose key).</p>
+
+<p>For a complete list of compose shortcuts <a href="http://fsymbols.com/keyboard/linux/compose/">see the bottom of this page</a></p>
+
+<h2 id="spotlight">Spotlight</h2>
+
+<p>The tool/window equivalent to running Spotlight is called &ldquo;Plasma Search&rdquo;, you can configure what it can search for.<br />
+The mapping for this key in &ldquo;System Settings | Global Shortcuts | Run Command&rdquo;.</p>
+
+<p><img src="https://blog.nobugware.com/img/shortcut.png" alt="System Settings | Global Shortcuts | Run Command" /></p>
+
+<p>It&rsquo;s also capable of indexing files content, in KDE/Plasma this service is provided by baloo, ignored directories can be set by calling &ldquo;Configure File Search&rdquo;.</p>
+
+<p>You can empty your baloo index by stopping by killing all your baloo processes and <code>rm -r .local/share/baloo</code> then restart for indexation <code>balooctl start</code></p>
+
+<h2 id="exposé-and-active-corners">Exposé and active corners</h2>
+
+<p>It&rsquo;s called &ldquo;Screen Edges&rdquo; and it&rsquo;s under &ldquo;Windows behavior&rdquo;.</p>
+
+<p><img src="https://blog.nobugware.com/img/edges.png" alt="edges" /></p>
+
+<h2 id="alternative-for-dash">Alternative for Dash</h2>
+
+<p><a href="https://kapeli.com/dash">Dash</a> was part of my workflow to get documentation, an alternative solution is to install <code>zeal</code> it&rsquo;s using the exact same docsets as Dash.<br />
+Also see <a href="http://devdocs.io/">DevDocs</a></p>
+
+<h2 id="samba-share">Samba share</h2>
+
+<p>Install <code>samba</code>, tweak <code>/etc/samba/smb.conf</code> and enable <code>nmbd.service</code>.<br />
+I personally prefer a different password than my shell account: <code>smpasswd -a yourusername</code>.</p>
+
+<h2 id="taking-screenshot">Taking Screenshot</h2>
+
+<p>Install <code>spectacle</code> and use the Ptr Sc key (this shortcut can be setup in Plasma).</p>
+
+<h2 id="webcam-hangout-and-skype">Webcam, Hangout and Skype</h2>
+
+<p>I have a Logitech C920, it worked without any configuration, inside Chrome so Hangout and even with Skype for Linux.</p>
+
+<h2 id="mounting-a-macos-disk">Mounting a macOS disk</h2>
+
+<p>That one is weird &hellip;<br />
+<code>mount -o ro,sizelimit=498876809216 /dev/sda2 /mnt/OSX</code></p>
+
+<p>If your existing partition was big, you need to find this magic number by <a href="http://superuser.com/questions/961401/mounting-hfs-partition-on-arch-linux#1088110">following this guide</a></p>
+
+<h2 id="steam">Steam</h2>
+
+<p>Steam needs x86 32 bits libraries, on Arch you have to enable <code>multilib</code> by editing <code>/etc/pacman.conf</code></p>
+
+<pre><code>[multilib]
+Include = /etc/pacman.d/mirrorlist
+</code></pre>
+
+<p>Then install the <code>steam</code> package.</p>
+
+<h2 id="virtualbox-qemu">Virtualbox / QEMU</h2>
+
+<p>I prefer QEMU/KVM &amp; libvirt-manager, when available, over Virtualbox, it&rsquo;s more integrated into the system, and it&rsquo;s capable of emulating other cpu architectures like aarch64&hellip;</p>
+
+<p>One more huge advantage for QEMU it&rsquo;s also capable of <a href="https://github.com/kholia/OSX-KVM">booting a virtual macOS X</a></p>
+
+<h2 id="printing">Printing</h2>
+
+<p>Install <code>cups</code> and <code>print-manager</code> then enable <code>org.cups.cupsd.service</code>, note that you need the .local resolution above for network printer resolution.<br />
+Also install <code>hplib</code> for HP printers.</p>
+
+<h2 id="share-your-session-aka-remote-desktop">Share your session aka remote desktop</h2>
+
+<p>Install <code>x11vnc</code> and run <code>x11vnc -usepw -once  -noxdamage  -ncache 10</code> from your X session.</p>
+
+<p>Note that this vnc server is not compatible with macOS X embedded vnc viewer (vnc://hostname), here is one for Chrome <a href="https://chrome.google.com/webstore/detail/vnc%C2%AE-viewer-for-google-ch/iabmpiboiopbgfabjmgeedhcmjenhbla">RealVNC</a></p>
+
+<p>Remember vnc protocol is not secure and you must use an SSH tunnel over it.</p>
+
+<h2 id="magic-trackpad">Magic Trackpad</h2>
+
+<p>I&rsquo;m using a magic trackpad 2, after enabling bluetooth and pairing the trackpad, one, two &amp; three fingers touches, vertical &amp; horizontal scroll worked via <code>hid_magicmouse</code> module.</p>
+
+<p>For gestures you need <code>libinput-gestures</code>, here is an example <code>/etc/libinput-gestures.conf</code> file:</p>
+
+<pre><code>gesture swipe left 3 xdotool key control+Right
+
+gesture swipe right 3 xdotool key control+Left
+
+gesture swipe up 3 xdotool key control+F9
+
+</code></pre>
+
+<h2 id="the-bad">The bad</h2>
+
+<ul>
+<li>Not as nice, not as well integrated, for example <a href="https://wiki.archlinux.org/index.php/HiDPI#Side_display">supporting HiDPI with only one retina screen</a> is weird with Xorg.<br /></li>
+<li>Key shorcuts are a giant mess under Linux, every applications have their own and it can&rsquo;t be configured centrally.</li>
+<li>I&rsquo;m still missing some applications like <a href="https://www.sketchapp.com/">Sketch</a>, but most of all <a href="https://www.git-tower.com/mac/">Tower</a> when dealing with a git merge issue.</li>
+</ul>
+
+<h2 id="the-good">The good</h2>
+
+<p>After 8 years of absence on Linux as main desktop, things have changed, it&rsquo;s not free from bugs but way more simpler to use now than before, and way more configurable than macOS X.</p>
+
+<p>It won&rsquo;t work for everybody but I&rsquo;m really happy with this setup, the gain compared to a Mac is big, first the machine itself a 4Ghz i7 with 64G of ram does not even exist at Apple (Hackintosh is not a good solution), ZFS, native Docker over ZFS, better OpenGL (faster fps in games), well maintained packages over Brew/Macports, well maintained drivers, my work is easier &hellip;</p>
+
+<h2 id="notes">Notes</h2>
+
+<ul>
+<li><a href="https://1password.com/">1Password</a> alternative is <code>keepassxc</code> &amp; <a href="https://itunes.apple.com/us/app/minikeepass-secure-password/id451661808?mt=8">minikeepass touch on iOS</a></li>
+<li>Equivalent to macOS <code>open</code> command, <code>alias open=&quot;xdg-open&quot;</code></li>
+</ul>
+
+                    </div>
+                </section>
+                
+                <h1 class="content-subhead">20 Oct 2016, 08:58</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://blog.nobugware.com/post/2016/telegraf_prometheus_metrics_swiss_army_knife/" class="post-title">Telegraf &amp; Prometheus Swiss Army Knife for Metrics</a>
+
+                        <p class="post-meta">
+                            
+                            
+                                under 
+                                
+                                <a class="post-category post-category-System" href="https://blog.nobugware.com/categories/system">System</a>
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        
+
+<p>There are a lot of different solutions when it comes to collecting metrics, I found myself happy with this hybrid solution.</p>
+
+<p><a href="https://github.com/influxdata/telegraf">Telegraf</a> is an agent written in Go for collecting metrics from the system it&rsquo;s running on.<br />
+It&rsquo;s developed by Influxdata the people behind InfluxDB, but Telegraf has a <a href="https://github.com/influxdata/telegraf#supported-output-plugins">lot of outputs plugins</a> and can be used without InfluxDB.<br />
+Many different platform (FreeBSD, Linux, x86, Arm &hellip;) are offered and only one single static binary (Thanks to Golang) is needed to deploy an agent.</p>
+
+<p><a href="https://prometheus.io/">Prometheus</a> is a time series database for your metrics, with an efficient storage.<br />
+It&rsquo;s easy to deploy, no external dependencies, it&rsquo;s gaining traction in the community because it&rsquo;s a complete solution, for example capable of <a href="https://prometheus.io/docs/operating/configuration/#&lt;kubernetes_sd_config">discovering your targets inside a Kubernete cluster</a>.</p>
+
+<p>Here is a simple configuration to discover both products.</p>
+
+<p>You can deploy the agent on every hosts you want to monitor but need only one Prometheus running.</p>
+
+<h2 id="install-prometheus">Install Prometheus</h2>
+
+<p><a href="https://prometheus.io/download/">Download Prometheus</a> for your platform and edit a config file named <code>prometheus.yml</code>.</p>
+
+<pre><code>scrape_configs:
+  - job_name: 'telegraf'
+    scrape_interval: 10s
+    static_configs:
+      - targets: ['mynode:9126']
+</code></pre>
+
+<p>Prometheus is a special beast in the monitoring world, the agents are not connecting to the server, it&rsquo;s the opposite the server is scrapping the agents.<br />
+In this config we are creating a job called <code>telegraf</code> to be scrapped every 10s connecting to mynode host on port <code>9126</code>.</p>
+
+<p>That&rsquo;s all you need to run a Prometheus server, start it by specifying a path to store the metrics and the path of the config file:</p>
+
+<pre><code>prometheus -storage.local.path /opt/local/var/prometheus -config.file prometheus.yml
+</code></pre>
+
+<p>The server will listen on port <code>9090</code> for the HTTP console.</p>
+
+<h2 id="install-telegraf">Install Telegraf</h2>
+
+<p><a href="https://github.com/influxdata/telegraf#installation">Download Telegraf</a> agent for your platform and edit <code>telegraf.conf</code>.</p>
+
+<pre><code>[[outputs.prometheus_client]]
+    listen = &quot;127.0.0.1:9126&quot;
+
+# Read metrics about cpu usage
+[[inputs.cpu]]
+  ## Whether to report per-cpu stats or not
+  percpu = true
+  ## Whether to report total system cpu stats or not
+  totalcpu = true
+  ## If true, collect raw CPU time metrics.
+  collect_cpu_time = false
+
+# Read metrics about memory usage
+[[inputs.mem]]
+
+# Read metrics about network interface usage
+[[inputs.net]]
+  ## By default, telegraf gathers stats from any up interface (excluding loopback)
+  ## Setting interfaces will tell it to gather these explicit interfaces,
+  ## regardless of status.
+  interfaces = [&quot;en2&quot;]
+</code></pre>
+
+<p>Remember this is the node agent &ldquo;client&rdquo; but since Prometheus server will connect it, you are providing a listening endpoint.<br />
+Starts the agent with <code>telegraf -config telegraf.conf</code></p>
+
+<p>There are many more <a href="https://github.com/influxdata/telegraf#supported-input-plugins">inputs plugins for telegraf</a> for example you can monitor all your Docker instance.</p>
+
+<pre><code># Read metrics about docker containers
+[[inputs.docker]]
+  endpoint = &quot;unix:///var/run/docker.sock&quot;
+  ## Only collect metrics for these containers, collect all if empty
+  container_names = []
+  ## Timeout for docker list, info, and stats commands
+  timeout = &quot;5s&quot;
+
+  ## Whether to report for each container per-device blkio (8:0, 8:1...) and
+  ## network (eth0, eth1, ...) stats or not
+  perdevice = false
+  ## Whether to report for each container total blkio and network stats or not
+  total = false
+</code></pre>
+
+<p>It&rsquo;s also capable of monitoring third parties product like <a href="https://github.com/influxdata/telegraf#supported-input-plugins">MySQL, Cassandra</a> &hellip;</p>
+
+<h2 id="read-metrics">Read Metrics</h2>
+
+<p>Prometheus is provided with a visual HTTP console &amp; query tool available on port <code>9090</code>.</p>
+
+<p>The <a href="https://prometheus.io/docs/querying/examples/">query language is described here</a>.</p>
+
+<p>The console can&rsquo;t be really used as a dashboard, you can use <a href="http://grafana.org/">Grafana</a> which can speak directly to prometheus.</p>
+
+<p>Install or run Grafana with docker</p>
+
+<pre><code>docker run -i -p 3000:3000 -e &quot;GF_SECURITY_ADMIN_PASSWORD=mypassword&quot;  grafana/grafana
+</code></pre>
+
+<p>Point your browser to the port <code>3000</code>.<br />
+Add a Prometheus data source and point the host to your Prometheus server port <code>9090</code>.</p>
+
+<p>Then create your dashboard, here are some queries to display the telegraf agents:</p>
+
+<ul>
+<li><p>CPU<br />
+<code>cpu_usage_idle{host=&quot;myhost&quot;, cpu=&quot;cpu-total&quot;}</code><br />
+<code>cpu_usage_user{host=&quot;myhost&quot;, cpu=&quot;cpu-total&quot;}</code><br />
+<code>cpu_usage_system{host=&quot;myhost&quot;, cpu=&quot;cpu-total&quot;}</code></p></li>
+
+<li><p>Memory<br />
+<code>mem_available_percent{host=&quot;myhost&quot;}</code></p></li>
+
+<li><p>Docker Memory<br />
+<code>docker_container_mem_usage_percent</code><br />
+Legend format <code>{{container_name}}</code></p></li>
+
+<li><p>Docker CPU<br />
+<code>docker_container_cpu_usage_percent</code><br />
+Legend format <code>{{container_name}}</code></p></li>
+</ul>
+
+<p><img src="https://blog.nobugware.com/img/graphprom.jpg" alt="Graph prometheus" /></p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>You can easily <a href="https://prometheus.io/docs/practices/instrumentation/">instrument your own development</a> using the <a href="https://prometheus.io/docs/instrumenting/clientlibs/">client libraries</a>.<br />
+There is also a <a href="https://github.com/prometheus/pushgateway">Prometheus gateway</a> for the short lived jobs, so you can batch to the gateway between the scrap period.</p>
+
+<p>It&rsquo;s a simple setup but capable of handling a lot of data in different contexts, system monitoring &amp; instrumentation.</p>
+
+                    </div>
+                </section>
+                
+                <h1 class="content-subhead">28 Sep 2016, 13:15</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://blog.nobugware.com/post/2016/grpc_context_go_1.7/" class="post-title">gRPC wrong types context and Go 1.7</a>
+
+                        <p class="post-meta">
+                            
+                            
+                                under 
+                                
+                                <a class="post-category post-category-Golang" href="https://blog.nobugware.com/categories/golang">Golang</a>
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        <p>If you are following Go development you probably know that:<br />
+Go 1.7 moves the <code>golang.org/x/net/context</code> package into the standard library as <a href="https://tip.golang.org/pkg/context/">context</a>, Yeah !<br />
+Unfortunately it won&rsquo;t work for everything, I&rsquo;ve spent some time understanding this one.</p>
+
+<p>For example if you are using gRPC you can hit this problem, here is an interface generated by gRPC:</p>
+
+<pre><code class="language-Go">type APRSServer interface {
+    GetPastMessages(context.Context, *Point) (*ARPSMessages, error)
+}
+</code></pre>
+
+<p>But when compiling:</p>
+
+<pre><code class="language-Go">/main.go:153: cannot use &amp;s (type *Server) as type protorpc.APRSServer in argument to protorpc.RegisterAPRSServer:                                                                           
+        *Server does not implement protorpc.APRSServer (wrong type for GetPastMessages method)                                                                                                
+                have GetPastMessages(&quot;context&quot;.Context, *protorpc.Point) (*protorpc.ARPSMessages, error)                                                                                      
+                want GetPastMessages(&quot;golang.org/x/net/context&quot;.Context, *protorpc.Point) (*protorpc.ARPSMessages, error)   
+</code></pre>
+
+<p>The compiler is complaining about wrong types for the context argument.<br />
+Problem is gRPC generated code is importing <code>context</code> as <code>golang.org/x/net/context</code>, that&rsquo;s the only way it remains compatible between Go 1.6 &amp; Go 1.7.</p>
+
+<p>So a quick solution is to import context in your own code to use the old path:</p>
+
+<pre><code class="language-Go">// we have to use the old context path here for gRPC compat see https://github.com/grpc/grpc-go/issues/711
+context &quot;golang.org/x/net/context&quot;
+</code></pre>
+
+<p>Also note that go tool fix is now capable of <a href="https://github.com/golang/go/issues/17040">fixing the import path</a> with <code>-force context</code>.</p>
+
+                    </div>
+                </section>
+                
+                <h1 class="content-subhead">22 Sep 2016, 15:39</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://blog.nobugware.com/post/2016/go_mobile_ios_real_usage/" class="post-title">Using Go mobile on iOS for real</a>
+
+                        <p class="post-meta">
+                            
+                            
+                                under 
+                                
+                                <a class="post-category post-category-Golang" href="https://blog.nobugware.com/categories/golang">Golang</a>
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        <p><a href="https://github.com/golang/go/wiki/Mobile">Go Mobile</a> can generate native framework for iOS and Android using Go code, I was curious what could be achieved with it.<br />
+Most tutorials are Hello world and I wanted to test it with real code.<br />
+You can use it to generate a full app only using Go code, but I&rsquo;m only interested by the bindings part (SDK applications), using a native ObjC/Swift app calling Go code.</p>
+
+<p>I&rsquo;m using some existing Go code <a href="https://github.com/akhenakh/regionagogo">regionagogo</a>, (a geofence database), moderately complex since it uses <a href="https://github.com/boltdb/bolt">BoltDB</a> and <a href="https://github.com/golang/geo">Google S2 library</a>.</p>
+
+<p><a href="https://github.com/golang/go/wiki/Mobile">Go Mobile</a> is limited <a href="https://godoc.org/golang.org/x/mobile/cmd/gobind#hdr-Type_restrictions">to a subset of types</a> you can use, main reason is to be correctly transcribed to Java and ObjC.</p>
+
+<p>So the first thing to do is to write some Go wrapper like you would do in ObjC to call some C++ code but first:</p>
+
+<p>Functions must return either no results, one result, or two results where the type of the second is the built-in <code>error</code> type.<br />
+So far no major complication, but also note that you <strong>can&rsquo;t return slices</strong>, that could be a major pain, there are some workaround solutions like <a href="https://github.com/scisci/go-mobile-collection">go-mobile-collection</a> that can generate an API to operate on slice.<br />
+You also have to respect some naming for your constructor like <code>New...()</code>.</p>
+
+<p>At the end your wrapper won&rsquo;t look very Goish but it&rsquo;s what it takes for it to be translated.</p>
+
+<p>Knowing those constraints you can write a simple wrapper like this:</p>
+
+<pre><code class="language-go">package mobile
+
+type GeoDB struct {
+	db regionagogo.GeoFenceDB
+}
+
+func NewGeoDB() *GeoDB {
+	g := &amp;GeoDB{}
+	return g
+}
+
+func (g *GeoDB) OpenDB(path string) error {
+	db, err := rbolt.NewGeoFenceBoltDB(path)
+	if err != nil {
+		return err
+	}
+	g.db = db
+	return nil
+}
+
+...
+</code></pre>
+
+<p>Then use the gomobile command:</p>
+
+<pre><code>gomobile bind -target=ios github.com/akhenakh/regionagogo/mobile
+</code></pre>
+
+<p>It generates a native iOS Mobile.Framework, drop it into your XCode project and start using it.</p>
+
+<ul>
+<li><code>GeoDB</code> translates to <code>GoMobileNewGeoDB()</code> and returns a <code>GoMobileGeoDB*</code> in ObjC domain.</li>
+<li><code>OpenDB(path string) error</code> to <code>- (BOOL)openDB:(NSString*)path error:(NSError**)error</code>.</li>
+</ul>
+
+<p>A simple example would be:</p>
+
+<pre><code class="language-C">GoMobileGeoDB *db = GoMobileNewGeoDB();
+NSString *resourcePath = [[NSBundle mainBundle] pathForResource:@&quot;region&quot; ofType:@&quot;db&quot;];
+        
+NSError *error;
+[db openDB:resourcePath error:&amp;error];
+if (error != nil) {
+    NSLog(@&quot;error opening db %@&quot;, [error localizedDescription]);
+    return;
+}
+</code></pre>
+
+<p>It&rsquo;s performing very well, on my iPhone 6, around 4,000 queries per second to test a position in a small fence, to 60,000 queries in a hit miss (calling Go overhead is not that big),  while using a ridiculously small amount of memory.</p>
+
+<p>I&rsquo;ve made a demo iOS app where you can hit the map and it tells you in which fence you are.</p>
+
+<p><img src="https://blog.nobugware.com/img/shotmap.jpg" alt="app" title="geofence app" /><br />
+Remember this is running locally on your phone without any network access (but the map), the geo computation and the Polygons are returned by Go code.</p>
+
+<p>Until now I had to maintain libraries in both languages, Go mobile is a nice alternative!</p>
+
+<p>Sources for the wrapper are available in <a href="https://github.com/akhenakh/regionagogo/tree/gomobile/mobile">regionagogo gomobile branch</a>, and here is the <a href="https://github.com/akhenakh/testgomobileios">iOS demo app</a>.</p>
+
+                    </div>
+                </section>
+                
+                <h1 class="content-subhead">20 Sep 2016, 17:40</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://blog.nobugware.com/post/2016/grpc_envoy_nghttp2_load_balancing/" class="post-title">gRPC Envoy Nghttp2 and Load Balancing</a>
+
+                        <p class="post-meta">
+                            
+                            
+                                under 
+                                
+                                <a class="post-category post-category-Golang" href="https://blog.nobugware.com/categories/golang">Golang</a>
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        <p>I&rsquo;ve been using <a href="http://www.grpc.io/">gRPC</a> at work and in several personal projects for months and happy with it, but when it comes to load balancing gRPC does not come with batteries included.</p>
+
+<p>For a long time the only document was the <a href="https://github.com/grpc/grpc/commit/b31ec1e81c93d4c9bf30a4600096a6a6f5b90935">Load Balancing draft in the gRPC repo</a>, the clients should implement a Picker interface to know about the servers, so the pooling and controling the load were handled by the clients.<br />
+HTTP/2 was new and most of the reverse proxies implementations were not capable of load balancing gRPC HTTP2 frames, the only solution was to use a TCP load balancer, generating errors, improper  and weird behaviours for the clients.</p>
+
+<p>At least two projects are now supporting gRPC load balancing easily.</p>
+
+<ul>
+<li>The recently announced <a href="https://lyft.github.io/envoy/">Envoy</a> from Lyft</li>
+<li>And nghttpx from <a href="https://www.nghttp2.org/">nghttp2</a></li>
+</ul>
+
+<p>Here are some notes to simply load balance two <a href="https://github.com/grpc/grpc-go/tree/master/examples/helloworld">gRPC Helloworld server!</a> running on ports 50050 &amp; 50051.</p>
+
+<ul>
+<li><p>For nghttp2, a simple configuration file will do</p>
+
+<pre><code>frontend=*,8000;no-tls
+backend=localhost,50050;;no-tls;proto=h2;fall=2;rise=2
+backend=localhost,50051;;no-tls;proto=h2;fall=2;rise=2
+workers=8
+</code></pre></li>
+
+<li><p>For envoy, here is the cluster part</p>
+
+<pre><code class="language-js">&quot;clusters&quot;: [
+  {
+    &quot;name&quot;: &quot;local_service&quot;,
+    &quot;connect_timeout_ms&quot;: 250,
+    &quot;type&quot;: &quot;static&quot;,
+    &quot;lb_type&quot;: &quot;least_request&quot;,
+    &quot;features&quot;: &quot;http2&quot;,
+    &quot;hosts&quot;: [
+      {
+        &quot;url&quot;: &quot;tcp://127.0.0.1:50050&quot;
+      },
+      {
+        &quot;url&quot;: &quot;tcp://127.0.0.1:50051&quot;
+      }
+    ]
+  }
+]
+</code></pre></li>
+</ul>
+
+<p>You can then tweak the greeter_client to loop for requests, so you can simulate a client doing multiple requests while killing/restarting your servers.</p>
+
+<pre><code class="language-go">for {  
+    r, err := c.SayHello(context.Background(), &amp;pb.HelloRequest{Name: name}) 
+    if err != nil { 
+        log.Printf(&quot;could not greet: %v&quot;, err)
+    }
+    log.Printf(&quot;Greeting: %s&quot;, r.Message)
+}
+</code></pre>
+
+<p>And modify the greeter_server to show on which port/server you get your response:</p>
+
+<pre><code class="language-go">// SayHello implements helloworld.GreeterServer
+func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloReply, error) {
+    return &amp;pb.HelloReply{Message: &quot;Hello &quot; + in.Name + port}, nil 
+}
+</code></pre>
+
+<p>Those tests aren&rsquo;t enabling any TLS so use <code>grpc.WithInsecure()</code>.</p>
+
+<p>Note that Envoy is also capable of <a href="https://lyft.github.io/envoy/docs/configuration/http_filters/grpc_http1_bridge_filter.html">bridging your HTTP/1.1 queries to gRPC</a>, which is a killer feature (I haven&rsquo;t tested it yet) , you would normally do it by code with <a href="https://github.com/grpc-ecosystem/grpc-gateway">gRPC-gateway</a>.</p>
+
+<p>Envoy is really new and I&rsquo;m still digging into but already proves itself to be a <strong>complete load balancing proxy solution</strong>  with or without gRPC in your stack.</p>
+
+                    </div>
+                </section>
+                
+                <h1 class="content-subhead">22 Jul 2016, 19:11</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://blog.nobugware.com/post/2016/streaming_raspberry_twitch_audio_rtl_sdr/" class="post-title">Streaming using a Raspberry Pi Camera to Twitch in Full HD while injecting audio from rtl sdr</a>
+
+                        <p class="post-meta">
+                            
+                            
+                                under 
+                                
+                                <a class="post-category post-category-HamRadio" href="https://blog.nobugware.com/categories/hamradio">HamRadio</a>
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        
+
+<p>I have found the right setup to stream in 1080p from a Raspberry Pi using the camera to <a href="https://www.twitch.tv">TwitchTV</a> while injecting audio on the fly!</p>
+
+<p>Create an account on Twitch and grab you stream key in the Dashboard.</p>
+
+<p>This <code>stream.sh</code> script will create a FIFO start <code>rtl_fm</code> at freq 162.550M to listen to Canada weather bulletin (use your local NOAA channel) and inject and encode the audio to the existing h264 stream from the camera then stream it to twitch using rtmp.</p>
+
+<pre><code>#! /bin/bash
+STREAM_URL=&quot;rtmp://live.justin.tv/app/&quot;
+KEY=&quot;live_XXXXX_XXXXXXXXXXXXXX&quot; # put your key here
+
+mkfifo /tmp/streamaudio.wav
+rtl_fm -f 162.550M -s 22050 -g 30 | sox -r 22050 -t raw -e signed -b 16 -c 1 -V1 - -r 22050 -t wavpcm  -  &gt; /tmp/streamaudio.wav &amp;
+
+/opt/vc/bin/raspivid -n -vf -t 0 -w 1920 -h 1080 -fps 25 -o - | ffmpeg -re -i - -i /tmp/streamaudio.wav -codec copy -strict experimental -acodec libmp3lame -ar 22050 -threads 8 -f flv &quot;$STREAM_URL/$KEY&quot;
+</code></pre>
+
+<p>You can of course send other audio sources or no audio at all.</p>
+
+<p>This setup is taking around 10% cpu on a Raspberry Pi 2.</p>
+
+<p>If you are lucky enough my channel will be up and running.<br />
+<div class="embed">
+    <iframe height="378" width="620" frameborder="0" scrolling="no" src="http://www.twitch.tv/akhenakh/embed"></iframe>
+</div>
+</p>
+
+<h2 id="what-is-rtl-sdr">What is RTL SDR ?</h2>
+
+<p>Using a 20$ <a href="http://www.rtl-sdr.com/buy-rtl-sdr-dvb-t-dongles/">USB dongle</a> you have a  software radio scranner, capable of listening to radio amateurs, NOAA weather bulletin even <a href="http://blog.nobugware.com/post/2015/listening_to_satellites_for_30_dollars/">satellites</a>.</p>
+
+<p>Note that you can also stream from your laptop using the great and free <a href="https://obsproject.com/">ObsProject</a>.</p>
+
+<p>Happy streaming.</p>
+
+                    </div>
+                </section>
+                
+                <h1 class="content-subhead">03 Jul 2016, 08:15</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://blog.nobugware.com/post/2016/gometalinter_jetbrains_idea/" class="post-title">Enabling Gometalinter with Jetbrains Editors</a>
+
+                        <p class="post-meta">
+                            
+                            
+                                under 
+                                
+                                <a class="post-category post-category-Golang" href="https://blog.nobugware.com/categories/golang">Golang</a>
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        <p>I&rsquo;ve been using Jetbrains editor (the free <a href="https://www.jetbrains.com/idea/download/">Idea community edition</a>) or Pycharm with the <a href="https://github.com/go-lang-plugin-org/go-lang-idea-plugin">Go plugins</a> and very happy with this setup, the editor is providing some realtime linting but I was missing <code>gometalinter</code>.</p>
+
+<p>First install <code>gometalinter</code></p>
+
+<pre><code>go get -u github.com/alecthomas/gometalinter
+gometalinter --install --update
+</code></pre>
+
+<p>To add support inside Jetbrains editors use the External tools feature.<br />
+In Preferences &gt; Tools &gt; External Tools, add a configuration.</p>
+
+<p><img src="https://blog.nobugware.com/img/gometalinter.jpg" alt="gometalinter setup for jetbrains" title="gometalinter setup for jetbrains" /></p>
+
+<p>Set the Program path to your <code>$GOPATH/bin/gometalinter</code><br />
+Parameters to <code>--deadline=15s --vendor $FileDir$</code><br />
+Working directory to <code>$ProjectFileDir$</code></p>
+
+<p>For the linters messages to be clickable and jump to code add an Output filter with Regular expression to match output <code>$FILE_PATH$:$LINE$</code></p>
+
+<p><img src="https://blog.nobugware.com/img/gometalinter2.jpg" alt="gometalinter setup filter for jetbrains" title="gometalinter setup filter for jetbrains" /></p>
+
+                    </div>
+                </section>
+                
+                <h1 class="content-subhead">08 Mar 2016, 11:23</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://blog.nobugware.com/post/2016/geo_db_s2_region_polygon_optmization/" class="post-title">A geo database for polygons, optimization</a>
+
+                        <p class="post-meta">
+                            
+                            
+                                under 
+                                
+                                <a class="post-category post-category-Geo" href="https://blog.nobugware.com/categories/geo">Geo</a><a class="post-category post-category-Golang" href="https://blog.nobugware.com/categories/golang">Golang</a>
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        <p>If you read this blog, you know I&rsquo;ve recently released a project called <a href="https://github.com/akhenakh/regionagogo">regionagogo</a>, a geo shape lookup database, described in <a href="https://blog.nobugware.com/post/2016/geo_db_s2_region_polygon/">this blogpost</a>.</p>
+
+<p>It uses the current <a href="https://godoc.org/github.com/golang/geo/s2">Go S2 implementation</a>, which is not yet as complete as the C++ implementation, for example the region coverer of a shape does not really compute cell around the shape but around the bounding box instead.</p>
+
+<p>Using the shape of the polygon makes the covered cells more precise and smaller, resulting at the end to less <a href="https://en.wikipedia.org/wiki/Point_in_polygon">PIP</a> tests which are costly.</p>
+
+<p><img src="https://blog.nobugware.com/img/s2cpp.jpg" alt="S2 over a shape" title="S2 cover" /><br />
+The same coverage with Go S2 would have returned 8 big cells of the same size, covering over regions.</p>
+
+<p>I&rsquo;ve created <a href="https://github.com/akhenakh/regionagogogen">regionagogogen</a> a quick and dirty command line program for OSX that takes a GeoJSON file containing your regions and then compute the database using the S2 C++ implementation, it&rsquo;s for OSX only cause I&rsquo;m using ObjC as a bridge to C++ which I don&rsquo;t know enough.</p>
+
+<p>Also note that <a href="https://github.com/akhenakh/regionagogogen">regionagogogen</a> includes an S2 port that works on iOS/OSX and some ObjC geo helper classes.</p>
+
+<p>The <a href="https://hub.docker.com/r/akhenakh/regionagogo/">Docker image fore regionagogo</a> is also using the optimized database.</p>
+
+                    </div>
+                </section>
+                
+                <h1 class="content-subhead">18 Feb 2016, 17:16</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://blog.nobugware.com/post/2016/geo_db_s2_region_polygon/" class="post-title">A geo database for polygons, foundations</a>
+
+                        <p class="post-meta">
+                            
+                            
+                                under 
+                                
+                                <a class="post-category post-category-Geo" href="https://blog.nobugware.com/categories/geo">Geo</a><a class="post-category post-category-Golang" href="https://blog.nobugware.com/categories/golang">Golang</a>
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        
+
+<p>On a previous post, <a href="http://blog.nobugware.com/post/2016/geo_db_s2_geohash_database/">I&rsquo;ve described how to use the S2 geo library</a> to create a fast geo database, but it was to store locations (points) and only to perform range queries, a complete geo database would have regions/polygons queries.</p>
+
+<h2 id="looking-for-a-solution">Looking for a solution</h2>
+
+<p>I had this need: querying for the countries or subregions of hundreds of coordinates per second, without relying on an external service.</p>
+
+<p>One solution, using my previous technique, could have been to store every cities in the world and then perform a proximity query around my point to get the closest cities, but it works only in populated area and it&rsquo;s only an approximation.</p>
+
+<p>I looked into others solutions, there is some smart ideas <a href="https://github.com/hlaw/codegrid-js">using UTF-grid</a>, but it&rsquo;s a client side solution and also an approximation tied to the resolution of the computed grid.</p>
+
+<h2 id="s2-to-the-rescue">S2 to the rescue</h2>
+
+<p>S2 cells have some nice properties, they are segments on the <a href="https://en.wikipedia.org/wiki/Hilbert_curve">Hilbert curve</a>, expressed as range of <code>uint64</code>, so I had the intuition the problem to perform fast region lookup could be simplified as find all mathematical segments containing my location expressed as an <code>uint64</code>.</p>
+
+<p><img src="https://blog.nobugware.com/img/s2belgium.jpg" alt="S2 over a country" title="S2 covering belgium" /></p>
+
+<p>Using a <a href="https://en.wikipedia.org/wiki/Segment_tree">Segment Tree</a> datastructure, I first tried an in memory engine, using <a href="http://www.naturalearthdata.com/">Natural Earth Data</a>, loading the whole world countries shapes into S2 loops (a <code>Loop</code> represents a simple spherical polygon), transforming then into cells using the region coverer, it returns cells of different levels, add them to the segment tree.</p>
+
+<p><img src="https://blog.nobugware.com/img/stree.gif" alt="Segment Tree" title="Segment tree picture fron Wikipedia" /></p>
+
+<p>To query, simply tranform the location into an S2 <code>Cell</code> (level 30) and perform a stubbing query that intersects the segments, every segments crossed are cells that covered a part of a <code>Loop</code>.<br />
+It will reduce the problem to test a few <code>Loop</code> vs thousands of them, finally perform <code>ContainsPoint</code> against the found loops cause the point could be inside the <code>Cell</code> but not inside the <code>Loop</code> itself.</p>
+
+<p>Et voilà! It works!</p>
+
+<p>The segment tree structure itself is very low on memory, the loops/polygons data could be stored on disk and loaded on requests, I&rsquo;ve tested a second implementation using LevelDB using this technique.</p>
+
+<p>If you have a very large tree (for example cities limits for the whole world), you can even put the segment tree on a KV storage, using this paper <a href="http://students.ceid.upatras.gr/~patlakas/papers/ICDE13_conf_full_420.pdf">Interval Indexing and Querying on Key-Value Cloud Stores</a>.</p>
+
+<h2 id="region-a-gogo">Region a gogo</h2>
+
+<p>As a demonstration here is a working microservice called <a href="https://github.com/akhenakh/regionagogo">regionagogo</a>, simply returning the country &amp; state for a given location.<br />
+It loads geo data for the whole world and answers to HTTP queries using small amout of memory.</p>
+
+<pre><code>GET /country?lat=19.542915&amp;lng=-155.665857
+
+{
+    &quot;code&quot;: &quot;US&quot;,
+    &quot;name&quot;: &quot;Hawaii&quot;
+}
+</code></pre>
+
+<p>Here is a <a href="https://hub.docker.com/r/akhenakh/regionagogo/">Docker image</a> so you can deploy it on your stack.</p>
+
+<p>Note that it performs really well but can be improved a lot, for example the actual Go S2 implementation is still using Rect boxing around loops, that&rsquo;s why <a href="https://github.com/akhenakh/regionagogo">regionagogo</a> is using a data file so it can be generated from the C++ version.</p>
+
+<h2 id="future">Future</h2>
+
+<p>This technique seems to work well for stubbing queries, region queries, geofencing &hellip;<br />
+It can be a solid foundation to create a flexible and simple geo database.</p>
+
+                    </div>
+                </section>
+                
+            </div>
+            
+<div class="pagination">
+  <nav role="pagination" class="post-list-pagination">
+      
+      <a href="https://blog.nobugware.com/post/" class="post-list-pagination-item pure-button post-list-pagination-item-prev">
+        <i class="fa fa-angle-double-left"></i>&nbsp;Newer
+      </a>
+      
+    <span class="post-list-pagination-item post-list-pagination-item-current">Page 2 of 8</span>
+    
+      <a href="https://blog.nobugware.com/post/page/3/" class="post-list-pagination-item pure-button post-list-pagination-item-next">
+        Older&nbsp;<i class="fa fa-angle-double-right"></i>
+      </a>
+    
+  </nav>
+</div>
+
+
+            <div class="footer">
+    <div class="pure-menu pure-menu-horizontal pure-menu-open">
+        <ul>
+            <li>Powered by <a class="hugo" href="http://hugo.spf13.com/" target="_blank">hugo</a></li>
+        </ul>
+    </div>
+</div>
+<script src="https://blog.nobugware.com/js/all.min.js"></script>
+        </div>
+    </div>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-1245966-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Objc on Fabrice Aneche</title>
+    <link>https://blog.nobugware.com/tags/objc/</link>
+    <description>Recent content in Objc on Fabrice Aneche</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 16 Oct 2012 09:56:41 -0400</lastBuildDate>
+    
+	<atom:link href="https://blog.nobugware.com/tags/objc/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Appcode shortcuts</title>
+      <link>https://blog.nobugware.com/post/2012/10/16/appcode-shortcuts/</link>
+      <pubDate>Tue, 16 Oct 2012 09:56:41 -0400</pubDate>
+      
+      <guid>https://blog.nobugware.com/post/2012/10/16/appcode-shortcuts/</guid>
+      <description>^ up and ^ down : navigate methods
+⇧ ⌘ up and ⇧ ⌘ down : switch from .h to .m
+⇧ ⌘ ⌫ : go to last edit
+⇧ esc : hide console/bottom view
+⌥ ⌘ L : reindent code (^ i in xcode)
+^ r : Run (⌘ + r in xcode)
+^ tab : navigate files
+⌘ o : open class
+⌘ ⇧ o : open files</description>
+    </item>
+    
+  </channel>
+</rss>

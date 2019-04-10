@@ -1,0 +1,849 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fabrice Aneche &middot; Fabrice Aneche</title>
+
+    <meta name="description" content="">
+
+    <meta name="generator" content="Hugo 0.33" />
+    <meta name="twitter:card" content="summary">
+    
+    <meta name="twitter:title" content="Fabrice Aneche &middot; Fabrice Aneche">
+    <meta name="twitter:description" content="">
+
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Fabrice Aneche &middot; Fabrice Aneche">
+    <meta property="og:description" content="">
+
+    <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Oxygen:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/pure-min.css">
+    <!--[if lte IE 8]>
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-old-ie-min.css">
+    <![endif]-->
+    <!--[if gt IE 8]><!-->
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-min.css">
+    <!--<![endif]-->
+
+    <link rel="stylesheet" href="https://blog.nobugware.com/css/all.min.css">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <link rel="alternate" type="application/rss+xml" title="Fabrice Aneche" href="https://blog.nobugware.com/index.xml" />
+    <link href="https://blog.nobugware.com/css/prism.css" rel="stylesheet" />
+</head>
+<body>
+
+
+<div id="layout" class="pure-g">
+    <div class="sidebar pure-u-1 pure-u-md-1-4">
+    <div class="header">
+        <hgroup>
+            <h1 class="brand-title"><a href="https://blog.nobugware.com">Fabrice Aneche</a></h1>
+            <h2 class="brand-tagline"></h2>
+        </hgroup>
+
+        <nav class="nav">
+            <ul class="nav-list">
+                
+                <li class="nav-item">
+                    <a class="pure-button" href="http://www.nobugware.com"><i class="fa fa-building-o"></i> Hiring</a>
+                </li>
+                
+                
+                <li class="nav-item">
+                    <a class="pure-button" href="https://twitter.com/akhenakh"><i class="fa fa-twitter"></i> Twitter</a>
+                </li>
+                
+                
+                <li class="nav-item">
+                    <a class="pure-button" href="https://github.com/akhenakh "><i class="fa fa-github-alt"></i> github</a>
+                </li>
+                
+                <li class="nav-item">
+                    <a class="pure-button" href="https://blog.nobugware.com/index.xml"><i class="fa fa-rss"></i> rss</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+
+    <div class="content pure-u-1 pure-u-md-3-4">
+        <div>
+            
+            <div class="posts">
+                
+                <h1 class="content-subhead">31 Aug 2011, 15:40</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://blog.nobugware.com/post/2011/08/31/gimp-273-osx/" class="post-title">Gimp 2.7.3 on OSX</a>
+
+                        <p class="post-meta">
+                            
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        <p>Gimp 2.7.3 has been released but no one ports it to OSX already here is an
+ugly working way.</p>
+
+<p>EDIT: The macport is now up to date so no need to do this anymore !</p>
+
+<p>It needs a lot of dependencies, get it via macports:</p>
+
+<p>run port sync</p>
+
+<p>Edit /opt/local/var/macports/sources/rsync.macports.org/release/ports/graphics
+/gegl/Portfile</p>
+
+<p>Change version to 0.1.6 and master_sites</p>
+
+<blockquote>
+<p>version  0.1.6</p>
+</blockquote>
+
+<p>master_sites  <a href="ftp://ftp.gimp.org/pub/gegl/0.1/">ftp://ftp.gimp.org/pub/gegl/0.1/</a></p>
+
+<p>remove the path line about atch-gegl-buffer-gegl-buffer.c</p>
+
+<p>Edit /opt/local/var/macports/sources/rsync.macports.org/release/ports/graphics
+/babl/Portfile change version and master_sites</p>
+
+<blockquote>
+<p>version  0.1.4</p>
+</blockquote>
+
+<p>master_sites  <a href="ftp://ftp.gimp.org/pub/babl/0.1/">ftp://ftp.gimp.org/pub/babl/0.1/</a></p>
+
+<p>run macports</p>
+
+<blockquote>
+<p>port install babl</p>
+</blockquote>
+
+<p>port install gegl</p>
+
+<p>port install aalib iso-codes libmng librsvg libexif libwmf poppler openjpeg
+lcms2 poppler-data libwmf poppler openjpeg lcms2 poppler-data py27-gtk
+py27-cairo py27-numpy  py27-gobject librsvg libopenraw  dbus-glib</p>
+
+<p>Download gimp 2.7.3 and uncompress it</p>
+
+<blockquote>
+<p>export
+PATH=$PATH:/opt/local/Library/Frameworks/Python.framework/Versions/2.7/bin</p>
+</blockquote>
+
+<p>export CPPFLAGS=&ldquo;-I/opt/local/include&rdquo;</p>
+
+<p>export PYGTK-LIBS=&ldquo;-L/opt/local/lib&rdquo;</p>
+
+<p>export LDFLAGS=&ldquo;-L/opt/local/lib&rdquo;</p>
+
+<p>export PYGTK_CFLAGS=&ldquo;-I/opt/local/include -I/opt/local//Library/Frameworks/Pyt
+hon.framework/Versions/2.7/include/python2.7/pygtk-2.0
+-I/opt/local/include/glib-2.0 -I/opt/local/include/gtk-2.0
+-I/opt/local/include/atk-1.0 -I/opt/local/include/cairo
+-I/opt/local/include/pango-1.0 -I/opt/local/include/glib-2.0
+-I/opt/local/include/pixman-1 -I/opt/local/include/freetype2
+-I/opt/local/include/libpng14&rdquo;</p>
+
+<p>./configure &ndash;prefix=/opt/local/gimp-2.7.3  &ndash;without-mac-twain</p>
+
+<blockquote>
+<p>make -j 8</p>
+
+<p>make install</p>
+
+<p>/opt/local/gimp-2.7.3/bin/gimp-2.7</p>
+</blockquote>
+
+                    </div>
+                </section>
+                
+                <h1 class="content-subhead">16 Aug 2011, 12:00</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://blog.nobugware.com/post/2011/08/16/enhance-your-python/" class="post-title">Enhance your Python</a>
+
+                        <p class="post-meta">
+                            
+                            
+                                under 
+                                
+                                <a class="post-category post-category-Python" href="https://blog.nobugware.com/categories/python">Python</a>
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        <p>Nohting new here but a list of what you should read to be a better Python
+developer, for intermediate and advanced Pythoners, in no particular order.</p>
+
+<ul>
+<li><a href="http://homepage.mac.com/s_lott/books/python/html/index.html">Building skills in Python</a> a very complete language description</li>
+<li><a href="http://python.net/~goodger/projects/pycon/2007/idiomatic/handout.html">Code like a Pythonista</a> useful quick list of good practice. I&rsquo;m reading it again and again to get it automatically</li>
+<li><a href="http://stackoverflow.com/questions/101268/hidden-features-of-python">The hidden features of Python</a> question on Stackoverflow, a must read</li>
+<li><a href="http://stackoverflow.com/questions/100003/what-is-a-metaclass-in-python">What is a metaclass</a></li>
+<li><a href="http://www.dabeaz.com/generators/">Generator Tricks for Systems Programmers</a>, <a href="http://www.dabeaz.com/coroutines/">A curious Course Coroutines and Concurrency</a> and <a href="http://stackoverflow.com/questions/231767/the-python-yield-keyword-explained">the Python yield keyword explained</a> on Stackoverflow, all about yield</li>
+<li><a href="http://video.google.com/videoplay?docid=7760178035196894549">Advanced Python: (or understanding Python)</a> Video from Google</li>
+<li><a href="http://stackoverflow.com/questions/739654/understanding-python-decorators/1594484">Understanding Python decorators</a>, then use it with <a href="http://wiki.python.org/moin/PythonDecoratorLibrary">Python Decorator Library</a></li>
+<li><a href="http://stackoverflow.com/questions/2573135/python-progression-path-from-apprentice-to-guru">Python progression path - From apprentice to guru</a>, good advises to mastering Python</li>
+<li><a href="http://www.python.org/dev/peps/pep-0008/">PEP8</a> reading, and <a href="http://www.logilab.org/857">pylint</a> usage</li>
+<li><a href="http://diveintopython3.org/">Dive into Python 3</a> somes parts are boring but somes are greats</li>
+<li><a href="http://docs.python.org/howto/doanddont.html">Idioms and Anti-Idioms in Python</a>, <a href="http://www.fantascienza.net/leonardo/ar/python_best_practices.html">Python best practices</a></li>
+<li><a href="http://www.cafepy.com/article/python_attributes_and_methods/python_attributes_and_methods.html">Python Attributes and Methods</a></li>
+<li><a href="http://docs.python-guide.org/en/latest/index.html">The Hitchhiker&rsquo;s Guide to Python</a>
+
+<br /></li>
+</ul>
+
+<p>A special mention for the <a href="http://www.tornadoweb.org/">Tornado web framework</a>,
+the lack of documentation makes reading the source code a lot and it&rsquo;s very
+didactic, <a href="http://golubenco.org/?p=16">Understanding the code inside Tornado</a>
+is a very great blog post about asynchronous programming, the Python<a href="http://docs.python.org/library/asyncore.html"> asyncore
+module</a> and <a href="http://krondo.com/wp-content/uploads/2009/08
+/twisted-intro.html">An Introduction to
+Asynchronous Programming</a></p>
+
+<p>Of course <a href="http://pycon.tv/">PyCon videos</a>.</p>
+
+<ul>
+<li><a href="http://agiliq.com/books/djangodesignpatterns/">Django patterns</a></li>
+</ul>
+
+                    </div>
+                </section>
+                
+                <h1 class="content-subhead">31 Mar 2011, 21:06</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://blog.nobugware.com/post/2011/03/31/freebsd-zfs/" class="post-title">(Re)Discovering FreeBSD and ZFS</a>
+
+                        <p class="post-meta">
+                            
+                            
+                                under 
+                                
+                                <a class="post-category post-category-FreeBSD" href="https://blog.nobugware.com/categories/freebsd">FreeBSD</a>
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        <p>Since Sun&rsquo;s killers euh Oracle shutdown OpenSolaris, FreeBSD is becoming more
+and more attracting with ZFS port, you should really give it a try (We are
+back baby).</p>
+
+<p>Here is a fast installation of FreeBSD with a ZFS root.</p>
+
+<p>Download <a href="http://mfsbsd.vx.sk/">http://mfsbsd.vx.sk/</a>, a special iso image that will give you a ZFS on root FreeBSD with no pain.</p>
+
+<p>Note that I&rsquo;m using it over KVM on Gentoo: (kvm -hda /dev/vg0/freebsdvm_root -m 4096 -cdrom /opt/data/kvm/installer/mfsbsd-se-8.2-amd64.iso -net nic -net user -boot d), but you can test it with Virtualbox, vmware, real installation &hellip;</p>
+
+<p>At prompt login as root with password **mfsroot.</p>
+
+<pre><code>mount_cd9660 /dev/acd- /cdrom_  
+zfsinstall -d /dev/ad0 -t /cdrom/8.2-RELEASE-amd64.tar.xz  
+chroot /mnt  
+vi /etc/rc.conf
+</code></pre>
+
+<p>Add:</p>
+
+<pre><code>sshd_enable=&quot;YES_  
+hostname=&quot;freebsdvm&quot;  
+ifconfig_re0=&quot;DHCP&quot;  
+</code></pre>
+
+<pre><code>zfs create -V 2G tank/swap  
+zfs set org.freebsd:swap=on tank/swap  
+zfs set checksum=off tank/swap  
+reboot  
+</code></pre>
+
+<p>Restart your vm (kvm -hda /dev/vg0/freebsdvm_root -m 4096 -net nic -net user )</p>
+
+<p>log in as root no password<br />
+set a password</p>
+
+<pre><code>zfs set atime=off tank   
+zfs create tank/root/usrports _# this is not a typo 
+zfs set compression=gzip tank/root/usrports  
+zfs set mountpoint=/usr/ports tank/root/usrports  
+zfs create tank/root/usrports/distfiles  
+zfs compression=off tank/root/usrports/distfiles
+</code></pre>
+
+<p>Install the ports with the methods you want. (<a href="http://www.freebsd.org/doc/handbook/ports-using.html">http://www.freebsd.org/doc/handbook/ports-using.html</a>)</p>
+
+<pre><code>portsnap fetch  
+portsnap extract  
+      
+cd /usr/ports/shell/bash  
+make install clean  
+</code></pre>
+
+<p>Adduser Put your user in the wheel group (admin)_</p>
+
+<pre><code>cd /usr/ports/ports-mgmt/portupgrade 
+make install clean  
+      
+cd /usr/ports/security/sudo  
+make install clean
+      
+cd /usr/ports/ports-mgmt/portaudit  
+make install clean  
+      
+cd /usr/ports/sysutils/lsof  
+make install clean
+
+# update your system  
+      
+freebsd-update fetch  
+freebsd-update install  
+   
+portsnap fetch  
+portsnap update  
+      
+portaudit -F  
+      
+portupgrade -ai  
+</code></pre>
+
+                    </div>
+                </section>
+                
+                <h1 class="content-subhead">02 Feb 2011, 22:06</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://blog.nobugware.com/post/2011/02/02/gentoo-lvmraid-root/" class="post-title">Gentoo lvm&#43;raid root</a>
+
+                        <p class="post-meta">
+                            
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        <p>Gentoo support for lvm root is still a pain in the ass, here is a working
+solution.</p>
+
+<p>Assuming you have 2 disks same size to be mirrored.</p>
+
+<p>You want a mirrored /boot and a big lvm.</p>
+
+<p>Start a normal gentoo installation with this disks layout:</p>
+
+<pre><code>fdisk -l /dev/sda
+   Device Boot      Start         End      Blocks   Id  System
+/dev/sda1   *           1          31      248976   fd  Linux raid autodetect
+/dev/sda2              32      242246  1945591987+  fd  Linux raid autodetect
+
+fdisk -l /dev/sdb
+   Device Boot      Start         End      Blocks   Id  System
+/dev/sdb1   *           1          31      248976   fd  Linux raid autodetect
+/dev/sdb2              32      242246  1945591987+  83  Linux raid autodetect
+</code></pre>
+
+<p>Set both disk the boot flags on the first partition and set all partitions to
+FD Linux raid autodetect.</p>
+
+<pre><code>mdadm --create /dev/md0 --level=1 --raid-devices=2 /dev/sda1 /dev/sdb1
+mdadm --create /dev/md1 --level=1 --raid-devices=2 /dev/sda2 /dev/sdb2
+</code></pre>
+
+<p>If it complains about another array by this is name is already running or disk
+used.</p>
+
+<p>First stop them all:</p>
+
+<pre><code>cat /proc/mdstat
+</code></pre>
+
+<p>Identify the old arrays then stop it:</p>
+
+<pre><code>mdadm --stop /dev/md??
+</code></pre>
+
+<p>Clean the partition if necessaray</p>
+
+<pre><code>dd if=/dev/zero of=/dev/sda1 count=100 bs=1024
+dd if=/dev/zero of=/dev/sda1 count=100 bs=1024
+</code></pre>
+
+<p>Create the boot:</p>
+
+<pre><code>mkfs.ext3 /dev/md0
+</code></pre>
+
+<p>Create the lvm root and swap:</p>
+
+<pre><code>pvcreate /dev/md1
+vgcreate vg0 /dev/md1
+lvcreate  -L10G -nroot vg0
+lvcreate  -L16G -nswap vg0
+# set the minfree to 0 and increase the number of inodes to 600k
+mkfs.ext4 -m0 -N 600000  /dev/vg0/root
+mkswap /dev/vg0/swap
+</code></pre>
+
+<p>Mount them all !</p>
+
+<pre><code>mount /dev/vg0/root /mnt/gentoo
+mkdir /mnt/gentoo/boot
+mount /dev/md0 /mnt/gentoo/boot
+</code></pre>
+
+<p>Continue with the standard install procedure, mount -t proc &hellip;</p>
+
+<p>After the emerge &ndash;sync in the install procedure get back here:</p>
+
+<pre><code>emerge lvm2 dmadm genkernel
+emerge gentoo-sources
+mdadm --examine --scan &gt;&gt; /etc/mdadm.conf
+</code></pre>
+
+<p>Edit /etc/genkernel.conf:</p>
+
+<p>Set LVM=&ldquo;yes&rdquo;</p>
+
+<p>Set MDADM=&ldquo;yes&rdquo;</p>
+
+<p>Edit /etc/fstab</p>
+
+<pre><code>/dev/md0        /boot       ext3        noauto,noatime  1 2
+/dev/vg0/root       /       ext4        noatime     0 1
+/dev/vg0/swap       none        swap        sw      0 0
+</code></pre>
+
+<p>Compile your kernel with genkernel (note that if you want to compile your own
+kernel without genkernel this is possible with the command genkernel
+initramfs).</p>
+
+<pre><code>genkernel --menuconfig all
+</code></pre>
+
+<p>Continue to normal procedure until grub, apply grub on both disks:</p>
+
+<pre><code>grub&gt; root (hd0,0) 
+grub&gt; setup (hd0)   
+grub&gt; root (hd2,0) 
+grub&gt; setup (hd1)   
+grub&gt; quit           
+</code></pre>
+
+<p>Then edit grub.conf</p>
+
+<pre><code>title Gentoo
+root (hd0,0)
+kernel /boot/kernel-genkernel-x86_64-2.6.36-gentoo-r5 root=/dev/ram0 real_root=/dev/vg0/root dolvm domdadm lvmraid=/dev/md1
+initrd /boot/initramfs-genkernel-x86_64-2.6.36-gentoo-r5
+</code></pre>
+
+<p>Explanation, for lvm to find his disks, we need a ramfs with the static lvm
+command, but to find back our raids md we also need mdadm to save the config
+somewhere, that&rsquo;s exactly what the genkernel initramfs is doing.</p>
+
+<p>Then we invoke the kernel with ramfs and domdadm dolvm and lvmraid.</p>
+
+<p>You can use the initramfs with your own kernel, you only have to be sure all
+needed hardware drivers to detect the disks are in the kernel, and not as
+modules.</p>
+
+<p>Remember that when gentoo stable will update to baselayout2 you will have to
+add rc-update add mdraid boot.</p>
+
+<p>EDIT: on recent Gentoo I have to add this to kernel boot line:</p>
+
+<pre><code>kernel /boot/kernel-genkernel-x86_64-3.1.10-gentoo-r1 root=/dev/ram0 init=/linuxrc real_root=/dev/vg0/root udev dolvm domdadm gentoo=nodevfs lvmraid=/dev/md1 rootfstype=ext4
+</code></pre>
+
+                    </div>
+                </section>
+                
+                <h1 class="content-subhead">28 Jan 2011, 11:52</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://blog.nobugware.com/post/2011/01/28/amazing-piece-electonic/" class="post-title">An amazing piece of electonic</a>
+
+                        <p class="post-meta">
+                            
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        <p>Sparkfun and others sell a 434Mhz
+<a href="http://www.sparkfun.com/products/8946">transmitter</a> and a
+<a href="http://www.sparkfun.com/products/8949">receiver</a> for €2.88 and €3.61.</p>
+
+<p>This version receives at 2400bauds but there is a 4800 bauds version.</p>
+
+<p>Simply connect the transmitter to an arduino pin then your are done (almost).</p>
+
+<p>My first try was to follow the example from sparkfun, which simply read a
+value from the receiver:</p>
+
+<pre><code>// read in values, debug to computer
+    
+if (Serial.available() &gt; 0) {
+      incomingByte = Serial.read();
+      Serial.println(incomingByte, DEC);
+}
+</code></pre>
+
+<p>This has collected a ton of garbage (without emitting).</p>
+
+<p>The answer was to use
+<a href="http://www.open.com.au/mikem/arduino/VirtualWire.pdf">OpenWire</a> an amazing
+piece of software &hellip; that handles checksuming for you, just connect to your
+arduino pin 12 for TX, and 11 for RX then you are done !</p>
+
+<p>This is working like a charm in all my house without requiring any antennas.</p>
+
+<p>You can get all your Arduinos connected for less than 7€ !</p>
+
+<p>PS: Sparkfun are great dealers this parts was missing in the first shipping
+they send it again in priority mail: 48 hours from USA to France ;)</p>
+
+<p><a href="http://kdl.nobugware.com/public/rflink.jpg"><img src="http://kdl.nobugware.com/public/rflink.jpg" alt="" /></a></p>
+
+                    </div>
+                </section>
+                
+                <h1 class="content-subhead">19 Jan 2011, 16:50</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://blog.nobugware.com/post/2011/01/19/all-my-digital-life/" class="post-title">All my digital life</a>
+
+                        <p class="post-meta">
+                            
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        <p>In a tag cloud !</p>
+
+<p><a href="http://kdl.nobugware.com/public/wordle2.jpg"><img src="http://kdl.nobugware.com/public/wordle2.jpg" alt="" /></a></p>
+
+<p>This tag cloud has been generated with
+<a href="http://www.wordle.net/compose">Wordle</a>, the words are extracted from title&rsquo;s
+posts for this services.</p>
+
+<ul>
+<li>My facebook</li>
+<li>My twitter</li>
+<li>My Flickr</li>
+<li>My shared Google Reader articles</li>
+<li>My Tumbler</li>
+<li>My Picasa</li>
+<li>and this blog</li>
+</ul>
+
+<p>Parsed and sorted with Python via the friendfeed json API.</p>
+
+<p>Data since 2008-11-19, commons french or english words removed, iphone word
+divide by 2 ;)</p>
+
+<p>Thanks to <a href="http://friendfeed.com/">Friendfeed</a> service to aggregate my data,
+and no thanks to Facebook for killing it.</p>
+
+                    </div>
+                </section>
+                
+                <h1 class="content-subhead">08 Nov 2010, 17:30</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://blog.nobugware.com/post/2010/11/08/jmx-query-python-cpython/" class="post-title">JMX query in Python (CPython)</a>
+
+                        <p class="post-meta">
+                            
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        <p>JMX had good intentions but the API is only implemented in Java, a Java
+product for Java, with no access to the outside world.</p>
+
+<p>Jython was one of the solution but many times I had needed to call JMX from a
+CPython.</p>
+
+<p><a href="http://jpype.sourceforge.net/">Jpype</a> solved this problem and works extremely
+well.</p>
+
+<p>Just install <a href="http://jpype.sourceforge.net/">Jpype</a> then try something like
+this:</p>
+
+<p>The execution is really really fast, faster than a jvm run ?? and memory usage
+is really really slow !</p>
+
+<pre><code>#!/usr/bin/env python2.6
+import jpype
+from jpype import java
+from jpype import javax
+
+HOST='gf0'
+PORT=8386
+USER='admin'
+PASS='mypass'
+
+URL = &quot;service:jmx:rmi:///jndi/rmi://%s:%d/jmxrmi&quot; % (HOST, PORT)
+#this it the path of your libjvm /usr/lib/jvm/sun-jdk-1.6/jre/lib/amd64/server/libjvm.so on linux
+jpype.startJVM(&quot;/System/Library/Frameworks/JavaVM.framework/Libraries/libjvm_compat.dylib&quot;)
+java.lang.System.out.println(&quot;JVM load OK&quot;)
+
+jhash = java.util.HashMap()
+jarray=jpype.JArray(java.lang.String)([USER,PASS])
+jhash.put (javax.management.remote.JMXConnector.CREDENTIALS, jarray);
+jmxurl = javax.management.remote.JMXServiceURL(URL)
+jmxsoc = javax.management.remote.JMXConnectorFactory.connect(jmxurl,jhash)
+connection = jmxsoc.getMBeanServerConnection();
+
+
+object=&quot;java.lang:type=Threading&quot;
+attribute=&quot;ThreadCount&quot;
+attr=connection.getAttribute(javax.management.ObjectName(object),attribute)
+print  attribute, attr
+
+#Memory is a special case the answer is a Treemap in a CompositeDataSupport
+object=&quot;java.lang:type=Memory&quot;
+attribute=&quot;HeapMemoryUsage&quot;
+attr=connection.getAttribute(javax.management.ObjectName(object),attribute)
+print attr.contents.get(&quot;used&quot;)
+</code></pre>
+
+                    </div>
+                </section>
+                
+                <h1 class="content-subhead">09 Aug 2010, 14:41</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://blog.nobugware.com/post/2010/08/09/zfs-linux/" class="post-title">ZFS on linux</a>
+
+                        <p class="post-meta">
+                            
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        <p>For license reasons (god damn GPL), ZFS can&rsquo;t be integrated into the Linux
+kernel, but there is a userland fuse version called <a href="http://zfs-
+fuse.net/">ZFS-FUSE</a>, so I tried to measure the fuse overhead vs others filesystems
+presents on my server.</p>
+
+<p>This tests are not benchmarks, but just show that ZFS-FUSE is fast enough and
+seems to be stable (at least for my personal server)</p>
+
+<ul>
+<li>ZFS with lzjb compression
+```
+dd if=/dev/zero of=/testzfs/toto bs=2048 count=200000
+409600000 bytes (410 MB) copied, 9.93444 s, 41.2 MB/s
+<br /></li>
+</ul>
+
+<p>dd if=/dev/zero of=/testzfs/toto bs=2048 count=200000
+409600000 bytes (410 MB) copied, 9.88071 s, 41.5 MB/s</p>
+
+<p>dd if=/dev/zero of=/testzfs/toto bs=2048 count=200000
+409600000 bytes (410 MB) copied, 10.2585 s, 39.9 MB/s</p>
+
+<pre><code>* ZFS with compression off
+</code></pre>
+
+<p>dd if=/dev/zero of=/testzfs/toto bs=2048 count=200000
+ 409600000 bytes (410 MB) copied, 17.2505 s, 23.7 MB/s</p>
+
+<p>dd if=/dev/zero of=/testzfs/toto bs=2048 count=200000
+ 409600000 bytes (410 MB) copied, 17.0921 s, 24.0 MB/s</p>
+
+<p>dd if=/dev/zero of=/testzfs/toto bs=2048 count=200000
+ 409600000 bytes (410 MB) copied, 16.8956 s, 24.2 MB/s</p>
+
+<pre><code>
+* EXT3
+</code></pre>
+
+<p>dd if=/dev/zero of=/toto bs=2048 count=200000
+409600000 bytes (410 MB) copied, 9.92158 s, 41.3 MB/s</p>
+
+<p>dd if=/dev/zero of=/toto bs=2048 count=200000
+409600000 bytes (410 MB) copied, 8.50674 s, 48.2 MB/s</p>
+
+<p>dd if=/dev/zero of=/toto bs=2048 count=200000
+409600000 bytes (410 MB) copied, 9.02419 s, 45.4 MB/s</p>
+
+<pre><code>* REISERFS (the way reiserfs works makes this big file creation faster)
+</code></pre>
+
+<p>dd if=/dev/zero of=/opt/toto bs=2048 count=200000
+09600000 bytes (410 MB) copied, 2.29901 s, 178 MB/s</p>
+
+<p>dd if=/dev/zero of=/opt/toto bs=2048 count=200000
+409600000 bytes (410 MB) copied, 2.1869 s, 187 MB/s</p>
+
+<p>dd if=/dev/zero of=/opt/toto bs=2048 count=200000
+409600000 bytes (410 MB) copied, 1.9057 s, 215 MB/s
+```
+Also remember that FreeBSD 8.1 now includes ZFS version 14, which is a good
+(native) alternative</p>
+
+                    </div>
+                </section>
+                
+                <h1 class="content-subhead">09 Aug 2010, 13:44</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://blog.nobugware.com/post/2010/08/09/using-oracle-django/" class="post-title">Using Oracle with Django</a>
+
+                        <p class="post-meta">
+                            
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        <p>In a production environment you could hit this one: DatabaseError: Invalid
+handle!</p>
+
+<p>It seems to happen when Oracle is called with OCI interface (cx_Oracle) by
+multiple threads.</p>
+
+<p>Yes using apache with MPM worker or mod_wsgi, will create threads in the same
+process, by default cx_Oracle is configured to be used without threads cause
+it will add a mutex and a performance hit.</p>
+
+<p>The solution is to pass the threaded parameters to the connection string, so
+in Django settings just add:</p>
+
+<pre><code>DATABASE_OPTIONS = {
+        'threaded':True
+    }
+</code></pre>
+
+<p>Here is a bug in the Django documentation to changed it to threaded by default
+&hellip; <a href="http://code.djangoproject.com/ticket/13351">13351</a></p>
+
+                    </div>
+                </section>
+                
+                <h1 class="content-subhead">12 Feb 2010, 14:02</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://blog.nobugware.com/post/2010/02/12/nginx-ssl-tomcat-confluence/" class="post-title">Nginx SSL &#43; Tomcat (for Confluence)</a>
+
+                        <p class="post-meta">
+                            
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        <p>I have an Nginx frontend to serv everything but confluence which was not happy
+with my SSLized conf, here is the solution !</p>
+
+<p>This doc is related to confluence but will works with any java apps in a
+tomcat</p>
+
+<p>First don&rsquo;t use the standalone version of confluence (which is a Tomcat 5.5),
+use the EAR/WAR tar gz archive.</p>
+
+<p>We need Tomcat 6 cause we will use a &ldquo;Valve&rdquo; <a href="http://tomcat.apa
+che.org/tomcat-6.0-doc/api/org/apache/catalina/valves/RemoteIpValve.html">RemoteIPValve</a> that
+will check for a header (X-Forwarded-Proto) to see if the source request was
+secured by SSL.</p>
+
+<p>Inside tomcat server.xml simply add a Valve configuration in your Host
+definition:</p>
+
+<pre><code>&lt;Valve className=&quot;org.apache.catalina.valves.RemoteIpValve&quot;
+protocolHeader=&quot;X-Forwarded-Proto&quot;  protocolHeaderHttpsValue=&quot;https&quot; /&gt;
+</code></pre>
+
+<p>In your nginx.conf, just forward the header:</p>
+
+<pre><code>location /confluence {
+proxy_pass  http://localhost:8010;
+proxy_set_header X-Forwarded-Proto  https;
+proxy_set_header Host $http_host;
+}
+</code></pre>
+
+<p>This is the same mechanism you will find with rails or Django and Nginx.</p>
+
+<p>Remember to listen only on localhost with Tomcat or your nginx proxy is
+useless:</p>
+
+<pre><code>&lt;Connector address=&quot;127.0.0.1&quot; port=&quot;8010&quot; protocol=&quot;HTTP/1.1&quot;
+connectionTimeout=&quot;20000&quot;
+URIEncoding=&quot;UTF-8&quot;  /&gt;
+</code></pre>
+
+<p>Happy SSL !</p>
+
+<p>Thanks to Super Chinois for the java mess.</p>
+
+                    </div>
+                </section>
+                
+            </div>
+            
+<div class="pagination">
+  <nav role="pagination" class="post-list-pagination">
+      
+      <a href="https://blog.nobugware.com/page/5/" class="post-list-pagination-item pure-button post-list-pagination-item-prev">
+        <i class="fa fa-angle-double-left"></i>&nbsp;Newer
+      </a>
+      
+    <span class="post-list-pagination-item post-list-pagination-item-current">Page 6 of 8</span>
+    
+      <a href="https://blog.nobugware.com/page/7/" class="post-list-pagination-item pure-button post-list-pagination-item-next">
+        Older&nbsp;<i class="fa fa-angle-double-right"></i>
+      </a>
+    
+  </nav>
+</div>
+
+
+            <div class="footer">
+    <div class="pure-menu pure-menu-horizontal pure-menu-open">
+        <ul>
+            <li>Powered by <a class="hugo" href="http://hugo.spf13.com/" target="_blank">hugo</a></li>
+        </ul>
+    </div>
+</div>
+<script src="https://blog.nobugware.com/js/all.min.js"></script>
+        </div>
+    </div>
+</div>
+
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-1245966-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,431 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Objectivec &middot; Fabrice Aneche</title>
+
+    <meta name="description" content="">
+
+    <meta name="generator" content="Hugo 0.33" />
+    <meta name="twitter:card" content="summary">
+    
+    <meta name="twitter:title" content="Objectivec &middot; Fabrice Aneche">
+    <meta name="twitter:description" content="">
+
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Objectivec &middot; Fabrice Aneche">
+    <meta property="og:description" content="">
+
+    <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Oxygen:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/pure-min.css">
+    <!--[if lte IE 8]>
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-old-ie-min.css">
+    <![endif]-->
+    <!--[if gt IE 8]><!-->
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-min.css">
+    <!--<![endif]-->
+
+    <link rel="stylesheet" href="https://blog.nobugware.com/css/all.min.css">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <link rel="alternate" type="application/rss+xml" title="Fabrice Aneche" href="https://blog.nobugware.com/index.xml" />
+    <link href="https://blog.nobugware.com/css/prism.css" rel="stylesheet" />
+</head>
+<body>
+
+
+<div id="layout" class="pure-g">
+    <div class="sidebar pure-u-1 pure-u-md-1-4">
+    <div class="header">
+        <hgroup>
+            <h1 class="brand-title"><a href="https://blog.nobugware.com">Fabrice Aneche</a></h1>
+            <h2 class="brand-tagline"></h2>
+        </hgroup>
+
+        <nav class="nav">
+            <ul class="nav-list">
+                
+                <li class="nav-item">
+                    <a class="pure-button" href="http://www.nobugware.com"><i class="fa fa-building-o"></i> Hiring</a>
+                </li>
+                
+                
+                <li class="nav-item">
+                    <a class="pure-button" href="https://twitter.com/akhenakh"><i class="fa fa-twitter"></i> Twitter</a>
+                </li>
+                
+                
+                <li class="nav-item">
+                    <a class="pure-button" href="https://github.com/akhenakh "><i class="fa fa-github-alt"></i> github</a>
+                </li>
+                
+                <li class="nav-item">
+                    <a class="pure-button" href="https://blog.nobugware.com/index.xml"><i class="fa fa-rss"></i> rss</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+
+    <div class="content pure-u-1 pure-u-md-3-4">
+        <div>
+            
+            <div class="posts">
+                
+                <h1 class="content-subhead">11 Mar 2009, 22:44</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://blog.nobugware.com/post/2009/03/11/better-nslog/" class="post-title">A better NSLog</a>
+
+                        <p class="post-meta">
+                            
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        <p>When debugging, I often found that NSLog is really boring, here is an attempt
+to make it nicer:</p>
+
+<p>`</p>
+
+<pre><code>NSLog(@&quot;mycar: %@&quot;,myCar);
+NSLog(@&quot; I'M HERE &quot;);
+</code></pre>
+
+<p>`</p>
+
+<p>NSLog doesn&rsquo;t tell you where the call was made (which file or which method),
+so you end with a lot of:</p>
+
+<blockquote>
+<p>2009-03-11 22:30:53.789 ObjCTest[1565:10b] mycar: Porsche</p>
+
+<p>2009-03-11 22:30:53.791 ObjCTest[1565:10b] I&rsquo;M HERE</p>
+</blockquote>
+
+<p>A better NSLog could tell us:</p>
+
+<blockquote>
+<p>2009-03-11 22:32:25.823 ObjCTest[1581:10b] <strong>Car.m:32 -[Car init]</strong> I&rsquo;M HERE
+AND I KNOW WHERE I AM</p>
+</blockquote>
+
+<p>Now we have the sourcefile, the linenumber and the method of the call !!</p>
+
+<p>Another repeating action when debugging is just to look for the value of
+something (call the description method of an object)</p>
+
+<p>`</p>
+
+<pre><code>NSLog(myCar);
+NSLog(@&quot;%@&quot;,myCar);
+</code></pre>
+
+<p>`</p>
+
+<p>That will produce:</p>
+
+<blockquote>
+<p>2009-03-11 22:38:22.707 ObjCTest[1625:10b] Porsche</p>
+</blockquote>
+
+<p>Not really sexy, no filename, no name for that value &hellip; a better answer could
+be:</p>
+
+<blockquote>
+<p>2009-03-11 22:38:22.708 ObjCTest[1625:10b] <strong>Car.m:35 -[Car init] [myCar
+description] =</strong> Porsche</p>
+</blockquote>
+
+<p>To enable this &ldquo;better&rdquo; NSLog, in the Source folder of your Xcode you will
+find a file named YOURAPPNAME_Prefix.pch add the following code</p>
+
+<p>`</p>
+
+<pre><code>#include &lt;libgen.h&gt;
+#define ALog(format, ...) NSLog([NSString stringWithFormat:@&quot;%s:%d %s %@&quot;,basename(__FILE__),__LINE__,__FUNCTION__,format], ##__VA_ARGS__)
+#define ALogv(var) NSLog([NSString stringWithFormat:@&quot;%s:%d %s [&quot; # var &quot; description] = %@&quot;,basename(__FILE__),__LINE__,__FUNCTION__, var] )
+</code></pre>
+
+<p>`</p>
+
+<p>A much better solution is to associated it with a DEBUG define, and put
+&lsquo;-DDEBUG=1&rsquo; it in &ldquo;Other C Flags&rdquo; in Xcode Debug configuration, <a href="http://iphoneincubator.com/blog/debugging/how-to-create-conditional-log-
+statements-in-xcode">explained
+here</a>, it will remove all calls to ALog when buit for release.</p>
+
+<p>`</p>
+
+<pre><code>#ifdef DEBUG
+#include &lt;libgen.h&gt;
+#define ALog(format, ...) NSLog([NSString stringWithFormat:@&quot;%s:%d %s %@&quot;,basename(__FILE__),__LINE__,__FUNCTION__,format], ##__VA_ARGS__)
+#define ALogv(var) NSLog([NSString stringWithFormat:@&quot;%s:%d %s [&quot; # var &quot; description] = %@&quot;,basename(__FILE__),__LINE__,__FUNCTION__, var] )
+#else
+#define ALog(...) /* */
+#define ALogv(var) /* */
+#endif
+</code></pre>
+
+<p>`</p>
+
+<p>Then call ALog rather than NSLog and ALogv for the variable name and his
+value:</p>
+
+<p>`</p>
+
+<pre><code>  ALog(@&quot;mycar: %@&quot;, myCar);
+  ALogv(myCar);
+
+2009-03-11 22:38:22.706 ObjCTest[1625:10b] Car.m:33 -[Car init] mycar: Porsche
+2009-03-11 22:38:22.708 ObjCTest[1625:10b] Car.m:35 -[Car init] [myCar description] = Porsche
+</code></pre>
+
+<p>`</p>
+
+<p>Feel free to change the name of this functions.</p>
+
+<p>Bye Bye NSLog.</p>
+
+<p>EDIT: here is the update version I&rsquo;m using</p>
+
+<blockquote>
+<p>2009-07-31 12:22:46.070 WheelOfFate[30351:20b]
+[WheelBrowserViewController.m:26 initWithStyle:] myWheelStorage=<WheelStorage:
+0xd134a0></p>
+</blockquote>
+
+<p>What is this strange method ? In fact this is just
+[TheFileWhereTheMethodeWasCalled:TheLineNumberTheMethodWasCalled TheMethod],
+it sounds strange but it takes less space on debug console, warning sometimes
+where you define multiple class in same file it could fool you.</p>
+
+<p>Why DLog instead of ALog ? Just run xcode and type dl <Echap> you will see
+that there is no completion for DL letters &hellip;</p>
+
+<p>What is this new ALogm method (Log Method) ? Sometimes you just need to
+display &ldquo;the application has gone here&rdquo; without any others informations.</p>
+
+<p>`</p>
+
+<pre><code>#ifdef DEBUG
+#include &lt;libgen.h&gt;
+#define DLogm() NSLog([NSString stringWithFormat:@&quot;[%s:%d %@]&quot;,basename(__FILE__),__LINE__,NSStringFromSelector(_cmd)])
+#define DLog(format, ...) NSLog([NSString stringWithFormat:@&quot;[%s:%d %@] %@&quot;,basename(__FILE__),__LINE__,NSStringFromSelector(_cmd),format], ##__VA_ARGS__)
+#define DLogv(var) NSLog([NSString stringWithFormat:@&quot;[%s:%d %@] &quot;# var &quot;=%@&quot;,basename(__FILE__),__LINE__,NSStringFromSelector(_cmd), var] )
+#else
+#define DLog(...) /* */
+#define DLogv(var) /* */
+#define DLogm() /* */
+#endif
+</code></pre>
+
+<p>`</p>
+
+                    </div>
+                </section>
+                
+                <h1 class="content-subhead">22 Dec 2008, 14:42</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://blog.nobugware.com/post/2008/12/22/nsthread-iphone-template/" class="post-title">NSThread iPhone Template</a>
+
+                        <p class="post-meta">
+                            
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        <p>This is firstly a reminder for myself, here is a great example how to fire up
+a thread to perform long operation on iphone, without blocking reactivity.</p>
+
+<p><a href="http://www.stanford.edu/class/cs193p/cgi-bin/index.php">Stanford CS 193P iPhone application
+programming</a> is still
+the best place to find optimised example that works.</p>
+
+<p>All this examples was taken from this courses, see chap 10 &amp; 11 about
+TableView optimisation</p>
+
+<p>`</p>
+
+<pre><code>//  LetsMakeAThreadAppDelegate.m
+//  LetsMakeAThread
+//
+//  Created by Evan Doll on 10/27/08.
+
+#import &quot;LetsMakeAThreadAppDelegate.h&quot;
+
+@implementation LetsMakeAThreadAppDelegate
+
+@synthesize window;
+@synthesize spinner;
+@synthesize answerLabel;
+@synthesize button;
+
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
+    answerLabel.text = @&quot;&quot;;
+
+    // Override point for customization after application launch
+    [window makeKeyAndVisible];
+}
+
+- (IBAction)beginDeepThought:(id)sender
+{
+    [spinner startAnimating];
+    button.hidden = YES;
+
+    [NSThread detachNewThreadSelector:@selector(backgroundThinking) toTarget:self withObject:nil];
+}
+
+- (void)backgroundThinking
+{
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    [NSThread sleepForTimeInterval:5];
+    [self performSelectorOnMainThread:@selector(didFindAnswer:) withObject:@&quot;42&quot; waitUntilDone:NO];
+    [pool release];
+}
+
+- (void)didFindAnswer:(NSString *)answer
+{
+    [spinner stopAnimating];
+    answerLabel.text = answer;
+}
+
+- (void)dealloc {
+    [window release];
+    [spinner release];
+    [answerLabel release];
+    [button release];
+
+    [super dealloc];
+}
+
+@end
+</code></pre>
+
+<p>`</p>
+
+<p>By the way here is how to set a lock and how to implement a little cache for
+loaded pictures (cachedImages is a NSDictionary, ImageLoadingOperation a
+subclass of NSOperation)</p>
+
+<p>`</p>
+
+<pre><code>- (void)someMethod
+{
+        [myLock lock];
+        // We only want one thread executing this code at once
+        [myLock unlock]
+}
+
+- (UIImage *)cachedImageForURL:(NSURL *)url
+{
+    id cachedObject = [cachedImages objectForKey:url];
+    if (cachedObject == nil) {
+        // Set the loading placeholder in our cache dictionary.
+        [cachedImages setObject:LoadingPlaceholder forKey:url];
+
+        // Create and enqueue a new image loading operation
+        ImageLoadingOperation *operation = [[ImageLoadingOperation alloc] initWithImageURL:url target:self action:@selector(didFinishLoadingImageWithResult:)];
+        [operationQueue addOperation:operation];
+        [operation release];
+    } else if (![cachedObject isKindOfClass:[UIImage class]]) {
+        // We're already loading the image. Don't kick off another request.
+        cachedObject = nil;
+    }
+
+    return cachedObject;
+}
+
+- (void)didFinishLoadingImageWithResult:(NSDictionary *)result
+{
+    NSURL *url = [result objectForKey:@&quot;url&quot;];
+    UIImage *image = [result objectForKey:@&quot;image&quot;];
+
+    // Store the image in our cache.
+    // One way to enhance this application further would be to purge images that haven't been used lately,
+    // or to purge aggressively in response to a memory warning.
+    [cachedImages setObject:image forKey:url];
+
+    [self.tableView reloadData];
+}
+</code></pre>
+
+<p>`</p>
+
+<p>As you can see @selector can send only one object, here is a quick tips: just
+put all your objects into a NSArray or NSDict then send it back with
+withObject:.</p>
+
+<p>`</p>
+
+<pre><code>// Package it up to send back to our target.
+NSDictionary *result = [NSDictionary dictionaryWithObjectsAndKeys:image, ImageResultKey, imageURL, URLResultKey, nil];
+[target performSelectorOnMainThread:action withObject:result waitUntilDone:NO];
+</code></pre>
+
+<p>`</p>
+
+                    </div>
+                </section>
+                
+                <h1 class="content-subhead">04 Dec 2008, 09:17</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://blog.nobugware.com/post/2008/12/04/apprendre-coder-pour-liphone-avec-luniversite-de-stanford/" class="post-title">Apprendre à coder pour l&#39;iphone avec l&#39;universite de Stanford</a>
+
+                        <p class="post-meta">
+                            
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        <p>Tous les cours, tous les slides, tous les exemples en lignes, sont forts ces
+<a href="http://www.stanford.edu/">californiens</a>.</p>
+
+<p><a href="http://www.stanford.edu/class/cs193p/cgi-
+bin/index.php">le cours Iphone development</a> ainsi que le cours sur
+<a href="http://www.stanford.edu/class/cs193e/">cocoa</a>:
+[](<a href="http://www.stanford.edu/class/cs193e/">http://www.stanford.edu/class/cs193e/</a>)</p>
+
+<p>Je vous remet mon article sur <a href="https://blog.nobugware.com/post/2008/10/20/iphone-
+sdk-exemple-de-code-et-documentation">apprendre objective C</a>.</p>
+
+                    </div>
+                </section>
+                
+            </div>
+            
+
+            <div class="footer">
+    <div class="pure-menu pure-menu-horizontal pure-menu-open">
+        <ul>
+            <li>Powered by <a class="hugo" href="http://hugo.spf13.com/" target="_blank">hugo</a></li>
+        </ul>
+    </div>
+</div>
+<script src="https://blog.nobugware.com/js/all.min.js"></script>
+        </div>
+    </div>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-1245966-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+
+</body>
+</html>

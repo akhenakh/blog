@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Mac on Fabrice Aneche</title>
+    <link>https://blog.nobugware.com/tags/mac/</link>
+    <description>Recent content in Mac on Fabrice Aneche</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 31 Aug 2011 15:40:52 -0400</lastBuildDate>
+    
+	<atom:link href="https://blog.nobugware.com/tags/mac/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Gimp 2.7.3 on OSX</title>
+      <link>https://blog.nobugware.com/post/2011/08/31/gimp-273-osx/</link>
+      <pubDate>Wed, 31 Aug 2011 15:40:52 -0400</pubDate>
+      
+      <guid>https://blog.nobugware.com/post/2011/08/31/gimp-273-osx/</guid>
+      <description>Gimp 2.7.3 has been released but no one ports it to OSX already here is an ugly working way.
+EDIT: The macport is now up to date so no need to do this anymore !
+It needs a lot of dependencies, get it via macports:
+run port sync
+Edit /opt/local/var/macports/sources/rsync.macports.org/release/ports/graphics /gegl/Portfile
+Change version to 0.1.6 and master_sites
+ version 0.1.6
+ master_sites ftp://ftp.gimp.org/pub/gegl/0.1/
+remove the path line about atch-gegl-buffer-gegl-buffer.c
+Edit /opt/local/var/macports/sources/rsync.</description>
+    </item>
+    
+  </channel>
+</rss>

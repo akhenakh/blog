@@ -1,0 +1,845 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fabrice Aneche &middot; Fabrice Aneche</title>
+
+    <meta name="description" content="">
+
+    <meta name="generator" content="Hugo 0.33" />
+    <meta name="twitter:card" content="summary">
+    
+    <meta name="twitter:title" content="Fabrice Aneche &middot; Fabrice Aneche">
+    <meta name="twitter:description" content="">
+
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Fabrice Aneche &middot; Fabrice Aneche">
+    <meta property="og:description" content="">
+
+    <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Oxygen:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/pure-min.css">
+    <!--[if lte IE 8]>
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-old-ie-min.css">
+    <![endif]-->
+    <!--[if gt IE 8]><!-->
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-min.css">
+    <!--<![endif]-->
+
+    <link rel="stylesheet" href="https://blog.nobugware.com/css/all.min.css">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <link rel="alternate" type="application/rss+xml" title="Fabrice Aneche" href="https://blog.nobugware.com/index.xml" />
+    <link href="https://blog.nobugware.com/css/prism.css" rel="stylesheet" />
+</head>
+<body>
+
+
+<div id="layout" class="pure-g">
+    <div class="sidebar pure-u-1 pure-u-md-1-4">
+    <div class="header">
+        <hgroup>
+            <h1 class="brand-title"><a href="https://blog.nobugware.com">Fabrice Aneche</a></h1>
+            <h2 class="brand-tagline"></h2>
+        </hgroup>
+
+        <nav class="nav">
+            <ul class="nav-list">
+                
+                <li class="nav-item">
+                    <a class="pure-button" href="http://www.nobugware.com"><i class="fa fa-building-o"></i> Hiring</a>
+                </li>
+                
+                
+                <li class="nav-item">
+                    <a class="pure-button" href="https://twitter.com/akhenakh"><i class="fa fa-twitter"></i> Twitter</a>
+                </li>
+                
+                
+                <li class="nav-item">
+                    <a class="pure-button" href="https://github.com/akhenakh "><i class="fa fa-github-alt"></i> github</a>
+                </li>
+                
+                <li class="nav-item">
+                    <a class="pure-button" href="https://blog.nobugware.com/index.xml"><i class="fa fa-rss"></i> rss</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+
+    <div class="content pure-u-1 pure-u-md-3-4">
+        <div>
+            
+            <div class="posts">
+                
+                <h1 class="content-subhead">09 Feb 2009, 14:51</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://blog.nobugware.com/post/2009/02/09/late-un-nouveau-scheduler-mapreduce/" class="post-title">LATE : un nouveau scheduler MapReduce</a>
+
+                        <p class="post-meta">
+                            
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        <p><a href="http://www.use
+nix.com/events/osdi08/tech/full_papers/zaharia/zaharia_html/index.html">Improving MapReduce Performance in Heterogeneous Environments</a></p>
+
+<blockquote>
+<p>&rdquo; MapReduce is emerging as an important programming model for large-scale
+data-parallel applications such as web indexing, data mining, and scientific
+simulation. Hadoop is an open-source implementation of MapReduce enjoying wide
+adoption and is often used for short jobs where low response time is critical.
+Hadoop&rsquo;s performance is closely tied to its task scheduler, which implicitly
+assumes that cluster nodes are homogeneous and tasks make progress linearly,
+and uses these assumptions to decide when to speculatively re-execute tasks
+that appear to be stragglers. In practice, the homogeneity assumptions do not
+always hold. An especially compelling setting where this occurs is a
+virtualized data center, such as Amazon&rsquo;s Elastic Compute Cloud (EC2). We show
+that Hadoop&rsquo;s scheduler can cause severe performance degradation in
+heterogeneous environments. We design a new scheduling algorithm, Longest
+Approximate Time to End (LATE), that is highly robust to heterogeneity. LATE
+can improve Hadoop response times by a factor of 2 in clusters of 200 virtual
+machines on EC2.&rdquo;</p>
+</blockquote>
+
+                    </div>
+                </section>
+                
+                <h1 class="content-subhead">27 Jan 2009, 20:34</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://blog.nobugware.com/post/2009/01/27/xcode-raccourcis-important/" class="post-title">Xcode raccourcis important</a>
+
+                        <p class="post-meta">
+                            
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        <ul>
+<li><p>Pour changer le nom MyCompanyName dans votre source code:<code>
+defaults write com.apple.Xcode PBXCustomTemplateMacroDefinitions
+'{ORGANIZATIONNAME = &quot;Nobugware&quot;; }'</code></p>
+
+<ul>
+<li>⌘[ et ⌘] pour indenter a droite ou a gauche</li>
+<li>⌃/ pour passer d&rsquo;un champ a l&rsquo;autre quand xcode vous propose la completion d&rsquo;une methode avec plusieurs arguments (⌃⇧/ clavier fr)</li>
+<li>⌥⌘↑ (alt shift curseur haut) passe du fichier .m au .h</li>
+<li>⌘⇧D Open Quickly, permet d&rsquo;ouvrir un popup de rechercher pour ouvrir rapidement un fichier</li>
+<li>⌘d ajouter un bookmark</li>
+<li>^⌘? ouvre Research assistant, une petite fenetre geniale qui vous affiche des aides en fonction du mot sous votre curseur</li>
+<li>⌘↵ Compile and Run, ⌘y compile and debug, ⌘⇧y affiche le debugger</li>
+<li>⌃⌘S faire un snapshot du code</li>
+<li>⌃⇧1 pour acceder a la liste des fichiers ouverts</li>
+<li>⌃⇧2 pour acceder a la liste des fonctions/methods/symbols du fichier en cours</li>
+<li>⌘/ comment, uncomment
+
+<br /></li>
+</ul></li>
+</ul>
+
+<p>⌃ = ctrl</p>
+
+                    </div>
+                </section>
+                
+                <h1 class="content-subhead">05 Jan 2009, 10:04</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://blog.nobugware.com/post/2009/01/05/happy-new-year/" class="post-title">Happy new year</a>
+
+                        <p class="post-meta">
+                            
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        <p>新年快乐 كل عام وأنتم بخير שנה טובה</p>
+
+<p>Un moyen comme un autre de tester l&rsquo;utf8 ;)</p>
+
+                    </div>
+                </section>
+                
+                <h1 class="content-subhead">22 Dec 2008, 14:42</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://blog.nobugware.com/post/2008/12/22/nsthread-iphone-template/" class="post-title">NSThread iPhone Template</a>
+
+                        <p class="post-meta">
+                            
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        <p>This is firstly a reminder for myself, here is a great example how to fire up
+a thread to perform long operation on iphone, without blocking reactivity.</p>
+
+<p><a href="http://www.stanford.edu/class/cs193p/cgi-bin/index.php">Stanford CS 193P iPhone application
+programming</a> is still
+the best place to find optimised example that works.</p>
+
+<p>All this examples was taken from this courses, see chap 10 &amp; 11 about
+TableView optimisation</p>
+
+<p>`</p>
+
+<pre><code>//  LetsMakeAThreadAppDelegate.m
+//  LetsMakeAThread
+//
+//  Created by Evan Doll on 10/27/08.
+
+#import &quot;LetsMakeAThreadAppDelegate.h&quot;
+
+@implementation LetsMakeAThreadAppDelegate
+
+@synthesize window;
+@synthesize spinner;
+@synthesize answerLabel;
+@synthesize button;
+
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
+    answerLabel.text = @&quot;&quot;;
+
+    // Override point for customization after application launch
+    [window makeKeyAndVisible];
+}
+
+- (IBAction)beginDeepThought:(id)sender
+{
+    [spinner startAnimating];
+    button.hidden = YES;
+
+    [NSThread detachNewThreadSelector:@selector(backgroundThinking) toTarget:self withObject:nil];
+}
+
+- (void)backgroundThinking
+{
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    [NSThread sleepForTimeInterval:5];
+    [self performSelectorOnMainThread:@selector(didFindAnswer:) withObject:@&quot;42&quot; waitUntilDone:NO];
+    [pool release];
+}
+
+- (void)didFindAnswer:(NSString *)answer
+{
+    [spinner stopAnimating];
+    answerLabel.text = answer;
+}
+
+- (void)dealloc {
+    [window release];
+    [spinner release];
+    [answerLabel release];
+    [button release];
+
+    [super dealloc];
+}
+
+@end
+</code></pre>
+
+<p>`</p>
+
+<p>By the way here is how to set a lock and how to implement a little cache for
+loaded pictures (cachedImages is a NSDictionary, ImageLoadingOperation a
+subclass of NSOperation)</p>
+
+<p>`</p>
+
+<pre><code>- (void)someMethod
+{
+        [myLock lock];
+        // We only want one thread executing this code at once
+        [myLock unlock]
+}
+
+- (UIImage *)cachedImageForURL:(NSURL *)url
+{
+    id cachedObject = [cachedImages objectForKey:url];
+    if (cachedObject == nil) {
+        // Set the loading placeholder in our cache dictionary.
+        [cachedImages setObject:LoadingPlaceholder forKey:url];
+
+        // Create and enqueue a new image loading operation
+        ImageLoadingOperation *operation = [[ImageLoadingOperation alloc] initWithImageURL:url target:self action:@selector(didFinishLoadingImageWithResult:)];
+        [operationQueue addOperation:operation];
+        [operation release];
+    } else if (![cachedObject isKindOfClass:[UIImage class]]) {
+        // We're already loading the image. Don't kick off another request.
+        cachedObject = nil;
+    }
+
+    return cachedObject;
+}
+
+- (void)didFinishLoadingImageWithResult:(NSDictionary *)result
+{
+    NSURL *url = [result objectForKey:@&quot;url&quot;];
+    UIImage *image = [result objectForKey:@&quot;image&quot;];
+
+    // Store the image in our cache.
+    // One way to enhance this application further would be to purge images that haven't been used lately,
+    // or to purge aggressively in response to a memory warning.
+    [cachedImages setObject:image forKey:url];
+
+    [self.tableView reloadData];
+}
+</code></pre>
+
+<p>`</p>
+
+<p>As you can see @selector can send only one object, here is a quick tips: just
+put all your objects into a NSArray or NSDict then send it back with
+withObject:.</p>
+
+<p>`</p>
+
+<pre><code>// Package it up to send back to our target.
+NSDictionary *result = [NSDictionary dictionaryWithObjectsAndKeys:image, ImageResultKey, imageURL, URLResultKey, nil];
+[target performSelectorOnMainThread:action withObject:result waitUntilDone:NO];
+</code></pre>
+
+<p>`</p>
+
+                    </div>
+                </section>
+                
+                <h1 class="content-subhead">16 Dec 2008, 21:25</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://blog.nobugware.com/post/2008/12/16/un-peu-de-statistiques/" class="post-title">Un peu de statistiques</a>
+
+                        <p class="post-meta">
+                            
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        <p>Comment lisez vous ce blog ?</p>
+
+<p>Pour le feed RSS:</p>
+
+<ul>
+<li>18 29 a lire ce blog dans Google Reader</li>
+<li>2 dans Bloglines</li>
+<li>5 a lire le RSS via un browser</li>
+</ul>
+
+<p>Pour le site web sur un an 30 410 visites, soit une centaine de visite par
+jour, 80% des lecteurs ne viennent qu&rsquo;une fois.</p>
+
+<p>Un page rank de 3: 75% du traffic pour le site web vient de Google.</p>
+
+<ul>
+<li>20% etant en rapport avec les mots clefs symbian ou s60</li>
+<li>4 % avec PS3</li>
+<li>2 % avec Django</li>
+</ul>
+
+<p>Ce qui ne reflete pas du tout le contenu de ce site <a href="https://blog.nobugware.com/tags">(voir nuage de
+tag)</a></p>
+
+<p>Un taux de rebond de 75% donc les gens ne sont pas acheminer au bon endroit ou
+le contenu est nul</p>
+
+<p>Geographiquement:</p>
+
+<ul>
+<li>La France represente 50% du traffic</li>
+<li>les US 12%</li>
+<li>l&rsquo;Algerie 3.72%</li>
+<li>la Belgique 3.28%</li>
+<li>UK 2.53%</li>
+<li>le Maroc 2.50%</li>
+<li>le Canada 2.35%</li>
+</ul>
+
+<p><img src="https://blog.nobugware.com/public/statsdjango.jpg" alt="" /></p>
+
+<p>Sur cette image l&rsquo;effet <a href="https://blog.nobugware.com/post/2008/02/19/Usefull-tips-
+to-start-a-new-project-with-Django">un article sur Django</a> qui a engendre 2000 visites en deux jours
+(venant essentiellement de reddit et dzone), le seul article que j&rsquo;ai annonce
+dans qqs sites techniques.</p>
+
+<p>Conclusion:</p>
+
+<ul>
+<li>Pour un site qui me sert a la base de bookmark, je suis assez content de cette audience :)</li>
+<li>Sans travailler le referencement vous meme, les sujets principaux de votre site ne sont pas correctement exposes</li>
+<li>Google est une sombre merde incapable d&rsquo;acheminer correctement des lecteurs vers l&rsquo;information: un article sur Django est tres lu des lors que je l&rsquo;expose mais d&rsquo;autres articles sur le meme sujet ne sont pas vu (malgre un sitemap en place depuis bien longtemps)</li>
+<li>Le contenant est bien plus important que le contenu, le net ressemble de plus en plus a la tele</li>
+</ul>
+
+<p>Google fonctionne tres mal, peu importe le contenu de votre site, etre lu est
+un travail non pas de redaction mais de bidouillages Google &trade;.</p>
+
+<p>Merci a tous et bonjour le Maghreb :)</p>
+
+                    </div>
+                </section>
+                
+                <h1 class="content-subhead">14 Dec 2008, 19:29</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://blog.nobugware.com/post/2008/12/14/les-applications-essentielles-pour-mac/" class="post-title">Les applications essentielles pour Mac</a>
+
+                        <p class="post-meta">
+                            
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        <p>Voici la liste des applications indispensables pour votre Mac, la plupart sont
+gratuites, les applications payantes sont signalées par €€€.</p>
+
+<p>Nouvelle liste !</p>
+
+<p>Après une installation ou une réinstallation de votre Mac, vous trouverez
+cette liste peut être aussi utile que moi.</p>
+
+<p><a href="http://www.mozilla-europe.org/fr/firefox/">Firefox</a> Le browser web libre et
+gratuit</p>
+
+<p><a href="http://fr.openoffice.org/">OpenOffice 3</a> Enfin une alternative viable et
+gratuite à Microsoft Office, associé aux
+<a href="http://extensions.services.openoffice.org/taxonomy/term/36">templates</a></p>
+
+<p><a href="http://www.videolan.org/vlc/">VLC</a> Le player vidéo multiformat</p>
+
+<p><a href="http://www.microsoft.com/windows/wind
+owsmedia/player/wmcomponents.mspx">Windows Media Components for QuickTime</a> Les CODECS windows media pour permettre la
+lecture dans Quicktime</p>
+
+<p><a href="http://www.divx.com/divx/mac/">DIVX</a> Les CODECS DivX pour permettre la
+lecture dans Quicktime</p>
+
+<p><a href="http://www.perian.org/">Perian</a> Un composant Quicktime qui permet la lecture
+de tous les formats, AVI, MKV &hellip; dans quicktime, permet aussi la lecture dans
+FrontRow (le menu via la télécommande)</p>
+
+<p><a href="http://www.adiumx.com">AdiumX</a> Le logiciel me messagerie instanté multi
+comptes: AIM, MSN, ICQ, Yahoo, Facebook &hellip;</p>
+
+<p><a href="http://www.skype.com/intl/fr/download/skype/macosx/">Skype</a> Téléphoner par
+internet</p>
+
+<p><a href="http://colloquy.info/">Colloquy</a> Un client IRC</p>
+
+<p><a href="http://counterpath.com/x-lite.html">Xlite</a> Un client SIP pour téléphoner via
+votre ordinateur, avec par exemple une ligne freephonie</p>
+
+<p><a href="http://ksuther.com/chax/">Chax</a> Un plugin Ichat, qui permet de le configurer
+plus finement</p>
+
+<p><a href="http://www.amsn-project.net/">AMSN</a> Un client MSN qui supporte la vidéo, les
+wizzs et autres saletés du protocole MSN parfois nécessaire &hellip;</p>
+
+<p><a href="http://burn-osx.sourceforge.net/">Burn</a> Un logiciel de gravure CD, DVD</p>
+
+<p><a href="http://wakaba.c3.cx/s/apps/unarchiver.html">The Unarchiver</a> Le décompacteur
+de fichier multiformats, ZIP, RAR, 7z &hellip;</p>
+
+<p><a href="http://www.corecode.at/smartreporter/">SmartReporter</a> Vous informe, dans la
+barre Mac Os, de l&rsquo;état de vos disques durs en lisant les informations SMART
+(peut éviter une catastrophe)</p>
+
+<p><a href="http://earth.google.fr/">Google Earth</a> La terre et les étoiles en 3D, le
+logiciel géographique de Google</p>
+
+<p><a href="http://toolbar.google.com/gmail-helper/notifier_mac.html">Gmail notifier</a>
+Vous informe quand vous recevez un mail sur votre boite Gmail</p>
+
+<p><a href="http://mail.google.com/videochat">Google Videochat</a> La video et le son dans
+Gmail, (traverse bien les firewalls)</p>
+
+<p><a href="http://growl.info/">Growl</a> est un systeme de notification par popup qui
+fonctionne avec une centaine applications: Mail , iTunes, adiumx &hellip;</p>
+
+<p><a href="http://www.lastfm.fr/download">Last.fm</a> le client Last.fm, qui analyse la
+musique que vous écoutez et vous propose de la musique en rapport avec vos
+gouts</p>
+
+<p><a href="http://www.mozilla-europe.org/fr/products/thunderbird/">Thunderbird</a> si vous
+n&rsquo;appréciez pas Mail, un client mail développé par la Mozilla Fondation
+(éditeur de Firefox), supporte des plugins comme
+<a href="https://addons.mozilla.org/fr/thunderbird/addon/71">Enigmail</a> qui permet de
+crypter/decrypter vos mails PGP/GPG</p>
+
+<p><a href="http://www.islayer.com/apps/istatmenus/">Istats Menu</a> Température de votre
+ordinateur, mémoire utilisée &hellip; tout cela indiqué dans la barre Mac Os</p>
+
+<p><a href="http://metaquark.de/appfresh/">Appfresh</a> Un outil pour mettre à jour tous les
+logiciels de cette page automatiquement</p>
+
+<p><a href="http://www.virtualbox.org/">Virtualbox</a> Windows, linux, FreeBSD dans votre
+mac, gratuitement, un concurrent sérieux à Vmware, rapide et très stable</p>
+
+<p><a href="http://gimp.lisanet.de/Website/Overview.html">Gimp</a> Une alternative gratuite
+à Photoshop</p>
+
+<p><a href="http://audacity.sourceforge.net/">Audacity</a> Un éditeur de son, permet
+l&rsquo;export en MP3 via un plugin lui aussi gratuit</p>
+
+<p><a href="http://www.adobe.com/products/photoshop/cameraraw.html">Adobe DNG converter et
+Cameraw</a> Pour
+convertir le format RAW de votre appareil photo en DNG lisible par photoshop,
+comme le LX3 par exemple</p>
+
+<p><a href="http://sarwat.net/bittorrent/">Tomato Torrent</a> Petit client bittorrent simple
+et efficace, pour les gros utilisateurs le fabuleux
+<a href="http://www.utorrent.com/">Utorrent</a> enfin sur Mac.</p>
+
+<p><a href="http://www.omnigroup.com/applications/omnifocus/">OmniFocus</a> €€€ gestionnaire
+de tache multifoncion, je ne sais plus rien faire sans lui</p>
+
+<p><a href="http://chmox.sourceforge.net/">Chmox</a> Pour lires les docs en .CHM</p>
+
+<p><a href="http://www.hanynet.com/waterroof/">Waterroof</a> Gére le firewall de Mac OS X
+(ipfw) pour les experts</p>
+
+<p><a href="http://code.google.com/p/macfuse/">Macfuse</a> Est un procédé qui permet de voir
+des fichiers et répertoires virtuels, par exemple un filsystem distant ssh
+comme étant local à votre mac, cela permet aussi de lire et écrire du ntfs sur
+votre mac via <a href="http://macntfs-3g.blogspot.com/">NTFS-3G</a>.</p>
+
+<p><a href="http://www.skitch.com">Skitch</a> Est un logiciel de capture d&rsquo;image très simple
+et qui permet de facilement de partager ces captures sur le net</p>
+
+<p><a href="http://www.getdropbox.com">Dropbox</a> Un système d&rsquo;échange de fichier
+privée/publique par le web avec une application native, vous permettant de
+partager très facilement des fichiers</p>
+
+<p><a href="http://pixelpipe.com">Pixelpipe</a> De multiples plugins pour iPhoto, lightroom
+&hellip; qui vous permettront d&rsquo;envoyer vos images sur plusieurs réseaux sociaux et
+autres systèmes de galerie comme Facebook, Flickr, Picasa &hellip;</p>
+
+<p><a href="http://code.google.com/p/qsb-mac/">Google Quick Search</a> Un remplaçant simple
+du laborieux spotlight, vous permet de lancer vos applications, de trouver un
+contact ou de faire une recherche sur Google, ressemble en beaucoup plus
+simple à <a href="http://guides.macrumors.com/Quicksilver">Quicksilver</a> projet génial
+mais qui semble abandonné</p>
+
+<p><strong>Pour l&rsquo;Unixien:</strong></p>
+
+<p><a href="http://iterm.sourceforge.net/">iTerm</a> Le remplacant de terminal</p>
+
+<p><a href="http://xquartz.macosforge.org/trac/wiki">X11 mise à jour</a> Le package X11 est
+fournit dans le CD d&rsquo;installation Mac OsX mais c&rsquo;est une vieille version, &gt;
+2.3.2 est recommandé pour Gimp par exemple</p>
+
+<p>voir macports plus bas</p>
+
+<p><strong>Pour le développeur:</strong></p>
+
+<p>Extensions pour <a href="http://www.mozilla-europe.org/fr/firefox/">Firefox</a>
+<a href="http://getfirebug.com/">Firebug</a> et <a href="https://addons.mozilla.org/fr/firefox/addon/60">Web
+Developper</a> pour le
+développeur Web</p>
+
+<p><a href="http://developer.apple.com/">Xcode</a> L&rsquo;outil de développement Apple, un IDE,
+gcc sauce apple, même si vous ne développez pas , il est utile pour compiler
+des programmes, via macports par exemple.</p>
+
+<p><a href="http://www.netbeans.org/">Netbeans</a> L&rsquo;éditeur Java, mais aussi Python, Ruby,
+C/C++, Android &hellip; (N&rsquo;oubliez pas d&rsquo;activer Java 6 dans
+Applications/Utilitaires/Java)</p>
+
+<p><a href="http://www.syntevo.com/smartsvn/">SmartSVN</a> Un front end SVN pour gérer votre
+repository</p>
+
+<p><a href="http://www.pgadmin.org/download/macosx.php">PgAdmin</a> Un logiciel
+d&rsquo;administration de votre base Postgresql, permet aussi de voir et modifier
+vos données</p>
+
+<p><a href="http://macromates.com/">TextMate</a> €€€ Un éditeur texte multifonction,
+alternative en gratuit:<a href="http://www.jedit.org/">Jedit</a> ou
+<a href="http://www.barebones.com/products/textwrangler/index.html">TextWrangler</a></p>
+
+<p><a href="http://www.panic.com/transmit/">Transmit</a> €€€ Client FTP/SFTP vous pouvez lui
+préférer <a href="http://cyberduck.ch/">Cyberduck</a> Un client FTP, pour télécharger des
+fichiers, gratuit</p>
+
+<p><a href="http://www.titanium.free.fr/">Onyx</a> Un outil de personnalisation de Mac Os X,
+qui donne notamment accès à des paramètres cachés, pour l&rsquo;utilisateur expert</p>
+
+<p><a href="http://www.panic.com/~wade/picker/">Developper Color Picker</a> Un outil de
+sélection de couleur pour le développeur Cocoa et Web</p>
+
+<p><a href="http://www.macports.org/">Macports</a> le gestionnaire de paquet pour logiciel
+opensource, apache, php, python, le monde opensource linux dans votre mac</p>
+
+<p>Tips Django deps, ffmpeg, nmap, mtr, mediatomb:</p>
+
+<p>`</p>
+
+<pre><code>/opt/local/bin/port sync
+/opt/local/bin/port install gnupg py26-simplejson py26-pil py26-markdown py26-docutils py26-ipython py26-pygments  bash-completion keychain nmap mtr
+port install ffmpeg +gpl +lame +x264 +xvid +a52 +mmx +theora +faac +faad
+port install mediatomb
+</code></pre>
+
+<p>`</p>
+
+<p><em>Mise a jour Aout 2009</em></p>
+
+                    </div>
+                </section>
+                
+                <h1 class="content-subhead">04 Dec 2008, 10:08</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://blog.nobugware.com/post/2008/12/04/python-30-out/" class="post-title">Python 3.0 is out</a>
+
+                        <p class="post-meta">
+                            
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        <p>Python 3.0 is here.</p>
+
+<p>Guido and others released Python 3.0, a major &ldquo;backward&rdquo; incompatible python
+release.</p>
+
+<p>It was a necessary choice to remove many old libraries, rework the std
+library, and change some behaviour.</p>
+
+<p>You can see it all in <a href="http://docs.python.org/dev/3.0/whatsnew/3.0.html">What&rsquo;s new in Python
+3.0</a>.</p>
+
+<ul>
+<li><p>The most visible change is maybe the print statement, print is now a function:</p>
+
+<p>print &ldquo;toto&rdquo;</p></li>
+</ul>
+
+<p>becomes</p>
+
+<pre><code>print(&quot;toto&quot;)
+</code></pre>
+
+<ul>
+<li><p><a href="http://docs.python.org/dev/3.0/whatsnew/2.6.html#pep-3101">The % operator whis is supplented by the format() method:</a></p>
+
+<p>old: &ldquo;Name: %s&rdquo; % &ldquo;john&rdquo;<br />
+new: &ldquo;Name: {0}&ldquo;.format(&ldquo;john&rdquo;)<br />
+old: &ldquo;Names: %s %s&rdquo; % (&ldquo;John&rdquo;,&ldquo;Paul&rdquo;)<br />
+new: &ldquo;Names: {1} {0}&ldquo;.format(&ldquo;Paul&rdquo;,&ldquo;John&rdquo;)<br />
+new named: &ldquo;Names: {first_name} {family_name}&ldquo;.format(family_name=&ldquo;Dububu&rdquo;, first_name=&ldquo;Jacky&rdquo;)</p></li>
+
+<li><p>And<a href="http://docs.python.org/dev/3.0/whatsnew/2.6.html#pep-3116"> the new IO library, which become the standard one</a></p></li>
+</ul>
+
+<p>A <a href="http://docs.python.org/dev/3.0/library/2to3.html#to3-reference">2to3 migration module
+</a>could help
+you for this transition.</p>
+
+                    </div>
+                </section>
+                
+                <h1 class="content-subhead">04 Dec 2008, 09:17</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://blog.nobugware.com/post/2008/12/04/apprendre-coder-pour-liphone-avec-luniversite-de-stanford/" class="post-title">Apprendre à coder pour l&#39;iphone avec l&#39;universite de Stanford</a>
+
+                        <p class="post-meta">
+                            
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        <p>Tous les cours, tous les slides, tous les exemples en lignes, sont forts ces
+<a href="http://www.stanford.edu/">californiens</a>.</p>
+
+<p><a href="http://www.stanford.edu/class/cs193p/cgi-
+bin/index.php">le cours Iphone development</a> ainsi que le cours sur
+<a href="http://www.stanford.edu/class/cs193e/">cocoa</a>:
+[](<a href="http://www.stanford.edu/class/cs193e/">http://www.stanford.edu/class/cs193e/</a>)</p>
+
+<p>Je vous remet mon article sur <a href="https://blog.nobugware.com/post/2008/10/20/iphone-
+sdk-exemple-de-code-et-documentation">apprendre objective C</a>.</p>
+
+                    </div>
+                </section>
+                
+                <h1 class="content-subhead">03 Dec 2008, 10:32</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://blog.nobugware.com/post/2008/12/03/gentoo-bref-recap-des-commandes-de-gestion-de-paquets/" class="post-title">Gentoo bref récap des commandes de gestion de paquets</a>
+
+                        <p class="post-meta">
+                            
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        <p>Avant toute chose installer l&rsquo;outil gentoolkit</p>
+
+<p><code>emerge -av gentoolkit</code></p>
+
+<p>Ces nouvelles commandes vont vous permettre de:</p>
+
+<p>A quel port appartient un binaire:</p>
+
+<pre><code> equery belongs cjpeg
+ [ Searching for file(s) cjpeg in *... ] 
+media-libs/jpeg-6b-r8 (/usr/bin/cjpeg) 
+</code></pre>
+
+<p>Quels sont les dependances d&rsquo;un port:</p>
+
+<pre><code>equery depends gd
+[ Searching for packages depending on gd... ]
+dev-lang/php-5.2.6-r7 (gd-external? media-libs/gd)
+</code></pre>
+
+<p>Quels sont les fichiers installes par un package:</p>
+
+<pre><code> equery files less
+[ Searching for packages matching less... ]
+* Contents of sys-apps/less-418:
+/etc
+/etc/env.d
+/etc/env.d/70less
+/usr
+/usr/bin
+/usr/bin/code2color
+/usr/bin/less
+/usr/bin/lessecho
+/usr/bin/lesskey
+/usr/bin/lesspipe.sh
+/usr/share
+/usr/share/doc
+/usr/share/doc/less-418
+/usr/share/doc/less-418/NEWS.bz2
+/usr/share/doc/less-418/README.Gentoo.bz2
+/usr/share/doc/less-418/README.bz2
+/usr/share/man
+/usr/share/man/man1
+/usr/share/man/man1/less.1.bz2
+/usr/share/man/man1/lessecho.1.bz2
+/usr/share/man/man1/lesskey.1.bz2
+</code></pre>
+
+<p>Mettre a jour vos machines en s&rsquo;assurant que tous les USE soient respectes, si
+vous changez une variable USE en ajoutant mysql par exemple, il est en theorie
+necessaire de recompiler tous les packages qui peuvent avoir ce use flag, puis
+enlever le &ndash;pretent</p>
+
+<p><code>emerge --update --deep --newuse world --pretend</code></p>
+
+<p>Verifier que chaque binaire reference une librairie encore existante sur votre
+syseme:</p>
+
+<p>Apres une mise a jour il se peut par exemple que la libgdbm ai change de
+revision majeure libgdbm.so.3, un binaire linke a cette librairie en
+libgdbm.so.2 ne fonctionnera plus, c&rsquo;est le role de <em>revdep-rebuild</em> de
+retrouver quels binaires doivent etre recompile.</p>
+
+<p>Enlever les versions obsoletes d&rsquo;un package:</p>
+
+<p><code>emerge --prune gentoo-sources</code></p>
+
+                    </div>
+                </section>
+                
+                <h1 class="content-subhead">03 Dec 2008, 10:25</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://blog.nobugware.com/post/2008/12/03/probleme-daffichage-avec-man/" class="post-title">Probleme d&#39;affichage avec man</a>
+
+                        <p class="post-meta">
+                            
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        <p>Parfois sous linux, souvent sur gentoo les man affichent des caracteres comme
+ceux ci:</p>
+
+<p>LESS(1) LESS(1)</p>
+
+<p>ESC[1mNAMEESC[0m</p>
+
+<p>less - opposite of more</p>
+
+<p>ESC[1mSYNOPSISESC[0m</p>
+
+<p>ESC[1mless -?ESC[0m</p>
+
+<p>ESC[1mless &ndash;helpESC[0m</p>
+
+<p>La solution la plus simple consiste a changer la variable PAGER de votre
+environnement:</p>
+
+<p><code>export PAGER=&quot;less -r&quot;</code></p>
+
+                    </div>
+                </section>
+                
+            </div>
+            
+<div class="pagination">
+  <nav role="pagination" class="post-list-pagination">
+      
+      <a href="https://blog.nobugware.com/page/7/" class="post-list-pagination-item pure-button post-list-pagination-item-prev">
+        <i class="fa fa-angle-double-left"></i>&nbsp;Newer
+      </a>
+      
+    <span class="post-list-pagination-item post-list-pagination-item-current">Page 8 of 8</span>
+    
+  </nav>
+</div>
+
+
+            <div class="footer">
+    <div class="pure-menu pure-menu-horizontal pure-menu-open">
+        <ul>
+            <li>Powered by <a class="hugo" href="http://hugo.spf13.com/" target="_blank">hugo</a></li>
+        </ul>
+    </div>
+</div>
+<script src="https://blog.nobugware.com/js/all.min.js"></script>
+        </div>
+    </div>
+</div>
+
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-1245966-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+
+</body>
+</html>

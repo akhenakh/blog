@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Nginx on Fabrice Aneche</title>
+    <link>https://blog.nobugware.com/tags/nginx/</link>
+    <description>Recent content in Nginx on Fabrice Aneche</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 12 Feb 2010 14:02:03 -0400</lastBuildDate>
+    
+	<atom:link href="https://blog.nobugware.com/tags/nginx/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Nginx SSL &#43; Tomcat (for Confluence)</title>
+      <link>https://blog.nobugware.com/post/2010/02/12/nginx-ssl-tomcat-confluence/</link>
+      <pubDate>Fri, 12 Feb 2010 14:02:03 -0400</pubDate>
+      
+      <guid>https://blog.nobugware.com/post/2010/02/12/nginx-ssl-tomcat-confluence/</guid>
+      <description>I have an Nginx frontend to serv everything but confluence which was not happy with my SSLized conf, here is the solution !
+This doc is related to confluence but will works with any java apps in a tomcat
+First don&amp;rsquo;t use the standalone version of confluence (which is a Tomcat 5.5), use the EAR/WAR tar gz archive.
+We need Tomcat 6 cause we will use a &amp;ldquo;Valve&amp;rdquo; RemoteIPValve that will check for a header (X-Forwarded-Proto) to see if the source request was secured by SSL.</description>
+    </item>
+    
+  </channel>
+</rss>

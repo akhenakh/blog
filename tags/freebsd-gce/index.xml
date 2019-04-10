@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Freebsd Gce on Fabrice Aneche</title>
+    <link>https://blog.nobugware.com/tags/freebsd-gce/</link>
+    <description>Recent content in Freebsd Gce on Fabrice Aneche</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 28 Nov 2014 20:29:34 -0400</lastBuildDate>
+    
+	<atom:link href="https://blog.nobugware.com/tags/freebsd-gce/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>FreeBSD on Google Compute Engine</title>
+      <link>https://blog.nobugware.com/post/2014/11/28/freebsd-on-google-compute-engine/</link>
+      <pubDate>Fri, 28 Nov 2014 20:29:34 -0400</pubDate>
+      
+      <guid>https://blog.nobugware.com/post/2014/11/28/freebsd-on-google-compute-engine/</guid>
+      <description>First you need to create a VirtualBox FreeBSD install using a 10G qcow format, use an SCSI controller for the install as the disk will be visible as da0 inside GCE.
+On FreeBSD 10.1 I had to load virtio manually, so set this in /boot/loader.conf
+`virtio_load=&amp;quot;YES&amp;quot; virtio_pci_load=&amp;quot;YES&amp;quot; virtio_blk_load=&amp;quot;YES&amp;quot; if_vtnet_load=&amp;quot;YES&amp;quot;`  Copy your ssh key in your home user .ssh/authorized_keys, be sure to be in the wheel group.
+On a Mac you need to install GNU tar (brew install gnu-tar), shutdown your VirtualBox vm and upload your image to GCE</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Gae on Fabrice Aneche</title>
+    <link>https://blog.nobugware.com/tags/gae/</link>
+    <description>Recent content in Gae on Fabrice Aneche</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 12 Feb 2013 20:59:31 -0400</lastBuildDate>
+    
+	<atom:link href="https://blog.nobugware.com/tags/gae/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>This blog is now running on Google App Engine</title>
+      <link>https://blog.nobugware.com/post/2013/02/12/this-blog-is-now-running-on-google-app-engine/</link>
+      <pubDate>Tue, 12 Feb 2013 20:59:31 -0400</pubDate>
+      
+      <guid>https://blog.nobugware.com/post/2013/02/12/this-blog-is-now-running-on-google-app-engine/</guid>
+      <description>After 6 years of existence, where this blog was self hosted, it&amp;rsquo;s now running on Google App Engine with webapp2 Python framework.
+It was previously a Django application, but no code has been reused, it&amp;rsquo;s a total rewrite (approx 5 hours).
+The Google App Engine ecosystem is very good, all the tools are efficient and except a middle quality documentation, it was a pleasure to rewrite and transfer this blog.</description>
+    </item>
+    
+  </channel>
+</rss>

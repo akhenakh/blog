@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lvm &middot; Fabrice Aneche</title>
+
+    <meta name="description" content="">
+
+    <meta name="generator" content="Hugo 0.33" />
+    <meta name="twitter:card" content="summary">
+    
+    <meta name="twitter:title" content="Lvm &middot; Fabrice Aneche">
+    <meta name="twitter:description" content="">
+
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Lvm &middot; Fabrice Aneche">
+    <meta property="og:description" content="">
+
+    <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Oxygen:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/pure-min.css">
+    <!--[if lte IE 8]>
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-old-ie-min.css">
+    <![endif]-->
+    <!--[if gt IE 8]><!-->
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-min.css">
+    <!--<![endif]-->
+
+    <link rel="stylesheet" href="https://blog.nobugware.com/css/all.min.css">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <link rel="alternate" type="application/rss+xml" title="Fabrice Aneche" href="https://blog.nobugware.com/index.xml" />
+    <link href="https://blog.nobugware.com/css/prism.css" rel="stylesheet" />
+</head>
+<body>
+
+
+<div id="layout" class="pure-g">
+    <div class="sidebar pure-u-1 pure-u-md-1-4">
+    <div class="header">
+        <hgroup>
+            <h1 class="brand-title"><a href="https://blog.nobugware.com">Fabrice Aneche</a></h1>
+            <h2 class="brand-tagline"></h2>
+        </hgroup>
+
+        <nav class="nav">
+            <ul class="nav-list">
+                
+                <li class="nav-item">
+                    <a class="pure-button" href="http://www.nobugware.com"><i class="fa fa-building-o"></i> Hiring</a>
+                </li>
+                
+                
+                <li class="nav-item">
+                    <a class="pure-button" href="https://twitter.com/akhenakh"><i class="fa fa-twitter"></i> Twitter</a>
+                </li>
+                
+                
+                <li class="nav-item">
+                    <a class="pure-button" href="https://github.com/akhenakh "><i class="fa fa-github-alt"></i> github</a>
+                </li>
+                
+                <li class="nav-item">
+                    <a class="pure-button" href="https://blog.nobugware.com/index.xml"><i class="fa fa-rss"></i> rss</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+
+    <div class="content pure-u-1 pure-u-md-3-4">
+        <div>
+            
+            <div class="posts">
+                
+                <h1 class="content-subhead">02 Feb 2011, 22:06</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://blog.nobugware.com/post/2011/02/02/gentoo-lvmraid-root/" class="post-title">Gentoo lvm&#43;raid root</a>
+
+                        <p class="post-meta">
+                            
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        <p>Gentoo support for lvm root is still a pain in the ass, here is a working
+solution.</p>
+
+<p>Assuming you have 2 disks same size to be mirrored.</p>
+
+<p>You want a mirrored /boot and a big lvm.</p>
+
+<p>Start a normal gentoo installation with this disks layout:</p>
+
+<pre><code>fdisk -l /dev/sda
+   Device Boot      Start         End      Blocks   Id  System
+/dev/sda1   *           1          31      248976   fd  Linux raid autodetect
+/dev/sda2              32      242246  1945591987+  fd  Linux raid autodetect
+
+fdisk -l /dev/sdb
+   Device Boot      Start         End      Blocks   Id  System
+/dev/sdb1   *           1          31      248976   fd  Linux raid autodetect
+/dev/sdb2              32      242246  1945591987+  83  Linux raid autodetect
+</code></pre>
+
+<p>Set both disk the boot flags on the first partition and set all partitions to
+FD Linux raid autodetect.</p>
+
+<pre><code>mdadm --create /dev/md0 --level=1 --raid-devices=2 /dev/sda1 /dev/sdb1
+mdadm --create /dev/md1 --level=1 --raid-devices=2 /dev/sda2 /dev/sdb2
+</code></pre>
+
+<p>If it complains about another array by this is name is already running or disk
+used.</p>
+
+<p>First stop them all:</p>
+
+<pre><code>cat /proc/mdstat
+</code></pre>
+
+<p>Identify the old arrays then stop it:</p>
+
+<pre><code>mdadm --stop /dev/md??
+</code></pre>
+
+<p>Clean the partition if necessaray</p>
+
+<pre><code>dd if=/dev/zero of=/dev/sda1 count=100 bs=1024
+dd if=/dev/zero of=/dev/sda1 count=100 bs=1024
+</code></pre>
+
+<p>Create the boot:</p>
+
+<pre><code>mkfs.ext3 /dev/md0
+</code></pre>
+
+<p>Create the lvm root and swap:</p>
+
+<pre><code>pvcreate /dev/md1
+vgcreate vg0 /dev/md1
+lvcreate  -L10G -nroot vg0
+lvcreate  -L16G -nswap vg0
+# set the minfree to 0 and increase the number of inodes to 600k
+mkfs.ext4 -m0 -N 600000  /dev/vg0/root
+mkswap /dev/vg0/swap
+</code></pre>
+
+<p>Mount them all !</p>
+
+<pre><code>mount /dev/vg0/root /mnt/gentoo
+mkdir /mnt/gentoo/boot
+mount /dev/md0 /mnt/gentoo/boot
+</code></pre>
+
+<p>Continue with the standard install procedure, mount -t proc &hellip;</p>
+
+<p>After the emerge &ndash;sync in the install procedure get back here:</p>
+
+<pre><code>emerge lvm2 dmadm genkernel
+emerge gentoo-sources
+mdadm --examine --scan &gt;&gt; /etc/mdadm.conf
+</code></pre>
+
+<p>Edit /etc/genkernel.conf:</p>
+
+<p>Set LVM=&ldquo;yes&rdquo;</p>
+
+<p>Set MDADM=&ldquo;yes&rdquo;</p>
+
+<p>Edit /etc/fstab</p>
+
+<pre><code>/dev/md0        /boot       ext3        noauto,noatime  1 2
+/dev/vg0/root       /       ext4        noatime     0 1
+/dev/vg0/swap       none        swap        sw      0 0
+</code></pre>
+
+<p>Compile your kernel with genkernel (note that if you want to compile your own
+kernel without genkernel this is possible with the command genkernel
+initramfs).</p>
+
+<pre><code>genkernel --menuconfig all
+</code></pre>
+
+<p>Continue to normal procedure until grub, apply grub on both disks:</p>
+
+<pre><code>grub&gt; root (hd0,0) 
+grub&gt; setup (hd0)   
+grub&gt; root (hd2,0) 
+grub&gt; setup (hd1)   
+grub&gt; quit           
+</code></pre>
+
+<p>Then edit grub.conf</p>
+
+<pre><code>title Gentoo
+root (hd0,0)
+kernel /boot/kernel-genkernel-x86_64-2.6.36-gentoo-r5 root=/dev/ram0 real_root=/dev/vg0/root dolvm domdadm lvmraid=/dev/md1
+initrd /boot/initramfs-genkernel-x86_64-2.6.36-gentoo-r5
+</code></pre>
+
+<p>Explanation, for lvm to find his disks, we need a ramfs with the static lvm
+command, but to find back our raids md we also need mdadm to save the config
+somewhere, that&rsquo;s exactly what the genkernel initramfs is doing.</p>
+
+<p>Then we invoke the kernel with ramfs and domdadm dolvm and lvmraid.</p>
+
+<p>You can use the initramfs with your own kernel, you only have to be sure all
+needed hardware drivers to detect the disks are in the kernel, and not as
+modules.</p>
+
+<p>Remember that when gentoo stable will update to baselayout2 you will have to
+add rc-update add mdraid boot.</p>
+
+<p>EDIT: on recent Gentoo I have to add this to kernel boot line:</p>
+
+<pre><code>kernel /boot/kernel-genkernel-x86_64-3.1.10-gentoo-r1 root=/dev/ram0 init=/linuxrc real_root=/dev/vg0/root udev dolvm domdadm gentoo=nodevfs lvmraid=/dev/md1 rootfstype=ext4
+</code></pre>
+
+                    </div>
+                </section>
+                
+            </div>
+            
+
+            <div class="footer">
+    <div class="pure-menu pure-menu-horizontal pure-menu-open">
+        <ul>
+            <li>Powered by <a class="hugo" href="http://hugo.spf13.com/" target="_blank">hugo</a></li>
+        </ul>
+    </div>
+</div>
+<script src="https://blog.nobugware.com/js/all.min.js"></script>
+        </div>
+    </div>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-1245966-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+
+</body>
+</html>

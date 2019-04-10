@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Flysim on Fabrice Aneche</title>
+    <link>https://blog.nobugware.com/tags/flysim/</link>
+    <description>Recent content in Flysim on Fabrice Aneche</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 05 Aug 2009 22:17:35 -0400</lastBuildDate>
+    
+	<atom:link href="https://blog.nobugware.com/tags/flysim/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Quand je ne bosse pas je vole</title>
+      <link>https://blog.nobugware.com/post/2009/08/05/quand-je-ne-bosse-pas-je-vole/</link>
+      <pubDate>Wed, 05 Aug 2009 22:17:35 -0400</pubDate>
+      
+      <guid>https://blog.nobugware.com/post/2009/08/05/quand-je-ne-bosse-pas-je-vole/</guid>
+      <description> Saitek Pro Flight Yoke et Saitek Pro Flight Rudder Pedals </description>
+    </item>
+    
+  </channel>
+</rss>

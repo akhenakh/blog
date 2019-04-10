@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Qemu on Fabrice Aneche</title>
+    <link>https://blog.nobugware.com/tags/qemu/</link>
+    <description>Recent content in Qemu on Fabrice Aneche</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 05 Jan 2012 23:59:14 -0400</lastBuildDate>
+    
+	<atom:link href="https://blog.nobugware.com/tags/qemu/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>compile and run xv6 on Mac Os X 6.828</title>
+      <link>https://blog.nobugware.com/post/2012/01/05/compile-and-run-xv6-mac-os-x-6828/</link>
+      <pubDate>Thu, 05 Jan 2012 23:59:14 -0400</pubDate>
+      
+      <guid>https://blog.nobugware.com/post/2012/01/05/compile-and-run-xv6-mac-os-x-6828/</guid>
+      <description>The MIT has created xv6: an operating system for learning purpose
+This works better and takes less time to create a working environnement for xv6 on Mac Os X, than the recommandations proposed onTools used in 6.828 simply run this
+port install i386-elf-gcc port install qemu  And change the Makefile like this:
+-#TOOLPREFIX = i386-jos-elf- +TOOLPREFIX = i386-elf- -#QEMU = +QEMU = /opt/local/bin/qemu-system-i386 -CC = $(TOOLPREFIX)gcc +CC = $(TOOLPREFIX)gcc-4.3.2  Here is a working gdb binary simply bunzip2 it then invoke it from the xv6 directory souce tree, (tested on osx Lion).</description>
+    </item>
+    
+  </channel>
+</rss>

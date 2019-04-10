@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Svn on Fabrice Aneche</title>
+    <link>https://blog.nobugware.com/tags/svn/</link>
+    <description>Recent content in Svn on Fabrice Aneche</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 04 Aug 2009 11:09:06 -0400</lastBuildDate>
+    
+	<atom:link href="https://blog.nobugware.com/tags/svn/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>iPhone and iPod blog</title>
+      <link>https://blog.nobugware.com/post/2009/08/04/iphone-and-ipod-blog/</link>
+      <pubDate>Tue, 04 Aug 2009 11:09:06 -0400</pubDate>
+      
+      <guid>https://blog.nobugware.com/post/2009/08/04/iphone-and-ipod-blog/</guid>
+      <description>Some informations for iphone developers, and iphone owners. We have created a new iphone &amp;amp; ipod blog in french, with a dedicated developer category: tout sur l&amp;rsquo;iphone (everything about the iPhone).
+I will continue to write iphone development related posts here, mostly traducted from tout sur l&amp;rsquo;iphone, but if you are a french speaker I recommend you to read the blog first and his developer part which will be bigger.</description>
+    </item>
+    
+  </channel>
+</rss>

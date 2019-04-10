@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Zfs on Fabrice Aneche</title>
+    <link>https://blog.nobugware.com/tags/zfs/</link>
+    <description>Recent content in Zfs on Fabrice Aneche</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 28 Feb 2012 15:32:47 -0400</lastBuildDate>
+    
+	<atom:link href="https://blog.nobugware.com/tags/zfs/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>FreeBSD vimage jails</title>
+      <link>https://blog.nobugware.com/post/2012/02/28/freebsd-vimage-jails/</link>
+      <pubDate>Tue, 28 Feb 2012 15:32:47 -0400</pubDate>
+      
+      <guid>https://blog.nobugware.com/post/2012/02/28/freebsd-vimage-jails/</guid>
+      <description>I tried to use VIMAGE for jails, can be summarized as: independant network stack, firewalling, nat, a real loopback &amp;hellip; for your jails
+First I had pf in my kernel, it does not work with VIMAGE, it will kernel panic, (as module too), so remove it (I hope it will be solved soon).
+I used the package from DruidBSD: vimage boot, and used the following config:
+vimage_enable=&amp;quot;YES&amp;quot; vimage_list=&amp;quot;testjail&amp;quot; vimage_testjail_rootdir=&amp;quot;/usr/jails/testjail&amp;quot; # root directory vimage_testjail_hostname=&amp;quot;testjail&amp;quot; # hostname vimage_testjail_devfs_enable=&amp;quot;YES&amp;quot; # mount devfs vimage_testjail_vnets=&amp;quot;vtnet1&amp;quot; # network interfaces  vtnet1 is a dedicated hard interface (from KVM) and will appears only in the jail after you start /etc/rc.</description>
+    </item>
+    
+    <item>
+      <title>FreeBSD 9.0 ZFS root on OVH</title>
+      <link>https://blog.nobugware.com/post/2012/02/07/freebsd-90-zfs-root-ovh/</link>
+      <pubDate>Tue, 07 Feb 2012 15:05:48 -0400</pubDate>
+      
+      <guid>https://blog.nobugware.com/post/2012/02/07/freebsd-90-zfs-root-ovh/</guid>
+      <description>I had so much pain to make it work so here is how to have a ZFS root with a raidz pool on 5 disks, specially with OVH without any console or kvm to debug the boot process.
+The server has 5 disks that I put in raidz and boot on it, but this should apply to most installation.
+gpart destroy -F ada0 gpart destroy -F ada1 gpart destroy -F ada2 gpart destroy -F ada3 gpart destroy -F ada4 gpart create -s gpt ada0 gpart create -s gpt ada1 gpart create -s gpt ada2 gpart create -s gpt ada3 gpart create -s gpt ada4 gpart add -b 34 -s 64k -t freebsd-boot ada0 gpart add -b 34 -s 64k -t freebsd-boot ada1 gpart add -b 34 -s 64k -t freebsd-boot ada2 gpart add -b 34 -s 64k -t freebsd-boot ada3 gpart add -b 34 -s 64k -t freebsd-boot ada4 # if you are very low on ram use a real partition for swap otherwise don&#39;t gpart add -s 4G -t freebsd-swap -l swap0 ada0 gpart add -s 4G -t freebsd-swap -l swap1 ada1 gpart add -s 4G -t freebsd-swap -l swap2 ada2 gpart add -s 4G -t freebsd-swap -l swap3 ada3 gpart add -s 4G -t freebsd-swap -l swap4 ada4 gpart add -t freebsd-zfs -l disk0 ada0 gpart add -t freebsd-zfs -l disk1 ada1 gpart add -t freebsd-zfs -l disk2 ada2 gpart add -t freebsd-zfs -l disk3 ada3 gpart add -t freebsd-zfs -l disk4 ada4 gpart bootcode -b /boot/pmbr -p /boot/gptzfsboot -i 1 ada0 gpart bootcode -b /boot/pmbr -p /boot/gptzfsboot -i 1 ada1 gpart bootcode -b /boot/pmbr -p /boot/gptzfsboot -i 1 ada2 gpart bootcode -b /boot/pmbr -p /boot/gptzfsboot -i 1 ada3 gpart bootcode -b /boot/pmbr -p /boot/gptzfsboot -i 1 ada4 zpool create -o cachefile=/boot/zfs/zpool.</description>
+    </item>
+    
+    <item>
+      <title>Install FreeBSD 9.0 with ZFS root</title>
+      <link>https://blog.nobugware.com/post/2011/10/14/install-freebsd-90-zfs-root/</link>
+      <pubDate>Fri, 14 Oct 2011 11:00:22 -0400</pubDate>
+      
+      <guid>https://blog.nobugware.com/post/2011/10/14/install-freebsd-90-zfs-root/</guid>
+      <description>The &amp;ldquo;new&amp;rdquo; FreeBSD installer does not give you the options to simply install ZFS as root, so sad, here is how to do it.
+Most installation recommand to install / in the zpool root, which is not always clean, for example a recursive snapshot will snapshot your swap &amp;hellip;
+#Boot cd and choose shell: umount /dev/md1 mdmfs -s 1024M md1 /tmp gpart destroy -F ada0 gpart create -s gpt ada0 gpart add -b 34 -s 64k -t freebsd-boot ada0 #gpart add -s 4G -t freebsd-swap -l swap0 ada0 gpart add -t freebsd-zfs -l disk0 ada0 gpart bootcode -b /boot/pmbr -p /boot/gptzfsboot -i 1 ada0 zpool destroy rpool # use -f if you already have a zpool zpool create -f rpool /dev/gpt/disk0 zfs set checksum=fletcher4 rpool zfs create rpool/root zfs set mountpoint=none rpool zfs set mountpoint=/mnt rpool/root zfs create -o canmount=off rpool/root/usr zfs create -o canmount=off rpool/root/var zfs create -o compression=on -o exec=on -o setuid=off rpool/root/tmp zfs create -o compression=gzip -o setuid=off rpool/root/usr/ports zfs create -o compression=off -o exec=off -o setuid=off rpool/root/usr/ports/distfiles zfs create -o compression=off -o exec=off -o setuid=off rpool/root/usr/ports/packages zfs create -o compression=gzip -o exec=off -o setuid=off rpool/root/usr/src zfs create -o compression=lzjb rpool/root/usr/obj zfs create -o compression=lzjb -o exec=off -o setuid=off rpool/root/var/crash zfs create -o compression=off -o exec=off -o setuid=off rpool/root/var/empty zfs create -o compression=lzjb -o exec=on -o setuid=off rpool/root/var/tmp zpool export rpool zpool import -o cachefile=/tmp/zpool.</description>
+    </item>
+    
+    <item>
+      <title>(Re)Discovering FreeBSD and ZFS</title>
+      <link>https://blog.nobugware.com/post/2011/03/31/freebsd-zfs/</link>
+      <pubDate>Thu, 31 Mar 2011 21:06:13 -0400</pubDate>
+      
+      <guid>https://blog.nobugware.com/post/2011/03/31/freebsd-zfs/</guid>
+      <description>Since Sun&amp;rsquo;s killers euh Oracle shutdown OpenSolaris, FreeBSD is becoming more and more attracting with ZFS port, you should really give it a try (We are back baby).
+Here is a fast installation of FreeBSD with a ZFS root.
+Download http://mfsbsd.vx.sk/, a special iso image that will give you a ZFS on root FreeBSD with no pain.
+Note that I&amp;rsquo;m using it over KVM on Gentoo: (kvm -hda /dev/vg0/freebsdvm_root -m 4096 -cdrom /opt/data/kvm/installer/mfsbsd-se-8.</description>
+    </item>
+    
+    <item>
+      <title>ZFS on linux</title>
+      <link>https://blog.nobugware.com/post/2010/08/09/zfs-linux/</link>
+      <pubDate>Mon, 09 Aug 2010 14:41:47 -0400</pubDate>
+      
+      <guid>https://blog.nobugware.com/post/2010/08/09/zfs-linux/</guid>
+      <description>For license reasons (god damn GPL), ZFS can&amp;rsquo;t be integrated into the Linux kernel, but there is a userland fuse version called ZFS-FUSE, so I tried to measure the fuse overhead vs others filesystems presents on my server.
+This tests are not benchmarks, but just show that ZFS-FUSE is fast enough and seems to be stable (at least for my personal server)
+ ZFS with lzjb compression ``` dd if=/dev/zero of=/testzfs/toto bs=2048 count=200000 409600000 bytes (410 MB) copied, 9.</description>
+    </item>
+    
+    <item>
+      <title>Understanding the ZFS tuning</title>
+      <link>https://blog.nobugware.com/post/2009/02/26/understanding-zfs-tuning/</link>
+      <pubDate>Thu, 26 Feb 2009 11:37:40 -0400</pubDate>
+      
+      <guid>https://blog.nobugware.com/post/2009/02/26/understanding-zfs-tuning/</guid>
+      <description>ZFS is all about performance (many levels of caching, pre-fetch, &amp;hellip;) and memory consumption :-)
+Here are my last links about ZFS internals, it&amp;rsquo;s worth a read if you plan to use ZFS on large productions :
+ The slides of Adam Leventhal&amp;rsquo;s talk for the OpenSolaris Storage Summit : ZFS, Cache, and Flash
+ c0t0d0s0.org : a very good explanation of the ARC cache : most recently used pages, most frequently used pages and their ghosts lists Some insight into the read cache of ZFS - or: The ARC and the [](http://www.</description>
+    </item>
+    
+  </channel>
+</rss>

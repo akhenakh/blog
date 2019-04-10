@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Kubernetes on Fabrice Aneche</title>
+    <link>https://blog.nobugware.com/tags/kubernetes/</link>
+    <description>Recent content in Kubernetes on Fabrice Aneche</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 11 Mar 2019 00:32:43 -0500</lastBuildDate>
+    
+	<atom:link href="https://blog.nobugware.com/tags/kubernetes/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>gRPC Load Balancing inside Kubernetes</title>
+      <link>https://blog.nobugware.com/post/2019/kubernetes_mesh_network_load_balancing_grpc_services/</link>
+      <pubDate>Mon, 11 Mar 2019 00:32:43 -0500</pubDate>
+      
+      <guid>https://blog.nobugware.com/post/2019/kubernetes_mesh_network_load_balancing_grpc_services/</guid>
+      <description>Context I wanted to blog about this for years: how to connect to a Kubernete&amp;rsquo;s loadbalanced service?
+How to deal with disconnections/re-connections, maintenance? What about gRPC specifically?
+The answer is heavily connected to the network stack used by Kubernetes, but with the &amp;ldquo;Mesh Network&amp;rdquo; revolution, It&amp;rsquo;s not always clear how it works anymore and what the options are. How it works First I recommend you to watch this great yet simple video: Container Networking From Scratch, then the Services clusterIP documentation.</description>
+    </item>
+    
+    <item>
+      <title>Traefik gRPC Load Balancing and Traces Propagation</title>
+      <link>https://blog.nobugware.com/post/2019/traefik_load_balancing_grpc_services_trace_propagation/</link>
+      <pubDate>Mon, 04 Mar 2019 00:32:43 -0400</pubDate>
+      
+      <guid>https://blog.nobugware.com/post/2019/traefik_load_balancing_grpc_services_trace_propagation/</guid>
+      <description>Following my recent blog post on setting up a dev environment in Kubernetes, here are some tips to use Traefik as a gRPC load balancer.
+Traefik can be used on the edge and route incoming HTTP traffic to your Kubernetes cluster, but it&amp;rsquo;s also supporting gRPC.
+  
+gRPC Load Balancing with Traefik Here I have a gRPC service I want to expose on the edge.
+apiVersion: v1 kind: Service metadata: name: myapp labels: name: &amp;quot;myapp&amp;quot; type: &amp;quot;grpc&amp;quot; spec: ports: - port: 9200 name: &amp;quot;grpc&amp;quot; targetPort: grpc protocol: TCP selector: app: &amp;quot;myapp&amp;quot; clusterIP: None  Note the clusterIP: None, it&amp;rsquo;s a headless service.</description>
+    </item>
+    
+    <item>
+      <title>Kubernetes Quick Setup with Prometheus, Grafana &amp; Jaeger</title>
+      <link>https://blog.nobugware.com/post/2019/kubernetes_quick_development_setup_minikube_prometheus_grafana/</link>
+      <pubDate>Thu, 21 Feb 2019 00:19:57 -0200</pubDate>
+      
+      <guid>https://blog.nobugware.com/post/2019/kubernetes_quick_development_setup_minikube_prometheus_grafana/</guid>
+      <description>Introduction When starting on a new project or prototyping on a new idea, I find myself doing the same tasks again and again.
+Thanks to Kubernetes it&amp;rsquo;s possible to setup a new env from scratch really fast.
+Here is a quick setup (mostly notes) to create a dev environment using Minikube and the workflow I&amp;rsquo;m using with it.
+Not knowing in advance where this future project will be hosted, I try to stay platform agnostic.</description>
+    </item>
+    
+  </channel>
+</rss>

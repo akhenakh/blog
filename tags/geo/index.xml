@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Geo on Fabrice Aneche</title>
+    <link>https://blog.nobugware.com/tags/geo/</link>
+    <description>Recent content in Geo on Fabrice Aneche</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Mon, 27 Aug 2018 00:19:57 -0200</lastBuildDate>
+    
+	<atom:link href="https://blog.nobugware.com/tags/geo/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Wasm with Go to build an S2 cover map viewer</title>
+      <link>https://blog.nobugware.com/post/2018/wasm_go_s2_javascript/</link>
+      <pubDate>Mon, 27 Aug 2018 00:19:57 -0200</pubDate>
+      
+      <guid>https://blog.nobugware.com/post/2018/wasm_go_s2_javascript/</guid>
+      <description>I needed a reason to use the new Go 1.11 Wasm port for &amp;ldquo;real&amp;rdquo;.
+To make it short, it compiles Go code to Wasm binary format for a virtual machine running in web browsers.
+I&amp;rsquo;ve always needed a debug tool to display S2 Cells on a map for different shapes, some online tools already exist:
+ s2map.com unfortunately the backend is often/currently dead. regioncoverer which doesn&amp;rsquo;t allow polygons.  I&amp;rsquo;ve planned for a Qt Go app or a QGIS plugin with C++ bindings to Python but to ship those modules would be a nightmare.</description>
+    </item>
+    
+    <item>
+      <title>My Own Car System, Rear Camera, Offline Maps &amp; Routing, Map Matching with Go on Raspberry Pi part II</title>
+      <link>https://blog.nobugware.com/post/2018/my_own_car_system_raspberry_pi_offline_mapping_map_matching_places_part2/</link>
+      <pubDate>Wed, 01 Aug 2018 00:19:57 -0200</pubDate>
+      
+      <guid>https://blog.nobugware.com/post/2018/my_own_car_system_raspberry_pi_offline_mapping_map_matching_places_part2/</guid>
+      <description>This is my journey building an open source car system with Go &amp;amp; Qt, rear camera, live OpenGL map &amp;hellip;
+Cross compilation In Part I, I had to patch qtmultimedia for the camera to work, but Qt compilation is resource hungry, same goes for the osrm compilation, the memory of the Raspberry Pi is too small.
+I had to to set up a cross compilation system in my case for armv7h.</description>
+    </item>
+    
+    <item>
+      <title>My Own Car System, Rear Camera, Offline Maps &amp; Routing on Raspberry Pi part I</title>
+      <link>https://blog.nobugware.com/post/2018/my_own_car_system_raspberry_pi_offline_mapping/</link>
+      <pubDate>Sun, 10 Jun 2018 09:19:57 -0500</pubDate>
+      
+      <guid>https://blog.nobugware.com/post/2018/my_own_car_system_raspberry_pi_offline_mapping/</guid>
+      <description>At first I needed a car rear camera, one thing led to another&amp;hellip;
+My Car, from 2011, only has an LCD display and no rear camera, so I bought a PAL rear camera, we passed some cables from the rear window to the front then everything begun.
+Here is my journey to transform my car into a modern system running on RPi3 (a never ending project).
+Hardware I&amp;rsquo;m using an Rpi3 (old model).</description>
+    </item>
+    
+    <item>
+      <title>Google S2 with Python &amp; Jupyter</title>
+      <link>https://blog.nobugware.com/post/2018/google-s2-python-jupyter/</link>
+      <pubDate>Thu, 18 Jan 2018 08:20:15 -0500</pubDate>
+      
+      <guid>https://blog.nobugware.com/post/2018/google-s2-python-jupyter/</guid>
+      <description>Google is working again on S2 a spatial library !!!
+And they even have created a website to communicate about it s2geometry.
+The C++ port contains a Python Swig interface.
+I&amp;rsquo;ve been using an unofficial Python port with Jupyter for years now things are way more simpler.
+If you are on Arch I&amp;rsquo;ve create a package, simply install AUR s2geometry-git
+First we want a clean Jupyter install from scratch:
+virtualenv3 ~/dev/venv3 source ~/dev/venv3/bin/activate pip install jupyter pip install cython pip install numpy pip install matplotlib scikit-learn scipy Shapely folium geojson Cartopy cp /usr/lib/python3.</description>
+    </item>
+    
+    <item>
+      <title>Using Go mobile on iOS for real</title>
+      <link>https://blog.nobugware.com/post/2016/go_mobile_ios_real_usage/</link>
+      <pubDate>Thu, 22 Sep 2016 15:39:32 -0400</pubDate>
+      
+      <guid>https://blog.nobugware.com/post/2016/go_mobile_ios_real_usage/</guid>
+      <description>Go Mobile can generate native framework for iOS and Android using Go code, I was curious what could be achieved with it.
+Most tutorials are Hello world and I wanted to test it with real code.
+You can use it to generate a full app only using Go code, but I&amp;rsquo;m only interested by the bindings part (SDK applications), using a native ObjC/Swift app calling Go code.
+I&amp;rsquo;m using some existing Go code regionagogo, (a geofence database), moderately complex since it uses BoltDB and Google S2 library.</description>
+    </item>
+    
+  </channel>
+</rss>

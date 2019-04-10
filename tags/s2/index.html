@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>S2 &middot; Fabrice Aneche</title>
+
+    <meta name="description" content="">
+
+    <meta name="generator" content="Hugo 0.33" />
+    <meta name="twitter:card" content="summary">
+    
+    <meta name="twitter:title" content="S2 &middot; Fabrice Aneche">
+    <meta name="twitter:description" content="">
+
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="S2 &middot; Fabrice Aneche">
+    <meta property="og:description" content="">
+
+    <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Oxygen:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/pure-min.css">
+    <!--[if lte IE 8]>
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-old-ie-min.css">
+    <![endif]-->
+    <!--[if gt IE 8]><!-->
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-min.css">
+    <!--<![endif]-->
+
+    <link rel="stylesheet" href="https://blog.nobugware.com/css/all.min.css">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <link rel="alternate" type="application/rss+xml" title="Fabrice Aneche" href="https://blog.nobugware.com/index.xml" />
+    <link href="https://blog.nobugware.com/css/prism.css" rel="stylesheet" />
+</head>
+<body>
+
+
+<div id="layout" class="pure-g">
+    <div class="sidebar pure-u-1 pure-u-md-1-4">
+    <div class="header">
+        <hgroup>
+            <h1 class="brand-title"><a href="https://blog.nobugware.com">Fabrice Aneche</a></h1>
+            <h2 class="brand-tagline"></h2>
+        </hgroup>
+
+        <nav class="nav">
+            <ul class="nav-list">
+                
+                <li class="nav-item">
+                    <a class="pure-button" href="http://www.nobugware.com"><i class="fa fa-building-o"></i> Hiring</a>
+                </li>
+                
+                
+                <li class="nav-item">
+                    <a class="pure-button" href="https://twitter.com/akhenakh"><i class="fa fa-twitter"></i> Twitter</a>
+                </li>
+                
+                
+                <li class="nav-item">
+                    <a class="pure-button" href="https://github.com/akhenakh "><i class="fa fa-github-alt"></i> github</a>
+                </li>
+                
+                <li class="nav-item">
+                    <a class="pure-button" href="https://blog.nobugware.com/index.xml"><i class="fa fa-rss"></i> rss</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+
+    <div class="content pure-u-1 pure-u-md-3-4">
+        <div>
+            
+            <div class="posts">
+                
+                <h1 class="content-subhead">22 Sep 2016, 15:39</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://blog.nobugware.com/post/2016/go_mobile_ios_real_usage/" class="post-title">Using Go mobile on iOS for real</a>
+
+                        <p class="post-meta">
+                            
+                            
+                                under 
+                                
+                                <a class="post-category post-category-Golang" href="https://blog.nobugware.com/categories/golang">Golang</a>
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        <p><a href="https://github.com/golang/go/wiki/Mobile">Go Mobile</a> can generate native framework for iOS and Android using Go code, I was curious what could be achieved with it.<br />
+Most tutorials are Hello world and I wanted to test it with real code.<br />
+You can use it to generate a full app only using Go code, but I&rsquo;m only interested by the bindings part (SDK applications), using a native ObjC/Swift app calling Go code.</p>
+
+<p>I&rsquo;m using some existing Go code <a href="https://github.com/akhenakh/regionagogo">regionagogo</a>, (a geofence database), moderately complex since it uses <a href="https://github.com/boltdb/bolt">BoltDB</a> and <a href="https://github.com/golang/geo">Google S2 library</a>.</p>
+
+<p><a href="https://github.com/golang/go/wiki/Mobile">Go Mobile</a> is limited <a href="https://godoc.org/golang.org/x/mobile/cmd/gobind#hdr-Type_restrictions">to a subset of types</a> you can use, main reason is to be correctly transcribed to Java and ObjC.</p>
+
+<p>So the first thing to do is to write some Go wrapper like you would do in ObjC to call some C++ code but first:</p>
+
+<p>Functions must return either no results, one result, or two results where the type of the second is the built-in <code>error</code> type.<br />
+So far no major complication, but also note that you <strong>can&rsquo;t return slices</strong>, that could be a major pain, there are some workaround solutions like <a href="https://github.com/scisci/go-mobile-collection">go-mobile-collection</a> that can generate an API to operate on slice.<br />
+You also have to respect some naming for your constructor like <code>New...()</code>.</p>
+
+<p>At the end your wrapper won&rsquo;t look very Goish but it&rsquo;s what it takes for it to be translated.</p>
+
+<p>Knowing those constraints you can write a simple wrapper like this:</p>
+
+<pre><code class="language-go">package mobile
+
+type GeoDB struct {
+	db regionagogo.GeoFenceDB
+}
+
+func NewGeoDB() *GeoDB {
+	g := &amp;GeoDB{}
+	return g
+}
+
+func (g *GeoDB) OpenDB(path string) error {
+	db, err := rbolt.NewGeoFenceBoltDB(path)
+	if err != nil {
+		return err
+	}
+	g.db = db
+	return nil
+}
+
+...
+</code></pre>
+
+<p>Then use the gomobile command:</p>
+
+<pre><code>gomobile bind -target=ios github.com/akhenakh/regionagogo/mobile
+</code></pre>
+
+<p>It generates a native iOS Mobile.Framework, drop it into your XCode project and start using it.</p>
+
+<ul>
+<li><code>GeoDB</code> translates to <code>GoMobileNewGeoDB()</code> and returns a <code>GoMobileGeoDB*</code> in ObjC domain.</li>
+<li><code>OpenDB(path string) error</code> to <code>- (BOOL)openDB:(NSString*)path error:(NSError**)error</code>.</li>
+</ul>
+
+<p>A simple example would be:</p>
+
+<pre><code class="language-C">GoMobileGeoDB *db = GoMobileNewGeoDB();
+NSString *resourcePath = [[NSBundle mainBundle] pathForResource:@&quot;region&quot; ofType:@&quot;db&quot;];
+        
+NSError *error;
+[db openDB:resourcePath error:&amp;error];
+if (error != nil) {
+    NSLog(@&quot;error opening db %@&quot;, [error localizedDescription]);
+    return;
+}
+</code></pre>
+
+<p>It&rsquo;s performing very well, on my iPhone 6, around 4,000 queries per second to test a position in a small fence, to 60,000 queries in a hit miss (calling Go overhead is not that big),  while using a ridiculously small amount of memory.</p>
+
+<p>I&rsquo;ve made a demo iOS app where you can hit the map and it tells you in which fence you are.</p>
+
+<p><img src="https://blog.nobugware.com/img/shotmap.jpg" alt="app" title="geofence app" /><br />
+Remember this is running locally on your phone without any network access (but the map), the geo computation and the Polygons are returned by Go code.</p>
+
+<p>Until now I had to maintain libraries in both languages, Go mobile is a nice alternative!</p>
+
+<p>Sources for the wrapper are available in <a href="https://github.com/akhenakh/regionagogo/tree/gomobile/mobile">regionagogo gomobile branch</a>, and here is the <a href="https://github.com/akhenakh/testgomobileios">iOS demo app</a>.</p>
+
+                    </div>
+                </section>
+                
+            </div>
+            
+
+            <div class="footer">
+    <div class="pure-menu pure-menu-horizontal pure-menu-open">
+        <ul>
+            <li>Powered by <a class="hugo" href="http://hugo.spf13.com/" target="_blank">hugo</a></li>
+        </ul>
+    </div>
+</div>
+<script src="https://blog.nobugware.com/js/all.min.js"></script>
+        </div>
+    </div>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-1245966-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+
+</body>
+</html>

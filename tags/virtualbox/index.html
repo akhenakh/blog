@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Virtualbox &middot; Fabrice Aneche</title>
+
+    <meta name="description" content="">
+
+    <meta name="generator" content="Hugo 0.33" />
+    <meta name="twitter:card" content="summary">
+    
+    <meta name="twitter:title" content="Virtualbox &middot; Fabrice Aneche">
+    <meta name="twitter:description" content="">
+
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Virtualbox &middot; Fabrice Aneche">
+    <meta property="og:description" content="">
+
+    <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Oxygen:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/pure-min.css">
+    <!--[if lte IE 8]>
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-old-ie-min.css">
+    <![endif]-->
+    <!--[if gt IE 8]><!-->
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-min.css">
+    <!--<![endif]-->
+
+    <link rel="stylesheet" href="https://blog.nobugware.com/css/all.min.css">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <link rel="alternate" type="application/rss+xml" title="Fabrice Aneche" href="https://blog.nobugware.com/index.xml" />
+    <link href="https://blog.nobugware.com/css/prism.css" rel="stylesheet" />
+</head>
+<body>
+
+
+<div id="layout" class="pure-g">
+    <div class="sidebar pure-u-1 pure-u-md-1-4">
+    <div class="header">
+        <hgroup>
+            <h1 class="brand-title"><a href="https://blog.nobugware.com">Fabrice Aneche</a></h1>
+            <h2 class="brand-tagline"></h2>
+        </hgroup>
+
+        <nav class="nav">
+            <ul class="nav-list">
+                
+                <li class="nav-item">
+                    <a class="pure-button" href="http://www.nobugware.com"><i class="fa fa-building-o"></i> Hiring</a>
+                </li>
+                
+                
+                <li class="nav-item">
+                    <a class="pure-button" href="https://twitter.com/akhenakh"><i class="fa fa-twitter"></i> Twitter</a>
+                </li>
+                
+                
+                <li class="nav-item">
+                    <a class="pure-button" href="https://github.com/akhenakh "><i class="fa fa-github-alt"></i> github</a>
+                </li>
+                
+                <li class="nav-item">
+                    <a class="pure-button" href="https://blog.nobugware.com/index.xml"><i class="fa fa-rss"></i> rss</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+
+    <div class="content pure-u-1 pure-u-md-3-4">
+        <div>
+            
+            <div class="posts">
+                
+                <h1 class="content-subhead">17 Feb 2009, 11:35</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://blog.nobugware.com/post/2009/02/17/virtualbox-nat-ssh-guest/" class="post-title">Virtualbox NAT ssh to guest</a>
+
+                        <p class="post-meta">
+                            
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        <p>In NAT mode (the default one), virtualbox does not give you the possibility to
+directly connect to your guest os.</p>
+
+<p>Here is how to configure your Virtualbox to simply ssh myguest</p>
+
+<p>For example my guest is called &ldquo;Solaris10u6&rdquo;, configured to used e1000 card,
+the default in solaris configuration, (The host os is a Mac).</p>
+
+<p>Type this command in terminal:</p>
+
+<p>`VBoxManage setextradata Solaris10u6
+&ldquo;VBoxInternal/Devices/e1000/0/LUN#0/Config/ssh/Protocol&rdquo; TCP</p>
+
+<p>VBoxManage setextradata Solaris10u6
+&ldquo;VBoxInternal/Devices/e1000/0/LUN#0/Config/ssh/GuestPort&rdquo; 22</p>
+
+<p>VBoxManage setextradata Solaris10u6
+&ldquo;VBoxInternal/Devices/e1000/0/LUN#0/Config/ssh/HostPort&rdquo; 2222 `</p>
+
+<p>It stands for redirect all connection to TCP port 2222 from the host os (my
+mac) to the port 22 of the guest (my solaris).</p>
+
+<p>To connect to your Virtual machine guest simply do ssh -p 2222 localhost and
+you are in.</p>
+
+<p>If you want to check all the config applied to a guest type in terminal:</p>
+
+<p><code>VBoxManage getextradata Solaris10u6 enumerate</code></p>
+
+<p>By the way if you get this kind of errors:</p>
+
+<blockquote>
+<p>Configuration error: Failed to get the &ldquo;MAC&rdquo; value
+(VERR_CFGM_VALUE_NOT_FOUND).</p>
+</blockquote>
+
+<p>It means you have set the config to a network adapter which is not the one
+used by your guest for example, this wil raise an error when you will start
+the vm if you are using a e1000 adapter:</p>
+
+<p><code>VBoxManage setextradata Solaris10u6
+&quot;VBoxInternal/Devices/pcnet/0/LUN#0/Config/ssh/Protocol&quot; TCP</code></p>
+
+                    </div>
+                </section>
+                
+            </div>
+            
+
+            <div class="footer">
+    <div class="pure-menu pure-menu-horizontal pure-menu-open">
+        <ul>
+            <li>Powered by <a class="hugo" href="http://hugo.spf13.com/" target="_blank">hugo</a></li>
+        </ul>
+    </div>
+</div>
+<script src="https://blog.nobugware.com/js/all.min.js"></script>
+        </div>
+    </div>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-1245966-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+
+</body>
+</html>

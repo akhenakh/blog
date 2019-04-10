@@ -1,0 +1,669 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Linux &middot; Fabrice Aneche</title>
+
+    <meta name="description" content="">
+
+    <meta name="generator" content="Hugo 0.33" />
+    <meta name="twitter:card" content="summary">
+    
+    <meta name="twitter:title" content="Linux &middot; Fabrice Aneche">
+    <meta name="twitter:description" content="">
+
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Linux &middot; Fabrice Aneche">
+    <meta property="og:description" content="">
+
+    <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Oxygen:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/pure-min.css">
+    <!--[if lte IE 8]>
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-old-ie-min.css">
+    <![endif]-->
+    <!--[if gt IE 8]><!-->
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-min.css">
+    <!--<![endif]-->
+
+    <link rel="stylesheet" href="https://blog.nobugware.com/css/all.min.css">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <link rel="alternate" type="application/rss+xml" title="Fabrice Aneche" href="https://blog.nobugware.com/index.xml" />
+    <link href="https://blog.nobugware.com/css/prism.css" rel="stylesheet" />
+</head>
+<body>
+
+
+<div id="layout" class="pure-g">
+    <div class="sidebar pure-u-1 pure-u-md-1-4">
+    <div class="header">
+        <hgroup>
+            <h1 class="brand-title"><a href="https://blog.nobugware.com">Fabrice Aneche</a></h1>
+            <h2 class="brand-tagline"></h2>
+        </hgroup>
+
+        <nav class="nav">
+            <ul class="nav-list">
+                
+                <li class="nav-item">
+                    <a class="pure-button" href="http://www.nobugware.com"><i class="fa fa-building-o"></i> Hiring</a>
+                </li>
+                
+                
+                <li class="nav-item">
+                    <a class="pure-button" href="https://twitter.com/akhenakh"><i class="fa fa-twitter"></i> Twitter</a>
+                </li>
+                
+                
+                <li class="nav-item">
+                    <a class="pure-button" href="https://github.com/akhenakh "><i class="fa fa-github-alt"></i> github</a>
+                </li>
+                
+                <li class="nav-item">
+                    <a class="pure-button" href="https://blog.nobugware.com/index.xml"><i class="fa fa-rss"></i> rss</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+
+    <div class="content pure-u-1 pure-u-md-3-4">
+        <div>
+            
+            <div class="posts">
+                
+                <h1 class="content-subhead">22 Jul 2017, 21:28</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://blog.nobugware.com/post/2017/asus_c301s_arch_linux_chromeos_write_protection/" class="post-title">Arch Linux on a Chromebook Asus C301SA</a>
+
+                        <p class="post-meta">
+                            
+                            
+                                under 
+                                
+                                <a class="post-category post-category-Linux" href="https://blog.nobugware.com/categories/linux">Linux</a>
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        <p>I&rsquo;ve got an <a href="https://www.amazon.ca/Asus-Chromebook-C301SA-DB04-Celeron-Silver/dp/B01INVHL2C/ref=sr_1_1?ie=UTF8&amp;qid=1497662974&amp;sr=8-1&amp;keywords=c301">Asus C301S</a> at work, it&rsquo;s a Chromebook with Chromeos.</p>
+
+<p>I like those little laptops, for the price it&rsquo;s actually a very good little machine.<br />
+ChromeOS is responding very well, ssh and Chrome are working too.<br />
+But I often need more, like X11 forwarding or offline coding &hellip;</p>
+
+<p>You will see the C301SA is marked as a C300SA internally.</p>
+
+<p>Here are the steps to install Arch Linux on it, do it at your own risk, you can brick your computer, you will need an external USB keyboard.</p>
+
+<ul>
+<li><p>Activate the recovery mode, by using ESC + F3 (refresh) and the power key</p></li>
+
+<li><p>Activate the developer mode with ctrl + d, confirm you want to continue, it will take a long time before it&rsquo;s finished preparing the developer mode.</p></li>
+
+<li><p>Shutdown and remove the write protection screw<br />
+It&rsquo;s actually written as not mandatory but also &ldquo;could be dangerous&rdquo;, didn&rsquo;t take the chance.<br />
+Gently dismount the keyboard (by removing the back screws), warning the screws are different, so remember their positions.<br />
+Locate the write protection screw, mine was covered with a black tape, (on the left close to the USB port) and remove it<br />
+<img src="https://blog.nobugware.com/img/c301.jpg" alt="c301 screw" /></p></li>
+
+<li><p>Reboot into ChromeOS by pressing ctrl + d</p></li>
+
+<li><p>Patch the firmware
+[Ctrl+Alt+T] to get a ChromeOS terminal<br />
+type or copy paste <code>cd; curl -LO https://mrchromebox.tech/firmware-util.sh &amp;&amp; sudo bash firmware-util.sh</code><br />
+Choose 1 to enable legacy boot then n to boot from internal then shutdown the computer.</p></li>
+
+<li><p>Create a bootable USB key for Arch Linux<br />
+<code>sudo dd if=/home/akh/Downloads/archlinux-2017.06.01-x86_64.iso of=/dev/sde bs=512</code></p></li>
+
+<li><p>Boot on Arch by pressing ctrl + l then ctrl + u, sometimes it fails</p></li>
+
+<li><p>The actual Arch kernel does not see the keyboard &hellip;  you&rsquo;ll need an external USB keyboard.</p></li>
+
+<li><p>Perform a normal installation of Arch (I&rsquo;ve totally removed ChromeOS partitions) and even performed an MBR install (instead of GPT) with only 2 partitions.<br />
+The internal SSD disk is <code>/dev/mmcblk0</code></p></li>
+
+<li><p>Install grub<br />
+<code>grub-install --target=i386-pc /dev/mmcblk0</code><br />
+<code>grub-mkconfig -o /boot/grub/grub.cfg</code></p></li>
+
+<li><p>Install yaourt</p></li>
+</ul>
+
+<pre><code>git clone https://aur.archlinux.org/package-query.git
+cd package-query
+makepkg -si
+cd ..
+git clone https://aur.archlinux.org/yaourt.git
+cd yaourt
+makepkg -si
+cd ..
+</code></pre>
+
+<ul>
+<li>Install the galliumos patched kernel, you can go to bed coz it will take a long time to compile<br />
+<code>yaourt --tmp /var/tmp -S aur/linux-galliumos-braswell</code></li>
+</ul>
+
+<p>The keyboard should work now.<br />
+Also install or grab the config file from <code>aur/galliumos-braswell-config</code> for audio support.</p>
+
+<p>If it won&rsquo;t boot don&rsquo;t worry you can still boot using the Arch USB key, then remount your system:</p>
+
+<pre><code>mount /dev/mmcblk0p1 /mnt
+arch-chroot /mnt
+</code></pre>
+
+<p>Touch pad config:</p>
+
+<pre><code>Section &quot;InputClass&quot;
+    Identifier &quot;Elan Touchpad&quot;
+    Driver &quot;libinput&quot;
+    MatchIsTouchpad &quot;on&quot;
+    Option &quot;Tapping&quot; &quot;on&quot;
+    Option &quot;NaturalScrolling&quot; &quot;true&quot;  
+    Option &quot;ClickMethod&quot; &quot;clickfinger&quot;
+EndSection
+</code></pre>
+
+<p>Congratulations you have a fully working computer.</p>
+
+<p>EDIT: Arch kernel 4.12 is fully working without the need to use <code>aur/linux-galliumos-braswell</code>, but 4.13 breaks this support, so keep 4.12 for now.</p>
+
+                    </div>
+                </section>
+                
+                <h1 class="content-subhead">25 Feb 2017, 09:57</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://blog.nobugware.com/post/2017/back_from_osx_to_linux/" class="post-title">From OSX to Linux</a>
+
+                        <p class="post-meta">
+                            
+                            
+                                under 
+                                
+                                <a class="post-category post-category-Linux" href="https://blog.nobugware.com/categories/linux">Linux</a>
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        
+
+<p>I&rsquo;ve been a long time UNIX user, ditched Microsoft back in the 90s for FreeBSD, Solaris and Linux on the desktop, but when Apple released MacOS X, I&rsquo;ve used it as a workstation.</p>
+
+<p>For the last years I&rsquo;ve used Linux desktops but not on my main computer, today here I am switching back to Linux.</p>
+
+<p>This post is not about the reasons I&rsquo;m switching, they are simple.<br />
+My typical work day is mostly about parsing giant files, running VM and Dockers, coding in Go and not about developing for iOS anymore.</p>
+
+<p>I&rsquo;m using Arch Linux and KDE/Plasma but many items from this list apply to any Linux distributions.</p>
+
+<p>Put your user in the following groups <code>uucp audio input lp</code>.</p>
+
+<h2 id="bonjour-mdns-and-local">Bonjour, mDNS and .local</h2>
+
+<p>I was used to query the .local domain to ssh my laptop back.</p>
+
+<ul>
+<li>Install <code>nss-mdns</code>, add <code>mdns_minimal [NOTFOUND=return]</code> before <code>resolve</code> in <code>/etc/nsswith.conf</code><br /></li>
+<li>Install <code>avahi</code> and start <code>avahi-daemon.service</code>.<br /></li>
+<li>To make your ssh server visible to others, <code>cp /usr/share/doc/avahi/ssh.service /etc/avahi/services/</code></li>
+</ul>
+
+<p>Try pinging a Mac host on your LAN with <code>ping hostname.local</code></p>
+
+<h2 id="google-drive">Google drive</h2>
+
+<p>Install <code>kio-gdrive</code> then start Dolphin and go to Network then Google drive and set up your account or by running the shell command: <code>kioclient5 exec gdrive:/</code>.</p>
+
+<h2 id="emojis-in-color">Emojis in color 💻</h2>
+
+<p>Install <code>noto-fonts-emoji</code> and edit <code>.config/fontconfig/fonts.conf</code> as follow</p>
+
+<pre><code>&lt;?xml version='1.0'?&gt;
+&lt;!DOCTYPE fontconfig SYSTEM 'fonts.dtd'&gt;
+&lt;fontconfig&gt;
+ &lt;alias&gt;
+  &lt;family&gt;sans-serif&lt;/family&gt;
+  &lt;prefer&gt;
+   &lt;family&gt;NotoSans&lt;/family&gt;
+   &lt;family&gt;NotoColorEmoji&lt;/family&gt;
+   &lt;family&gt;NotoEmoji&lt;/family&gt;
+  &lt;/prefer&gt;
+ &lt;/alias&gt;
+ &lt;alias&gt;
+  &lt;family&gt;serif&lt;/family&gt;
+  &lt;prefer&gt;
+   &lt;family&gt;NotoSerif&lt;/family&gt;
+   &lt;family&gt;NotoColorEmoji&lt;/family&gt;
+   &lt;family&gt;NotoEmoji&lt;/family&gt;
+  &lt;/prefer&gt;
+ &lt;/alias&gt;
+ &lt;dir&gt;~/.fonts&lt;/dir&gt;
+&lt;/fontconfig&gt;
+</code></pre>
+
+<p>This setup is working in most applications but can sometimes display weird results in terminals.</p>
+
+<h2 id="2-factor-usb-key-u2f">2 Factor USB key U2F</h2>
+
+<p>I have a cheap Fido U2F key but Chrome was unable to see it.
+Edit <code>/etc/udev/rules.d/50-fido-u2f.rules</code></p>
+
+<pre><code># this udev file should be used with udev 188 and newer
+ACTION!=&quot;add|change&quot;, GOTO=&quot;u2f_end&quot;
+# Key-ID FIDO U2F
+KERNEL==&quot;hidraw*&quot;, SUBSYSTEM==&quot;hidraw&quot;, ATTRS{idVendor}==&quot;096e&quot;, ATTRS{idProduct}==&quot;0850|0880&quot;, TAG+=&quot;uaccess&quot;
+LABEL=&quot;u2f_end&quot;
+</code></pre>
+
+<h2 id="win-key-aka-cmd-key">Win key aka ⌘ cmd key</h2>
+
+<p>On a PC keyboard the left alt and the windows key are inverted in opposite to a Mac where alt is left of ⌘.<br />
+To avoid being lost when I switch back to my Macbook I&rsquo;ve physically inverted the keys and change the behavior in Plasma in &ldquo;Hardware | Input Devices&rdquo;.</p>
+
+<p><img src="https://blog.nobugware.com/img/keyaltwin.png" alt="⌘" /></p>
+
+<h2 id="compose-key">Compose key</h2>
+
+<p>To type special or accentuated characters you&rsquo;ll use the &ldquo;Compose&rdquo; key.<br />
+You can set the compose key in Plasma in &ldquo;Hardware | Input Devices&rdquo;.</p>
+
+<p><img src="https://blog.nobugware.com/img/keycompose.png" alt="Compose" /></p>
+
+<p>I&rsquo;m using the right alt, which is the right  ⌘ cmd on a Mac (and also a compose key).</p>
+
+<p>For a complete list of compose shortcuts <a href="http://fsymbols.com/keyboard/linux/compose/">see the bottom of this page</a></p>
+
+<h2 id="spotlight">Spotlight</h2>
+
+<p>The tool/window equivalent to running Spotlight is called &ldquo;Plasma Search&rdquo;, you can configure what it can search for.<br />
+The mapping for this key in &ldquo;System Settings | Global Shortcuts | Run Command&rdquo;.</p>
+
+<p><img src="https://blog.nobugware.com/img/shortcut.png" alt="System Settings | Global Shortcuts | Run Command" /></p>
+
+<p>It&rsquo;s also capable of indexing files content, in KDE/Plasma this service is provided by baloo, ignored directories can be set by calling &ldquo;Configure File Search&rdquo;.</p>
+
+<p>You can empty your baloo index by stopping by killing all your baloo processes and <code>rm -r .local/share/baloo</code> then restart for indexation <code>balooctl start</code></p>
+
+<h2 id="exposé-and-active-corners">Exposé and active corners</h2>
+
+<p>It&rsquo;s called &ldquo;Screen Edges&rdquo; and it&rsquo;s under &ldquo;Windows behavior&rdquo;.</p>
+
+<p><img src="https://blog.nobugware.com/img/edges.png" alt="edges" /></p>
+
+<h2 id="alternative-for-dash">Alternative for Dash</h2>
+
+<p><a href="https://kapeli.com/dash">Dash</a> was part of my workflow to get documentation, an alternative solution is to install <code>zeal</code> it&rsquo;s using the exact same docsets as Dash.<br />
+Also see <a href="http://devdocs.io/">DevDocs</a></p>
+
+<h2 id="samba-share">Samba share</h2>
+
+<p>Install <code>samba</code>, tweak <code>/etc/samba/smb.conf</code> and enable <code>nmbd.service</code>.<br />
+I personally prefer a different password than my shell account: <code>smpasswd -a yourusername</code>.</p>
+
+<h2 id="taking-screenshot">Taking Screenshot</h2>
+
+<p>Install <code>spectacle</code> and use the Ptr Sc key (this shortcut can be setup in Plasma).</p>
+
+<h2 id="webcam-hangout-and-skype">Webcam, Hangout and Skype</h2>
+
+<p>I have a Logitech C920, it worked without any configuration, inside Chrome so Hangout and even with Skype for Linux.</p>
+
+<h2 id="mounting-a-macos-disk">Mounting a macOS disk</h2>
+
+<p>That one is weird &hellip;<br />
+<code>mount -o ro,sizelimit=498876809216 /dev/sda2 /mnt/OSX</code></p>
+
+<p>If your existing partition was big, you need to find this magic number by <a href="http://superuser.com/questions/961401/mounting-hfs-partition-on-arch-linux#1088110">following this guide</a></p>
+
+<h2 id="steam">Steam</h2>
+
+<p>Steam needs x86 32 bits libraries, on Arch you have to enable <code>multilib</code> by editing <code>/etc/pacman.conf</code></p>
+
+<pre><code>[multilib]
+Include = /etc/pacman.d/mirrorlist
+</code></pre>
+
+<p>Then install the <code>steam</code> package.</p>
+
+<h2 id="virtualbox-qemu">Virtualbox / QEMU</h2>
+
+<p>I prefer QEMU/KVM &amp; libvirt-manager, when available, over Virtualbox, it&rsquo;s more integrated into the system, and it&rsquo;s capable of emulating other cpu architectures like aarch64&hellip;</p>
+
+<p>One more huge advantage for QEMU it&rsquo;s also capable of <a href="https://github.com/kholia/OSX-KVM">booting a virtual macOS X</a></p>
+
+<h2 id="printing">Printing</h2>
+
+<p>Install <code>cups</code> and <code>print-manager</code> then enable <code>org.cups.cupsd.service</code>, note that you need the .local resolution above for network printer resolution.<br />
+Also install <code>hplib</code> for HP printers.</p>
+
+<h2 id="share-your-session-aka-remote-desktop">Share your session aka remote desktop</h2>
+
+<p>Install <code>x11vnc</code> and run <code>x11vnc -usepw -once  -noxdamage  -ncache 10</code> from your X session.</p>
+
+<p>Note that this vnc server is not compatible with macOS X embedded vnc viewer (vnc://hostname), here is one for Chrome <a href="https://chrome.google.com/webstore/detail/vnc%C2%AE-viewer-for-google-ch/iabmpiboiopbgfabjmgeedhcmjenhbla">RealVNC</a></p>
+
+<p>Remember vnc protocol is not secure and you must use an SSH tunnel over it.</p>
+
+<h2 id="magic-trackpad">Magic Trackpad</h2>
+
+<p>I&rsquo;m using a magic trackpad 2, after enabling bluetooth and pairing the trackpad, one, two &amp; three fingers touches, vertical &amp; horizontal scroll worked via <code>hid_magicmouse</code> module.</p>
+
+<p>For gestures you need <code>libinput-gestures</code>, here is an example <code>/etc/libinput-gestures.conf</code> file:</p>
+
+<pre><code>gesture swipe left 3 xdotool key control+Right
+
+gesture swipe right 3 xdotool key control+Left
+
+gesture swipe up 3 xdotool key control+F9
+
+</code></pre>
+
+<h2 id="the-bad">The bad</h2>
+
+<ul>
+<li>Not as nice, not as well integrated, for example <a href="https://wiki.archlinux.org/index.php/HiDPI#Side_display">supporting HiDPI with only one retina screen</a> is weird with Xorg.<br /></li>
+<li>Key shorcuts are a giant mess under Linux, every applications have their own and it can&rsquo;t be configured centrally.</li>
+<li>I&rsquo;m still missing some applications like <a href="https://www.sketchapp.com/">Sketch</a>, but most of all <a href="https://www.git-tower.com/mac/">Tower</a> when dealing with a git merge issue.</li>
+</ul>
+
+<h2 id="the-good">The good</h2>
+
+<p>After 8 years of absence on Linux as main desktop, things have changed, it&rsquo;s not free from bugs but way more simpler to use now than before, and way more configurable than macOS X.</p>
+
+<p>It won&rsquo;t work for everybody but I&rsquo;m really happy with this setup, the gain compared to a Mac is big, first the machine itself a 4Ghz i7 with 64G of ram does not even exist at Apple (Hackintosh is not a good solution), ZFS, native Docker over ZFS, better OpenGL (faster fps in games), well maintained packages over Brew/Macports, well maintained drivers, my work is easier &hellip;</p>
+
+<h2 id="notes">Notes</h2>
+
+<ul>
+<li><a href="https://1password.com/">1Password</a> alternative is <code>keepassxc</code> &amp; <a href="https://itunes.apple.com/us/app/minikeepass-secure-password/id451661808?mt=8">minikeepass touch on iOS</a></li>
+<li>Equivalent to macOS <code>open</code> command, <code>alias open=&quot;xdg-open&quot;</code></li>
+</ul>
+
+                    </div>
+                </section>
+                
+                <h1 class="content-subhead">13 Dec 2014, 07:55</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://blog.nobugware.com/post/2014/12/13/airspy-on-linux/" class="post-title">Airspy on Linux</a>
+
+                        <p class="post-meta">
+                            
+                            
+                                under 
+                                
+                                <a class="post-category post-category-HamRadio" href="https://blog.nobugware.com/categories/hamradio">HamRadio</a>
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        <p><a href="http://airspy.com">Airspy</a> is an SDR with amazing specs, but drivers are
+slowly coming to your prefered os.</p>
+
+<p>This apply to Arch but should apply to any recent Linux.</p>
+
+<p>I&rsquo;ve first compiled libairspy but always had the error
+<code>AIRSPY_ERROR_NOT_FOUND</code> and <code>&quot;usbfs: interface 0 claimed by airspy while
+'airspy_info' sets config #1&quot;</code></p>
+
+<p>Since Linux 3.17  comes with an airspy v4l autoloaded driver making impossible
+to use it with libusb: no airspy_info and no gqrx.</p>
+
+<p>Simply get rid of it with a modprobe config like /etc/modprobe.d/airspy.conf</p>
+
+<p><code>blacklist airspy</code></p>
+
+<p>You need some deps: the <a href="https://github.com/airspy/host">airspy lib</a>,
+<a href="http://sdr.osmocom.org/trac/wiki/GrOsmoSDR">gnuradio-osmosdr (gr-osmosdr)</a>
+and a recent <a href="https://github.com/csete/gqrx">gqrx</a></p>
+
+<p>Here are <a href="https://drive.google.com/file/d/0B4clDbhSrtODR2xNV0
+lsWEVud00/view?usp=sharing">my Arch AUR pkg</a> that will build airspy-git, gr-osmosdr-git and
+gqrx-git (note that you need to uninstall the packages from community to avoid
+conflict).</p>
+
+<p>Have fun</p>
+
+<p><img src="http://kdl.nobugware.com/public/airpsy.jpg" alt="" /></p>
+
+                    </div>
+                </section>
+                
+                <h1 class="content-subhead">09 Aug 2010, 14:41</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://blog.nobugware.com/post/2010/08/09/zfs-linux/" class="post-title">ZFS on linux</a>
+
+                        <p class="post-meta">
+                            
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        <p>For license reasons (god damn GPL), ZFS can&rsquo;t be integrated into the Linux
+kernel, but there is a userland fuse version called <a href="http://zfs-
+fuse.net/">ZFS-FUSE</a>, so I tried to measure the fuse overhead vs others filesystems
+presents on my server.</p>
+
+<p>This tests are not benchmarks, but just show that ZFS-FUSE is fast enough and
+seems to be stable (at least for my personal server)</p>
+
+<ul>
+<li>ZFS with lzjb compression
+```
+dd if=/dev/zero of=/testzfs/toto bs=2048 count=200000
+409600000 bytes (410 MB) copied, 9.93444 s, 41.2 MB/s
+<br /></li>
+</ul>
+
+<p>dd if=/dev/zero of=/testzfs/toto bs=2048 count=200000
+409600000 bytes (410 MB) copied, 9.88071 s, 41.5 MB/s</p>
+
+<p>dd if=/dev/zero of=/testzfs/toto bs=2048 count=200000
+409600000 bytes (410 MB) copied, 10.2585 s, 39.9 MB/s</p>
+
+<pre><code>* ZFS with compression off
+</code></pre>
+
+<p>dd if=/dev/zero of=/testzfs/toto bs=2048 count=200000
+ 409600000 bytes (410 MB) copied, 17.2505 s, 23.7 MB/s</p>
+
+<p>dd if=/dev/zero of=/testzfs/toto bs=2048 count=200000
+ 409600000 bytes (410 MB) copied, 17.0921 s, 24.0 MB/s</p>
+
+<p>dd if=/dev/zero of=/testzfs/toto bs=2048 count=200000
+ 409600000 bytes (410 MB) copied, 16.8956 s, 24.2 MB/s</p>
+
+<pre><code>
+* EXT3
+</code></pre>
+
+<p>dd if=/dev/zero of=/toto bs=2048 count=200000
+409600000 bytes (410 MB) copied, 9.92158 s, 41.3 MB/s</p>
+
+<p>dd if=/dev/zero of=/toto bs=2048 count=200000
+409600000 bytes (410 MB) copied, 8.50674 s, 48.2 MB/s</p>
+
+<p>dd if=/dev/zero of=/toto bs=2048 count=200000
+409600000 bytes (410 MB) copied, 9.02419 s, 45.4 MB/s</p>
+
+<pre><code>* REISERFS (the way reiserfs works makes this big file creation faster)
+</code></pre>
+
+<p>dd if=/dev/zero of=/opt/toto bs=2048 count=200000
+09600000 bytes (410 MB) copied, 2.29901 s, 178 MB/s</p>
+
+<p>dd if=/dev/zero of=/opt/toto bs=2048 count=200000
+409600000 bytes (410 MB) copied, 2.1869 s, 187 MB/s</p>
+
+<p>dd if=/dev/zero of=/opt/toto bs=2048 count=200000
+409600000 bytes (410 MB) copied, 1.9057 s, 215 MB/s
+```
+Also remember that FreeBSD 8.1 now includes ZFS version 14, which is a good
+(native) alternative</p>
+
+                    </div>
+                </section>
+                
+                <h1 class="content-subhead">03 Dec 2008, 10:32</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://blog.nobugware.com/post/2008/12/03/gentoo-bref-recap-des-commandes-de-gestion-de-paquets/" class="post-title">Gentoo bref récap des commandes de gestion de paquets</a>
+
+                        <p class="post-meta">
+                            
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        <p>Avant toute chose installer l&rsquo;outil gentoolkit</p>
+
+<p><code>emerge -av gentoolkit</code></p>
+
+<p>Ces nouvelles commandes vont vous permettre de:</p>
+
+<p>A quel port appartient un binaire:</p>
+
+<pre><code> equery belongs cjpeg
+ [ Searching for file(s) cjpeg in *... ] 
+media-libs/jpeg-6b-r8 (/usr/bin/cjpeg) 
+</code></pre>
+
+<p>Quels sont les dependances d&rsquo;un port:</p>
+
+<pre><code>equery depends gd
+[ Searching for packages depending on gd... ]
+dev-lang/php-5.2.6-r7 (gd-external? media-libs/gd)
+</code></pre>
+
+<p>Quels sont les fichiers installes par un package:</p>
+
+<pre><code> equery files less
+[ Searching for packages matching less... ]
+* Contents of sys-apps/less-418:
+/etc
+/etc/env.d
+/etc/env.d/70less
+/usr
+/usr/bin
+/usr/bin/code2color
+/usr/bin/less
+/usr/bin/lessecho
+/usr/bin/lesskey
+/usr/bin/lesspipe.sh
+/usr/share
+/usr/share/doc
+/usr/share/doc/less-418
+/usr/share/doc/less-418/NEWS.bz2
+/usr/share/doc/less-418/README.Gentoo.bz2
+/usr/share/doc/less-418/README.bz2
+/usr/share/man
+/usr/share/man/man1
+/usr/share/man/man1/less.1.bz2
+/usr/share/man/man1/lessecho.1.bz2
+/usr/share/man/man1/lesskey.1.bz2
+</code></pre>
+
+<p>Mettre a jour vos machines en s&rsquo;assurant que tous les USE soient respectes, si
+vous changez une variable USE en ajoutant mysql par exemple, il est en theorie
+necessaire de recompiler tous les packages qui peuvent avoir ce use flag, puis
+enlever le &ndash;pretent</p>
+
+<p><code>emerge --update --deep --newuse world --pretend</code></p>
+
+<p>Verifier que chaque binaire reference une librairie encore existante sur votre
+syseme:</p>
+
+<p>Apres une mise a jour il se peut par exemple que la libgdbm ai change de
+revision majeure libgdbm.so.3, un binaire linke a cette librairie en
+libgdbm.so.2 ne fonctionnera plus, c&rsquo;est le role de <em>revdep-rebuild</em> de
+retrouver quels binaires doivent etre recompile.</p>
+
+<p>Enlever les versions obsoletes d&rsquo;un package:</p>
+
+<p><code>emerge --prune gentoo-sources</code></p>
+
+                    </div>
+                </section>
+                
+                <h1 class="content-subhead">03 Dec 2008, 10:25</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://blog.nobugware.com/post/2008/12/03/probleme-daffichage-avec-man/" class="post-title">Probleme d&#39;affichage avec man</a>
+
+                        <p class="post-meta">
+                            
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        <p>Parfois sous linux, souvent sur gentoo les man affichent des caracteres comme
+ceux ci:</p>
+
+<p>LESS(1) LESS(1)</p>
+
+<p>ESC[1mNAMEESC[0m</p>
+
+<p>less - opposite of more</p>
+
+<p>ESC[1mSYNOPSISESC[0m</p>
+
+<p>ESC[1mless -?ESC[0m</p>
+
+<p>ESC[1mless &ndash;helpESC[0m</p>
+
+<p>La solution la plus simple consiste a changer la variable PAGER de votre
+environnement:</p>
+
+<p><code>export PAGER=&quot;less -r&quot;</code></p>
+
+                    </div>
+                </section>
+                
+            </div>
+            
+
+            <div class="footer">
+    <div class="pure-menu pure-menu-horizontal pure-menu-open">
+        <ul>
+            <li>Powered by <a class="hugo" href="http://hugo.spf13.com/" target="_blank">hugo</a></li>
+        </ul>
+    </div>
+</div>
+<script src="https://blog.nobugware.com/js/all.min.js"></script>
+        </div>
+    </div>
+</div>
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-1245966-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+
+</body>
+</html>

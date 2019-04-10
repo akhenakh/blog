@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Python on Fabrice Aneche</title>
+    <link>https://blog.nobugware.com/categories/python/</link>
+    <description>Recent content in Python on Fabrice Aneche</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 19 Feb 2013 16:53:12 -0400</lastBuildDate>
+    
+	<atom:link href="https://blog.nobugware.com/categories/python/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Remove keys from a list of dicts in Python</title>
+      <link>https://blog.nobugware.com/post/2013/02/19/remove-keys-from-a-list-of-dicts-in-python/</link>
+      <pubDate>Tue, 19 Feb 2013 16:53:12 -0400</pubDate>
+      
+      <guid>https://blog.nobugware.com/post/2013/02/19/remove-keys-from-a-list-of-dicts-in-python/</guid>
+      <description>I often have this need to remove some keys from a list of dict, like cleaning it before passing it.
+Comment on Gist</description>
+    </item>
+    
+    <item>
+      <title>Python Requests hooks</title>
+      <link>https://blog.nobugware.com/post/2012/03/29/python-requests-hooks/</link>
+      <pubDate>Thu, 29 Mar 2012 08:23:50 -0400</pubDate>
+      
+      <guid>https://blog.nobugware.com/post/2012/03/29/python-requests-hooks/</guid>
+      <description>Python requests is the de facto HTTP package for Python, nice API, wonderful documentation.
+I had the need to sign my requests and to change the header after the request was built, here is hooks, simply call a function pre_request and your are done:
+def auth_sign(req): user_id = &#39;4f47a5f21aebcedff3001234&#39; secret_key = &#39;C21LHQ5R4RVO2U2UMTEZ&#39; timestamp = str(int(time.mktime(time.gmtime()))) string_to_sign = req.method + &#39;\n&#39; + user_id + &#39;\n&#39; + timestamp + &#39;\n&#39; + req.path_url + &#39;\n&#39; + req.</description>
+    </item>
+    
+    <item>
+      <title>compile gevent on OSX or FreeBSD with pip</title>
+      <link>https://blog.nobugware.com/post/2011/11/15/compile-gevent-osx-or-freebsd-pip/</link>
+      <pubDate>Tue, 15 Nov 2011 11:53:46 -0400</pubDate>
+      
+      <guid>https://blog.nobugware.com/post/2011/11/15/compile-gevent-osx-or-freebsd-pip/</guid>
+      <description>It&amp;rsquo;s more a reminder to myself, gevent depends on libevent2 but the setup.py doesn&amp;rsquo;t correcty look for it, a simple solution:
+export CFLAGS=-I/usr/local/include export LDFLAGS=-L/usr/local/lib pip install gevent  change it for /opt/local/&amp;hellip; if you are on OSX or you will get a bunch of errors
+ /Developer/usr/bin/llvm-gcc-4.2 -fno-strict-aliasing -fno-common -dynamic -pipe -O2 -DNDEBUG -g -fwrapv -O3 -Wall -Wstrict-prototypes -I/opt/local/Library/Frameworks/Python.framework/Versions/2.7/include/python2.7 -c gevent/core.c -o build/temp.macosx-10.7-x86_64-2.7/gevent/core.o In file included from gevent/core.c:225: gevent/libevent.h:9:19: error: event.</description>
+    </item>
+    
+    <item>
+      <title>Enhance your Python</title>
+      <link>https://blog.nobugware.com/post/2011/08/16/enhance-your-python/</link>
+      <pubDate>Tue, 16 Aug 2011 12:00:59 -0400</pubDate>
+      
+      <guid>https://blog.nobugware.com/post/2011/08/16/enhance-your-python/</guid>
+      <description>Nohting new here but a list of what you should read to be a better Python developer, for intermediate and advanced Pythoners, in no particular order.
+ Building skills in Python a very complete language description Code like a Pythonista useful quick list of good practice. I&amp;rsquo;m reading it again and again to get it automatically The hidden features of Python question on Stackoverflow, a must read What is a metaclass Generator Tricks for Systems Programmers, A curious Course Coroutines and Concurrency and the Python yield keyword explained on Stackoverflow, all about yield Advanced Python: (or understanding Python) Video from Google Understanding Python decorators, then use it with Python Decorator Library Python progression path - From apprentice to guru, good advises to mastering Python PEP8 reading, and pylint usage Dive into Python 3 somes parts are boring but somes are greats Idioms and Anti-Idioms in Python, Python best practices Python Attributes and Methods The Hitchhiker&amp;rsquo;s Guide to Python   A special mention for the Tornado web framework, the lack of documentation makes reading the source code a lot and it&amp;rsquo;s very didactic, Understanding the code inside Tornado is a very great blog post about asynchronous programming, the Pythonasyncore module and An Introduction to Asynchronous Programming</description>
+    </item>
+    
+  </channel>
+</rss>

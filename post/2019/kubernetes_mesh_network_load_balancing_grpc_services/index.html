@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>gRPC Load Balancing inside Kubernetes &middot; Fabrice Aneche</title>
+
+    <meta name="description" content="gRPC Load Balancing inside Kubernetes">
+
+    <meta name="generator" content="Hugo 0.33" />
+    <meta name="twitter:card" content="summary">
+    
+    <meta name="twitter:title" content="gRPC Load Balancing inside Kubernetes &middot; Fabrice Aneche">
+    <meta name="twitter:description" content="gRPC Load Balancing inside Kubernetes">
+
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="gRPC Load Balancing inside Kubernetes &middot; Fabrice Aneche">
+    <meta property="og:description" content="gRPC Load Balancing inside Kubernetes">
+
+    <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Oxygen:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/pure-min.css">
+    <!--[if lte IE 8]>
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-old-ie-min.css">
+    <![endif]-->
+    <!--[if gt IE 8]><!-->
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-min.css">
+    <!--<![endif]-->
+
+    <link rel="stylesheet" href="https://blog.nobugware.com/css/all.min.css">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <link rel="alternate" type="application/rss+xml" title="Fabrice Aneche" href="https://blog.nobugware.com/index.xml" />
+    <link href="https://blog.nobugware.com/css/prism.css" rel="stylesheet" />
+</head>
+<body>
+
+
+<div id="layout" class="pure-g">
+    <div class="sidebar pure-u-1 pure-u-md-1-4">
+    <div class="header">
+        <hgroup>
+            <h1 class="brand-title"><a href="https://blog.nobugware.com">Fabrice Aneche</a></h1>
+            <h2 class="brand-tagline"></h2>
+        </hgroup>
+
+        <nav class="nav">
+            <ul class="nav-list">
+                
+                <li class="nav-item">
+                    <a class="pure-button" href="http://www.nobugware.com"><i class="fa fa-building-o"></i> Hiring</a>
+                </li>
+                
+                
+                <li class="nav-item">
+                    <a class="pure-button" href="https://twitter.com/akhenakh"><i class="fa fa-twitter"></i> Twitter</a>
+                </li>
+                
+                
+                <li class="nav-item">
+                    <a class="pure-button" href="https://github.com/akhenakh "><i class="fa fa-github-alt"></i> github</a>
+                </li>
+                
+                <li class="nav-item">
+                    <a class="pure-button" href="https://blog.nobugware.com/index.xml"><i class="fa fa-rss"></i> rss</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+
+    <div class="content pure-u-1 pure-u-md-3-4">
+        <div>
+            
+            <div class="posts">
+                <h1 class="content-subhead">11 Mar 2019, 00:32</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://blog.nobugware.com/post/2019/kubernetes_mesh_network_load_balancing_grpc_services/" class="post-title">gRPC Load Balancing inside Kubernetes</a>
+
+                        <p class="post-meta">
+                            
+                            
+                                under 
+                                
+                                <a class="post-category post-category-Devops" href="https://blog.nobugware.com/categories/devops">Devops</a>
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-share">
+                        <div class="post-share-links">
+                            <h4 style="">Share</h4>
+                            <a href="#" data-type="facebook" data-url="https://blog.nobugware.com/post/2019/kubernetes_mesh_network_load_balancing_grpc_services/" data-title="gRPC Load Balancing inside Kubernetes" data-description="gRPC Load Balancing inside Kubernetes" data-media="" class="prettySocial fa fa-facebook"></a>
+                            <a href="#" data-type="googleplus" data-url="https://blog.nobugware.com/post/2019/kubernetes_mesh_network_load_balancing_grpc_services/" data-description="gRPC Load Balancing inside Kubernetes" class="prettySocial fa fa-google-plus"></a>
+                            <a href="#" data-type="twitter" data-url="https://blog.nobugware.com/post/2019/kubernetes_mesh_network_load_balancing_grpc_services/" data-description="gRPC Load Balancing inside Kubernetes" data-via="akhenakh" class="prettySocial fa fa-twitter"></a>
+                            
+                        </div>
+                    </div>
+                    <div class="post-description">
+                        
+
+<h2 id="context">Context</h2>
+
+<p>I wanted to blog about this for years: how to connect to a Kubernete&rsquo;s loadbalanced service?<br />
+How to deal with disconnections/re-connections, maintenance?  What about gRPC specifically?<br />
+The answer is heavily connected to the network stack used by Kubernetes, but with the &ldquo;Mesh Network&rdquo; revolution, It&rsquo;s not always clear how it works anymore and what the options are.
+<br>
+<br></p>
+
+<h2 id="how-it-works">How it works</h2>
+
+<p>First I recommend you to watch this great yet simple video: <a href="https://www.youtube.com/watch?v=6v_BDHIgOY8&amp;feature=youtu.be">Container Networking From Scratch</a>, then the <a href="https://kubernetes.io/docs/concepts/services-networking/service/#proxy-mode-iptables">Services clusterIP documentation</a>.</p>
+
+<p>To make it simple when you create a Service in Kubernetes, it creates a layer 4 proxy and load balance connections to your pods using iptables, the service endpoint is one IP and a port hiding your real pods.</p>
+
+<h2 id="the-problem">The Problem</h2>
+
+<p>A simple TCP load balancer is good enough for a lot of things especially for HTTP/1.1 since connections are mainly short lived, the clients will try to reconnect often, so it won&rsquo;t stay connected to an old running pod.</p>
+
+<p>But with gRPC over HTTP/2, a TCP connection is maintained open which could lead to issues, like staying connected to a dying pod or unbalancing the cluster because the clients will end on the older pods.</p>
+
+<p>One solution is to use a more advanced proxy that knows about the higher layers.</p>
+
+<p><a href="https://www.envoyproxy.io/">Envoy</a>, <a href="http://www.haproxy.org/">HAProxy</a> and <a href="https://traefik.io/">Traefik</a> are layer 7 reverse proxy load balancers, they know about HTTP/2 (even about gRPC) and can disconnect a backend’s pod without the clients noticing.</p>
+
+<h2 id="edge">Edge</h2>
+
+<p>On the edge of your Kubernetes cluster, you need a public IP, provided by your cloud provider via <a href="https://kubernetes.io/docs/concepts/services-networking/ingress/">the <code>Ingress</code> directive</a> it will expose your internal service.</p>
+
+<p>To further control your request routing you need <a href="https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/">an Ingress Controller</a>.<br />
+It&rsquo;s a reverse proxy that knows about the Kubernetes clusters and can direct the requests to the right place.
+<a href="https://www.envoyproxy.io/">Envoy</a>, <a href="http://www.haproxy.org/">HAProxy</a> and <a href="https://traefik.io/">Traefik</a> can act as Ingress Controllers.</p>
+
+<h2 id="internal-services-service-mesh">Internal Services &amp; Service Mesh</h2>
+
+<p>In a Micro-services environment, most if not all your micro-services will also be clients to others micro-services.</p>
+
+<p><a href="https://istio.io/">Istio</a>, a &ldquo;Mesh Network&rdquo; solution, use <a href="https://www.envoyproxy.io/">Envoy</a> as a <a href="https://kubernetes.io/docs/concepts/workloads/pods/pod-overview/">sidecar</a>. This sidecar is configured from a central place (control plane) and makes each micro-service talking to each other through Envoy.</p>
+
+<p>This way the client does not need to know about all the topology.</p>
+
+<p>That&rsquo;s great but in a controlled environment (yours), where you control all the clients, sending all the traffic through a proxy is not always necessary.</p>
+
+<h2 id="client-load-balancing">Client Load Balancing</h2>
+
+<p>In Kubernetes you can create a <a href="https://kubernetes.io/docs/concepts/services-networking/service/#headless-services">headless service</a>; where there are no load balanced single endpoints anymore, the service pods are directly exposed, Kubernetes DNS will return all of them.</p>
+
+<p>Here is an example service called <code>geoipd</code> scaled to 3.</p>
+
+<pre><code>Name:      geoipd
+Address 1: 172.17.0.18 172-17-0-18.geoipd.default.svc.cluster.local
+Address 2: 172.17.0.21 172-17-0-21.geoipd.default.svc.cluster.local
+Address 3: 172.17.0.9 172-17-0-9.geoipd.default.svc.cluster.local
+</code></pre>
+
+<p>It&rsquo;s up to your client to connect them all and load balance the connections.</p>
+
+<p>In Go gRPC client side, a simple <code>dns:///</code> notation will fetch the entries for you, then the <a href="https://godoc.org/github.com/grpc/grpc-go/balancer/roundrobin">roundrobin package</a> will handle load balancing.</p>
+
+<pre><code class="language-Go">conn, err := grpc.Dial(
+    &quot;dns:///geoip:9200&quot;,
+    grpc.WithBalancerName(roundrobin.Name),
+)
+</code></pre>
+
+<p>This may sound like a good solution but it is not: the default refresh frequency is 30 minutes, meaning whenever you add new pods, it can take up to 30 minutes for them to start getting traffic!
+You can lower this problem by tweaking <code>MaxConnectionAge</code> on the gRPC server:</p>
+
+<pre><code class="language-Go">gsrv := grpc.NewServer(
+    // MaxConnectionAge is just to avoid long connection, to facilitate load balancing
+    // MaxConnectionAgeGrace will torn them, default to infinity
+    grpc.KeepaliveParams(keepalive.ServerParameters{MaxConnectionAge: 2 * time.Minute}),
+)
+</code></pre>
+
+<p>Even if you could refresh the list more often you wouldn&rsquo;t know about pod eviction fast enough and you’d miss some traffic.</p>
+
+<p>There is a nicer solution, implementing the gRPC client resolver for Kubernetes, talking to the Kubernetes API to get the endpoints and watch them constantly, this is exactly what <a href="https://github.com/sercand/kuberesolver">Kuberesolver</a> does.</p>
+
+<pre><code class="language-Go">// Register kuberesolver to grpc
+kuberesolver.RegisterInCluster()
+
+conn, err := grpc.Dial(
+    &quot;kubernetes:///geoipd:9200&quot;,
+    grpc.WithBalancerName(roundrobin.Name),
+)
+</code></pre>
+
+<p>By using <code>kubernetes</code> schema you tell kuberesolver to fetch and watch the endpoints for the <code>geoipd</code> service.</p>
+
+<p>For this to work the pod must have <code>GET</code> and <code>WATCH</code> access to <code>endpoints</code> using a role:</p>
+
+<pre><code>kubectl create role pod-reader-role --verb=get --verb=watch --resource=endpoints,services 
+kubectl create sa pod-reader-sa 
+kubectl create rolebinding pod-reader-rb --role=pod-reader-role --serviceaccount=default:pod-reader-sa 
+</code></pre>
+
+<p>Redeploy your app (the client) with the service account:</p>
+
+<pre><code class="language-yaml">spec:
+  serviceAccountName: pod-reader-sa
+</code></pre>
+
+<p>Deploy, scale up, scale down, kill your pods, your client is still sending traffic to a living pod !</p>
+
+<p>I&rsquo;m surprised it&rsquo;s not mentioned more often, client load balancing did the job for years, the same apply inside Kubernetes environment.<br />
+It is fine for small to medium projects and can deal with a lot of traffic, this will do it for many of you unless if you are Netflix sized&hellip;</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>Load-balancing proxies are great tools, especially useful on the edge of your platform. &ldquo;Mesh Network&rdquo; solutions are nice additions to our tool set, but the cost of operating and debugging a full mesh network could be really expensive and overkill in some situations, while a client load balancing solution is simple and easy to grasp.</p>
+
+<p>Thanks to <a href="https://github.com/prune998">Prune</a> who helped me with this post, and to <a href="https://twitter.com/robteix">Robteix</a> &amp; <a href="https://twitter.com/diligiant">diligiant</a> for reviewing.</p>
+
+                    </div>
+                </section>
+            </div>
+            <div class="footer">
+    <div class="pure-menu pure-menu-horizontal pure-menu-open">
+        <ul>
+            <li>Powered by <a class="hugo" href="http://hugo.spf13.com/" target="_blank">hugo</a></li>
+        </ul>
+    </div>
+</div>
+<script src="https://blog.nobugware.com/js/all.min.js"></script>
+        </div>
+    </div>
+</div>
+
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-1245966-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+
+</body>
+</html>

@@ -24,16 +24,6 @@ Caddy-git Caddy is already capable of that with the help of caddy-git unfortunat
     </item>
     
     <item>
-      <title>the blog post test</title>
-      <link>https://blog.nobugware.com/post/2019/test-forestry/</link>
-      <pubDate>Thu, 11 Apr 2019 08:38:39 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2019/test-forestry/</guid>
-      <description> Testing Forestry bla
- bla bla  fmt.Println(&amp;quot;hello&amp;quot;)  </description>
-    </item>
-    
-    <item>
       <title>gRPC Load Balancing inside Kubernetes</title>
       <link>https://blog.nobugware.com/post/2019/kubernetes_mesh_network_load_balancing_grpc_services/</link>
       <pubDate>Mon, 11 Mar 2019 00:32:43 -0500</pubDate>

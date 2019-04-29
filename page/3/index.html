@@ -74,41 +74,6 @@
             
             <div class="posts">
                 
-                <h1 class="content-subhead">08 Mar 2016, 11:23</h1>
-                <section class="post">
-                    <header class="post-header">
-
-                        <a href="https://blog.nobugware.com/post/2016/geo_db_s2_region_polygon_optmization/" class="post-title">A geo database for polygons, optimization</a>
-
-                        <p class="post-meta">
-                            
-                            
-                                under 
-                                
-                                <a class="post-category post-category-Geo" href="https://blog.nobugware.com/categories/geo">Geo</a><a class="post-category post-category-Golang" href="https://blog.nobugware.com/categories/golang">Golang</a>
-                            
-                        </p>
-                    </header>
-
-                    <div class="post-description">
-                        <p>If you read this blog, you know I&rsquo;ve recently released a project called <a href="https://github.com/akhenakh/regionagogo">regionagogo</a>, a geo shape lookup database, described in <a href="https://blog.nobugware.com/post/2016/geo_db_s2_region_polygon/">this blogpost</a>.</p>
-
-<p>It uses the current <a href="https://godoc.org/github.com/golang/geo/s2">Go S2 implementation</a>, which is not yet as complete as the C++ implementation, for example the region coverer of a shape does not really compute cell around the shape but around the bounding box instead.</p>
-
-<p>Using the shape of the polygon makes the covered cells more precise and smaller, resulting at the end to less <a href="https://en.wikipedia.org/wiki/Point_in_polygon">PIP</a> tests which are costly.</p>
-
-<p><img src="https://blog.nobugware.com/img/s2cpp.jpg" alt="S2 over a shape" title="S2 cover" /><br />
-The same coverage with Go S2 would have returned 8 big cells of the same size, covering over regions.</p>
-
-<p>I&rsquo;ve created <a href="https://github.com/akhenakh/regionagogogen">regionagogogen</a> a quick and dirty command line program for OSX that takes a GeoJSON file containing your regions and then compute the database using the S2 C++ implementation, it&rsquo;s for OSX only cause I&rsquo;m using ObjC as a bridge to C++ which I don&rsquo;t know enough.</p>
-
-<p>Also note that <a href="https://github.com/akhenakh/regionagogogen">regionagogogen</a> includes an S2 port that works on iOS/OSX and some ObjC geo helper classes.</p>
-
-<p>The <a href="https://hub.docker.com/r/akhenakh/regionagogo/">Docker image fore regionagogo</a> is also using the optimized database.</p>
-
-                    </div>
-                </section>
-                
                 <h1 class="content-subhead">18 Feb 2016, 17:16</h1>
                 <section class="post">
                     <header class="post-header">
@@ -924,6 +889,108 @@ Add a new variable named <code>GIT_REMOTE</code> check protected and type <code>
 You can use this <a href="http://blog.wercker.com/2013/07/25/Using-wercker-to-publish-to-GitHub-pages.html">outdated blogpost from Wercker</a> for the screenshot but don&rsquo;t follow what they said.</p>
 
 <p>You are all set, happy blogging, you can check the exact same config on my repos under my username <a href="http://github.com/akhenakh">Github@akhenakh</a>.</p>
+
+                    </div>
+                </section>
+                
+                <h1 class="content-subhead">01 Aug 2015, 22:36</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://blog.nobugware.com/post/migrate_to_hugo/" class="post-title">Migrate to Hugo</a>
+
+                        <p class="post-meta">
+                            
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        <p>This blog is running Hugo with an auto deploy via Wercker and hosted on Github Page.
+Take #2</p>
+
+<p>Previous blog was hosted on Google App Engine with a <a href="http://github.com/akhenakh/bloggae">Python blog system</a>, to get the previous articles, I had to run in a small data migration.</p>
+
+<p>Make a backup from GAE admin web interface: Go to Datastore admin and backup your entity mine was Post and then backup to blobstore, go to Blob Viewer and download your file named around <code>datastore_backup_datastore_backup_2015_08_02_Post-157413521680733022360302ADC43E4-output-1-attempt-1</code></p>
+
+<p>I put the migration code I&rsquo;ve used here, it&rsquo;s super ugly but helped me to migrate from GAE to Hugo, so it may be help you too.</p>
+
+<p>I&rsquo;ve used <a href="http://www.aaronsw.com/2002/html2text/">html2text</a> to convert my HTML data back to Markdown.</p>
+
+<pre><code class="language-python">import sys
+import os
+import json
+import html2text
+import errno
+import datetime
+
+sys.path.append('/usr/local/google_appengine')
+from google.appengine.api.files import records
+from google.appengine.datastore import entity_pb
+from google.appengine.api import datastore
+
+def mkdir_p(path):
+    try:
+        os.makedirs(path)
+    except OSError as exc:
+        if exc.errno == errno.EEXIST and os.path.isdir(path):
+            pass
+        else: raise
+
+raw = open(&quot;datastore&quot;, 'r')
+titles = open(&quot;titles.txt&quot;, 'r').readlines()
+reader = records.RecordsReader(raw)
+i = 0
+for record in reader:
+    entity_proto = entity_pb.EntityProto(contents=record)
+    entity = datastore.Entity.FromPb(entity_proto)
+
+    if entity.get(&quot;status&quot;) == 1:
+        path = titles[i].rstrip()
+        content = html2text.html2text(entity[&quot;content_html&quot;], &quot;http://blog.nobugware.com/&quot;)
+        directory = os.path.dirname(path)
+        mkdir_p(&quot;post&quot; + directory)
+
+        # get current local time and utc time
+        localnow = datetime.datetime.now()
+        utcnow = datetime.datetime.utcnow()
+
+        # compute the time difference in seconds
+        tzd = localnow - utcnow
+        secs = tzd.days * 24 * 3600 + tzd.seconds
+
+        # get a positive or negative prefix
+        prefix = '+'
+        if secs &lt; 0:
+            prefix = '-'
+            secs = abs(secs)
+
+        # print the local time with the difference, correctly formatted
+        suffix = &quot;%s%02d:%02d&quot; % (prefix, secs/3600, secs/60%60)
+        now = localnow.replace(microsecond=0)
+        date = &quot;%s%s&quot; % (entity[&quot;creation_date&quot;].isoformat(' '), suffix)
+        tags_string = &quot;&quot;
+        tags_cleaned = []
+        if entity.get(&quot;tags&quot;) is not None:
+            tags = entity.get(&quot;tags&quot;)
+            for tag in tags:
+                tags_cleaned.append(&quot;\&quot;&quot;+ tag + &quot;\&quot;&quot;)
+            tags_string = &quot;,&quot;.join(tags_cleaned)
+
+        print tags_string
+        page = &quot;&quot;&quot;+++
+date = &quot;%s&quot;
+title = &quot;%s&quot;
+tags = [%s]
++++
+
+%s
+&quot;&quot;&quot; % ( date, entity[&quot;title&quot;] , tags_string, content)
+    md=open(&quot;post&quot; + path + &quot;.md&quot;, 'w')
+    md.write(page.encode('utf8'))
+    md.close()
+    i = i + 1
+</code></pre>
 
                     </div>
                 </section>

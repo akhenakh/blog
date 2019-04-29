@@ -68,23 +68,6 @@
   </url>
   
   <url>
-    <loc>https://blog.nobugware.com/tags/testtag/</loc>
-    <lastmod>2019-04-11T08:38:39-04:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.nobugware.com/tags/test/</loc>
-    <lastmod>2019-04-11T08:38:39-04:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.nobugware.com/post/2019/test-forestry/</loc>
-    <lastmod>2019-04-11T08:38:39-04:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://blog.nobugware.com/post/2019/kubernetes_mesh_network_load_balancing_grpc_services/</loc>
     <lastmod>2019-03-11T00:32:43-05:00</lastmod>
   </url>
@@ -315,14 +298,14 @@
   </url>
   
   <url>
-    <loc>https://blog.nobugware.com/tags/freebsd/</loc>
+    <loc>https://blog.nobugware.com/post/2016/freebsd_raspberry_pi2/</loc>
     <lastmod>2016-01-10T11:32:19-05:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://blog.nobugware.com/post/2016/freebsd_raspberry_pi2/</loc>
+    <loc>https://blog.nobugware.com/tags/freebsd/</loc>
     <lastmod>2016-01-10T11:32:19-05:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>

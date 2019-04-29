@@ -21,15 +21,6 @@
     </item>
     
     <item>
-      <title>Kubernetes</title>
-      <link>https://blog.nobugware.com/tags/kubernetes/</link>
-      <pubDate>Sat, 27 Apr 2019 02:00:00 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/tags/kubernetes/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>caddy</title>
       <link>https://blog.nobugware.com/tags/caddy/</link>
       <pubDate>Sat, 27 Apr 2019 02:00:00 -0400</pubDate>
@@ -53,6 +44,15 @@
       <pubDate>Sat, 27 Apr 2019 02:00:00 -0400</pubDate>
       
       <guid>https://blog.nobugware.com/tags/docker/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>kubernetes</title>
+      <link>https://blog.nobugware.com/tags/kubernetes/</link>
+      <pubDate>Sat, 27 Apr 2019 02:00:00 -0400</pubDate>
+      
+      <guid>https://blog.nobugware.com/tags/kubernetes/</guid>
       <description></description>
     </item>
     
@@ -138,7 +138,7 @@
     </item>
     
     <item>
-      <title>linux</title>
+      <title>Linux</title>
       <link>https://blog.nobugware.com/tags/linux/</link>
       <pubDate>Sat, 22 Jul 2017 21:28:24 -0400</pubDate>
       

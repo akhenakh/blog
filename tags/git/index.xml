@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>docker on Fabrice Aneche</title>
-    <link>https://blog.nobugware.com/tags/docker/</link>
-    <description>Recent content in docker on Fabrice Aneche</description>
+    <title>git on Fabrice Aneche</title>
+    <link>https://blog.nobugware.com/tags/git/</link>
+    <description>Recent content in git on Fabrice Aneche</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sat, 27 Apr 2019 02:01:00 -0400</lastBuildDate>
     
-	<atom:link href="https://blog.nobugware.com/tags/docker/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://blog.nobugware.com/tags/git/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>

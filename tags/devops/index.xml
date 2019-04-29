@@ -6,7 +6,7 @@
     <description>Recent content in devops on Fabrice Aneche</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 27 Apr 2019 02:00:00 -0400</lastBuildDate>
+    <lastBuildDate>Sat, 27 Apr 2019 02:01:00 -0400</lastBuildDate>
     
 	<atom:link href="https://blog.nobugware.com/tags/devops/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,7 +14,7 @@
     <item>
       <title>Deploying a website with Caddy, Git and Kubernetes</title>
       <link>https://blog.nobugware.com/post/2019/deploying-a-website-with-caddy-git-and-kubernetes/</link>
-      <pubDate>Sat, 27 Apr 2019 02:00:00 -0400</pubDate>
+      <pubDate>Sat, 27 Apr 2019 02:01:00 -0400</pubDate>
       
       <guid>https://blog.nobugware.com/post/2019/deploying-a-website-with-caddy-git-and-kubernetes/</guid>
       <description>Caddy is the swiss army of the web server, and with the recent commercial license changes, it&amp;rsquo;s time to give it some love back.

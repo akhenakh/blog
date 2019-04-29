@@ -158,12 +158,11 @@ puregit https://github.com/myuser/hugo-blog {
 
 <p>Since Caddy supports environment variables it&rsquo;s easy to deploy in k8s:</p>
 
-<blockquote>
-<p>root /public
+<pre><code>root /public
 puregit {$REPO} {
-auth_token {$TOKEN}
-}</p>
-</blockquote>
+    auth_token {$TOKEN}
+}
+</code></pre>
 
 <p>Put your token into a secret and expose it as an environment variable.</p>
 

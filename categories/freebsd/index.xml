@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Freebsd on Fabrice Aneche</title>
+    <title>FreeBSD on Fabrice Aneche</title>
     <link>https://blog.nobugware.com/categories/freebsd/</link>
-    <description>Recent content in Freebsd on Fabrice Aneche</description>
+    <description>Recent content in FreeBSD on Fabrice Aneche</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sun, 10 Jan 2016 11:32:19 -0500</lastBuildDate>

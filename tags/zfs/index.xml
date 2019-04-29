@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Zfs on Fabrice Aneche</title>
+    <title>zfs on Fabrice Aneche</title>
     <link>https://blog.nobugware.com/tags/zfs/</link>
-    <description>Recent content in Zfs on Fabrice Aneche</description>
+    <description>Recent content in zfs on Fabrice Aneche</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Tue, 28 Feb 2012 15:32:47 -0400</lastBuildDate>

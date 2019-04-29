@@ -7,7 +7,7 @@
 
     <meta name="description" content="">
 
-    <meta name="generator" content="Hugo 0.33" />
+    <meta name="generator" content="Hugo 0.55.3" />
     <meta name="twitter:card" content="summary">
     
     <meta name="twitter:title" content="Go &middot; Fabrice Aneche">
@@ -73,6 +73,103 @@
         <div>
             
             <div class="posts">
+                
+                <h1 class="content-subhead">27 Apr 2019, 02:00</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://blog.nobugware.com/post/2019/deploying-a-website-with-caddy-git-and-kubernetes/" class="post-title">Deploying a website with Caddy, Git and Kubernetes</a>
+
+                        <p class="post-meta">
+                            
+                            
+                                under 
+                                
+                                <a class="post-category post-category-DevOps" href="https://blog.nobugware.com/categories/devops">DevOps</a>
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        
+
+<p><a href="https://caddyserver.com">Caddy</a> is the swiss army of the web server, and with the <a href="https://caddyserver.com/blog/announcing-caddy-1_0-caddy-2-caddy-enterprise">recent commercial license changes</a>, it&rsquo;s time to give it some love back.</p>
+
+<p>I have several static websites, some generated with <a href="https://gohugo.io">Hugo</a>, some are plain HTML.<br />
+I wanted a small container, to run it inside a Kubernetes cluster, capable of pulling some git repos and serve them.</p>
+
+<h2 id="caddy-git">Caddy-git</h2>
+
+<p>Caddy is already capable of that with the help of caddy-git unfortunately it is only working with ssh keys.<br />
+I wanted it to use <a href="https://help.github.com/en/articles/creating-a-personal-access-token-for-the-command-line">Github access token</a>. also the current implementation is relying on the <code>git</code> command and <code>sh</code>, I wanted mine to be able to run on <a href="https://github.com/GoogleContainerTools/distroless">Distroless</a>.</p>
+
+<h2 id="minigit">Minigit</h2>
+
+<p>I used <a href="https://github.com/src-d/go-git">go-git</a> a pure Go implementation of git, to first make a clone of the <code>git</code> command: <a href="https://github.com/akhenakh/minigit">minigit</a>.<br />
+<a href="https://github.com/akhenakh/minigit">minigit</a> can be useful in devops environnements and scriptings to facilitate git pulls.<br />
+Faking the <code>git</code> command with <a href="https://github.com/akhenakh/minigit/">minigit</a> in your image and tweak caddy-git to pass an extra parameter <code>--ghtoken</code></p>
+
+<pre><code>root /public
+git https://github.com/myuser/repo {
+   path /public
+   clone_args --ghtoken XXXXXXXXXXXXX
+   pull_args --ghtoken XXXXXXXXXXXXX
+   interval 3600
+}
+</code></pre>
+
+<p>It&rsquo;s nice but I wanted something cleaner and get rid of the <code>sh</code> dependency, I had to fork caddy-git.</p>
+
+<h2 id="caddy-puregit">Caddy-puregit</h2>
+
+<p>So here is caddy-puregit, a fork without execs but native pure Go git calls.<br />
+Give it your token and it will clone then pull on regular intervals.</p>
+
+<pre><code>root /public
+puregit https://github.com/myuser/repo {
+   path /public
+   auth_token XXXXXXXXXXXXX 
+   interval 3600
+}
+</code></pre>
+
+<p>I&rsquo;ve also created a <a href="https://cloud.docker.com/repository/docker/akhenakh/caddy-hugo">Caddy + Hugo image</a>, so you can trigger a Hugo build on every commits.</p>
+
+<pre><code>root /public
+puregit https://github.com/myuser/hugo-blog {
+   path /data
+   then hugo --destination=/public --source=/data
+   auth_token XXXXXXXXXXXXX 
+   interval 3600
+}
+</code></pre>
+
+<p>Here is <a href="https://github.com/akhenakh/caddy-puregit">caddy-puregit</a> and associated <a href="https://cloud.docker.com/u/akhenakh/repository/docker/akhenakh/caddy">Docker image</a> &amp; <a href="https://github.com/akhenakh/goimages/blob/master/caddy/Dockerfile">Dockerfile</a></p>
+
+<h2 id="kubernetize">Kubernetize</h2>
+
+<p>Since Caddy supports environment variables it&rsquo;s easy to deploy in k8s:</p>
+
+<blockquote>
+<p>root /public
+puregit {$REPO} {
+auth_token {$TOKEN}
+}</p>
+</blockquote>
+
+<p>Put your token into a secret and expose it as an environment variable.</p>
+
+<p><a href="https://gist.github.com/akhenakh/f3836dc3cf6ca06a003c562dde43ff07">Here is template</a> to deploy which will deploy caddy and pull your repo then serving it according to the config.</p>
+
+<h2 id="notes">Notes</h2>
+
+<p>The way Caddy register plugins is weird I had to fork caddy <a href="https://github.com/akhenakh/caddy/commit/9f816d3bb96fa9f70c30cb432e653a6567ffb14d#diff-6d5d55d40631fee92928c3ec5ff6e130">since it requires a directive to be set</a>.<br />
+I had troubles to compile the whole thing: even the go mod <code>replace</code> directive was unable to point to my forked repo, only <code>go mod=vendor</code> did the trick.</p>
+
+<p>I don&rsquo;t plan maintaining this fork but will reach the author since a pure Go git concept is working maybe he will be interested.</p>
+
+                    </div>
+                </section>
                 
                 <h1 class="content-subhead">11 Mar 2019, 00:32</h1>
                 <section class="post">

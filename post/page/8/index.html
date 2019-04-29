@@ -7,7 +7,7 @@
 
     <meta name="description" content="">
 
-    <meta name="generator" content="Hugo 0.33" />
+    <meta name="generator" content="Hugo 0.55.3" />
     <meta name="twitter:card" content="summary">
     
     <meta name="twitter:title" content="Posts &middot; Fabrice Aneche">
@@ -74,6 +74,110 @@
             
             <div class="posts">
                 
+                <h1 class="content-subhead">26 Feb 2009, 11:37</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://blog.nobugware.com/post/2009/02/26/understanding-zfs-tuning/" class="post-title">Understanding the ZFS tuning</a>
+
+                        <p class="post-meta">
+                            
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        
+
+<h4 id="zfs-is-all-about-performance-many-levels-of-caching-pre-fetch-and">ZFS is all about performance (many levels of caching, pre-fetch, &hellip;) and</h4>
+
+<p>memory consumption :-)</p>
+
+<h4 id="here-are-my-last-links-about-zfs">Here are my last links about ZFS</h4>
+
+<p><a href="http://src.opensolaris.org/source/xref/onnv/onnv-
+gate/usr/src/cmd/mdb/common/modules/zfs/zfs.c#333">internals</a>, it&rsquo;s worth a read if you
+plan to use ZFS on large productions :</p>
+
+<ul>
+<li><p>The slides of Adam Leventhal&rsquo;s talk for the OpenSolaris Storage Summit : <a href="http://blogs.sun.com/ahl/entry/hsp_talk_at_the_opensolaris">ZFS, Cache, and Flash</a></p></li>
+
+<li><p>c0t0d0s0.org : a very good explanation of the ARC cache : most recently used pages, most frequently used pages and their ghosts lists <a href="http://www.c0t0d0s0.org/archives/5329-Some-insight-into-the-read-cache-of-ZFS-or-The-ARC.html">Some insight into the read cache of ZFS - or: The ARC</a> and the [](<a href="http://www.c0t0d0s0.org/archives/5329-Some-insight-into-the-read-cache-of-ZFS-or-The-ARC.html)[writing">http://www.c0t0d0s0.org/archives/5329-Some-insight-into-the-read-cache-of-ZFS-or-The-ARC.html)[writing</a> side](<a href="http://www.c0t0d0s0.org/archives/5343-Insights-into-ZFS-today-The-nature-of-writing-things.html#extended">http://www.c0t0d0s0.org/archives/5343-Insights-into-ZFS-today-The-nature-of-writing-things.html#extended</a>)</p></li>
+
+<li><p>The <a href="http://www.cuddletech.com/blog/pivot/entry.php?id=979">arc_summary.pl</a> tool is very useful for analysis, made by Ben Rockwood with the kstat counters.</p></li>
+
+<li><p>Also by Ben Rockwood : <a href="http://wikis.sun.com/download/attachments/63226450/ZFSintheTrenches.pdf">ZFS in the Trenches</a> is an overview of a real-life-production usage of ZFS : interesting counters and tuning hints at the different levels (monitoring, ARC, ZIL, Physical I/O, backup &amp; replication), useful tools, and experience sharing. <strong>A must-read !</strong></p></li>
+
+<li><p>And before anything, always refer to the <a href="http://www.solarisinternals.com/wiki/index.php/ZFS_Best_Practices_Guide">ZFS Best Practices Guide</a> of solarisinternals.com</p></li>
+</ul>
+
+<p>If you have some interesting links about ZFS too, share them with us in the
+comments !</p>
+
+<p>Thomas</p>
+
+                    </div>
+                </section>
+                
+                <h1 class="content-subhead">17 Feb 2009, 11:35</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://blog.nobugware.com/post/2009/02/17/virtualbox-nat-ssh-guest/" class="post-title">Virtualbox NAT ssh to guest</a>
+
+                        <p class="post-meta">
+                            
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        <p>In NAT mode (the default one), virtualbox does not give you the possibility to
+directly connect to your guest os.</p>
+
+<p>Here is how to configure your Virtualbox to simply ssh myguest</p>
+
+<p>For example my guest is called &ldquo;Solaris10u6&rdquo;, configured to used e1000 card,
+the default in solaris configuration, (The host os is a Mac).</p>
+
+<p>Type this command in terminal:</p>
+
+<p>`VBoxManage setextradata Solaris10u6
+&ldquo;VBoxInternal/Devices/e1000/0/LUN#0/Config/ssh/Protocol&rdquo; TCP</p>
+
+<p>VBoxManage setextradata Solaris10u6
+&ldquo;VBoxInternal/Devices/e1000/0/LUN#0/Config/ssh/GuestPort&rdquo; 22</p>
+
+<p>VBoxManage setextradata Solaris10u6
+&ldquo;VBoxInternal/Devices/e1000/0/LUN#0/Config/ssh/HostPort&rdquo; 2222 `</p>
+
+<p>It stands for redirect all connection to TCP port 2222 from the host os (my
+mac) to the port 22 of the guest (my solaris).</p>
+
+<p>To connect to your Virtual machine guest simply do ssh -p 2222 localhost and
+you are in.</p>
+
+<p>If you want to check all the config applied to a guest type in terminal:</p>
+
+<p><code>VBoxManage getextradata Solaris10u6 enumerate</code></p>
+
+<p>By the way if you get this kind of errors:</p>
+
+<blockquote>
+<p>Configuration error: Failed to get the &ldquo;MAC&rdquo; value
+(VERR_CFGM_VALUE_NOT_FOUND).</p>
+</blockquote>
+
+<p>It means you have set the config to a network adapter which is not the one
+used by your guest for example, this wil raise an error when you will start
+the vm if you are using a e1000 adapter:</p>
+
+<p><code>VBoxManage setextradata Solaris10u6
+&quot;VBoxInternal/Devices/pcnet/0/LUN#0/Config/ssh/Protocol&quot; TCP</code></p>
+
+                    </div>
+                </section>
+                
                 <h1 class="content-subhead">09 Feb 2009, 14:51</h1>
                 <section class="post">
                     <header class="post-header">
@@ -127,23 +231,29 @@ machines on EC2.&rdquo;</p>
                         <ul>
 <li><p>Pour changer le nom MyCompanyName dans votre source code:<code>
 defaults write com.apple.Xcode PBXCustomTemplateMacroDefinitions
-'{ORGANIZATIONNAME = &quot;Nobugware&quot;; }'</code></p>
+'{ORGANIZATIONNAME = &quot;Nobugware&quot;; }'</code></p></li>
 
-<ul>
-<li>⌘[ et ⌘] pour indenter a droite ou a gauche</li>
-<li>⌃/ pour passer d&rsquo;un champ a l&rsquo;autre quand xcode vous propose la completion d&rsquo;une methode avec plusieurs arguments (⌃⇧/ clavier fr)</li>
-<li>⌥⌘↑ (alt shift curseur haut) passe du fichier .m au .h</li>
-<li>⌘⇧D Open Quickly, permet d&rsquo;ouvrir un popup de rechercher pour ouvrir rapidement un fichier</li>
-<li>⌘d ajouter un bookmark</li>
-<li>^⌘? ouvre Research assistant, une petite fenetre geniale qui vous affiche des aides en fonction du mot sous votre curseur</li>
-<li>⌘↵ Compile and Run, ⌘y compile and debug, ⌘⇧y affiche le debugger</li>
-<li>⌃⌘S faire un snapshot du code</li>
-<li>⌃⇧1 pour acceder a la liste des fichiers ouverts</li>
-<li>⌃⇧2 pour acceder a la liste des fonctions/methods/symbols du fichier en cours</li>
-<li>⌘/ comment, uncomment
+<li><p>⌘[ et ⌘] pour indenter a droite ou a gauche</p></li>
 
-<br /></li>
-</ul></li>
+<li><p>⌃/ pour passer d&rsquo;un champ a l&rsquo;autre quand xcode vous propose la completion d&rsquo;une methode avec plusieurs arguments (⌃⇧/ clavier fr)</p></li>
+
+<li><p>⌥⌘↑ (alt shift curseur haut) passe du fichier .m au .h</p></li>
+
+<li><p>⌘⇧D Open Quickly, permet d&rsquo;ouvrir un popup de rechercher pour ouvrir rapidement un fichier</p></li>
+
+<li><p>⌘d ajouter un bookmark</p></li>
+
+<li><p>^⌘? ouvre Research assistant, une petite fenetre geniale qui vous affiche des aides en fonction du mot sous votre curseur</p></li>
+
+<li><p>⌘↵ Compile and Run, ⌘y compile and debug, ⌘⇧y affiche le debugger</p></li>
+
+<li><p>⌃⌘S faire un snapshot du code</p></li>
+
+<li><p>⌃⇧1 pour acceder a la liste des fichiers ouverts</p></li>
+
+<li><p>⌃⇧2 pour acceder a la liste des fonctions/methods/symbols du fichier en cours</p></li>
+
+<li><p>⌘/ comment, uncomment</p></li>
 </ul>
 
 <p>⌃ = ctrl</p>
@@ -683,125 +793,6 @@ sdk-exemple-de-code-et-documentation">apprendre objective C</a>.</p>
                     </div>
                 </section>
                 
-                <h1 class="content-subhead">03 Dec 2008, 10:32</h1>
-                <section class="post">
-                    <header class="post-header">
-
-                        <a href="https://blog.nobugware.com/post/2008/12/03/gentoo-bref-recap-des-commandes-de-gestion-de-paquets/" class="post-title">Gentoo bref récap des commandes de gestion de paquets</a>
-
-                        <p class="post-meta">
-                            
-                            
-                        </p>
-                    </header>
-
-                    <div class="post-description">
-                        <p>Avant toute chose installer l&rsquo;outil gentoolkit</p>
-
-<p><code>emerge -av gentoolkit</code></p>
-
-<p>Ces nouvelles commandes vont vous permettre de:</p>
-
-<p>A quel port appartient un binaire:</p>
-
-<pre><code> equery belongs cjpeg
- [ Searching for file(s) cjpeg in *... ] 
-media-libs/jpeg-6b-r8 (/usr/bin/cjpeg) 
-</code></pre>
-
-<p>Quels sont les dependances d&rsquo;un port:</p>
-
-<pre><code>equery depends gd
-[ Searching for packages depending on gd... ]
-dev-lang/php-5.2.6-r7 (gd-external? media-libs/gd)
-</code></pre>
-
-<p>Quels sont les fichiers installes par un package:</p>
-
-<pre><code> equery files less
-[ Searching for packages matching less... ]
-* Contents of sys-apps/less-418:
-/etc
-/etc/env.d
-/etc/env.d/70less
-/usr
-/usr/bin
-/usr/bin/code2color
-/usr/bin/less
-/usr/bin/lessecho
-/usr/bin/lesskey
-/usr/bin/lesspipe.sh
-/usr/share
-/usr/share/doc
-/usr/share/doc/less-418
-/usr/share/doc/less-418/NEWS.bz2
-/usr/share/doc/less-418/README.Gentoo.bz2
-/usr/share/doc/less-418/README.bz2
-/usr/share/man
-/usr/share/man/man1
-/usr/share/man/man1/less.1.bz2
-/usr/share/man/man1/lessecho.1.bz2
-/usr/share/man/man1/lesskey.1.bz2
-</code></pre>
-
-<p>Mettre a jour vos machines en s&rsquo;assurant que tous les USE soient respectes, si
-vous changez une variable USE en ajoutant mysql par exemple, il est en theorie
-necessaire de recompiler tous les packages qui peuvent avoir ce use flag, puis
-enlever le &ndash;pretent</p>
-
-<p><code>emerge --update --deep --newuse world --pretend</code></p>
-
-<p>Verifier que chaque binaire reference une librairie encore existante sur votre
-syseme:</p>
-
-<p>Apres une mise a jour il se peut par exemple que la libgdbm ai change de
-revision majeure libgdbm.so.3, un binaire linke a cette librairie en
-libgdbm.so.2 ne fonctionnera plus, c&rsquo;est le role de <em>revdep-rebuild</em> de
-retrouver quels binaires doivent etre recompile.</p>
-
-<p>Enlever les versions obsoletes d&rsquo;un package:</p>
-
-<p><code>emerge --prune gentoo-sources</code></p>
-
-                    </div>
-                </section>
-                
-                <h1 class="content-subhead">03 Dec 2008, 10:25</h1>
-                <section class="post">
-                    <header class="post-header">
-
-                        <a href="https://blog.nobugware.com/post/2008/12/03/probleme-daffichage-avec-man/" class="post-title">Probleme d&#39;affichage avec man</a>
-
-                        <p class="post-meta">
-                            
-                            
-                        </p>
-                    </header>
-
-                    <div class="post-description">
-                        <p>Parfois sous linux, souvent sur gentoo les man affichent des caracteres comme
-ceux ci:</p>
-
-<p>LESS(1) LESS(1)</p>
-
-<p>ESC[1mNAMEESC[0m</p>
-
-<p>less - opposite of more</p>
-
-<p>ESC[1mSYNOPSISESC[0m</p>
-
-<p>ESC[1mless -?ESC[0m</p>
-
-<p>ESC[1mless &ndash;helpESC[0m</p>
-
-<p>La solution la plus simple consiste a changer la variable PAGER de votre
-environnement:</p>
-
-<p><code>export PAGER=&quot;less -r&quot;</code></p>
-
-                    </div>
-                </section>
-                
             </div>
             
 <div class="pagination">
@@ -811,7 +802,11 @@ environnement:</p>
         <i class="fa fa-angle-double-left"></i>&nbsp;Newer
       </a>
       
-    <span class="post-list-pagination-item post-list-pagination-item-current">Page 8 of 8</span>
+    <span class="post-list-pagination-item post-list-pagination-item-current">Page 8 of 9</span>
+    
+      <a href="https://blog.nobugware.com/post/page/9/" class="post-list-pagination-item pure-button post-list-pagination-item-next">
+        Older&nbsp;<i class="fa fa-angle-double-right"></i>
+      </a>
     
   </nav>
 </div>

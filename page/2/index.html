@@ -7,7 +7,7 @@
 
     <meta name="description" content="">
 
-    <meta name="generator" content="Hugo 0.33" />
+    <meta name="generator" content="Hugo 0.55.3" />
     <meta name="twitter:card" content="summary">
     
     <meta name="twitter:title" content="Fabrice Aneche &middot; Fabrice Aneche">
@@ -73,6 +73,117 @@
         <div>
             
             <div class="posts">
+                
+                <h1 class="content-subhead">08 Oct 2017, 14:28</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://blog.nobugware.com/post/2017/hacking_temperature_radio_sensors_and_graphing_with_prometheus/" class="post-title">Hacking Temperature Radio Sensors and Graphing with Prometheus</a>
+
+                        <p class="post-meta">
+                            
+                            
+                                under 
+                                
+                                
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        
+
+<p>One year ago I&rsquo;ve started to collect temperature from my house using Acurite sensors.</p>
+
+<p><img src="https://blog.nobugware.com/img/acurite0.jpg" alt="Acurite outddor" /> <img src="https://blog.nobugware.com/img/acurite1.jpg" alt="Acurite indoor" /></p>
+
+<p>These sensors are not too expensive and good quality but the &ldquo;base&rdquo; aka the radio receiver connected to internet is costly and totally closed, it&rsquo;s sending your data to the Cloud™, it&rsquo;s not just Acurite, all those &ldquo;IOT&rdquo; devices are generally poor on the software side.</p>
+
+<h2 id="receiving-radio-data">Receiving radio data</h2>
+
+<p>Most of these sensors have their protocols already reverse engineered you only need the radio receiver part.</p>
+
+<p><a href="https://www.rtl-sdr.com/rtl-sdr-quick-start-guide/">RTL-SDR</a> dongles to the rescue and a <a href="https://www.rtl-sdr.com/using-rtl-sdr-rtl_433-decode-various-devices/">great community</a> around it.</p>
+
+<p><a href="http://github.com/prune998">Prune998</a> and I have added some <a href="https://github.com/merbanan/rtl_433/commit/66a3752fbc3949ac19cf9eed36d725741947b6b8">JSON support to the acurite driver</a> and sent it to the projet.</p>
+
+<h2 id="collecting-and-graphing-the-data">Collecting and graphing the data</h2>
+
+<p>The last needed piece was something to collect the data and send to prometheus:</p>
+
+<p>So I wrote a quick Go program to do exactly that <a href="https://github.com/akhenakh/acurite_to_graph">Acurite to graph</a></p>
+
+<p>Et voila, we can graph all sensors in our home.</p>
+
+<p><img src="https://blog.nobugware.com/img/graphacurite.jpg" alt="graph" /></p>
+
+<p>It has been tested on OSX &amp; Linux.</p>
+
+                    </div>
+                </section>
+                
+                <h1 class="content-subhead">08 Oct 2017, 09:57</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://blog.nobugware.com/post/2017/notes_on_pacbsd/" class="post-title">Notes on PacBSD</a>
+
+                        <p class="post-meta">
+                            
+                            
+                                under 
+                                
+                                <a class="post-category post-category-BSD" href="https://blog.nobugware.com/categories/bsd">BSD</a>
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        <p><a href="https://pacbsd.org/">PacBSD</a> is a FreeBSD kernel/world with a <a href="https://wiki.archlinux.org/index.php/Pacman">PacMan</a> Arch package manager and an optionnal <a href="https://wiki.gentoo.org/wiki/OpenRC">OpenRC</a> init system.</p>
+
+<p>In short ZFS, DTrace and the FreeBSD kernel but the simplicity of Arch for packages management but the Gentoo init.</p>
+
+<p>It&rsquo;s experimental, uncompleted, unfinished, lacks proper documentations but it works and could be/should be the solution we are waiting for :).</p>
+
+<p>Here is some notes on installation (in QEMU), note that it slightly diverges from the official install since it&rsquo;s using a whole ZFS disk, so no GPT.</p>
+
+<pre><code>zpool create tank /dev/vtbd0
+zfs create -o canmount=off -o mountpoint=legacy tank/ROOT
+zfs create -o canmount=on -o compression=lz4 -o mountpoint=/ tank/ROOT/pacbsd
+zfs create -o compression=lz4 -o mountpoint=/home tank/HOME
+zfs create -o compression=lz4 -o mountpoint=/root tank/HOME/root
+pacstrap /mnt base
+</code></pre>
+
+<p>Add to loader.conf</p>
+
+<pre><code>zfs_load=&quot;YES&quot;
+vfs.root.mountfrom=&quot;zfs:tank/ROOT/pacbsd&quot;
+</code></pre>
+
+<pre><code>arch-chroot /mnt
+ln -s /usr/share/zoneinfo/zone/subzone /etc/localtime
+rc-update add zfs default
+echo 'hostname=&quot;pacbsd&quot;' &gt; /etc/conf.d/hostname
+dd if=/boot/zfsboot of=/dev/vtbd0 count=1
+dd if=/boot/zfsboot of=/dev/vtbd0 iseek=1 oseek=1024
+</code></pre>
+
+<p>Edit loader.conf</p>
+
+<pre><code>zfs_load=&quot;YES&quot;
+vfs.root.mountfrom=&quot;zfs:tank/ROOT/pacbsd&quot;
+</code></pre>
+
+<p>Reboot, manually starts dhcpd, explore &hellip;</p>
+
+<pre><code>dhcpcd vtnet0
+</code></pre>
+
+<p>Even with you don&rsquo;t plan on installing <a href="https://pacbsd.org/">PacBSD</a>, the <a href="https://packages.pacbsd.org/iso/">provided ISO</a> is a useful bootable FreeBSD 11 kernel with zfs and pacman/pacstrap tools.</p>
+
+                    </div>
+                </section>
                 
                 <h1 class="content-subhead">22 Jul 2017, 21:28</h1>
                 <section class="post">
@@ -877,114 +988,6 @@ Working directory to <code>$ProjectFileDir$</code></p>
                     </div>
                 </section>
                 
-                <h1 class="content-subhead">08 Mar 2016, 11:23</h1>
-                <section class="post">
-                    <header class="post-header">
-
-                        <a href="https://blog.nobugware.com/post/2016/geo_db_s2_region_polygon_optmization/" class="post-title">A geo database for polygons, optimization</a>
-
-                        <p class="post-meta">
-                            
-                            
-                                under 
-                                
-                                <a class="post-category post-category-Geo" href="https://blog.nobugware.com/categories/geo">Geo</a><a class="post-category post-category-Golang" href="https://blog.nobugware.com/categories/golang">Golang</a>
-                            
-                        </p>
-                    </header>
-
-                    <div class="post-description">
-                        <p>If you read this blog, you know I&rsquo;ve recently released a project called <a href="https://github.com/akhenakh/regionagogo">regionagogo</a>, a geo shape lookup database, described in <a href="https://blog.nobugware.com/post/2016/geo_db_s2_region_polygon/">this blogpost</a>.</p>
-
-<p>It uses the current <a href="https://godoc.org/github.com/golang/geo/s2">Go S2 implementation</a>, which is not yet as complete as the C++ implementation, for example the region coverer of a shape does not really compute cell around the shape but around the bounding box instead.</p>
-
-<p>Using the shape of the polygon makes the covered cells more precise and smaller, resulting at the end to less <a href="https://en.wikipedia.org/wiki/Point_in_polygon">PIP</a> tests which are costly.</p>
-
-<p><img src="https://blog.nobugware.com/img/s2cpp.jpg" alt="S2 over a shape" title="S2 cover" /><br />
-The same coverage with Go S2 would have returned 8 big cells of the same size, covering over regions.</p>
-
-<p>I&rsquo;ve created <a href="https://github.com/akhenakh/regionagogogen">regionagogogen</a> a quick and dirty command line program for OSX that takes a GeoJSON file containing your regions and then compute the database using the S2 C++ implementation, it&rsquo;s for OSX only cause I&rsquo;m using ObjC as a bridge to C++ which I don&rsquo;t know enough.</p>
-
-<p>Also note that <a href="https://github.com/akhenakh/regionagogogen">regionagogogen</a> includes an S2 port that works on iOS/OSX and some ObjC geo helper classes.</p>
-
-<p>The <a href="https://hub.docker.com/r/akhenakh/regionagogo/">Docker image fore regionagogo</a> is also using the optimized database.</p>
-
-                    </div>
-                </section>
-                
-                <h1 class="content-subhead">18 Feb 2016, 17:16</h1>
-                <section class="post">
-                    <header class="post-header">
-
-                        <a href="https://blog.nobugware.com/post/2016/geo_db_s2_region_polygon/" class="post-title">A geo database for polygons, foundations</a>
-
-                        <p class="post-meta">
-                            
-                            
-                                under 
-                                
-                                <a class="post-category post-category-Geo" href="https://blog.nobugware.com/categories/geo">Geo</a><a class="post-category post-category-Golang" href="https://blog.nobugware.com/categories/golang">Golang</a>
-                            
-                        </p>
-                    </header>
-
-                    <div class="post-description">
-                        
-
-<p>On a previous post, <a href="http://blog.nobugware.com/post/2016/geo_db_s2_geohash_database/">I&rsquo;ve described how to use the S2 geo library</a> to create a fast geo database, but it was to store locations (points) and only to perform range queries, a complete geo database would have regions/polygons queries.</p>
-
-<h2 id="looking-for-a-solution">Looking for a solution</h2>
-
-<p>I had this need: querying for the countries or subregions of hundreds of coordinates per second, without relying on an external service.</p>
-
-<p>One solution, using my previous technique, could have been to store every cities in the world and then perform a proximity query around my point to get the closest cities, but it works only in populated area and it&rsquo;s only an approximation.</p>
-
-<p>I looked into others solutions, there is some smart ideas <a href="https://github.com/hlaw/codegrid-js">using UTF-grid</a>, but it&rsquo;s a client side solution and also an approximation tied to the resolution of the computed grid.</p>
-
-<h2 id="s2-to-the-rescue">S2 to the rescue</h2>
-
-<p>S2 cells have some nice properties, they are segments on the <a href="https://en.wikipedia.org/wiki/Hilbert_curve">Hilbert curve</a>, expressed as range of <code>uint64</code>, so I had the intuition the problem to perform fast region lookup could be simplified as find all mathematical segments containing my location expressed as an <code>uint64</code>.</p>
-
-<p><img src="https://blog.nobugware.com/img/s2belgium.jpg" alt="S2 over a country" title="S2 covering belgium" /></p>
-
-<p>Using a <a href="https://en.wikipedia.org/wiki/Segment_tree">Segment Tree</a> datastructure, I first tried an in memory engine, using <a href="http://www.naturalearthdata.com/">Natural Earth Data</a>, loading the whole world countries shapes into S2 loops (a <code>Loop</code> represents a simple spherical polygon), transforming then into cells using the region coverer, it returns cells of different levels, add them to the segment tree.</p>
-
-<p><img src="https://blog.nobugware.com/img/stree.gif" alt="Segment Tree" title="Segment tree picture fron Wikipedia" /></p>
-
-<p>To query, simply tranform the location into an S2 <code>Cell</code> (level 30) and perform a stubbing query that intersects the segments, every segments crossed are cells that covered a part of a <code>Loop</code>.<br />
-It will reduce the problem to test a few <code>Loop</code> vs thousands of them, finally perform <code>ContainsPoint</code> against the found loops cause the point could be inside the <code>Cell</code> but not inside the <code>Loop</code> itself.</p>
-
-<p>Et voilà! It works!</p>
-
-<p>The segment tree structure itself is very low on memory, the loops/polygons data could be stored on disk and loaded on requests, I&rsquo;ve tested a second implementation using LevelDB using this technique.</p>
-
-<p>If you have a very large tree (for example cities limits for the whole world), you can even put the segment tree on a KV storage, using this paper <a href="http://students.ceid.upatras.gr/~patlakas/papers/ICDE13_conf_full_420.pdf">Interval Indexing and Querying on Key-Value Cloud Stores</a>.</p>
-
-<h2 id="region-a-gogo">Region a gogo</h2>
-
-<p>As a demonstration here is a working microservice called <a href="https://github.com/akhenakh/regionagogo">regionagogo</a>, simply returning the country &amp; state for a given location.<br />
-It loads geo data for the whole world and answers to HTTP queries using small amout of memory.</p>
-
-<pre><code>GET /country?lat=19.542915&amp;lng=-155.665857
-
-{
-    &quot;code&quot;: &quot;US&quot;,
-    &quot;name&quot;: &quot;Hawaii&quot;
-}
-</code></pre>
-
-<p>Here is a <a href="https://hub.docker.com/r/akhenakh/regionagogo/">Docker image</a> so you can deploy it on your stack.</p>
-
-<p>Note that it performs really well but can be improved a lot, for example the actual Go S2 implementation is still using Rect boxing around loops, that&rsquo;s why <a href="https://github.com/akhenakh/regionagogo">regionagogo</a> is using a data file so it can be generated from the C++ version.</p>
-
-<h2 id="future">Future</h2>
-
-<p>This technique seems to work well for stubbing queries, region queries, geofencing &hellip;<br />
-It can be a solid foundation to create a flexible and simple geo database.</p>
-
-                    </div>
-                </section>
-                
             </div>
             
 <div class="pagination">
@@ -994,7 +997,7 @@ It can be a solid foundation to create a flexible and simple geo database.</p>
         <i class="fa fa-angle-double-left"></i>&nbsp;Newer
       </a>
       
-    <span class="post-list-pagination-item post-list-pagination-item-current">Page 2 of 8</span>
+    <span class="post-list-pagination-item post-list-pagination-item-current">Page 2 of 9</span>
     
       <a href="https://blog.nobugware.com/page/3/" class="post-list-pagination-item pure-button post-list-pagination-item-next">
         Older&nbsp;<i class="fa fa-angle-double-right"></i>

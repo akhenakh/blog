@@ -7,7 +7,7 @@
 
     <meta name="description" content="">
 
-    <meta name="generator" content="Hugo 0.33" />
+    <meta name="generator" content="Hugo 0.55.3" />
     <meta name="twitter:card" content="summary">
     
     <meta name="twitter:title" content="Posts &middot; Fabrice Aneche">
@@ -73,6 +73,167 @@
         <div>
             
             <div class="posts">
+                
+                <h1 class="content-subhead">14 Oct 2011, 13:57</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://blog.nobugware.com/post/2011/10/14/freebsd-90-guest-virtio-support-in-kvm/" class="post-title">FreeBSD 9.0 guest with virtio support in KVM</a>
+
+                        <p class="post-meta">
+                            
+                            
+                                under 
+                                
+                                <a class="post-category post-category-FreeBSD" href="https://blog.nobugware.com/categories/freebsd">FreeBSD</a>
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        <p>Performance are really bad for FreeBSD in KVM, one solution is to use
+paravirtualized driver, virIO.</p>
+
+<p>At the time of writing FreeBSD 9.0 is beta 3 and the last commit in the virtio
+project is
+<a href="http://svnweb.freebsd.org/base?view=revision&amp;revision=225710">225710</a></p>
+
+<pre><code>cd /usr/src/sys/dev
+svn co http://svn.freebsd.org/base/projects/virtio/sys/dev/virtio
+cd /usr/src/sys/modules
+svn co http://svn.freebsd.org/base/projects/virtio/sys/modules/virtio
+cd /usr/src/sys/modules/virtio
+
+make install
+</code></pre>
+
+<p>add this to /boot/loader.conf</p>
+
+<pre><code>virtio_load=&quot;YES&quot;
+virtio_pci_load=&quot;YES&quot;
+virtio_blk_load=&quot;YES&quot;
+if_vtnet_load=&quot;YES&quot;
+virtio_balloon_load=&quot;YES&quot;
+
+# dmesg | grep -i  virtio
+vtnet0:  on virtio_pci0
+virtio_pci1:  port 0xc060-0xc07f irq 11 at device 4.0 on pci0
+vtballoon0:  on virtio_pci1
+virtio_pci2:  port 0xc080-0xc0bf mem 0xf2040000-0xf2040fff irq 10 at device 5.0 on pci0
+vtblk0:  on virtio_pci2
+</code></pre>
+
+<p>It needs further tests, but seems to work except for the net driver which give
+me no links, (you can still use the previous net driver in KVM)</p>
+
+<p>EDIT: the vtnet driver issue is solve and should be in the trunk</p>
+
+                    </div>
+                </section>
+                
+                <h1 class="content-subhead">14 Oct 2011, 11:00</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://blog.nobugware.com/post/2011/10/14/install-freebsd-90-zfs-root/" class="post-title">Install FreeBSD 9.0 with ZFS root</a>
+
+                        <p class="post-meta">
+                            
+                            
+                                under 
+                                
+                                <a class="post-category post-category-FreeBSD" href="https://blog.nobugware.com/categories/freebsd">FreeBSD</a>
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        <p>The &ldquo;new&rdquo; FreeBSD installer does not give you the options to simply install
+ZFS as root, so sad, here is how to do it.</p>
+
+<p>Most installation recommand to install / in the zpool root, which is not
+always clean, for example a recursive snapshot will snapshot your swap &hellip;</p>
+
+<pre><code>#Boot cd and choose shell:
+
+
+umount /dev/md1
+mdmfs -s 1024M md1 /tmp
+
+gpart destroy -F ada0
+
+gpart create -s gpt ada0
+
+gpart add -b 34 -s 64k -t freebsd-boot ada0
+#gpart add -s 4G -t freebsd-swap -l swap0 ada0
+gpart add -t freebsd-zfs -l disk0 ada0
+gpart bootcode -b /boot/pmbr -p /boot/gptzfsboot -i 1 ada0
+
+zpool destroy rpool
+# use -f if you already have a zpool
+zpool create -f rpool /dev/gpt/disk0
+
+zfs set checksum=fletcher4 rpool
+zfs create rpool/root
+zfs set mountpoint=none rpool
+zfs set mountpoint=/mnt rpool/root
+
+zfs create -o canmount=off  rpool/root/usr
+zfs create  -o canmount=off rpool/root/var
+zfs create -o compression=on -o exec=on -o setuid=off rpool/root/tmp
+zfs create -o compression=gzip -o setuid=off  rpool/root/usr/ports
+zfs create -o compression=off -o exec=off -o setuid=off rpool/root/usr/ports/distfiles
+zfs create -o compression=off -o exec=off -o setuid=off rpool/root/usr/ports/packages
+zfs create -o compression=gzip -o exec=off -o setuid=off  rpool/root/usr/src
+zfs create -o compression=lzjb rpool/root/usr/obj
+zfs create -o compression=lzjb  -o exec=off     -o setuid=off   rpool/root/var/crash
+zfs create -o compression=off -o exec=off -o setuid=off   rpool/root/var/empty
+zfs create -o compression=lzjb  -o exec=on -o setuid=off   rpool/root/var/tmp
+
+zpool export rpool
+zpool import -o cachefile=/tmp/zpool.cache rpool
+chmod 1777 /mnt/tmp
+chmod 1777 /mnt/var/tmp
+
+sh
+cd /usr/freebsd-dist
+export DESTDIR=/mnt
+for file in base.txz lib32.txz kernel.txz doc.txz ports.txz src.txz;
+do (cat $file | tar --unlink -xpJf - -C ${DESTDIR:-/}); done
+
+cp /tmp/zpool.cache /mnt/boot/zfs/zpool.cache
+echo 'zfs_enable=&quot;YES&quot;' &gt;&gt; /mnt/etc/rc.conf
+echo 'zfs_load=&quot;YES&quot;' &gt;&gt; /mnt/boot/loader.conf
+echo 'vfs.root.mountfrom=&quot;zfs:rpool/root&quot;' &gt;&gt; /mnt/boot/loader.conf
+
+zfs set readonly=on rpool/root/var/empty
+touch /mnt/etc/fstab
+zfs umount -a
+
+zfs set mountpoint=legacy rpool/root
+zfs set mountpoint=/tmp rpool/root/tmp
+zfs set mountpoint=/usr rpool/root/usr
+zfs set mountpoint=/var rpool/root/var
+zpool set bootfs=rpool/root rpool
+zfs create -V 2G rpool/swap
+zfs set checksum=off rpool/swap
+zfs set org.freebsd:swap=on rpool/swap
+
+
+#reboot
+
+# if close to 4G of memory
+#echo &quot;vfs.zfs.prefetch_disable=0&quot; &gt;&gt; /boot/loader.conf
+
+#echo WRKDIRPREFIX=/usr/obj &gt;&gt; /etc/make.conf
+#passwd root
+</code></pre>
+
+<p>This installation has been made on a Linux KVM, later blog post will follow
+how to enable Dtrace, virtio &hellip;</p>
+
+                    </div>
+                </section>
                 
                 <h1 class="content-subhead">31 Aug 2011, 15:40</h1>
                 <section class="post">
@@ -705,103 +866,6 @@ Also remember that FreeBSD 8.1 now includes ZFS version 14, which is a good
                     </div>
                 </section>
                 
-                <h1 class="content-subhead">09 Aug 2010, 13:44</h1>
-                <section class="post">
-                    <header class="post-header">
-
-                        <a href="https://blog.nobugware.com/post/2010/08/09/using-oracle-django/" class="post-title">Using Oracle with Django</a>
-
-                        <p class="post-meta">
-                            
-                            
-                        </p>
-                    </header>
-
-                    <div class="post-description">
-                        <p>In a production environment you could hit this one: DatabaseError: Invalid
-handle!</p>
-
-<p>It seems to happen when Oracle is called with OCI interface (cx_Oracle) by
-multiple threads.</p>
-
-<p>Yes using apache with MPM worker or mod_wsgi, will create threads in the same
-process, by default cx_Oracle is configured to be used without threads cause
-it will add a mutex and a performance hit.</p>
-
-<p>The solution is to pass the threaded parameters to the connection string, so
-in Django settings just add:</p>
-
-<pre><code>DATABASE_OPTIONS = {
-        'threaded':True
-    }
-</code></pre>
-
-<p>Here is a bug in the Django documentation to changed it to threaded by default
-&hellip; <a href="http://code.djangoproject.com/ticket/13351">13351</a></p>
-
-                    </div>
-                </section>
-                
-                <h1 class="content-subhead">12 Feb 2010, 14:02</h1>
-                <section class="post">
-                    <header class="post-header">
-
-                        <a href="https://blog.nobugware.com/post/2010/02/12/nginx-ssl-tomcat-confluence/" class="post-title">Nginx SSL &#43; Tomcat (for Confluence)</a>
-
-                        <p class="post-meta">
-                            
-                            
-                        </p>
-                    </header>
-
-                    <div class="post-description">
-                        <p>I have an Nginx frontend to serv everything but confluence which was not happy
-with my SSLized conf, here is the solution !</p>
-
-<p>This doc is related to confluence but will works with any java apps in a
-tomcat</p>
-
-<p>First don&rsquo;t use the standalone version of confluence (which is a Tomcat 5.5),
-use the EAR/WAR tar gz archive.</p>
-
-<p>We need Tomcat 6 cause we will use a &ldquo;Valve&rdquo; <a href="http://tomcat.apa
-che.org/tomcat-6.0-doc/api/org/apache/catalina/valves/RemoteIpValve.html">RemoteIPValve</a> that
-will check for a header (X-Forwarded-Proto) to see if the source request was
-secured by SSL.</p>
-
-<p>Inside tomcat server.xml simply add a Valve configuration in your Host
-definition:</p>
-
-<pre><code>&lt;Valve className=&quot;org.apache.catalina.valves.RemoteIpValve&quot;
-protocolHeader=&quot;X-Forwarded-Proto&quot;  protocolHeaderHttpsValue=&quot;https&quot; /&gt;
-</code></pre>
-
-<p>In your nginx.conf, just forward the header:</p>
-
-<pre><code>location /confluence {
-proxy_pass  http://localhost:8010;
-proxy_set_header X-Forwarded-Proto  https;
-proxy_set_header Host $http_host;
-}
-</code></pre>
-
-<p>This is the same mechanism you will find with rails or Django and Nginx.</p>
-
-<p>Remember to listen only on localhost with Tomcat or your nginx proxy is
-useless:</p>
-
-<pre><code>&lt;Connector address=&quot;127.0.0.1&quot; port=&quot;8010&quot; protocol=&quot;HTTP/1.1&quot;
-connectionTimeout=&quot;20000&quot;
-URIEncoding=&quot;UTF-8&quot;  /&gt;
-</code></pre>
-
-<p>Happy SSL !</p>
-
-<p>Thanks to Super Chinois for the java mess.</p>
-
-                    </div>
-                </section>
-                
             </div>
             
 <div class="pagination">
@@ -811,7 +875,7 @@ URIEncoding=&quot;UTF-8&quot;  /&gt;
         <i class="fa fa-angle-double-left"></i>&nbsp;Newer
       </a>
       
-    <span class="post-list-pagination-item post-list-pagination-item-current">Page 6 of 8</span>
+    <span class="post-list-pagination-item post-list-pagination-item-current">Page 6 of 9</span>
     
       <a href="https://blog.nobugware.com/post/page/7/" class="post-list-pagination-item pure-button post-list-pagination-item-next">
         Older&nbsp;<i class="fa fa-angle-double-right"></i>

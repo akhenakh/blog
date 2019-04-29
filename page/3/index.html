@@ -7,7 +7,7 @@
 
     <meta name="description" content="">
 
-    <meta name="generator" content="Hugo 0.33" />
+    <meta name="generator" content="Hugo 0.55.3" />
     <meta name="twitter:card" content="summary">
     
     <meta name="twitter:title" content="Fabrice Aneche &middot; Fabrice Aneche">
@@ -73,6 +73,114 @@
         <div>
             
             <div class="posts">
+                
+                <h1 class="content-subhead">08 Mar 2016, 11:23</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://blog.nobugware.com/post/2016/geo_db_s2_region_polygon_optmization/" class="post-title">A geo database for polygons, optimization</a>
+
+                        <p class="post-meta">
+                            
+                            
+                                under 
+                                
+                                <a class="post-category post-category-Geo" href="https://blog.nobugware.com/categories/geo">Geo</a><a class="post-category post-category-Golang" href="https://blog.nobugware.com/categories/golang">Golang</a>
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        <p>If you read this blog, you know I&rsquo;ve recently released a project called <a href="https://github.com/akhenakh/regionagogo">regionagogo</a>, a geo shape lookup database, described in <a href="https://blog.nobugware.com/post/2016/geo_db_s2_region_polygon/">this blogpost</a>.</p>
+
+<p>It uses the current <a href="https://godoc.org/github.com/golang/geo/s2">Go S2 implementation</a>, which is not yet as complete as the C++ implementation, for example the region coverer of a shape does not really compute cell around the shape but around the bounding box instead.</p>
+
+<p>Using the shape of the polygon makes the covered cells more precise and smaller, resulting at the end to less <a href="https://en.wikipedia.org/wiki/Point_in_polygon">PIP</a> tests which are costly.</p>
+
+<p><img src="https://blog.nobugware.com/img/s2cpp.jpg" alt="S2 over a shape" title="S2 cover" /><br />
+The same coverage with Go S2 would have returned 8 big cells of the same size, covering over regions.</p>
+
+<p>I&rsquo;ve created <a href="https://github.com/akhenakh/regionagogogen">regionagogogen</a> a quick and dirty command line program for OSX that takes a GeoJSON file containing your regions and then compute the database using the S2 C++ implementation, it&rsquo;s for OSX only cause I&rsquo;m using ObjC as a bridge to C++ which I don&rsquo;t know enough.</p>
+
+<p>Also note that <a href="https://github.com/akhenakh/regionagogogen">regionagogogen</a> includes an S2 port that works on iOS/OSX and some ObjC geo helper classes.</p>
+
+<p>The <a href="https://hub.docker.com/r/akhenakh/regionagogo/">Docker image fore regionagogo</a> is also using the optimized database.</p>
+
+                    </div>
+                </section>
+                
+                <h1 class="content-subhead">18 Feb 2016, 17:16</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://blog.nobugware.com/post/2016/geo_db_s2_region_polygon/" class="post-title">A geo database for polygons, foundations</a>
+
+                        <p class="post-meta">
+                            
+                            
+                                under 
+                                
+                                <a class="post-category post-category-Geo" href="https://blog.nobugware.com/categories/geo">Geo</a><a class="post-category post-category-Golang" href="https://blog.nobugware.com/categories/golang">Golang</a>
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        
+
+<p>On a previous post, <a href="http://blog.nobugware.com/post/2016/geo_db_s2_geohash_database/">I&rsquo;ve described how to use the S2 geo library</a> to create a fast geo database, but it was to store locations (points) and only to perform range queries, a complete geo database would have regions/polygons queries.</p>
+
+<h2 id="looking-for-a-solution">Looking for a solution</h2>
+
+<p>I had this need: querying for the countries or subregions of hundreds of coordinates per second, without relying on an external service.</p>
+
+<p>One solution, using my previous technique, could have been to store every cities in the world and then perform a proximity query around my point to get the closest cities, but it works only in populated area and it&rsquo;s only an approximation.</p>
+
+<p>I looked into others solutions, there is some smart ideas <a href="https://github.com/hlaw/codegrid-js">using UTF-grid</a>, but it&rsquo;s a client side solution and also an approximation tied to the resolution of the computed grid.</p>
+
+<h2 id="s2-to-the-rescue">S2 to the rescue</h2>
+
+<p>S2 cells have some nice properties, they are segments on the <a href="https://en.wikipedia.org/wiki/Hilbert_curve">Hilbert curve</a>, expressed as range of <code>uint64</code>, so I had the intuition the problem to perform fast region lookup could be simplified as find all mathematical segments containing my location expressed as an <code>uint64</code>.</p>
+
+<p><img src="https://blog.nobugware.com/img/s2belgium.jpg" alt="S2 over a country" title="S2 covering belgium" /></p>
+
+<p>Using a <a href="https://en.wikipedia.org/wiki/Segment_tree">Segment Tree</a> datastructure, I first tried an in memory engine, using <a href="http://www.naturalearthdata.com/">Natural Earth Data</a>, loading the whole world countries shapes into S2 loops (a <code>Loop</code> represents a simple spherical polygon), transforming then into cells using the region coverer, it returns cells of different levels, add them to the segment tree.</p>
+
+<p><img src="https://blog.nobugware.com/img/stree.gif" alt="Segment Tree" title="Segment tree picture fron Wikipedia" /></p>
+
+<p>To query, simply tranform the location into an S2 <code>Cell</code> (level 30) and perform a stubbing query that intersects the segments, every segments crossed are cells that covered a part of a <code>Loop</code>.<br />
+It will reduce the problem to test a few <code>Loop</code> vs thousands of them, finally perform <code>ContainsPoint</code> against the found loops cause the point could be inside the <code>Cell</code> but not inside the <code>Loop</code> itself.</p>
+
+<p>Et voilà! It works!</p>
+
+<p>The segment tree structure itself is very low on memory, the loops/polygons data could be stored on disk and loaded on requests, I&rsquo;ve tested a second implementation using LevelDB using this technique.</p>
+
+<p>If you have a very large tree (for example cities limits for the whole world), you can even put the segment tree on a KV storage, using this paper <a href="http://students.ceid.upatras.gr/~patlakas/papers/ICDE13_conf_full_420.pdf">Interval Indexing and Querying on Key-Value Cloud Stores</a>.</p>
+
+<h2 id="region-a-gogo">Region a gogo</h2>
+
+<p>As a demonstration here is a working microservice called <a href="https://github.com/akhenakh/regionagogo">regionagogo</a>, simply returning the country &amp; state for a given location.<br />
+It loads geo data for the whole world and answers to HTTP queries using small amout of memory.</p>
+
+<pre><code>GET /country?lat=19.542915&amp;lng=-155.665857
+
+{
+    &quot;code&quot;: &quot;US&quot;,
+    &quot;name&quot;: &quot;Hawaii&quot;
+}
+</code></pre>
+
+<p>Here is a <a href="https://hub.docker.com/r/akhenakh/regionagogo/">Docker image</a> so you can deploy it on your stack.</p>
+
+<p>Note that it performs really well but can be improved a lot, for example the actual Go S2 implementation is still using Rect boxing around loops, that&rsquo;s why <a href="https://github.com/akhenakh/regionagogo">regionagogo</a> is using a data file so it can be generated from the C++ version.</p>
+
+<h2 id="future">Future</h2>
+
+<p>This technique seems to work well for stubbing queries, region queries, geofencing &hellip;<br />
+It can be a solid foundation to create a flexible and simple geo database.</p>
+
+                    </div>
+                </section>
                 
                 <h1 class="content-subhead">26 Jan 2016, 14:01</h1>
                 <section class="post">
@@ -820,260 +928,6 @@ You can use this <a href="http://blog.wercker.com/2013/07/25/Using-wercker-to-pu
                     </div>
                 </section>
                 
-                <h1 class="content-subhead">01 Aug 2015, 22:36</h1>
-                <section class="post">
-                    <header class="post-header">
-
-                        <a href="https://blog.nobugware.com/post/migrate_to_hugo/" class="post-title">Migrate to Hugo</a>
-
-                        <p class="post-meta">
-                            
-                            
-                        </p>
-                    </header>
-
-                    <div class="post-description">
-                        <p>This blog is running Hugo with an auto deploy via Wercker and hosted on Github Page.
-Take #2</p>
-
-<p>Previous blog was hosted on Google App Engine with a <a href="http://github.com/akhenakh/bloggae">Python blog system</a>, to get the previous articles, I had to run in a small data migration.</p>
-
-<p>Make a backup from GAE admin web interface: Go to Datastore admin and backup your entity mine was Post and then backup to blobstore, go to Blob Viewer and download your file named around <code>datastore_backup_datastore_backup_2015_08_02_Post-157413521680733022360302ADC43E4-output-1-attempt-1</code></p>
-
-<p>I put the migration code I&rsquo;ve used here, it&rsquo;s super ugly but helped me to migrate from GAE to Hugo, so it may be help you too.</p>
-
-<p>I&rsquo;ve used <a href="http://www.aaronsw.com/2002/html2text/">html2text</a> to convert my HTML data back to Markdown.</p>
-
-<pre><code class="language-python">import sys
-import os
-import json
-import html2text
-import errno
-import datetime
-
-sys.path.append('/usr/local/google_appengine')
-from google.appengine.api.files import records
-from google.appengine.datastore import entity_pb
-from google.appengine.api import datastore
-
-def mkdir_p(path):
-    try:
-        os.makedirs(path)
-    except OSError as exc:
-        if exc.errno == errno.EEXIST and os.path.isdir(path):
-            pass
-        else: raise
-
-raw = open(&quot;datastore&quot;, 'r')
-titles = open(&quot;titles.txt&quot;, 'r').readlines()
-reader = records.RecordsReader(raw)
-i = 0
-for record in reader:
-    entity_proto = entity_pb.EntityProto(contents=record)
-    entity = datastore.Entity.FromPb(entity_proto)
-
-    if entity.get(&quot;status&quot;) == 1:
-        path = titles[i].rstrip()
-        content = html2text.html2text(entity[&quot;content_html&quot;], &quot;http://blog.nobugware.com/&quot;)
-        directory = os.path.dirname(path)
-        mkdir_p(&quot;post&quot; + directory)
-
-        # get current local time and utc time
-        localnow = datetime.datetime.now()
-        utcnow = datetime.datetime.utcnow()
-
-        # compute the time difference in seconds
-        tzd = localnow - utcnow
-        secs = tzd.days * 24 * 3600 + tzd.seconds
-
-        # get a positive or negative prefix
-        prefix = '+'
-        if secs &lt; 0:
-            prefix = '-'
-            secs = abs(secs)
-
-        # print the local time with the difference, correctly formatted
-        suffix = &quot;%s%02d:%02d&quot; % (prefix, secs/3600, secs/60%60)
-        now = localnow.replace(microsecond=0)
-        date = &quot;%s%s&quot; % (entity[&quot;creation_date&quot;].isoformat(' '), suffix)
-        tags_string = &quot;&quot;
-        tags_cleaned = []
-        if entity.get(&quot;tags&quot;) is not None:
-            tags = entity.get(&quot;tags&quot;)
-            for tag in tags:
-                tags_cleaned.append(&quot;\&quot;&quot;+ tag + &quot;\&quot;&quot;)
-            tags_string = &quot;,&quot;.join(tags_cleaned)
-
-        print tags_string
-        page = &quot;&quot;&quot;+++
-date = &quot;%s&quot;
-title = &quot;%s&quot;
-tags = [%s]
-+++
-
-%s
-&quot;&quot;&quot; % ( date, entity[&quot;title&quot;] , tags_string, content)
-    md=open(&quot;post&quot; + path + &quot;.md&quot;, 'w')
-    md.write(page.encode('utf8'))
-    md.close()
-    i = i + 1
-</code></pre>
-
-                    </div>
-                </section>
-                
-                <h1 class="content-subhead">02 Apr 2015, 12:49</h1>
-                <section class="post">
-                    <header class="post-header">
-
-                        <a href="https://blog.nobugware.com/post/2015/04/grafana_influxdb/" class="post-title">A 10 minutes walk into Grafana &amp; Influxdb</a>
-
-                        <p class="post-meta">
-                            
-                            
-                                under 
-                                
-                                <a class="post-category post-category-Golang" href="https://blog.nobugware.com/categories/golang">Golang</a>
-                            
-                        </p>
-                    </header>
-
-                    <div class="post-description">
-                        <p>This is a 10 minute tutorial to set up an <a href="http://influxdb.com/">InfluxDB</a> + <a href="http://grafana.org/">Grafana</a> with Go on your Mac, but should work with minor modifcations on your favorite Unix too, it assumes you already have a working Go compiler.</p>
-
-<p><a href="http://influxdb.com/">InfluxDB</a> is a database specialized into time series, think store everything associated with a time, makes it perfect for monitoring and graphing values.
-<a href="http://grafana.org/">Grafana</a> is a js frontend capable of reading the data from InfluxDB and graphing it.</p>
-
-<p><code>brew install influxdb</code></p>
-
-<p>Start <a href="http://influxdb.com/">InfluxDB</a>, and then point your browser to <a href="http://localhost:8083">http://localhost:8083</a> default user is root, password is root and default port is 8086.</p>
-
-<p><code>influxdb -config /usr/local/etc/influxdb.conf</code>
-Create a database called test.</p>
-
-<p>Let&rsquo;s test the connection with the db and Go, first install the InfluxDB driver for Go:</p>
-
-<p><code>go get github.com/influxdb/influxdb/client</code>
-Test your setup with some code:</p>
-
-<pre><code class="language-go">package main
-
-import (
-    &quot;fmt&quot;
-
-    &quot;github.com/influxdb/influxdb/client&quot;
-)
-
-func main() {
-    c, err := client.NewClient(&amp;client.ClientConfig{
-        Username: &quot;root&quot;,
-        Password: &quot;root&quot;,
-        Database: &quot;test&quot;,
-    })
-
-    if err != nil {
-        panic(err)
-    }
-
-    dbs, err := c.GetDatabaseList()
-    if err != nil {
-        panic(err)
-    }
-
-    fmt.Println(dbs)
-}
-</code></pre>
-
-<p>If you are good you should see a map containing all your created <a href="http://influxdb.com/">InfluxDB</a> databases.</p>
-
-<p>Now let&rsquo;s measure something real: the time it takes for your http handler to answer.</p>
-
-<pre><code class="language-go">package main
-
-import (
-    &quot;fmt&quot;
-    &quot;log&quot;
-    &quot;math/rand&quot;
-    &quot;net/http&quot;
-    &quot;time&quot;
-
-    &quot;github.com/influxdb/influxdb/client&quot;
-)
-
-var c *client.Client
-
-func mySuperFastHandler(rw http.ResponseWriter, r *http.Request) {
-    start := time.Now()
-    // sleeping some random time
-    rand.Seed(time.Now().Unix())
-    i := rand.Intn(1000)
-    time.Sleep(time.Duration(time.Duration(i) * time.Millisecond))
-    fmt.Fprintf(rw, &quot;Waiting %dms&quot;, i)
-    t := time.Since(start)
-
-    // sending the serie
-    s := &amp;client.Series{
-        Name:    &quot;myhostname.nethttp.mySuperFastHandler.resp_time&quot;,
-        Columns: []string{&quot;duration&quot;, &quot;code&quot;, &quot;url&quot;, &quot;method&quot;},
-        Points: [][]interface{}{
-            []interface{}{int64(t / time.Millisecond), 200, r.RequestURI, r.Method},
-        },
-    }
-    err := c.WriteSeries([]*client.Series{s})
-    if err != nil {
-        log.Println(err)
-    }
-}
-
-func main() {
-    var err error
-    c, err = client.NewClient(&amp;client.ClientConfig{
-        Username: &quot;root&quot;,
-        Password: &quot;root&quot;,
-        Database: &quot;test&quot;,
-    })
-    if err != nil {
-        panic(err)
-    }
-
-    http.HandleFunc(&quot;/&quot;, mySuperFastHandler)
-    http.ListenAndServe(&quot;:8080&quot;, nil)
-}
-</code></pre>
-
-<p>This is not very useful as it&rsquo;s measuring the time to write to the ResponseWriter that&rsquo;s why I&rsquo;ve added some random time but you get the sense.
-It will save a serie per request as: duration, status code, url, http method, the name of the serie is important as many tools (as Graphite) are using the dots as separator, so think twice before naming your serie.
-Point your browser to <a href="http://localhost:8080">http://localhost:8080</a> and reload the page several times.</p>
-
-<p>Now that we have data let&rsquo;s browse them with the <a href="http://influxdb.com/">InfluxDB</a> browser, go to the <a href="http://influxdb.com/">InfluxDB</a> admin and hit &ldquo;explore data&rdquo; and select with:</p>
-
-<p><code>SELECT duration FROM myhostname.nethttp.mySuperFastHandler.resp_time WHERE code = 200;</code></p>
-
-<p><img src="http://kdl.nobugware.com/public/shotinflux.png" alt="Image Alt" /></p>
-
-<p>You should be able to see the inserted data points.</p>
-
-<p>Now let&rsquo;s work with <a href="http://grafana.org/">Grafana</a>, download the tar gz, uncompress it somewhere, <a href="https://gist.githubusercontent.com/akhenakh/39e1950bf95859878748/raw/f8b0531d88cfb481213541253329c5730c4a2b06/config.js">copy this demo config.js</a> file in the root directory of <a href="http://grafana.org/">Grafana</a>.
-Go to the <a href="http://influxdb.com/">InfluxDB</a> admin with your browser and add a new database called &ldquo;grafana&rdquo;.</p>
-
-<p>In your web browser, open the file index.html in the <a href="http://grafana.org/">Grafana</a> directory, you should see a the <a href="http://grafana.org/">Grafana</a> interface edit the default graph, enter the query as follow:</p>
-
-<ul>
-<li>click on series it will complete with myhostname.nethttp.mySuperFastHandler.resp_time</li>
-<li>In alias type $0 $2, it will use the 1st part and the 3rd part of the name (remember the dots) so it will display myhostname mySuperFastHandler</li>
-<li>Finally click on mean and choose duration in the completion, then add code = 200 as where clause.<br /></li>
-</ul>
-
-<p>Hit save and you are done !</p>
-
-<p><img src="http://kdl.nobugware.com/public/shotgrafana.png" alt="Image Alt" /></p>
-
-<p>There is so much more you can do with <a href="http://influxdb.com/">InfluxDB</a> &amp; <a href="http://grafana.org/">Grafana</a>, it&rsquo;s really simple to collect and display, hope you want to go further after this.
-You can look at my <a href="https://github.com/akhenakh/influxhandler">generic net/http handler for <a href="http://influxdb.com/">InfluxDB</a> on Github</a> that can be integrated into your code.</p>
-
-                    </div>
-                </section>
-                
             </div>
             
 <div class="pagination">
@@ -1083,7 +937,7 @@ You can look at my <a href="https://github.com/akhenakh/influxhandler">generic n
         <i class="fa fa-angle-double-left"></i>&nbsp;Newer
       </a>
       
-    <span class="post-list-pagination-item post-list-pagination-item-current">Page 3 of 8</span>
+    <span class="post-list-pagination-item post-list-pagination-item-current">Page 3 of 9</span>
     
       <a href="https://blog.nobugware.com/page/4/" class="post-list-pagination-item pure-button post-list-pagination-item-next">
         Older&nbsp;<i class="fa fa-angle-double-right"></i>

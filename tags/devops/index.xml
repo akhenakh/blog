@@ -1,15 +1,27 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Devops on Fabrice Aneche</title>
+    <title>devops on Fabrice Aneche</title>
     <link>https://blog.nobugware.com/tags/devops/</link>
-    <description>Recent content in Devops on Fabrice Aneche</description>
+    <description>Recent content in devops on Fabrice Aneche</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 04 Mar 2019 00:32:43 -0400</lastBuildDate>
+    <lastBuildDate>Sat, 27 Apr 2019 02:00:00 -0400</lastBuildDate>
     
 	<atom:link href="https://blog.nobugware.com/tags/devops/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Deploying a website with Caddy, Git and Kubernetes</title>
+      <link>https://blog.nobugware.com/post/2019/deploying-a-website-with-caddy-git-and-kubernetes/</link>
+      <pubDate>Sat, 27 Apr 2019 02:00:00 -0400</pubDate>
+      
+      <guid>https://blog.nobugware.com/post/2019/deploying-a-website-with-caddy-git-and-kubernetes/</guid>
+      <description>Caddy is the swiss army of the web server, and with the recent commercial license changes, it&amp;rsquo;s time to give it some love back.
+I have several static websites, some generated with Hugo, some are plain HTML.
+I wanted a small container, to run it inside a Kubernetes cluster, capable of pulling some git repos and serve them.
+Caddy-git Caddy is already capable of that with the help of caddy-git unfortunately it is only working with ssh keys.</description>
+    </item>
     
     <item>
       <title>Traefik gRPC Load Balancing and Traces Propagation</title>

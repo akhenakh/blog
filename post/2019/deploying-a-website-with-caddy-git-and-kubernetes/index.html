@@ -112,9 +112,9 @@ I wanted it to use <a href="https://help.github.com/en/articles/creating-a-perso
 
 <h2 id="minigit">Minigit</h2>
 
-<p>I used <a href="https://github.com/src-d/go-git">go-git</a> a pure Go implementation of git, to first make a clone of the <code>git</code> command: <a href="https://github.com/akhenakh/minigit">minigit</a>.<br />
+<p>I&rsquo;ve used <a href="https://github.com/src-d/go-git">go-git</a> a pure Go implementation of git, to first make a clone of the <code>git</code> command: <a href="https://github.com/akhenakh/minigit">minigit</a>.<br />
 <a href="https://github.com/akhenakh/minigit">minigit</a> can be useful in devops environnements and scriptings to facilitate git pulls.<br />
-Faking the <code>git</code> command with <a href="https://github.com/akhenakh/minigit/">minigit</a> in your image and tweak caddy-git to pass an extra parameter <code>--ghtoken</code></p>
+Faking the <code>git</code> command with <a href="https://github.com/akhenakh/minigit/">minigit</a> into your image and tweak caddy-git to pass an extra parameter <code>--ghtoken</code></p>
 
 <pre><code>root /public
 git https://github.com/myuser/repo {

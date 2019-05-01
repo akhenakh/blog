@@ -56,6 +56,12 @@
   </url>
   
   <url>
+    <loc>https://blog.nobugware.com/tags/linux/</loc>
+    <lastmod>2019-05-01T00:00:00-04:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://blog.nobugware.com/post/2019/deploying-a-website-with-caddy-git-and-kubernetes/</loc>
     <lastmod>2019-04-27T02:01:00-04:00</lastmod>
   </url>
@@ -206,12 +212,6 @@
   </url>
   
   <url>
-    <loc>https://blog.nobugware.com/tags/linux/</loc>
-    <lastmod>2017-07-22T21:28:24-04:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>https://blog.nobugware.com/post/2017/back_from_osx_to_linux/</loc>
     <lastmod>2017-02-25T09:57:56-05:00</lastmod>
   </url>
@@ -315,14 +315,14 @@
   </url>
   
   <url>
-    <loc>https://blog.nobugware.com/post/2016/freebsd_raspberry_pi2/</loc>
-    <lastmod>2016-01-10T11:32:19-05:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://blog.nobugware.com/tags/freebsd/</loc>
     <lastmod>2016-01-10T11:32:19-05:00</lastmod>
     <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.nobugware.com/post/2016/freebsd_raspberry_pi2/</loc>
+    <lastmod>2016-01-10T11:32:19-05:00</lastmod>
   </url>
   
   <url>

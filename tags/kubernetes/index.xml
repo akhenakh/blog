@@ -17,7 +17,7 @@
       <pubDate>Wed, 01 May 2019 00:00:00 -0400</pubDate>
       
       <guid>https://blog.nobugware.com/post/2019/from-minikube-to-k3s/</guid>
-      <description>My main dev computer is a Linux, my laptop being OSX, I&amp;rsquo;ve used minikube for several years, let&amp;rsquo;s evaluate k3s.
+      <description>My main dev computer is a Linux, my laptop being OSX, I&amp;rsquo;ve used minikube for several years, on both, let&amp;rsquo;s evaluate k3s.
 On Linux, Minikube is using a virtualisation layer (kvm/qemu, Virtualbox&amp;hellip;), since it&amp;rsquo;s mandatory on OSX because it needs Linux, it can be avoided on a native Linux.</description>
     </item>
     

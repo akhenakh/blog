@@ -6,7 +6,7 @@
     <description>Recent content in Tags on Fabrice Aneche</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 01 May 2019 00:00:00 -0400</lastBuildDate>
+    <lastBuildDate>Sat, 27 Apr 2019 02:01:00 -0400</lastBuildDate>
     
 	<atom:link href="https://blog.nobugware.com/tags/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,36 +14,9 @@
     <item>
       <title>Kubernetes</title>
       <link>https://blog.nobugware.com/tags/kubernetes/</link>
-      <pubDate>Wed, 01 May 2019 00:00:00 -0400</pubDate>
+      <pubDate>Sat, 27 Apr 2019 02:01:00 -0400</pubDate>
       
       <guid>https://blog.nobugware.com/tags/kubernetes/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>devops</title>
-      <link>https://blog.nobugware.com/tags/devops/</link>
-      <pubDate>Wed, 01 May 2019 00:00:00 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/tags/devops/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>k3s</title>
-      <link>https://blog.nobugware.com/tags/k3s/</link>
-      <pubDate>Wed, 01 May 2019 00:00:00 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/tags/k3s/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>linux</title>
-      <link>https://blog.nobugware.com/tags/linux/</link>
-      <pubDate>Wed, 01 May 2019 00:00:00 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/tags/linux/</guid>
       <description></description>
     </item>
     
@@ -53,6 +26,15 @@
       <pubDate>Sat, 27 Apr 2019 02:01:00 -0400</pubDate>
       
       <guid>https://blog.nobugware.com/tags/caddy/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>devops</title>
+      <link>https://blog.nobugware.com/tags/devops/</link>
+      <pubDate>Sat, 27 Apr 2019 02:01:00 -0400</pubDate>
+      
+      <guid>https://blog.nobugware.com/tags/devops/</guid>
       <description></description>
     </item>
     
@@ -147,6 +129,15 @@
     </item>
     
     <item>
+      <title>linux</title>
+      <link>https://blog.nobugware.com/tags/linux/</link>
+      <pubDate>Sat, 22 Jul 2017 21:28:24 -0400</pubDate>
+      
+      <guid>https://blog.nobugware.com/tags/linux/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>osx</title>
       <link>https://blog.nobugware.com/tags/osx/</link>
       <pubDate>Sat, 25 Feb 2017 09:57:56 -0500</pubDate>
@@ -183,7 +174,7 @@
     </item>
     
     <item>
-      <title>FreeBSD</title>
+      <title>freebsd</title>
       <link>https://blog.nobugware.com/tags/freebsd/</link>
       <pubDate>Sun, 10 Jan 2016 11:32:19 -0500</pubDate>
       
@@ -552,7 +543,7 @@
     </item>
     
     <item>
-      <title>solaris,</title>
+      <title>solaris</title>
       <link>https://blog.nobugware.com/tags/solaris/</link>
       <pubDate>Tue, 28 Jul 2009 19:22:12 -0400</pubDate>
       

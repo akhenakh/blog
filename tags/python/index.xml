@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>python on Fabrice Aneche</title>
+    <title>Python on Fabrice Aneche</title>
     <link>https://blog.nobugware.com/tags/python/</link>
-    <description>Recent content in python on Fabrice Aneche</description>
+    <description>Recent content in Python on Fabrice Aneche</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Thu, 18 Jan 2018 08:20:15 -0500</lastBuildDate>

@@ -6,10 +6,46 @@
     <description>Recent content in Tags on Fabrice Aneche</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 27 Apr 2019 02:01:00 -0400</lastBuildDate>
+    <lastBuildDate>Thu, 02 May 2019 00:00:00 -0400</lastBuildDate>
     
 	<atom:link href="https://blog.nobugware.com/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Linux</title>
+      <link>https://blog.nobugware.com/tags/linux/</link>
+      <pubDate>Thu, 02 May 2019 00:00:00 -0400</pubDate>
+      
+      <guid>https://blog.nobugware.com/tags/linux/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>arm</title>
+      <link>https://blog.nobugware.com/tags/arm/</link>
+      <pubDate>Thu, 02 May 2019 00:00:00 -0400</pubDate>
+      
+      <guid>https://blog.nobugware.com/tags/arm/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>arm64</title>
+      <link>https://blog.nobugware.com/tags/arm64/</link>
+      <pubDate>Thu, 02 May 2019 00:00:00 -0400</pubDate>
+      
+      <guid>https://blog.nobugware.com/tags/arm64/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>rock64</title>
+      <link>https://blog.nobugware.com/tags/rock64/</link>
+      <pubDate>Thu, 02 May 2019 00:00:00 -0400</pubDate>
+      
+      <guid>https://blog.nobugware.com/tags/rock64/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>Go</title>
@@ -66,7 +102,7 @@
     </item>
     
     <item>
-      <title>gRPC</title>
+      <title>grpc</title>
       <link>https://blog.nobugware.com/tags/grpc/</link>
       <pubDate>Mon, 11 Mar 2019 00:32:43 -0500</pubDate>
       
@@ -125,15 +161,6 @@
       <pubDate>Sat, 22 Jul 2017 21:28:24 -0400</pubDate>
       
       <guid>https://blog.nobugware.com/tags/chromebook/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>linux</title>
-      <link>https://blog.nobugware.com/tags/linux/</link>
-      <pubDate>Sat, 22 Jul 2017 21:28:24 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/tags/linux/</guid>
       <description></description>
     </item>
     

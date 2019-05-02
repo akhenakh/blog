@@ -3,18 +3,18 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Posts &middot; Fabrice Aneche</title>
+    <title>arm64 &middot; Fabrice Aneche</title>
 
     <meta name="description" content="">
 
     <meta name="generator" content="Hugo 0.55.3" />
     <meta name="twitter:card" content="summary">
     
-    <meta name="twitter:title" content="Posts &middot; Fabrice Aneche">
+    <meta name="twitter:title" content="arm64 &middot; Fabrice Aneche">
     <meta name="twitter:description" content="">
 
     <meta property="og:type" content="article">
-    <meta property="og:title" content="Posts &middot; Fabrice Aneche">
+    <meta property="og:title" content="arm64 &middot; Fabrice Aneche">
     <meta property="og:description" content="">
 
     <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Oxygen:400,700' rel='stylesheet' type='text/css'>
@@ -74,139 +74,77 @@
             
             <div class="posts">
                 
-                <h1 class="content-subhead">03 Dec 2008, 10:32</h1>
+                <h1 class="content-subhead">02 May 2019, 00:00</h1>
                 <section class="post">
                     <header class="post-header">
 
-                        <a href="https://blog.nobugware.com/post/2008/12/03/gentoo-bref-recap-des-commandes-de-gestion-de-paquets/" class="post-title">Gentoo bref récap des commandes de gestion de paquets</a>
+                        <a href="https://blog.nobugware.com/post/2019/arch-on-rock64-with-usb-boot/" class="post-title">Arch on Rock64 with USB boot</a>
 
                         <p class="post-meta">
                             
+                            
+                                under 
+                                
+                                
                             
                         </p>
                     </header>
 
                     <div class="post-description">
-                        <p>Avant toute chose installer l&rsquo;outil gentoolkit</p>
+                        <p>Here are my notes to install Arch on a Rock64 and boot on USB first.</p>
 
-<p><code>emerge -av gentoolkit</code></p>
+<p>Warning, you can brick your device (but can unbrick it), you are on your own.</p>
 
-<p>Ces nouvelles commandes vont vous permettre de:</p>
+<ul>
+<li>Follow Arch Instructions to <a href="https://archlinuxarm.org/platforms/armv8/rockchip/rock64">Install on an SD Card</a></li>
+<li>Boot on it</li>
+<li>Insert your USB device and follow the exact same installation but this time to the <code>/dev/sda</code>device<br />
+At the end<br />
+Mount / into <code>root</code> again
+Run <code>blkid</code> to grab the UUID of your /</li>
+</ul>
 
-<p>A quel port appartient un binaire:</p>
-
-<pre><code> equery belongs cjpeg
- [ Searching for file(s) cjpeg in *... ] 
-media-libs/jpeg-6b-r8 (/usr/bin/cjpeg) 
+<pre><code>  /dev/sda1: UUID=&quot;a3490212-03b6-46a6-9e6b-7733513a3efa&quot; TYPE=&quot;ext4&quot;  
 </code></pre>
 
-<p>Quels sont les dependances d&rsquo;un port:</p>
+<p>Add the file <code>root/boot/boot.txt</code> as follow and recopy your own UUID</p>
 
-<pre><code>equery depends gd
-[ Searching for packages depending on gd... ]
-dev-lang/php-5.2.6-r7 (gd-external? media-libs/gd)
+<pre><code>  # MAC address (use spaces instead of colons)
+  setenv macaddr da 19 c8 7b 6d bd
+
+  part uuid ${devtype} ${devnum}:${bootpart} uuid
+  setenv bootargs console=ttyS2,1500000 root=UUID=a3490212-03b6-46a6-9e6b-7733513a3efa rw rootwait earlycon=uart8250,mmio32,0xff130000
+  setenv fdtfile rockchip/rk3328-rock64.dtb
+
+  if load ${devtype} ${devnum}:${bootpart} ${kernel_addr_r} /boot/Image; then
+    if load ${devtype} ${devnum}:${bootpart} ${fdt_addr_r} /boot/dtbs/${fdtfile}; then
+      fdt addr ${fdt_addr_r}
+      fdt resize
+      fdt set /ethernet@ff540000 local-mac-address &quot;[${macaddr}]&quot;
+      if load ${devtype} ${devnum}:${bootpart} ${ramdisk_addr_r} /boot/initramfs-linux.img; then
+        booti ${kernel_addr_r} ${ramdisk_addr_r}:${filesize} ${fdt_addr_r};
+      else
+        booti ${kernel_addr_r} - ${fdt_addr_r};
+      fi;
+    fi;
+  fi
 </code></pre>
 
-<p>Quels sont les fichiers installes par un package:</p>
+<p>Then write it to the scr</p>
 
-<pre><code> equery files less
-[ Searching for packages matching less... ]
-* Contents of sys-apps/less-418:
-/etc
-/etc/env.d
-/etc/env.d/70less
-/usr
-/usr/bin
-/usr/bin/code2color
-/usr/bin/less
-/usr/bin/lessecho
-/usr/bin/lesskey
-/usr/bin/lesspipe.sh
-/usr/share
-/usr/share/doc
-/usr/share/doc/less-418
-/usr/share/doc/less-418/NEWS.bz2
-/usr/share/doc/less-418/README.Gentoo.bz2
-/usr/share/doc/less-418/README.bz2
-/usr/share/man
-/usr/share/man/man1
-/usr/share/man/man1/less.1.bz2
-/usr/share/man/man1/lessecho.1.bz2
-/usr/share/man/man1/lesskey.1.bz2
+<pre><code>  mkimage -A arm -O linux -T script -C none -n &quot;U-Boot boot script&quot; -d boot.txt boot.scr
 </code></pre>
 
-<p>Mettre a jour vos machines en s&rsquo;assurant que tous les USE soient respectes, si
-vous changez une variable USE en ajoutant mysql par exemple, il est en theorie
-necessaire de recompiler tous les packages qui peuvent avoir ce use flag, puis
-enlever le &ndash;pretent</p>
-
-<p><code>emerge --update --deep --newuse world --pretend</code></p>
-
-<p>Verifier que chaque binaire reference une librairie encore existante sur votre
-syseme:</p>
-
-<p>Apres une mise a jour il se peut par exemple que la libgdbm ai change de
-revision majeure libgdbm.so.3, un binaire linke a cette librairie en
-libgdbm.so.2 ne fonctionnera plus, c&rsquo;est le role de <em>revdep-rebuild</em> de
-retrouver quels binaires doivent etre recompile.</p>
-
-<p>Enlever les versions obsoletes d&rsquo;un package:</p>
-
-<p><code>emerge --prune gentoo-sources</code></p>
-
-                    </div>
-                </section>
-                
-                <h1 class="content-subhead">03 Dec 2008, 10:25</h1>
-                <section class="post">
-                    <header class="post-header">
-
-                        <a href="https://blog.nobugware.com/post/2008/12/03/probleme-daffichage-avec-man/" class="post-title">Probleme d&#39;affichage avec man</a>
-
-                        <p class="post-meta">
-                            
-                            
-                        </p>
-                    </header>
-
-                    <div class="post-description">
-                        <p>Parfois sous linux, souvent sur gentoo les man affichent des caracteres comme
-ceux ci:</p>
-
-<p>LESS(1) LESS(1)</p>
-
-<p>ESC[1mNAMEESC[0m</p>
-
-<p>less - opposite of more</p>
-
-<p>ESC[1mSYNOPSISESC[0m</p>
-
-<p>ESC[1mless -?ESC[0m</p>
-
-<p>ESC[1mless &ndash;helpESC[0m</p>
-
-<p>La solution la plus simple consiste a changer la variable PAGER de votre
-environnement:</p>
-
-<p><code>export PAGER=&quot;less -r&quot;</code></p>
+<p>Reboot and remove the USB device
+* Download a dedicated image labelled <a href="https://github.com/ayufan-rock64/linux-u-boot/releases/download/2017.09-rockchip-ayufan-1045-g9922d32c04/u-boot-flash-spi-rock64.img.xz">u-boot-flash-spi-rock64.img.xz</a> from ayufan&rsquo;s github
+* Burn it to an SD Card, turn on your Rock64, wait for the white LED to flash several at 1 second frequency
+* Turn it off, remove the SC Card, insert the USB device, it should now boot on your USB device</p>
 
                     </div>
                 </section>
                 
             </div>
             
-<div class="pagination">
-  <nav role="pagination" class="post-list-pagination">
-      
-      <a href="https://blog.nobugware.com/post/page/8/" class="post-list-pagination-item pure-button post-list-pagination-item-prev">
-        <i class="fa fa-angle-double-left"></i>&nbsp;Newer
-      </a>
-      
-    <span class="post-list-pagination-item post-list-pagination-item-current">Page 9 of 9</span>
-    
-  </nav>
-</div>
-
 
             <div class="footer">
     <div class="pure-menu pure-menu-horizontal pure-menu-open">

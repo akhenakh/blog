@@ -74,6 +74,54 @@
             
             <div class="posts">
                 
+                <h1 class="content-subhead">08 Oct 2017, 14:28</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://blog.nobugware.com/post/2017/hacking_temperature_radio_sensors_and_graphing_with_prometheus/" class="post-title">Hacking Temperature Radio Sensors and Graphing with Prometheus</a>
+
+                        <p class="post-meta">
+                            
+                            
+                                under 
+                                
+                                
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        
+
+<p>One year ago I&rsquo;ve started to collect temperature from my house using Acurite sensors.</p>
+
+<p><img src="https://blog.nobugware.com/img/acurite0.jpg" alt="Acurite outddor" /> <img src="https://blog.nobugware.com/img/acurite1.jpg" alt="Acurite indoor" /></p>
+
+<p>These sensors are not too expensive and good quality but the &ldquo;base&rdquo; aka the radio receiver connected to internet is costly and totally closed, it&rsquo;s sending your data to the Cloud™, it&rsquo;s not just Acurite, all those &ldquo;IOT&rdquo; devices are generally poor on the software side.</p>
+
+<h2 id="receiving-radio-data">Receiving radio data</h2>
+
+<p>Most of these sensors have their protocols already reverse engineered you only need the radio receiver part.</p>
+
+<p><a href="https://www.rtl-sdr.com/rtl-sdr-quick-start-guide/">RTL-SDR</a> dongles to the rescue and a <a href="https://www.rtl-sdr.com/using-rtl-sdr-rtl_433-decode-various-devices/">great community</a> around it.</p>
+
+<p><a href="http://github.com/prune998">Prune998</a> and I have added some <a href="https://github.com/merbanan/rtl_433/commit/66a3752fbc3949ac19cf9eed36d725741947b6b8">JSON support to the acurite driver</a> and sent it to the projet.</p>
+
+<h2 id="collecting-and-graphing-the-data">Collecting and graphing the data</h2>
+
+<p>The last needed piece was something to collect the data and send to prometheus:</p>
+
+<p>So I wrote a quick Go program to do exactly that <a href="https://github.com/akhenakh/acurite_to_graph">Acurite to graph</a></p>
+
+<p>Et voila, we can graph all sensors in our home.</p>
+
+<p><img src="https://blog.nobugware.com/img/graphacurite.jpg" alt="graph" /></p>
+
+<p>It has been tested on OSX &amp; Linux.</p>
+
+                    </div>
+                </section>
+                
                 <h1 class="content-subhead">08 Oct 2017, 09:57</h1>
                 <section class="post">
                     <header class="post-header">
@@ -936,41 +984,6 @@ Working directory to <code>$ProjectFileDir$</code></p>
 <p>For the linters messages to be clickable and jump to code add an Output filter with Regular expression to match output <code>$FILE_PATH$:$LINE$</code></p>
 
 <p><img src="https://blog.nobugware.com/img/gometalinter2.jpg" alt="gometalinter setup filter for jetbrains" title="gometalinter setup filter for jetbrains" /></p>
-
-                    </div>
-                </section>
-                
-                <h1 class="content-subhead">08 Mar 2016, 11:23</h1>
-                <section class="post">
-                    <header class="post-header">
-
-                        <a href="https://blog.nobugware.com/post/2016/geo_db_s2_region_polygon_optmization/" class="post-title">A geo database for polygons, optimization</a>
-
-                        <p class="post-meta">
-                            
-                            
-                                under 
-                                
-                                <a class="post-category post-category-Geo" href="https://blog.nobugware.com/categories/geo">Geo</a><a class="post-category post-category-Golang" href="https://blog.nobugware.com/categories/golang">Golang</a>
-                            
-                        </p>
-                    </header>
-
-                    <div class="post-description">
-                        <p>If you read this blog, you know I&rsquo;ve recently released a project called <a href="https://github.com/akhenakh/regionagogo">regionagogo</a>, a geo shape lookup database, described in <a href="https://blog.nobugware.com/post/2016/geo_db_s2_region_polygon/">this blogpost</a>.</p>
-
-<p>It uses the current <a href="https://godoc.org/github.com/golang/geo/s2">Go S2 implementation</a>, which is not yet as complete as the C++ implementation, for example the region coverer of a shape does not really compute cell around the shape but around the bounding box instead.</p>
-
-<p>Using the shape of the polygon makes the covered cells more precise and smaller, resulting at the end to less <a href="https://en.wikipedia.org/wiki/Point_in_polygon">PIP</a> tests which are costly.</p>
-
-<p><img src="https://blog.nobugware.com/img/s2cpp.jpg" alt="S2 over a shape" title="S2 cover" /><br />
-The same coverage with Go S2 would have returned 8 big cells of the same size, covering over regions.</p>
-
-<p>I&rsquo;ve created <a href="https://github.com/akhenakh/regionagogogen">regionagogogen</a> a quick and dirty command line program for OSX that takes a GeoJSON file containing your regions and then compute the database using the S2 C++ implementation, it&rsquo;s for OSX only cause I&rsquo;m using ObjC as a bridge to C++ which I don&rsquo;t know enough.</p>
-
-<p>Also note that <a href="https://github.com/akhenakh/regionagogogen">regionagogogen</a> includes an S2 port that works on iOS/OSX and some ObjC geo helper classes.</p>
-
-<p>The <a href="https://hub.docker.com/r/akhenakh/regionagogo/">Docker image fore regionagogo</a> is also using the optimized database.</p>
 
                     </div>
                 </section>

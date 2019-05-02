@@ -3,6 +3,53 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://blog.nobugware.com/post/2019/arch-on-rock64-with-usb-boot/</loc>
+    <lastmod>2019-05-02T00:00:00-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.nobugware.com/</loc>
+    <lastmod>2019-05-02T00:00:00-04:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.nobugware.com/tags/linux/</loc>
+    <lastmod>2019-05-02T00:00:00-04:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.nobugware.com/post/</loc>
+    <lastmod>2019-05-02T00:00:00-04:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.nobugware.com/tags/</loc>
+    <lastmod>2019-05-02T00:00:00-04:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.nobugware.com/tags/arm/</loc>
+    <lastmod>2019-05-02T00:00:00-04:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.nobugware.com/tags/arm64/</loc>
+    <lastmod>2019-05-02T00:00:00-04:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.nobugware.com/tags/rock64/</loc>
+    <lastmod>2019-05-02T00:00:00-04:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://blog.nobugware.com/categories/</loc>
     <lastmod>2019-04-27T02:01:00-04:00</lastmod>
     <priority>0</priority>
@@ -20,25 +67,7 @@
   </url>
   
   <url>
-    <loc>https://blog.nobugware.com/</loc>
-    <lastmod>2019-04-27T02:01:00-04:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>https://blog.nobugware.com/tags/go/</loc>
-    <lastmod>2019-04-27T02:01:00-04:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.nobugware.com/post/</loc>
-    <lastmod>2019-04-27T02:01:00-04:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.nobugware.com/tags/</loc>
     <lastmod>2019-04-27T02:01:00-04:00</lastmod>
     <priority>0</priority>
   </url>
@@ -74,14 +103,14 @@
   </url>
   
   <url>
-    <loc>https://blog.nobugware.com/tags/grpc/</loc>
+    <loc>https://blog.nobugware.com/post/2019/kubernetes_mesh_network_load_balancing_grpc_services/</loc>
     <lastmod>2019-03-11T00:32:43-05:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://blog.nobugware.com/post/2019/kubernetes_mesh_network_load_balancing_grpc_services/</loc>
+    <loc>https://blog.nobugware.com/tags/grpc/</loc>
     <lastmod>2019-03-11T00:32:43-05:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -190,12 +219,6 @@
   
   <url>
     <loc>https://blog.nobugware.com/categories/linux/</loc>
-    <lastmod>2017-07-22T21:28:24-04:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.nobugware.com/tags/linux/</loc>
     <lastmod>2017-07-22T21:28:24-04:00</lastmod>
     <priority>0</priority>
   </url>

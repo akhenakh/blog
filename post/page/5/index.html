@@ -74,6 +74,51 @@
             
             <div class="posts">
                 
+                <h1 class="content-subhead">24 Apr 2013, 18:51</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://blog.nobugware.com/post/2013/04/24/enhance-your-go/" class="post-title">Enhance your Go</a>
+
+                        <p class="post-meta">
+                            
+                            
+                                under 
+                                
+                                <a class="post-category post-category-Golang" href="https://blog.nobugware.com/categories/golang">Golang</a>
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        <p>After my <a href="http://blog.nobugware.com/post/2011/08/16
+/enhance-your-python">Enhance your Python</a> post, which is my Python bible reference, I wanted the
+same for <a href="http://golang.org/">Golang</a>:</p>
+
+<ul>
+<li><a href="http://golang.org/doc/effective_go.html">Effective Go</a>, write effective Go</li>
+<li><a href="https://gobyexample.com/">Go by examples</a>, simple but useful examples in Go</li>
+<li><a href="http://golang.org/ref/mem">The Go memory model</a>, Goroutines lock or not ?</li>
+<li><a href="http://openmymind.net/Things-I-Wish-Someone-Had-Told-Me-About-Go/">Things I Wish Someone Had Told Me About Go</a></li>
+<li><a href="http://nathany.com/good">Go Object Oriented Design</a></li>
+<li><a href="http://golang.org/src/pkg/">The sources for the standard packages</a> are gold mine for best practices</li>
+<li><a href="http://tip.golang.org/doc/articles/race_detector.html">Race detector documentation</a>, (&gt;= 1.1)</li>
+<li><a href="https://plus.google.com/communities/114112804251407510571">The Go+ community on Google+</a> and <a href="https://groups.google.com/forum/?fromgroups#!forum/golang-nuts">Golang-nuts</a> on Google groups</li>
+<li><a href="http://talks.golang.org/2012/concurrency.slide#1">Go concurrency patterns</a> slides by Rob Pike</li>
+<li><a href="http://pragprog.com/magazines/2012-06/the-beauty-of-concurrency-in-go">The Beauty of Concurrency in Go</a></li>
+<li><a href="http://blog.repustate.com/migrating-code-from-python-to-golang-what-you-need-to-know/#tips">Go differences with Python</a></li>
+<li><a href="http://jan.newmarch.name/go/">Networking with Go</a> (Added June 2013)</li>
+<li>If you need to read one book read: <a href="http://www.miek.nl/projects/learninggo/">Learning Go</a> (Added 2013 June)</li>
+<li><a href="http://talks.golang.org/2013/bestpractices.slide#1">12 Go best practices</a> (Added 2013 August)</li>
+<li><a href="http://www.cs.columbia.edu/~aho/cs6998/reports/12-12-11_DeshpandeSponslerWeiss_GO.pdf">Analysis of the Go runtime scheduler</a>, explains the internal of the Go runtime <a href="Added 2013 August">PDF</a></li>
+<li><a href="http://jordanorelli.tumblr.com/post/32665860244/how-to-use-interfaces-in-go">How to use interface in Go</a> (Added 2014 February)</li>
+</ul>
+
+<p>Last edit: 2014 February</p>
+
+                    </div>
+                </section>
+                
                 <h1 class="content-subhead">19 Feb 2013, 16:53</h1>
                 <section class="post">
                     <header class="post-header">
@@ -592,63 +637,6 @@ pip install gevent
 pip instal ujson
 pip install validictory
 </code></pre>
-
-                    </div>
-                </section>
-                
-                <h1 class="content-subhead">14 Oct 2011, 13:57</h1>
-                <section class="post">
-                    <header class="post-header">
-
-                        <a href="https://blog.nobugware.com/post/2011/10/14/freebsd-90-guest-virtio-support-in-kvm/" class="post-title">FreeBSD 9.0 guest with virtio support in KVM</a>
-
-                        <p class="post-meta">
-                            
-                            
-                                under 
-                                
-                                <a class="post-category post-category-FreeBSD" href="https://blog.nobugware.com/categories/freebsd">FreeBSD</a>
-                            
-                        </p>
-                    </header>
-
-                    <div class="post-description">
-                        <p>Performance are really bad for FreeBSD in KVM, one solution is to use
-paravirtualized driver, virIO.</p>
-
-<p>At the time of writing FreeBSD 9.0 is beta 3 and the last commit in the virtio
-project is
-<a href="http://svnweb.freebsd.org/base?view=revision&amp;revision=225710">225710</a></p>
-
-<pre><code>cd /usr/src/sys/dev
-svn co http://svn.freebsd.org/base/projects/virtio/sys/dev/virtio
-cd /usr/src/sys/modules
-svn co http://svn.freebsd.org/base/projects/virtio/sys/modules/virtio
-cd /usr/src/sys/modules/virtio
-
-make install
-</code></pre>
-
-<p>add this to /boot/loader.conf</p>
-
-<pre><code>virtio_load=&quot;YES&quot;
-virtio_pci_load=&quot;YES&quot;
-virtio_blk_load=&quot;YES&quot;
-if_vtnet_load=&quot;YES&quot;
-virtio_balloon_load=&quot;YES&quot;
-
-# dmesg | grep -i  virtio
-vtnet0:  on virtio_pci0
-virtio_pci1:  port 0xc060-0xc07f irq 11 at device 4.0 on pci0
-vtballoon0:  on virtio_pci1
-virtio_pci2:  port 0xc080-0xc0bf mem 0xf2040000-0xf2040fff irq 10 at device 5.0 on pci0
-vtblk0:  on virtio_pci2
-</code></pre>
-
-<p>It needs further tests, but seems to work except for the net driver which give
-me no links, (you can still use the previous net driver in KVM)</p>
-
-<p>EDIT: the vtnet driver issue is solve and should be in the trunk</p>
 
                     </div>
                 </section>

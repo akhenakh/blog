@@ -74,43 +74,6 @@
             
             <div class="posts">
                 
-                <h1 class="content-subhead">09 Aug 2010, 13:44</h1>
-                <section class="post">
-                    <header class="post-header">
-
-                        <a href="https://blog.nobugware.com/post/2010/08/09/using-oracle-django/" class="post-title">Using Oracle with Django</a>
-
-                        <p class="post-meta">
-                            
-                            
-                        </p>
-                    </header>
-
-                    <div class="post-description">
-                        <p>In a production environment you could hit this one: DatabaseError: Invalid
-handle!</p>
-
-<p>It seems to happen when Oracle is called with OCI interface (cx_Oracle) by
-multiple threads.</p>
-
-<p>Yes using apache with MPM worker or mod_wsgi, will create threads in the same
-process, by default cx_Oracle is configured to be used without threads cause
-it will add a mutex and a performance hit.</p>
-
-<p>The solution is to pass the threaded parameters to the connection string, so
-in Django settings just add:</p>
-
-<pre><code>DATABASE_OPTIONS = {
-        'threaded':True
-    }
-</code></pre>
-
-<p>Here is a bug in the Django documentation to changed it to threaded by default
-&hellip; <a href="http://code.djangoproject.com/ticket/13351">13351</a></p>
-
-                    </div>
-                </section>
-                
                 <h1 class="content-subhead">12 Feb 2010, 14:02</h1>
                 <section class="post">
                     <header class="post-header">
@@ -922,6 +885,51 @@ display &ldquo;the application has gone here&rdquo; without any others informati
 </code></pre>
 
 <p>`</p>
+
+                    </div>
+                </section>
+                
+                <h1 class="content-subhead">26 Feb 2009, 11:37</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://blog.nobugware.com/post/2009/02/26/understanding-zfs-tuning/" class="post-title">Understanding the ZFS tuning</a>
+
+                        <p class="post-meta">
+                            
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        
+
+<h4 id="zfs-is-all-about-performance-many-levels-of-caching-pre-fetch-and">ZFS is all about performance (many levels of caching, pre-fetch, &hellip;) and</h4>
+
+<p>memory consumption :-)</p>
+
+<h4 id="here-are-my-last-links-about-zfs">Here are my last links about ZFS</h4>
+
+<p><a href="http://src.opensolaris.org/source/xref/onnv/onnv-
+gate/usr/src/cmd/mdb/common/modules/zfs/zfs.c#333">internals</a>, it&rsquo;s worth a read if you
+plan to use ZFS on large productions :</p>
+
+<ul>
+<li><p>The slides of Adam Leventhal&rsquo;s talk for the OpenSolaris Storage Summit : <a href="http://blogs.sun.com/ahl/entry/hsp_talk_at_the_opensolaris">ZFS, Cache, and Flash</a></p></li>
+
+<li><p>c0t0d0s0.org : a very good explanation of the ARC cache : most recently used pages, most frequently used pages and their ghosts lists <a href="http://www.c0t0d0s0.org/archives/5329-Some-insight-into-the-read-cache-of-ZFS-or-The-ARC.html">Some insight into the read cache of ZFS - or: The ARC</a> and the [](<a href="http://www.c0t0d0s0.org/archives/5329-Some-insight-into-the-read-cache-of-ZFS-or-The-ARC.html)[writing">http://www.c0t0d0s0.org/archives/5329-Some-insight-into-the-read-cache-of-ZFS-or-The-ARC.html)[writing</a> side](<a href="http://www.c0t0d0s0.org/archives/5343-Insights-into-ZFS-today-The-nature-of-writing-things.html#extended">http://www.c0t0d0s0.org/archives/5343-Insights-into-ZFS-today-The-nature-of-writing-things.html#extended</a>)</p></li>
+
+<li><p>The <a href="http://www.cuddletech.com/blog/pivot/entry.php?id=979">arc_summary.pl</a> tool is very useful for analysis, made by Ben Rockwood with the kstat counters.</p></li>
+
+<li><p>Also by Ben Rockwood : <a href="http://wikis.sun.com/download/attachments/63226450/ZFSintheTrenches.pdf">ZFS in the Trenches</a> is an overview of a real-life-production usage of ZFS : interesting counters and tuning hints at the different levels (monitoring, ARC, ZIL, Physical I/O, backup &amp; replication), useful tools, and experience sharing. <strong>A must-read !</strong></p></li>
+
+<li><p>And before anything, always refer to the <a href="http://www.solarisinternals.com/wiki/index.php/ZFS_Best_Practices_Guide">ZFS Best Practices Guide</a> of solarisinternals.com</p></li>
+</ul>
+
+<p>If you have some interesting links about ZFS too, share them with us in the
+comments !</p>
+
+<p>Thomas</p>
 
                     </div>
                 </section>

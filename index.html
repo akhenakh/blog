@@ -132,7 +132,8 @@ Run <code>blkid</code> to grab the UUID of your /</li>
 
 <p>Then write it to the scr</p>
 
-<pre><code>  mkimage -A arm -O linux -T script -C none -n &quot;U-Boot boot script&quot; -d boot.txt boot.scr
+<pre><code>  cd root/boot
+  mkimage -A arm -O linux -T script -C none -n &quot;U-Boot boot script&quot; -d boot.txt boot.scr
 </code></pre>
 
 <p>Reboot and remove the USB device

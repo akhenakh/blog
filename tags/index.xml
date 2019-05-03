@@ -12,11 +12,11 @@
     
     
     <item>
-      <title>Go</title>
-      <link>https://blog.nobugware.com/tags/go/</link>
+      <title>Kubernetes</title>
+      <link>https://blog.nobugware.com/tags/kubernetes/</link>
       <pubDate>Sat, 27 Apr 2019 02:01:00 -0400</pubDate>
       
-      <guid>https://blog.nobugware.com/tags/go/</guid>
+      <guid>https://blog.nobugware.com/tags/kubernetes/</guid>
       <description></description>
     </item>
     
@@ -57,11 +57,11 @@
     </item>
     
     <item>
-      <title>kubernetes</title>
-      <link>https://blog.nobugware.com/tags/kubernetes/</link>
+      <title>go</title>
+      <link>https://blog.nobugware.com/tags/go/</link>
       <pubDate>Sat, 27 Apr 2019 02:01:00 -0400</pubDate>
       
-      <guid>https://blog.nobugware.com/tags/kubernetes/</guid>
+      <guid>https://blog.nobugware.com/tags/go/</guid>
       <description></description>
     </item>
     
@@ -147,7 +147,7 @@
     </item>
     
     <item>
-      <title>golang</title>
+      <title>Golang</title>
       <link>https://blog.nobugware.com/tags/golang/</link>
       <pubDate>Wed, 28 Sep 2016 13:15:53 -0400</pubDate>
       
@@ -174,7 +174,7 @@
     </item>
     
     <item>
-      <title>freebsd</title>
+      <title>FreeBSD</title>
       <link>https://blog.nobugware.com/tags/freebsd/</link>
       <pubDate>Sun, 10 Jan 2016 11:32:19 -0500</pubDate>
       

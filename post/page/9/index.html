@@ -74,6 +74,116 @@
             
             <div class="posts">
                 
+                <h1 class="content-subhead">04 Dec 2008, 09:17</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://blog.nobugware.com/post/2008/12/04/apprendre-coder-pour-liphone-avec-luniversite-de-stanford/" class="post-title">Apprendre à coder pour l&#39;iphone avec l&#39;universite de Stanford</a>
+
+                        <p class="post-meta">
+                            
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        <p>Tous les cours, tous les slides, tous les exemples en lignes, sont forts ces
+<a href="http://www.stanford.edu/">californiens</a>.</p>
+
+<p><a href="http://www.stanford.edu/class/cs193p/cgi-
+bin/index.php">le cours Iphone development</a> ainsi que le cours sur
+<a href="http://www.stanford.edu/class/cs193e/">cocoa</a>:
+[](<a href="http://www.stanford.edu/class/cs193e/">http://www.stanford.edu/class/cs193e/</a>)</p>
+
+<p>Je vous remet mon article sur <a href="https://blog.nobugware.com/post/2008/10/20/iphone-
+sdk-exemple-de-code-et-documentation">apprendre objective C</a>.</p>
+
+                    </div>
+                </section>
+                
+                <h1 class="content-subhead">03 Dec 2008, 10:32</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://blog.nobugware.com/post/2008/12/03/gentoo-bref-recap-des-commandes-de-gestion-de-paquets/" class="post-title">Gentoo bref récap des commandes de gestion de paquets</a>
+
+                        <p class="post-meta">
+                            
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        <p>Avant toute chose installer l&rsquo;outil gentoolkit</p>
+
+<p><code>emerge -av gentoolkit</code></p>
+
+<p>Ces nouvelles commandes vont vous permettre de:</p>
+
+<p>A quel port appartient un binaire:</p>
+
+<pre><code> equery belongs cjpeg
+ [ Searching for file(s) cjpeg in *... ] 
+media-libs/jpeg-6b-r8 (/usr/bin/cjpeg) 
+</code></pre>
+
+<p>Quels sont les dependances d&rsquo;un port:</p>
+
+<pre><code>equery depends gd
+[ Searching for packages depending on gd... ]
+dev-lang/php-5.2.6-r7 (gd-external? media-libs/gd)
+</code></pre>
+
+<p>Quels sont les fichiers installes par un package:</p>
+
+<pre><code> equery files less
+[ Searching for packages matching less... ]
+* Contents of sys-apps/less-418:
+/etc
+/etc/env.d
+/etc/env.d/70less
+/usr
+/usr/bin
+/usr/bin/code2color
+/usr/bin/less
+/usr/bin/lessecho
+/usr/bin/lesskey
+/usr/bin/lesspipe.sh
+/usr/share
+/usr/share/doc
+/usr/share/doc/less-418
+/usr/share/doc/less-418/NEWS.bz2
+/usr/share/doc/less-418/README.Gentoo.bz2
+/usr/share/doc/less-418/README.bz2
+/usr/share/man
+/usr/share/man/man1
+/usr/share/man/man1/less.1.bz2
+/usr/share/man/man1/lessecho.1.bz2
+/usr/share/man/man1/lesskey.1.bz2
+</code></pre>
+
+<p>Mettre a jour vos machines en s&rsquo;assurant que tous les USE soient respectes, si
+vous changez une variable USE en ajoutant mysql par exemple, il est en theorie
+necessaire de recompiler tous les packages qui peuvent avoir ce use flag, puis
+enlever le &ndash;pretent</p>
+
+<p><code>emerge --update --deep --newuse world --pretend</code></p>
+
+<p>Verifier que chaque binaire reference une librairie encore existante sur votre
+syseme:</p>
+
+<p>Apres une mise a jour il se peut par exemple que la libgdbm ai change de
+revision majeure libgdbm.so.3, un binaire linke a cette librairie en
+libgdbm.so.2 ne fonctionnera plus, c&rsquo;est le role de <em>revdep-rebuild</em> de
+retrouver quels binaires doivent etre recompile.</p>
+
+<p>Enlever les versions obsoletes d&rsquo;un package:</p>
+
+<p><code>emerge --prune gentoo-sources</code></p>
+
+                    </div>
+                </section>
+                
                 <h1 class="content-subhead">03 Dec 2008, 10:25</h1>
                 <section class="post">
                     <header class="post-header">

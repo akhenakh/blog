@@ -74,6 +74,121 @@
             
             <div class="posts">
                 
+                <h1 class="content-subhead">09 Aug 2010, 14:41</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://blog.nobugware.com/post/2010/08/09/zfs-linux/" class="post-title">ZFS on linux</a>
+
+                        <p class="post-meta">
+                            
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        <p>For license reasons (god damn GPL), ZFS can&rsquo;t be integrated into the Linux
+kernel, but there is a userland fuse version called <a href="http://zfs-
+fuse.net/">ZFS-FUSE</a>, so I tried to measure the fuse overhead vs others filesystems
+presents on my server.</p>
+
+<p>This tests are not benchmarks, but just show that ZFS-FUSE is fast enough and
+seems to be stable (at least for my personal server)</p>
+
+<ul>
+<li>ZFS with lzjb compression
+```
+dd if=/dev/zero of=/testzfs/toto bs=2048 count=200000
+409600000 bytes (410 MB) copied, 9.93444 s, 41.2 MB/s
+<br /></li>
+</ul>
+
+<p>dd if=/dev/zero of=/testzfs/toto bs=2048 count=200000
+409600000 bytes (410 MB) copied, 9.88071 s, 41.5 MB/s</p>
+
+<p>dd if=/dev/zero of=/testzfs/toto bs=2048 count=200000
+409600000 bytes (410 MB) copied, 10.2585 s, 39.9 MB/s</p>
+
+<pre><code>* ZFS with compression off
+</code></pre>
+
+<p>dd if=/dev/zero of=/testzfs/toto bs=2048 count=200000
+ 409600000 bytes (410 MB) copied, 17.2505 s, 23.7 MB/s</p>
+
+<p>dd if=/dev/zero of=/testzfs/toto bs=2048 count=200000
+ 409600000 bytes (410 MB) copied, 17.0921 s, 24.0 MB/s</p>
+
+<p>dd if=/dev/zero of=/testzfs/toto bs=2048 count=200000
+ 409600000 bytes (410 MB) copied, 16.8956 s, 24.2 MB/s</p>
+
+<pre><code>
+* EXT3
+</code></pre>
+
+<p>dd if=/dev/zero of=/toto bs=2048 count=200000
+409600000 bytes (410 MB) copied, 9.92158 s, 41.3 MB/s</p>
+
+<p>dd if=/dev/zero of=/toto bs=2048 count=200000
+409600000 bytes (410 MB) copied, 8.50674 s, 48.2 MB/s</p>
+
+<p>dd if=/dev/zero of=/toto bs=2048 count=200000
+409600000 bytes (410 MB) copied, 9.02419 s, 45.4 MB/s</p>
+
+<pre><code>* REISERFS (the way reiserfs works makes this big file creation faster)
+</code></pre>
+
+<p>dd if=/dev/zero of=/opt/toto bs=2048 count=200000
+09600000 bytes (410 MB) copied, 2.29901 s, 178 MB/s</p>
+
+<p>dd if=/dev/zero of=/opt/toto bs=2048 count=200000
+409600000 bytes (410 MB) copied, 2.1869 s, 187 MB/s</p>
+
+<p>dd if=/dev/zero of=/opt/toto bs=2048 count=200000
+409600000 bytes (410 MB) copied, 1.9057 s, 215 MB/s
+```
+Also remember that FreeBSD 8.1 now includes ZFS version 14, which is a good
+(native) alternative</p>
+
+                    </div>
+                </section>
+                
+                <h1 class="content-subhead">09 Aug 2010, 13:44</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://blog.nobugware.com/post/2010/08/09/using-oracle-django/" class="post-title">Using Oracle with Django</a>
+
+                        <p class="post-meta">
+                            
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        <p>In a production environment you could hit this one: DatabaseError: Invalid
+handle!</p>
+
+<p>It seems to happen when Oracle is called with OCI interface (cx_Oracle) by
+multiple threads.</p>
+
+<p>Yes using apache with MPM worker or mod_wsgi, will create threads in the same
+process, by default cx_Oracle is configured to be used without threads cause
+it will add a mutex and a performance hit.</p>
+
+<p>The solution is to pass the threaded parameters to the connection string, so
+in Django settings just add:</p>
+
+<pre><code>DATABASE_OPTIONS = {
+        'threaded':True
+    }
+</code></pre>
+
+<p>Here is a bug in the Django documentation to changed it to threaded by default
+&hellip; <a href="http://code.djangoproject.com/ticket/13351">13351</a></p>
+
+                    </div>
+                </section>
+                
                 <h1 class="content-subhead">12 Feb 2010, 14:02</h1>
                 <section class="post">
                     <header class="post-header">
@@ -731,205 +846,6 @@ o  changeset:   0:a2883c1a5659
 <p>HGMERGE=internal:local hg merge  #keep my files
 HGMERGE=internal:other hg merge  #keep their files</p></li>
 </ul>
-
-                    </div>
-                </section>
-                
-                <h1 class="content-subhead">11 Mar 2009, 22:44</h1>
-                <section class="post">
-                    <header class="post-header">
-
-                        <a href="https://blog.nobugware.com/post/2009/03/11/better-nslog/" class="post-title">A better NSLog</a>
-
-                        <p class="post-meta">
-                            
-                            
-                        </p>
-                    </header>
-
-                    <div class="post-description">
-                        <p>When debugging, I often found that NSLog is really boring, here is an attempt
-to make it nicer:</p>
-
-<p>`</p>
-
-<pre><code>NSLog(@&quot;mycar: %@&quot;,myCar);
-NSLog(@&quot; I'M HERE &quot;);
-</code></pre>
-
-<p>`</p>
-
-<p>NSLog doesn&rsquo;t tell you where the call was made (which file or which method),
-so you end with a lot of:</p>
-
-<blockquote>
-<p>2009-03-11 22:30:53.789 ObjCTest[1565:10b] mycar: Porsche</p>
-
-<p>2009-03-11 22:30:53.791 ObjCTest[1565:10b] I&rsquo;M HERE</p>
-</blockquote>
-
-<p>A better NSLog could tell us:</p>
-
-<blockquote>
-<p>2009-03-11 22:32:25.823 ObjCTest[1581:10b] <strong>Car.m:32 -[Car init]</strong> I&rsquo;M HERE
-AND I KNOW WHERE I AM</p>
-</blockquote>
-
-<p>Now we have the sourcefile, the linenumber and the method of the call !!</p>
-
-<p>Another repeating action when debugging is just to look for the value of
-something (call the description method of an object)</p>
-
-<p>`</p>
-
-<pre><code>NSLog(myCar);
-NSLog(@&quot;%@&quot;,myCar);
-</code></pre>
-
-<p>`</p>
-
-<p>That will produce:</p>
-
-<blockquote>
-<p>2009-03-11 22:38:22.707 ObjCTest[1625:10b] Porsche</p>
-</blockquote>
-
-<p>Not really sexy, no filename, no name for that value &hellip; a better answer could
-be:</p>
-
-<blockquote>
-<p>2009-03-11 22:38:22.708 ObjCTest[1625:10b] <strong>Car.m:35 -[Car init] [myCar
-description] =</strong> Porsche</p>
-</blockquote>
-
-<p>To enable this &ldquo;better&rdquo; NSLog, in the Source folder of your Xcode you will
-find a file named YOURAPPNAME_Prefix.pch add the following code</p>
-
-<p>`</p>
-
-<pre><code>#include &lt;libgen.h&gt;
-#define ALog(format, ...) NSLog([NSString stringWithFormat:@&quot;%s:%d %s %@&quot;,basename(__FILE__),__LINE__,__FUNCTION__,format], ##__VA_ARGS__)
-#define ALogv(var) NSLog([NSString stringWithFormat:@&quot;%s:%d %s [&quot; # var &quot; description] = %@&quot;,basename(__FILE__),__LINE__,__FUNCTION__, var] )
-</code></pre>
-
-<p>`</p>
-
-<p>A much better solution is to associated it with a DEBUG define, and put
-&lsquo;-DDEBUG=1&rsquo; it in &ldquo;Other C Flags&rdquo; in Xcode Debug configuration, <a href="http://iphoneincubator.com/blog/debugging/how-to-create-conditional-log-
-statements-in-xcode">explained
-here</a>, it will remove all calls to ALog when buit for release.</p>
-
-<p>`</p>
-
-<pre><code>#ifdef DEBUG
-#include &lt;libgen.h&gt;
-#define ALog(format, ...) NSLog([NSString stringWithFormat:@&quot;%s:%d %s %@&quot;,basename(__FILE__),__LINE__,__FUNCTION__,format], ##__VA_ARGS__)
-#define ALogv(var) NSLog([NSString stringWithFormat:@&quot;%s:%d %s [&quot; # var &quot; description] = %@&quot;,basename(__FILE__),__LINE__,__FUNCTION__, var] )
-#else
-#define ALog(...) /* */
-#define ALogv(var) /* */
-#endif
-</code></pre>
-
-<p>`</p>
-
-<p>Then call ALog rather than NSLog and ALogv for the variable name and his
-value:</p>
-
-<p>`</p>
-
-<pre><code>  ALog(@&quot;mycar: %@&quot;, myCar);
-  ALogv(myCar);
-
-2009-03-11 22:38:22.706 ObjCTest[1625:10b] Car.m:33 -[Car init] mycar: Porsche
-2009-03-11 22:38:22.708 ObjCTest[1625:10b] Car.m:35 -[Car init] [myCar description] = Porsche
-</code></pre>
-
-<p>`</p>
-
-<p>Feel free to change the name of this functions.</p>
-
-<p>Bye Bye NSLog.</p>
-
-<p>EDIT: here is the update version I&rsquo;m using</p>
-
-<blockquote>
-<p>2009-07-31 12:22:46.070 WheelOfFate[30351:20b]
-[WheelBrowserViewController.m:26 initWithStyle:] myWheelStorage=<WheelStorage:
-0xd134a0></p>
-</blockquote>
-
-<p>What is this strange method ? In fact this is just
-[TheFileWhereTheMethodeWasCalled:TheLineNumberTheMethodWasCalled TheMethod],
-it sounds strange but it takes less space on debug console, warning sometimes
-where you define multiple class in same file it could fool you.</p>
-
-<p>Why DLog instead of ALog ? Just run xcode and type dl <Echap> you will see
-that there is no completion for DL letters &hellip;</p>
-
-<p>What is this new ALogm method (Log Method) ? Sometimes you just need to
-display &ldquo;the application has gone here&rdquo; without any others informations.</p>
-
-<p>`</p>
-
-<pre><code>#ifdef DEBUG
-#include &lt;libgen.h&gt;
-#define DLogm() NSLog([NSString stringWithFormat:@&quot;[%s:%d %@]&quot;,basename(__FILE__),__LINE__,NSStringFromSelector(_cmd)])
-#define DLog(format, ...) NSLog([NSString stringWithFormat:@&quot;[%s:%d %@] %@&quot;,basename(__FILE__),__LINE__,NSStringFromSelector(_cmd),format], ##__VA_ARGS__)
-#define DLogv(var) NSLog([NSString stringWithFormat:@&quot;[%s:%d %@] &quot;# var &quot;=%@&quot;,basename(__FILE__),__LINE__,NSStringFromSelector(_cmd), var] )
-#else
-#define DLog(...) /* */
-#define DLogv(var) /* */
-#define DLogm() /* */
-#endif
-</code></pre>
-
-<p>`</p>
-
-                    </div>
-                </section>
-                
-                <h1 class="content-subhead">26 Feb 2009, 11:37</h1>
-                <section class="post">
-                    <header class="post-header">
-
-                        <a href="https://blog.nobugware.com/post/2009/02/26/understanding-zfs-tuning/" class="post-title">Understanding the ZFS tuning</a>
-
-                        <p class="post-meta">
-                            
-                            
-                        </p>
-                    </header>
-
-                    <div class="post-description">
-                        
-
-<h4 id="zfs-is-all-about-performance-many-levels-of-caching-pre-fetch-and">ZFS is all about performance (many levels of caching, pre-fetch, &hellip;) and</h4>
-
-<p>memory consumption :-)</p>
-
-<h4 id="here-are-my-last-links-about-zfs">Here are my last links about ZFS</h4>
-
-<p><a href="http://src.opensolaris.org/source/xref/onnv/onnv-
-gate/usr/src/cmd/mdb/common/modules/zfs/zfs.c#333">internals</a>, it&rsquo;s worth a read if you
-plan to use ZFS on large productions :</p>
-
-<ul>
-<li><p>The slides of Adam Leventhal&rsquo;s talk for the OpenSolaris Storage Summit : <a href="http://blogs.sun.com/ahl/entry/hsp_talk_at_the_opensolaris">ZFS, Cache, and Flash</a></p></li>
-
-<li><p>c0t0d0s0.org : a very good explanation of the ARC cache : most recently used pages, most frequently used pages and their ghosts lists <a href="http://www.c0t0d0s0.org/archives/5329-Some-insight-into-the-read-cache-of-ZFS-or-The-ARC.html">Some insight into the read cache of ZFS - or: The ARC</a> and the [](<a href="http://www.c0t0d0s0.org/archives/5329-Some-insight-into-the-read-cache-of-ZFS-or-The-ARC.html)[writing">http://www.c0t0d0s0.org/archives/5329-Some-insight-into-the-read-cache-of-ZFS-or-The-ARC.html)[writing</a> side](<a href="http://www.c0t0d0s0.org/archives/5343-Insights-into-ZFS-today-The-nature-of-writing-things.html#extended">http://www.c0t0d0s0.org/archives/5343-Insights-into-ZFS-today-The-nature-of-writing-things.html#extended</a>)</p></li>
-
-<li><p>The <a href="http://www.cuddletech.com/blog/pivot/entry.php?id=979">arc_summary.pl</a> tool is very useful for analysis, made by Ben Rockwood with the kstat counters.</p></li>
-
-<li><p>Also by Ben Rockwood : <a href="http://wikis.sun.com/download/attachments/63226450/ZFSintheTrenches.pdf">ZFS in the Trenches</a> is an overview of a real-life-production usage of ZFS : interesting counters and tuning hints at the different levels (monitoring, ARC, ZIL, Physical I/O, backup &amp; replication), useful tools, and experience sharing. <strong>A must-read !</strong></p></li>
-
-<li><p>And before anything, always refer to the <a href="http://www.solarisinternals.com/wiki/index.php/ZFS_Best_Practices_Guide">ZFS Best Practices Guide</a> of solarisinternals.com</p></li>
-</ul>
-
-<p>If you have some interesting links about ZFS too, share them with us in the
-comments !</p>
-
-<p>Thomas</p>
 
                     </div>
                 </section>

@@ -74,6 +74,205 @@
             
             <div class="posts">
                 
+                <h1 class="content-subhead">11 Mar 2009, 22:44</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://blog.nobugware.com/post/2009/03/11/better-nslog/" class="post-title">A better NSLog</a>
+
+                        <p class="post-meta">
+                            
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        <p>When debugging, I often found that NSLog is really boring, here is an attempt
+to make it nicer:</p>
+
+<p>`</p>
+
+<pre><code>NSLog(@&quot;mycar: %@&quot;,myCar);
+NSLog(@&quot; I'M HERE &quot;);
+</code></pre>
+
+<p>`</p>
+
+<p>NSLog doesn&rsquo;t tell you where the call was made (which file or which method),
+so you end with a lot of:</p>
+
+<blockquote>
+<p>2009-03-11 22:30:53.789 ObjCTest[1565:10b] mycar: Porsche</p>
+
+<p>2009-03-11 22:30:53.791 ObjCTest[1565:10b] I&rsquo;M HERE</p>
+</blockquote>
+
+<p>A better NSLog could tell us:</p>
+
+<blockquote>
+<p>2009-03-11 22:32:25.823 ObjCTest[1581:10b] <strong>Car.m:32 -[Car init]</strong> I&rsquo;M HERE
+AND I KNOW WHERE I AM</p>
+</blockquote>
+
+<p>Now we have the sourcefile, the linenumber and the method of the call !!</p>
+
+<p>Another repeating action when debugging is just to look for the value of
+something (call the description method of an object)</p>
+
+<p>`</p>
+
+<pre><code>NSLog(myCar);
+NSLog(@&quot;%@&quot;,myCar);
+</code></pre>
+
+<p>`</p>
+
+<p>That will produce:</p>
+
+<blockquote>
+<p>2009-03-11 22:38:22.707 ObjCTest[1625:10b] Porsche</p>
+</blockquote>
+
+<p>Not really sexy, no filename, no name for that value &hellip; a better answer could
+be:</p>
+
+<blockquote>
+<p>2009-03-11 22:38:22.708 ObjCTest[1625:10b] <strong>Car.m:35 -[Car init] [myCar
+description] =</strong> Porsche</p>
+</blockquote>
+
+<p>To enable this &ldquo;better&rdquo; NSLog, in the Source folder of your Xcode you will
+find a file named YOURAPPNAME_Prefix.pch add the following code</p>
+
+<p>`</p>
+
+<pre><code>#include &lt;libgen.h&gt;
+#define ALog(format, ...) NSLog([NSString stringWithFormat:@&quot;%s:%d %s %@&quot;,basename(__FILE__),__LINE__,__FUNCTION__,format], ##__VA_ARGS__)
+#define ALogv(var) NSLog([NSString stringWithFormat:@&quot;%s:%d %s [&quot; # var &quot; description] = %@&quot;,basename(__FILE__),__LINE__,__FUNCTION__, var] )
+</code></pre>
+
+<p>`</p>
+
+<p>A much better solution is to associated it with a DEBUG define, and put
+&lsquo;-DDEBUG=1&rsquo; it in &ldquo;Other C Flags&rdquo; in Xcode Debug configuration, <a href="http://iphoneincubator.com/blog/debugging/how-to-create-conditional-log-
+statements-in-xcode">explained
+here</a>, it will remove all calls to ALog when buit for release.</p>
+
+<p>`</p>
+
+<pre><code>#ifdef DEBUG
+#include &lt;libgen.h&gt;
+#define ALog(format, ...) NSLog([NSString stringWithFormat:@&quot;%s:%d %s %@&quot;,basename(__FILE__),__LINE__,__FUNCTION__,format], ##__VA_ARGS__)
+#define ALogv(var) NSLog([NSString stringWithFormat:@&quot;%s:%d %s [&quot; # var &quot; description] = %@&quot;,basename(__FILE__),__LINE__,__FUNCTION__, var] )
+#else
+#define ALog(...) /* */
+#define ALogv(var) /* */
+#endif
+</code></pre>
+
+<p>`</p>
+
+<p>Then call ALog rather than NSLog and ALogv for the variable name and his
+value:</p>
+
+<p>`</p>
+
+<pre><code>  ALog(@&quot;mycar: %@&quot;, myCar);
+  ALogv(myCar);
+
+2009-03-11 22:38:22.706 ObjCTest[1625:10b] Car.m:33 -[Car init] mycar: Porsche
+2009-03-11 22:38:22.708 ObjCTest[1625:10b] Car.m:35 -[Car init] [myCar description] = Porsche
+</code></pre>
+
+<p>`</p>
+
+<p>Feel free to change the name of this functions.</p>
+
+<p>Bye Bye NSLog.</p>
+
+<p>EDIT: here is the update version I&rsquo;m using</p>
+
+<blockquote>
+<p>2009-07-31 12:22:46.070 WheelOfFate[30351:20b]
+[WheelBrowserViewController.m:26 initWithStyle:] myWheelStorage=<WheelStorage:
+0xd134a0></p>
+</blockquote>
+
+<p>What is this strange method ? In fact this is just
+[TheFileWhereTheMethodeWasCalled:TheLineNumberTheMethodWasCalled TheMethod],
+it sounds strange but it takes less space on debug console, warning sometimes
+where you define multiple class in same file it could fool you.</p>
+
+<p>Why DLog instead of ALog ? Just run xcode and type dl <Echap> you will see
+that there is no completion for DL letters &hellip;</p>
+
+<p>What is this new ALogm method (Log Method) ? Sometimes you just need to
+display &ldquo;the application has gone here&rdquo; without any others informations.</p>
+
+<p>`</p>
+
+<pre><code>#ifdef DEBUG
+#include &lt;libgen.h&gt;
+#define DLogm() NSLog([NSString stringWithFormat:@&quot;[%s:%d %@]&quot;,basename(__FILE__),__LINE__,NSStringFromSelector(_cmd)])
+#define DLog(format, ...) NSLog([NSString stringWithFormat:@&quot;[%s:%d %@] %@&quot;,basename(__FILE__),__LINE__,NSStringFromSelector(_cmd),format], ##__VA_ARGS__)
+#define DLogv(var) NSLog([NSString stringWithFormat:@&quot;[%s:%d %@] &quot;# var &quot;=%@&quot;,basename(__FILE__),__LINE__,NSStringFromSelector(_cmd), var] )
+#else
+#define DLog(...) /* */
+#define DLogv(var) /* */
+#define DLogm() /* */
+#endif
+</code></pre>
+
+<p>`</p>
+
+                    </div>
+                </section>
+                
+                <h1 class="content-subhead">26 Feb 2009, 11:37</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://blog.nobugware.com/post/2009/02/26/understanding-zfs-tuning/" class="post-title">Understanding the ZFS tuning</a>
+
+                        <p class="post-meta">
+                            
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        
+
+<h4 id="zfs-is-all-about-performance-many-levels-of-caching-pre-fetch-and">ZFS is all about performance (many levels of caching, pre-fetch, &hellip;) and</h4>
+
+<p>memory consumption :-)</p>
+
+<h4 id="here-are-my-last-links-about-zfs">Here are my last links about ZFS</h4>
+
+<p><a href="http://src.opensolaris.org/source/xref/onnv/onnv-
+gate/usr/src/cmd/mdb/common/modules/zfs/zfs.c#333">internals</a>, it&rsquo;s worth a read if you
+plan to use ZFS on large productions :</p>
+
+<ul>
+<li><p>The slides of Adam Leventhal&rsquo;s talk for the OpenSolaris Storage Summit : <a href="http://blogs.sun.com/ahl/entry/hsp_talk_at_the_opensolaris">ZFS, Cache, and Flash</a></p></li>
+
+<li><p>c0t0d0s0.org : a very good explanation of the ARC cache : most recently used pages, most frequently used pages and their ghosts lists <a href="http://www.c0t0d0s0.org/archives/5329-Some-insight-into-the-read-cache-of-ZFS-or-The-ARC.html">Some insight into the read cache of ZFS - or: The ARC</a> and the [](<a href="http://www.c0t0d0s0.org/archives/5329-Some-insight-into-the-read-cache-of-ZFS-or-The-ARC.html)[writing">http://www.c0t0d0s0.org/archives/5329-Some-insight-into-the-read-cache-of-ZFS-or-The-ARC.html)[writing</a> side](<a href="http://www.c0t0d0s0.org/archives/5343-Insights-into-ZFS-today-The-nature-of-writing-things.html#extended">http://www.c0t0d0s0.org/archives/5343-Insights-into-ZFS-today-The-nature-of-writing-things.html#extended</a>)</p></li>
+
+<li><p>The <a href="http://www.cuddletech.com/blog/pivot/entry.php?id=979">arc_summary.pl</a> tool is very useful for analysis, made by Ben Rockwood with the kstat counters.</p></li>
+
+<li><p>Also by Ben Rockwood : <a href="http://wikis.sun.com/download/attachments/63226450/ZFSintheTrenches.pdf">ZFS in the Trenches</a> is an overview of a real-life-production usage of ZFS : interesting counters and tuning hints at the different levels (monitoring, ARC, ZIL, Physical I/O, backup &amp; replication), useful tools, and experience sharing. <strong>A must-read !</strong></p></li>
+
+<li><p>And before anything, always refer to the <a href="http://www.solarisinternals.com/wiki/index.php/ZFS_Best_Practices_Guide">ZFS Best Practices Guide</a> of solarisinternals.com</p></li>
+</ul>
+
+<p>If you have some interesting links about ZFS too, share them with us in the
+comments !</p>
+
+<p>Thomas</p>
+
+                    </div>
+                </section>
+                
                 <h1 class="content-subhead">17 Feb 2009, 11:35</h1>
                 <section class="post">
                     <header class="post-header">
@@ -717,116 +916,6 @@ new named: &ldquo;Names: {first_name} {family_name}&ldquo;.format(family_name=&l
 <p>A <a href="http://docs.python.org/dev/3.0/library/2to3.html#to3-reference">2to3 migration module
 </a>could help
 you for this transition.</p>
-
-                    </div>
-                </section>
-                
-                <h1 class="content-subhead">04 Dec 2008, 09:17</h1>
-                <section class="post">
-                    <header class="post-header">
-
-                        <a href="https://blog.nobugware.com/post/2008/12/04/apprendre-coder-pour-liphone-avec-luniversite-de-stanford/" class="post-title">Apprendre à coder pour l&#39;iphone avec l&#39;universite de Stanford</a>
-
-                        <p class="post-meta">
-                            
-                            
-                        </p>
-                    </header>
-
-                    <div class="post-description">
-                        <p>Tous les cours, tous les slides, tous les exemples en lignes, sont forts ces
-<a href="http://www.stanford.edu/">californiens</a>.</p>
-
-<p><a href="http://www.stanford.edu/class/cs193p/cgi-
-bin/index.php">le cours Iphone development</a> ainsi que le cours sur
-<a href="http://www.stanford.edu/class/cs193e/">cocoa</a>:
-[](<a href="http://www.stanford.edu/class/cs193e/">http://www.stanford.edu/class/cs193e/</a>)</p>
-
-<p>Je vous remet mon article sur <a href="https://blog.nobugware.com/post/2008/10/20/iphone-
-sdk-exemple-de-code-et-documentation">apprendre objective C</a>.</p>
-
-                    </div>
-                </section>
-                
-                <h1 class="content-subhead">03 Dec 2008, 10:32</h1>
-                <section class="post">
-                    <header class="post-header">
-
-                        <a href="https://blog.nobugware.com/post/2008/12/03/gentoo-bref-recap-des-commandes-de-gestion-de-paquets/" class="post-title">Gentoo bref récap des commandes de gestion de paquets</a>
-
-                        <p class="post-meta">
-                            
-                            
-                        </p>
-                    </header>
-
-                    <div class="post-description">
-                        <p>Avant toute chose installer l&rsquo;outil gentoolkit</p>
-
-<p><code>emerge -av gentoolkit</code></p>
-
-<p>Ces nouvelles commandes vont vous permettre de:</p>
-
-<p>A quel port appartient un binaire:</p>
-
-<pre><code> equery belongs cjpeg
- [ Searching for file(s) cjpeg in *... ] 
-media-libs/jpeg-6b-r8 (/usr/bin/cjpeg) 
-</code></pre>
-
-<p>Quels sont les dependances d&rsquo;un port:</p>
-
-<pre><code>equery depends gd
-[ Searching for packages depending on gd... ]
-dev-lang/php-5.2.6-r7 (gd-external? media-libs/gd)
-</code></pre>
-
-<p>Quels sont les fichiers installes par un package:</p>
-
-<pre><code> equery files less
-[ Searching for packages matching less... ]
-* Contents of sys-apps/less-418:
-/etc
-/etc/env.d
-/etc/env.d/70less
-/usr
-/usr/bin
-/usr/bin/code2color
-/usr/bin/less
-/usr/bin/lessecho
-/usr/bin/lesskey
-/usr/bin/lesspipe.sh
-/usr/share
-/usr/share/doc
-/usr/share/doc/less-418
-/usr/share/doc/less-418/NEWS.bz2
-/usr/share/doc/less-418/README.Gentoo.bz2
-/usr/share/doc/less-418/README.bz2
-/usr/share/man
-/usr/share/man/man1
-/usr/share/man/man1/less.1.bz2
-/usr/share/man/man1/lessecho.1.bz2
-/usr/share/man/man1/lesskey.1.bz2
-</code></pre>
-
-<p>Mettre a jour vos machines en s&rsquo;assurant que tous les USE soient respectes, si
-vous changez une variable USE en ajoutant mysql par exemple, il est en theorie
-necessaire de recompiler tous les packages qui peuvent avoir ce use flag, puis
-enlever le &ndash;pretent</p>
-
-<p><code>emerge --update --deep --newuse world --pretend</code></p>
-
-<p>Verifier que chaque binaire reference une librairie encore existante sur votre
-syseme:</p>
-
-<p>Apres une mise a jour il se peut par exemple que la libgdbm ai change de
-revision majeure libgdbm.so.3, un binaire linke a cette librairie en
-libgdbm.so.2 ne fonctionnera plus, c&rsquo;est le role de <em>revdep-rebuild</em> de
-retrouver quels binaires doivent etre recompile.</p>
-
-<p>Enlever les versions obsoletes d&rsquo;un package:</p>
-
-<p><code>emerge --prune gentoo-sources</code></p>
 
                     </div>
                 </section>

@@ -74,6 +74,207 @@
             
             <div class="posts">
                 
+                <h1 class="content-subhead">02 Aug 2015, 00:32</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://blog.nobugware.com/post/hugo_blog_github/" class="post-title">Host your blog on Github with autodeploy</a>
+
+                        <p class="post-meta">
+                            
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        
+
+<p>I&rsquo;ve always developed my own blog system, that&rsquo;s a good way to learn a new langage.<br />
+But having to maintain a working server or hosting is no fun, there are some solutions like <a href="http://jekyllrb.com/">Jekyll</a> or <a href="http://gohugo.io/">Hugo</a> they generate static web pages based on some Markdown files you wrote.</p>
+
+<p>As it&rsquo;s just basic html files, they can be served by Github gh-pages.<br />
+It opens the door to blogging from anywhere without internet connection or your own laptop, just write some Markdown then publish to github later or event edit your new blog post from the Github editor.<br />
+Coupled with a <a href="http://wercker.com/">Wercker</a> auto deploy, publishing is automated, no excuse anymore.</p>
+
+<p>Here is some tips for this to work smoothly with Hugo.</p>
+
+<h2 id="github-setup">Github setup</h2>
+
+<p>First create 2 repositories on Github, one for the HTML pages, one for the markdown itself.<br />
+Let&rsquo;s call them <code>blog</code> &amp; <code>hugo-blog</code>.</p>
+
+<h2 id="dns-setup">DNS setup</h2>
+
+<p>You can use your own domain, if so you need to <a href="https://help.github.com/articles/adding-a-cname-file-to-your-repository/">enable a CNAME file for your gh-pages</a> to the <code>blog</code> repo, then add a CNAME to your DNS provider:<br />
+<code>blog.mydomain.com. IN   CNAME   username.github.io.</code></p>
+
+<h2 id="hugo-setup">Hugo setup</h2>
+
+<p>Clone the <code>hugo-blog</code> repo, put your new hugo blog files in it (created via <code>hugo new</code>).<br />
+<a href="http://gohugo.io/themes/overview/">Choose a theme for your blog</a> (don&rsquo;t forger to remove the <code>.git</code> directory from it) and set it up in your config.yml as follow:</p>
+
+<pre><code>baseurl = &quot;http://blog.mydomain.com/&quot;
+languageCode = &quot;en-us&quot;
+title = &quot;My supa blog&quot;
+canonifyurls = true
+theme = &quot;hyde&quot;
+</code></pre>
+
+<p>Then run <code>hugo server --buildDrafts</code>, point your browser to <a href="http://localhost:1313">http://localhost:1313</a>, no need to reload all modifications appear directly.</p>
+
+<h2 id="wercker-setup">Wercker setup</h2>
+
+<p>For the auto deploy to occur after each commits you need a build &amp; deploy system, <a href="http://wercker.com/">Wercker</a> is very cool as you can reproduce the exact same system on your host with Docker, subscribe to the service (it&rsquo;s free) and register your <code>hugo-blog</code> repo, hit next, next &hellip;</p>
+
+<p>Add a <code>wercker.yml</code> file in your <code>hugo-blog</code> that looks exactly like this.</p>
+
+<pre><code>box: debian
+build:
+  steps:
+    - arjen/hugo-build:
+        version: &quot;0.14&quot;
+        theme: purehugo
+        flags: --disableSitemap=true
+deploy :
+  steps :
+    - script:
+        name: Configure git
+        code: |-
+          sudo apt-get -y update
+          sudo apt-get -y install git-core
+          git config --global user.email &quot;pleasemailus@wercker.com&quot;
+          git config --global user.name &quot;wercker&quot;
+
+          # remove current .git folder
+          rm -rf .git
+    - script:
+        name: Deploy to Github pages
+        code: |-
+          cd public
+          # if you are using a custom domain set it here
+          echo &quot;blog.mydomain.com&quot; &gt; CNAME
+          git init
+          git add .
+          git commit -m &quot;deploy commit from $WERCKER_STARTED_BY&quot;
+          git push -f $GIT_REMOTE master:gh-pages 2&gt; /dev/null
+</code></pre>
+
+<p>It will use Hugo to generate the pages then deploy to your Github repo on every commit to the <code>blog</code> repo.</p>
+
+<p>Last step is to get a token from Github for the deploy to occur without your credentials.<br />
+Go to your Github settings, Personal access tokens, generate a token.</p>
+
+<p>Go to your <a href="https://app.wercker.com/#applications">Wercker app</a> settings, Deploy targets, add a new target, check <code>auto deploy successful builds to branch(es):</code> and type <code>master</code>.<br />
+Add a new variable named <code>GIT_REMOTE</code> check protected and type <code>https://{TOKEN}@github.com/yourusername/blog.git</code> replace <code>{TOKEN}</code> with the token from Github.<br />
+You can use this <a href="http://blog.wercker.com/2013/07/25/Using-wercker-to-publish-to-GitHub-pages.html">outdated blogpost from Wercker</a> for the screenshot but don&rsquo;t follow what they said.</p>
+
+<p>You are all set, happy blogging, you can check the exact same config on my repos under my username <a href="http://github.com/akhenakh">Github@akhenakh</a>.</p>
+
+                    </div>
+                </section>
+                
+                <h1 class="content-subhead">01 Aug 2015, 22:36</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://blog.nobugware.com/post/migrate_to_hugo/" class="post-title">Migrate to Hugo</a>
+
+                        <p class="post-meta">
+                            
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        <p>This blog is running Hugo with an auto deploy via Wercker and hosted on Github Page.
+Take #2</p>
+
+<p>Previous blog was hosted on Google App Engine with a <a href="http://github.com/akhenakh/bloggae">Python blog system</a>, to get the previous articles, I had to run in a small data migration.</p>
+
+<p>Make a backup from GAE admin web interface: Go to Datastore admin and backup your entity mine was Post and then backup to blobstore, go to Blob Viewer and download your file named around <code>datastore_backup_datastore_backup_2015_08_02_Post-157413521680733022360302ADC43E4-output-1-attempt-1</code></p>
+
+<p>I put the migration code I&rsquo;ve used here, it&rsquo;s super ugly but helped me to migrate from GAE to Hugo, so it may be help you too.</p>
+
+<p>I&rsquo;ve used <a href="http://www.aaronsw.com/2002/html2text/">html2text</a> to convert my HTML data back to Markdown.</p>
+
+<pre><code class="language-python">import sys
+import os
+import json
+import html2text
+import errno
+import datetime
+
+sys.path.append('/usr/local/google_appengine')
+from google.appengine.api.files import records
+from google.appengine.datastore import entity_pb
+from google.appengine.api import datastore
+
+def mkdir_p(path):
+    try:
+        os.makedirs(path)
+    except OSError as exc:
+        if exc.errno == errno.EEXIST and os.path.isdir(path):
+            pass
+        else: raise
+
+raw = open(&quot;datastore&quot;, 'r')
+titles = open(&quot;titles.txt&quot;, 'r').readlines()
+reader = records.RecordsReader(raw)
+i = 0
+for record in reader:
+    entity_proto = entity_pb.EntityProto(contents=record)
+    entity = datastore.Entity.FromPb(entity_proto)
+
+    if entity.get(&quot;status&quot;) == 1:
+        path = titles[i].rstrip()
+        content = html2text.html2text(entity[&quot;content_html&quot;], &quot;http://blog.nobugware.com/&quot;)
+        directory = os.path.dirname(path)
+        mkdir_p(&quot;post&quot; + directory)
+
+        # get current local time and utc time
+        localnow = datetime.datetime.now()
+        utcnow = datetime.datetime.utcnow()
+
+        # compute the time difference in seconds
+        tzd = localnow - utcnow
+        secs = tzd.days * 24 * 3600 + tzd.seconds
+
+        # get a positive or negative prefix
+        prefix = '+'
+        if secs &lt; 0:
+            prefix = '-'
+            secs = abs(secs)
+
+        # print the local time with the difference, correctly formatted
+        suffix = &quot;%s%02d:%02d&quot; % (prefix, secs/3600, secs/60%60)
+        now = localnow.replace(microsecond=0)
+        date = &quot;%s%s&quot; % (entity[&quot;creation_date&quot;].isoformat(' '), suffix)
+        tags_string = &quot;&quot;
+        tags_cleaned = []
+        if entity.get(&quot;tags&quot;) is not None:
+            tags = entity.get(&quot;tags&quot;)
+            for tag in tags:
+                tags_cleaned.append(&quot;\&quot;&quot;+ tag + &quot;\&quot;&quot;)
+            tags_string = &quot;,&quot;.join(tags_cleaned)
+
+        print tags_string
+        page = &quot;&quot;&quot;+++
+date = &quot;%s&quot;
+title = &quot;%s&quot;
+tags = [%s]
++++
+
+%s
+&quot;&quot;&quot; % ( date, entity[&quot;title&quot;] , tags_string, content)
+    md=open(&quot;post&quot; + path + &quot;.md&quot;, 'w')
+    md.write(page.encode('utf8'))
+    md.close()
+    i = i + 1
+</code></pre>
+
+                    </div>
+                </section>
+                
                 <h1 class="content-subhead">02 Apr 2015, 12:49</h1>
                 <section class="post">
                     <header class="post-header">
@@ -614,88 +815,6 @@ echo ifconfig_wlan0=&quot;wpa DHCP&quot; &gt;&gt; /etc/rc.conf`
 <p>And set your wifi password with wpa_passphrase</p>
 
 <p><code>wpa_passphrase yourssid yourwifipassword &gt;&gt; /etc/wpa_supplicant.conf</code></p>
-
-                    </div>
-                </section>
-                
-                <h1 class="content-subhead">15 Jun 2013, 17:59</h1>
-                <section class="post">
-                    <header class="post-header">
-
-                        <a href="https://blog.nobugware.com/post/2013/06/15/7shape-my-first-iphone-application/" class="post-title">7shape my first iphone application</a>
-
-                        <p class="post-meta">
-                            
-                            
-                        </p>
-                    </header>
-
-                    <div class="post-description">
-                        <p>As an iphone developer contractor, I&rsquo;ve released some applications on the
-Apple Store for my customers but not on my own.</p>
-
-<p>Here is my 1st personal (30 hours) toy project:
-<a href="http://7shape.appspot.com/">7shape</a> a 7 minutes workout training application,
-based on an <a href="http://well.blogs.nytimes.com/2013/05/09/the-
-scientific-7-minute-workout/">NYT blog</a> post.</p>
-
-<p><img src="http://7shape.appspot.com//img/gallery/shot2.png" alt="" /></p>
-
-<p>I&rsquo;ve spent 20 hours on website release, marketing, 3D for the human trainer
-and application design, and last 10 hours to create the app and release it to
-Apple &hellip;</p>
-
-<p>It&rsquo;s a free app and available on the Apple Store, have fun.</p>
-
-<p><a href="https://itunes.apple.com/us/
-app/7shape/id658738780?ls=1&amp;mt=8"><img src="http://7shape.appspot.com/img/appstore.png" alt="" /></a></p>
-
-<p>My next personal project will be a game, stay tuned ;)</p>
-
-                    </div>
-                </section>
-                
-                <h1 class="content-subhead">24 Apr 2013, 18:51</h1>
-                <section class="post">
-                    <header class="post-header">
-
-                        <a href="https://blog.nobugware.com/post/2013/04/24/enhance-your-go/" class="post-title">Enhance your Go</a>
-
-                        <p class="post-meta">
-                            
-                            
-                                under 
-                                
-                                <a class="post-category post-category-Golang" href="https://blog.nobugware.com/categories/golang">Golang</a>
-                            
-                        </p>
-                    </header>
-
-                    <div class="post-description">
-                        <p>After my <a href="http://blog.nobugware.com/post/2011/08/16
-/enhance-your-python">Enhance your Python</a> post, which is my Python bible reference, I wanted the
-same for <a href="http://golang.org/">Golang</a>:</p>
-
-<ul>
-<li><a href="http://golang.org/doc/effective_go.html">Effective Go</a>, write effective Go</li>
-<li><a href="https://gobyexample.com/">Go by examples</a>, simple but useful examples in Go</li>
-<li><a href="http://golang.org/ref/mem">The Go memory model</a>, Goroutines lock or not ?</li>
-<li><a href="http://openmymind.net/Things-I-Wish-Someone-Had-Told-Me-About-Go/">Things I Wish Someone Had Told Me About Go</a></li>
-<li><a href="http://nathany.com/good">Go Object Oriented Design</a></li>
-<li><a href="http://golang.org/src/pkg/">The sources for the standard packages</a> are gold mine for best practices</li>
-<li><a href="http://tip.golang.org/doc/articles/race_detector.html">Race detector documentation</a>, (&gt;= 1.1)</li>
-<li><a href="https://plus.google.com/communities/114112804251407510571">The Go+ community on Google+</a> and <a href="https://groups.google.com/forum/?fromgroups#!forum/golang-nuts">Golang-nuts</a> on Google groups</li>
-<li><a href="http://talks.golang.org/2012/concurrency.slide#1">Go concurrency patterns</a> slides by Rob Pike</li>
-<li><a href="http://pragprog.com/magazines/2012-06/the-beauty-of-concurrency-in-go">The Beauty of Concurrency in Go</a></li>
-<li><a href="http://blog.repustate.com/migrating-code-from-python-to-golang-what-you-need-to-know/#tips">Go differences with Python</a></li>
-<li><a href="http://jan.newmarch.name/go/">Networking with Go</a> (Added June 2013)</li>
-<li>If you need to read one book read: <a href="http://www.miek.nl/projects/learninggo/">Learning Go</a> (Added 2013 June)</li>
-<li><a href="http://talks.golang.org/2013/bestpractices.slide#1">12 Go best practices</a> (Added 2013 August)</li>
-<li><a href="http://www.cs.columbia.edu/~aho/cs6998/reports/12-12-11_DeshpandeSponslerWeiss_GO.pdf">Analysis of the Go runtime scheduler</a>, explains the internal of the Go runtime <a href="Added 2013 August">PDF</a></li>
-<li><a href="http://jordanorelli.tumblr.com/post/32665860244/how-to-use-interfaces-in-go">How to use interface in Go</a> (Added 2014 February)</li>
-</ul>
-
-<p>Last edit: 2014 February</p>
 
                     </div>
                 </section>

@@ -6,17 +6,71 @@
     <description>Recent content in Tags on Fabrice Aneche</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 27 Apr 2019 02:01:00 -0400</lastBuildDate>
+    <lastBuildDate>Sat, 04 May 2019 00:00:00 -0400</lastBuildDate>
     
 	<atom:link href="https://blog.nobugware.com/tags/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Kubernetes</title>
+      <title>arm64</title>
+      <link>https://blog.nobugware.com/tags/arm64/</link>
+      <pubDate>Sat, 04 May 2019 00:00:00 -0400</pubDate>
+      
+      <guid>https://blog.nobugware.com/tags/arm64/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>k3s</title>
+      <link>https://blog.nobugware.com/tags/k3s/</link>
+      <pubDate>Sat, 04 May 2019 00:00:00 -0400</pubDate>
+      
+      <guid>https://blog.nobugware.com/tags/k3s/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>kubernetes</title>
       <link>https://blog.nobugware.com/tags/kubernetes/</link>
-      <pubDate>Sat, 27 Apr 2019 02:01:00 -0400</pubDate>
+      <pubDate>Sat, 04 May 2019 00:00:00 -0400</pubDate>
       
       <guid>https://blog.nobugware.com/tags/kubernetes/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>rock64</title>
+      <link>https://blog.nobugware.com/tags/rock64/</link>
+      <pubDate>Sat, 04 May 2019 00:00:00 -0400</pubDate>
+      
+      <guid>https://blog.nobugware.com/tags/rock64/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>arm</title>
+      <link>https://blog.nobugware.com/tags/arm/</link>
+      <pubDate>Fri, 03 May 2019 00:00:00 -0400</pubDate>
+      
+      <guid>https://blog.nobugware.com/tags/arm/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>linux</title>
+      <link>https://blog.nobugware.com/tags/linux/</link>
+      <pubDate>Fri, 03 May 2019 00:00:00 -0400</pubDate>
+      
+      <guid>https://blog.nobugware.com/tags/linux/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Go</title>
+      <link>https://blog.nobugware.com/tags/go/</link>
+      <pubDate>Sat, 27 Apr 2019 02:01:00 -0400</pubDate>
+      
+      <guid>https://blog.nobugware.com/tags/go/</guid>
       <description></description>
     </item>
     
@@ -57,15 +111,6 @@
     </item>
     
     <item>
-      <title>go</title>
-      <link>https://blog.nobugware.com/tags/go/</link>
-      <pubDate>Sat, 27 Apr 2019 02:01:00 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/tags/go/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>grpc</title>
       <link>https://blog.nobugware.com/tags/grpc/</link>
       <pubDate>Mon, 11 Mar 2019 00:32:43 -0500</pubDate>
@@ -102,7 +147,7 @@
     </item>
     
     <item>
-      <title>hamradio</title>
+      <title>HamRadio</title>
       <link>https://blog.nobugware.com/tags/hamradio/</link>
       <pubDate>Sun, 08 Oct 2017 14:28:46 -0400</pubDate>
       
@@ -129,15 +174,6 @@
     </item>
     
     <item>
-      <title>linux</title>
-      <link>https://blog.nobugware.com/tags/linux/</link>
-      <pubDate>Sat, 22 Jul 2017 21:28:24 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/tags/linux/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>osx</title>
       <link>https://blog.nobugware.com/tags/osx/</link>
       <pubDate>Sat, 25 Feb 2017 09:57:56 -0500</pubDate>
@@ -147,7 +183,7 @@
     </item>
     
     <item>
-      <title>Golang</title>
+      <title>golang</title>
       <link>https://blog.nobugware.com/tags/golang/</link>
       <pubDate>Wed, 28 Sep 2016 13:15:53 -0400</pubDate>
       
@@ -174,7 +210,7 @@
     </item>
     
     <item>
-      <title>FreeBSD</title>
+      <title>freebsd</title>
       <link>https://blog.nobugware.com/tags/freebsd/</link>
       <pubDate>Sun, 10 Jan 2016 11:32:19 -0500</pubDate>
       
@@ -543,7 +579,7 @@
     </item>
     
     <item>
-      <title>solaris,</title>
+      <title>solaris</title>
       <link>https://blog.nobugware.com/tags/solaris/</link>
       <pubDate>Tue, 28 Jul 2009 19:22:12 -0400</pubDate>
       

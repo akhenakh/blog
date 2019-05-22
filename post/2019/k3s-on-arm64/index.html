@@ -129,8 +129,8 @@ Add the skip option to the args <code>- --enable-skip-login</code></p>
 
 <p>curl -sfL <a href="https://raw.githubusercontent.com/kubernetes/dashboard/v1.10.1/src/deploy/recommended/kubernetes-dashboard.yaml">https://raw.githubusercontent.com/kubernetes/dashboard/v1.10.1/src/deploy/recommended/kubernetes-dashboard.yaml</a> &gt; kubernetes-dashboard.yaml
   vi kubernetes-dashboard.yaml
-  apiVersion: rbac.authorization.k8s.io/v1beta1
   cat &lt;&lt;EOF | k3s kubectl create -f -
+  apiVersion: rbac.authorization.k8s.io/v1beta1
   kind: ClusterRoleBinding
   metadata:
     name: kubernetes-dashboard

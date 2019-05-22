@@ -6,10 +6,23 @@
     <description>Recent content on Fabrice Aneche</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sat, 04 May 2019 00:00:00 -0400</lastBuildDate>
+    <lastBuildDate>Wed, 22 May 2019 00:00:00 -0400</lastBuildDate>
     
 	<atom:link href="https://blog.nobugware.com/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Arch on Rock64 with USB boot</title>
+      <link>https://blog.nobugware.com/post/2019/arch-on-rock64-with-usb-boot/</link>
+      <pubDate>Wed, 22 May 2019 00:00:00 -0400</pubDate>
+      
+      <guid>https://blog.nobugware.com/post/2019/arch-on-rock64-with-usb-boot/</guid>
+      <description>Here are my notes to install Arch on a Rock64 and boot on USB first.
+Warning, you can brick your device (but can unbrick it), you are on your own.
+ Follow Arch Instructions to Install on an SD Card Boot on it Insert your USB device and follow the exact same installation but this time to the /dev/sdadevice
+At the end
+Mount / into root again Run blkid to grab the UUID of your /   /dev/sda1: UUID=&amp;quot;a3490212-03b6-46a6-9e6b-7733513a3efa&amp;quot; TYPE=&amp;quot;ext4&amp;quot;  Add the file root/boot/boot.</description>
+    </item>
     
     <item>
       <title>k3s on arm64</title>
@@ -21,19 +34,6 @@
 At the time of writing the stable release is k3s v0.4.0
 Here are my notes:
  If you haven&amp;rsquo;t installed k3s with the install.sh, you may need to load some modules: br_netfilter and overlay Docker is not needed since k3s is using containerd but it seems I had to start docker to initialized the whole cgroups, at least on Arch For the Metrics API server to work you&amp;rsquo;ll need to start k3s with those args k3s server --kubelet-arg=&amp;quot;address=0.</description>
-    </item>
-    
-    <item>
-      <title>Arch on Rock64 with USB boot</title>
-      <link>https://blog.nobugware.com/post/2019/arch-on-rock64-with-usb-boot/</link>
-      <pubDate>Fri, 03 May 2019 00:00:00 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2019/arch-on-rock64-with-usb-boot/</guid>
-      <description>Here are my notes to install Arch on a Rock64 and boot on USB first.
-Warning, you can brick your device (but can unbrick it), you are on your own.
- Follow Arch Instructions to Install on an SD Card Boot on it Insert your USB device and follow the exact same installation but this time to the /dev/sdadevice
-At the end
-Mount / into root again Run blkid to grab the UUID of your /   /dev/sda1: UUID=&amp;quot;a3490212-03b6-46a6-9e6b-7733513a3efa&amp;quot; TYPE=&amp;quot;ext4&amp;quot;  Add the file root/boot/boot.</description>
     </item>
     
     <item>

@@ -6,7 +6,7 @@
     <description>Recent content in linux on Fabrice Aneche</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 03 May 2019 00:00:00 -0400</lastBuildDate>
+    <lastBuildDate>Wed, 22 May 2019 00:00:00 -0400</lastBuildDate>
     
 	<atom:link href="https://blog.nobugware.com/tags/linux/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,7 +14,7 @@
     <item>
       <title>Arch on Rock64 with USB boot</title>
       <link>https://blog.nobugware.com/post/2019/arch-on-rock64-with-usb-boot/</link>
-      <pubDate>Fri, 03 May 2019 00:00:00 -0400</pubDate>
+      <pubDate>Wed, 22 May 2019 00:00:00 -0400</pubDate>
       
       <guid>https://blog.nobugware.com/post/2019/arch-on-rock64-with-usb-boot/</guid>
       <description>Here are my notes to install Arch on a Rock64 and boot on USB first.

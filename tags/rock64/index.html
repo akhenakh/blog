@@ -139,10 +139,13 @@ Run <code>blkid</code> to grab the UUID of your /</li>
   mkimage -A arm -O linux -T script -C none -n &quot;U-Boot boot script&quot; -d boot.txt boot.scr
 </code></pre>
 
-<p>Reboot and remove the USB device
-* Download a dedicated image labelled <a href="https://github.com/ayufan-rock64/linux-u-boot/releases/download/2017.09-rockchip-ayufan-1045-g9922d32c04/u-boot-flash-spi-rock64.img.xz">u-boot-flash-spi-rock64.img.xz</a> from ayufan&rsquo;s github
-* Burn it to an SD Card, turn on your Rock64, wait for the white LED to flash several at 1 second frequency
-* Turn it off, remove the SC Card, insert the USB device, it should now boot on your USB device</p>
+<p>Reboot and remove the USB device</p>
+
+<ul>
+<li>Download a dedicated image labelled <a href="https://github.com/ayufan-rock64/linux-u-boot/releases/download/2017.09-rockchip-ayufan-1045-g9922d32c04/u-boot-flash-spi-rock64.img.xz">u-boot-flash-spi-rock64.img.xz</a> from ayufan&rsquo;s github</li>
+<li>Burn it to an SD Card, turn on your Rock64, wait for the white LED to flash several at 1 second frequency</li>
+<li>Turn it off, remove the SC Card, insert the USB device, it should now boot on your USB device</li>
+</ul>
 
 <h2 id="btrfs">BTRFS</h2>
 

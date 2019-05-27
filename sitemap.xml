@@ -73,12 +73,6 @@
   </url>
   
   <url>
-    <loc>https://blog.nobugware.com/tags/kubernetes/</loc>
-    <lastmod>2019-04-27T02:01:00-04:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>https://blog.nobugware.com/tags/caddy/</loc>
     <lastmod>2019-04-27T02:01:00-04:00</lastmod>
     <priority>0</priority>
@@ -98,6 +92,12 @@
   
   <url>
     <loc>https://blog.nobugware.com/tags/git/</loc>
+    <lastmod>2019-04-27T02:01:00-04:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.nobugware.com/tags/kubernetes/</loc>
     <lastmod>2019-04-27T02:01:00-04:00</lastmod>
     <priority>0</priority>
   </url>

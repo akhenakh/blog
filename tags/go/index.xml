@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>go on Fabrice Aneche</title>
+    <title>Go on Fabrice Aneche</title>
     <link>https://blog.nobugware.com/tags/go/</link>
-    <description>Recent content in go on Fabrice Aneche</description>
+    <description>Recent content in Go on Fabrice Aneche</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Sat, 27 Apr 2019 02:01:00 -0400</lastBuildDate>

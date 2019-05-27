@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>H96 Max&#43; Android box as a Linux server &middot; Fabrice Aneche</title>
+
+    <meta name="description" content="Experimenting using some cheap Android boxes as mini server, the H96 Max &#43; is a rk3328 with 4Gb RAM and 64G eMMC.">
+
+    <meta name="generator" content="Hugo 0.55.3" />
+    <meta name="twitter:card" content="summary">
+    
+    <meta name="twitter:title" content="H96 Max&#43; Android box as a Linux server &middot; Fabrice Aneche">
+    <meta name="twitter:description" content="Experimenting using some cheap Android boxes as mini server, the H96 Max &#43; is a rk3328 with 4Gb RAM and 64G eMMC.">
+
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="H96 Max&#43; Android box as a Linux server &middot; Fabrice Aneche">
+    <meta property="og:description" content="Experimenting using some cheap Android boxes as mini server, the H96 Max &#43; is a rk3328 with 4Gb RAM and 64G eMMC.">
+
+    <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Oxygen:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/pure-min.css">
+    <!--[if lte IE 8]>
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-old-ie-min.css">
+    <![endif]-->
+    <!--[if gt IE 8]><!-->
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/pure/0.6.0/grids-responsive-min.css">
+    <!--<![endif]-->
+
+    <link rel="stylesheet" href="https://blog.nobugware.com/css/all.min.css">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <link rel="alternate" type="application/rss+xml" title="Fabrice Aneche" href="https://blog.nobugware.com/index.xml" />
+    <link href="https://blog.nobugware.com/css/prism.css" rel="stylesheet" />
+</head>
+<body>
+
+
+<div id="layout" class="pure-g">
+    <div class="sidebar pure-u-1 pure-u-md-1-4">
+    <div class="header">
+        <hgroup>
+            <h1 class="brand-title"><a href="https://blog.nobugware.com">Fabrice Aneche</a></h1>
+            <h2 class="brand-tagline"></h2>
+        </hgroup>
+
+        <nav class="nav">
+            <ul class="nav-list">
+                
+                <li class="nav-item">
+                    <a class="pure-button" href="http://www.nobugware.com"><i class="fa fa-building-o"></i> Hiring</a>
+                </li>
+                
+                
+                <li class="nav-item">
+                    <a class="pure-button" href="https://twitter.com/akhenakh"><i class="fa fa-twitter"></i> Twitter</a>
+                </li>
+                
+                
+                <li class="nav-item">
+                    <a class="pure-button" href="https://github.com/akhenakh "><i class="fa fa-github-alt"></i> github</a>
+                </li>
+                
+                <li class="nav-item">
+                    <a class="pure-button" href="https://blog.nobugware.com/index.xml"><i class="fa fa-rss"></i> rss</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+
+    <div class="content pure-u-1 pure-u-md-3-4">
+        <div>
+            
+            <div class="posts">
+                <h1 class="content-subhead">24 May 2019, 00:00</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://blog.nobugware.com/post/2019/h96-max-android-box-as-a-linux-server/" class="post-title">H96 Max&#43; Android box as a Linux server</a>
+
+                        <p class="post-meta">
+                            
+                            
+                                under 
+                                
+                                
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-share">
+                        <div class="post-share-links">
+                            <h4 style="">Share</h4>
+                            <a href="#" data-type="facebook" data-url="https://blog.nobugware.com/post/2019/h96-max-android-box-as-a-linux-server/" data-title="H96 Max&#43; Android box as a Linux server" data-description="H96 Max&#43; Android box as a Linux server" data-media="" class="prettySocial fa fa-facebook"></a>
+                            <a href="#" data-type="twitter" data-url="https://blog.nobugware.com/post/2019/h96-max-android-box-as-a-linux-server/" data-description="H96 Max&#43; Android box as a Linux server" data-via="akhenakh" class="prettySocial fa fa-twitter"></a>
+                            
+                        </div>
+                    </div>
+                    <div class="post-description">
+                        
+
+<p>The H96 Max + is an Android 8.1 box with a Rockchip 3328, 4Gb RAM and 64G builtin eMMC, it&rsquo;s the same chipset as the <a href="https://blog.nobugware.com/post/2019/arch-on-rock64-with-usb-boot/">Rock64</a>, it costs around 60 USD.<br />
+The only downside of this board is the 100Mb network link, can be a non issue using a USB network adapter.</p>
+
+<p><img src="https://blog.nobugware.com/img/h96max.jpg" alt="" /></p>
+
+<h2 id="serial-console-pins">Serial Console Pins</h2>
+
+<p><img src="https://blog.nobugware.com/img/h96pins.jpg" alt="" /></p>
+
+<p>Baudrate 1500000 8N1 3.3V</p>
+
+<h2 id="dtb">DTB</h2>
+
+<p>You can extract the DTB from the image but I&rsquo;m using <code>rk3328-t9.dtb</code> from <a href="https://forum.armbian.com/topic/8082-armbian-for-tv-box-rk3328/page/15/?tab=comments#comment-79541">armbian forum</a></p>
+
+<h2 id="unbrick">Unbrick</h2>
+
+<p>If you write to <code>mmcblk2</code> you may override the rockchip firmware &hellip;</p>
+
+<p>Since this box does not have any reset button you need to short two pins as described in this <a href="https://forum.freaktab.com/forum/tv-player-support/rockchip-based-tv-players/rk3328-devices/751175-h96-max-4-64gb-rk3328-android-8-1-tv-box-pin-unbrick-bricked">post</a>.</p>
+
+<p>You also need a male male USB connector (it&rsquo;s a straight cable, black, green, white and red om both ends).</p>
+
+<p>Find an image for the H96 somewhere or dump yours, it&rsquo;s only useful to recover the boot image, then write it to the eMMC with <a href="https://github.com/rockchip-linux/tools">upgrade_tool</a></p>
+
+<pre><code>sudo ./upgrade_tool uf RK3328-H96MAX+_hs2734_8.1.0_20180823.1108.img
+</code></pre>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>This board is incredibly fast and convenient for the price, it&rsquo;s a bit hacky and I don&rsquo;t recommend anyone to go this way.</p>
+
+                    </div>
+                </section>
+            </div>
+            <div class="footer">
+    <div class="pure-menu pure-menu-horizontal pure-menu-open">
+        <ul>
+            <li>Powered by <a class="hugo" href="http://hugo.spf13.com/" target="_blank">hugo</a></li>
+        </ul>
+    </div>
+</div>
+<script src="https://blog.nobugware.com/js/all.min.js"></script>
+        </div>
+    </div>
+</div>
+
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-1245966-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+
+</body>
+</html>

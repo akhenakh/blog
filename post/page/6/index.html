@@ -74,6 +74,55 @@
             
             <div class="posts">
                 
+                <h1 class="content-subhead">15 Nov 2011, 11:53</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://blog.nobugware.com/post/2011/11/15/compile-gevent-osx-or-freebsd-pip/" class="post-title">compile gevent on OSX or FreeBSD with pip</a>
+
+                        <p class="post-meta">
+                            
+                            
+                                under 
+                                
+                                <a class="post-category post-category-Python" href="https://blog.nobugware.com/categories/python">Python</a>
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        <p>It&rsquo;s more a reminder to myself, gevent depends on libevent2 but the setup.py
+doesn&rsquo;t correcty look for it, a simple solution:</p>
+
+<pre><code>export CFLAGS=-I/usr/local/include
+export LDFLAGS=-L/usr/local/lib
+pip install gevent
+</code></pre>
+
+<p>change it for /opt/local/&hellip; if you are on OSX or you will get a bunch of
+errors</p>
+
+<pre><code>   /Developer/usr/bin/llvm-gcc-4.2 -fno-strict-aliasing -fno-common -dynamic -pipe -O2 -DNDEBUG -g -fwrapv -O3 -Wall -Wstrict-prototypes -I/opt/local/Library/Frameworks/Python.framework/Versions/2.7/include/python2.7 -c gevent/core.c -o build/temp.macosx-10.7-x86_64-2.7/gevent/core.o
+    In file included from gevent/core.c:225:
+    gevent/libevent.h:9:19: error: event.h: No such file or directory
+    gevent/libevent.h:38:20: error: evhttp.h: No such file or directory
+    gevent/libevent.h:39:19: error: evdns.h: No such file or directory
+</code></pre>
+
+<p>By the way here is the ultimate stacks for python web dev ;)</p>
+
+<pre><code>pip install flask 
+pip install requests
+export CFLAGS=-I/usr/local/include
+export LDFLAGS=-L/usr/local/lib
+pip install gevent
+pip instal ujson
+pip install validictory
+</code></pre>
+
+                    </div>
+                </section>
+                
                 <h1 class="content-subhead">14 Oct 2011, 13:57</h1>
                 <section class="post">
                     <header class="post-header">
@@ -784,84 +833,6 @@ attribute=&quot;HeapMemoryUsage&quot;
 attr=connection.getAttribute(javax.management.ObjectName(object),attribute)
 print attr.contents.get(&quot;used&quot;)
 </code></pre>
-
-                    </div>
-                </section>
-                
-                <h1 class="content-subhead">09 Aug 2010, 14:41</h1>
-                <section class="post">
-                    <header class="post-header">
-
-                        <a href="https://blog.nobugware.com/post/2010/08/09/zfs-linux/" class="post-title">ZFS on linux</a>
-
-                        <p class="post-meta">
-                            
-                            
-                        </p>
-                    </header>
-
-                    <div class="post-description">
-                        <p>For license reasons (god damn GPL), ZFS can&rsquo;t be integrated into the Linux
-kernel, but there is a userland fuse version called <a href="http://zfs-
-fuse.net/">ZFS-FUSE</a>, so I tried to measure the fuse overhead vs others filesystems
-presents on my server.</p>
-
-<p>This tests are not benchmarks, but just show that ZFS-FUSE is fast enough and
-seems to be stable (at least for my personal server)</p>
-
-<ul>
-<li>ZFS with lzjb compression
-```
-dd if=/dev/zero of=/testzfs/toto bs=2048 count=200000
-409600000 bytes (410 MB) copied, 9.93444 s, 41.2 MB/s
-<br /></li>
-</ul>
-
-<p>dd if=/dev/zero of=/testzfs/toto bs=2048 count=200000
-409600000 bytes (410 MB) copied, 9.88071 s, 41.5 MB/s</p>
-
-<p>dd if=/dev/zero of=/testzfs/toto bs=2048 count=200000
-409600000 bytes (410 MB) copied, 10.2585 s, 39.9 MB/s</p>
-
-<pre><code>* ZFS with compression off
-</code></pre>
-
-<p>dd if=/dev/zero of=/testzfs/toto bs=2048 count=200000
- 409600000 bytes (410 MB) copied, 17.2505 s, 23.7 MB/s</p>
-
-<p>dd if=/dev/zero of=/testzfs/toto bs=2048 count=200000
- 409600000 bytes (410 MB) copied, 17.0921 s, 24.0 MB/s</p>
-
-<p>dd if=/dev/zero of=/testzfs/toto bs=2048 count=200000
- 409600000 bytes (410 MB) copied, 16.8956 s, 24.2 MB/s</p>
-
-<pre><code>
-* EXT3
-</code></pre>
-
-<p>dd if=/dev/zero of=/toto bs=2048 count=200000
-409600000 bytes (410 MB) copied, 9.92158 s, 41.3 MB/s</p>
-
-<p>dd if=/dev/zero of=/toto bs=2048 count=200000
-409600000 bytes (410 MB) copied, 8.50674 s, 48.2 MB/s</p>
-
-<p>dd if=/dev/zero of=/toto bs=2048 count=200000
-409600000 bytes (410 MB) copied, 9.02419 s, 45.4 MB/s</p>
-
-<pre><code>* REISERFS (the way reiserfs works makes this big file creation faster)
-</code></pre>
-
-<p>dd if=/dev/zero of=/opt/toto bs=2048 count=200000
-09600000 bytes (410 MB) copied, 2.29901 s, 178 MB/s</p>
-
-<p>dd if=/dev/zero of=/opt/toto bs=2048 count=200000
-409600000 bytes (410 MB) copied, 2.1869 s, 187 MB/s</p>
-
-<p>dd if=/dev/zero of=/opt/toto bs=2048 count=200000
-409600000 bytes (410 MB) copied, 1.9057 s, 215 MB/s
-```
-Also remember that FreeBSD 8.1 now includes ZFS version 14, which is a good
-(native) alternative</p>
 
                     </div>
                 </section>

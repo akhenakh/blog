@@ -48,6 +48,15 @@
     </item>
     
     <item>
+      <title>Go</title>
+      <link>https://blog.nobugware.com/tags/go/</link>
+      <pubDate>Sat, 27 Apr 2019 02:01:00 -0400</pubDate>
+      
+      <guid>https://blog.nobugware.com/tags/go/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Kubernetes</title>
       <link>https://blog.nobugware.com/tags/kubernetes/</link>
       <pubDate>Sat, 27 Apr 2019 02:01:00 -0400</pubDate>
@@ -89,15 +98,6 @@
       <pubDate>Sat, 27 Apr 2019 02:01:00 -0400</pubDate>
       
       <guid>https://blog.nobugware.com/tags/git/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>go</title>
-      <link>https://blog.nobugware.com/tags/go/</link>
-      <pubDate>Sat, 27 Apr 2019 02:01:00 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/tags/go/</guid>
       <description></description>
     </item>
     
@@ -174,7 +174,7 @@
     </item>
     
     <item>
-      <title>Golang</title>
+      <title>golang</title>
       <link>https://blog.nobugware.com/tags/golang/</link>
       <pubDate>Wed, 28 Sep 2016 13:15:53 -0400</pubDate>
       
@@ -201,7 +201,7 @@
     </item>
     
     <item>
-      <title>freebsd</title>
+      <title>FreeBSD</title>
       <link>https://blog.nobugware.com/tags/freebsd/</link>
       <pubDate>Sun, 10 Jan 2016 11:32:19 -0500</pubDate>
       
@@ -570,7 +570,7 @@
     </item>
     
     <item>
-      <title>solaris,</title>
+      <title>solaris</title>
       <link>https://blog.nobugware.com/tags/solaris/</link>
       <pubDate>Tue, 28 Jul 2009 19:22:12 -0400</pubDate>
       

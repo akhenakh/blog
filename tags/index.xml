@@ -48,6 +48,15 @@
     </item>
     
     <item>
+      <title>Kubernetes</title>
+      <link>https://blog.nobugware.com/tags/kubernetes/</link>
+      <pubDate>Sat, 27 Apr 2019 02:01:00 -0400</pubDate>
+      
+      <guid>https://blog.nobugware.com/tags/kubernetes/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>caddy</title>
       <link>https://blog.nobugware.com/tags/caddy/</link>
       <pubDate>Sat, 27 Apr 2019 02:01:00 -0400</pubDate>
@@ -89,15 +98,6 @@
       <pubDate>Sat, 27 Apr 2019 02:01:00 -0400</pubDate>
       
       <guid>https://blog.nobugware.com/tags/go/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>kubernetes</title>
-      <link>https://blog.nobugware.com/tags/kubernetes/</link>
-      <pubDate>Sat, 27 Apr 2019 02:01:00 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/tags/kubernetes/</guid>
       <description></description>
     </item>
     
@@ -201,7 +201,7 @@
     </item>
     
     <item>
-      <title>FreeBSD</title>
+      <title>freebsd</title>
       <link>https://blog.nobugware.com/tags/freebsd/</link>
       <pubDate>Sun, 10 Jan 2016 11:32:19 -0500</pubDate>
       

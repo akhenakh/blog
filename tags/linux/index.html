@@ -74,60 +74,6 @@
             
             <div class="posts">
                 
-                <h1 class="content-subhead">24 May 2019, 00:00</h1>
-                <section class="post">
-                    <header class="post-header">
-
-                        <a href="https://blog.nobugware.com/post/2019/h96-max-android-box-as-a-linux-server/" class="post-title">H96 Max&#43; Android box as a Linux server</a>
-
-                        <p class="post-meta">
-                            
-                            
-                                under 
-                                
-                                
-                            
-                        </p>
-                    </header>
-
-                    <div class="post-description">
-                        
-
-<p>The H96 Max + is an Android 8.1 box with a Rockchip 3328, 4Gb RAM and 64G builtin eMMC, it&rsquo;s the same chipset as the <a href="https://blog.nobugware.com/post/2019/arch-on-rock64-with-usb-boot/">Rock64</a>, it costs around 60 USD.<br />
-The only downside of this board is the 100Mb network link, can be a non issue using a USB network adapter.</p>
-
-<p><img src="https://blog.nobugware.com/img/h96max.jpg" alt="" /></p>
-
-<h2 id="serial-console-pins">Serial Console Pins</h2>
-
-<p><img src="https://blog.nobugware.com/img/h96pins.jpg" alt="" /></p>
-
-<p>Baudrate 1500000 8N1 3.3V</p>
-
-<h2 id="dtb">DTB</h2>
-
-<p>You can extract the DTB from the image but I&rsquo;m using <code>rk3328-t9.dtb</code> from <a href="https://forum.armbian.com/topic/8082-armbian-for-tv-box-rk3328/page/15/?tab=comments#comment-79541">armbian forum</a></p>
-
-<h2 id="unbrick">Unbrick</h2>
-
-<p>If you write to <code>mmcblk2</code> you may override the rockchip firmware &hellip;</p>
-
-<p>Since this box does not have any reset button you need to short two pins as described in this <a href="https://forum.freaktab.com/forum/tv-player-support/rockchip-based-tv-players/rk3328-devices/751175-h96-max-4-64gb-rk3328-android-8-1-tv-box-pin-unbrick-bricked">post</a>.</p>
-
-<p>You also need a male male USB connector (it&rsquo;s a straight cable, black, green, white and red om both ends).</p>
-
-<p>Find an image for the H96 somewhere or dump yours, it&rsquo;s only useful to recover the boot image, then write it to the eMMC with <a href="https://github.com/rockchip-linux/tools">upgrade_tool</a></p>
-
-<pre><code>sudo ./upgrade_tool uf RK3328-H96MAX+_hs2734_8.1.0_20180823.1108.img
-</code></pre>
-
-<h2 id="conclusion">Conclusion</h2>
-
-<p>This board is incredibly fast and convenient for the price, it&rsquo;s a bit hacky and I don&rsquo;t recommend anyone to go this way.</p>
-
-                    </div>
-                </section>
-                
                 <h1 class="content-subhead">22 May 2019, 00:00</h1>
                 <section class="post">
                     <header class="post-header">

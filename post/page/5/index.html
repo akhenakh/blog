@@ -74,43 +74,6 @@
             
             <div class="posts">
                 
-                <h1 class="content-subhead">15 Jun 2013, 17:59</h1>
-                <section class="post">
-                    <header class="post-header">
-
-                        <a href="https://blog.nobugware.com/post/2013/06/15/7shape-my-first-iphone-application/" class="post-title">7shape my first iphone application</a>
-
-                        <p class="post-meta">
-                            
-                            
-                        </p>
-                    </header>
-
-                    <div class="post-description">
-                        <p>As an iphone developer contractor, I&rsquo;ve released some applications on the
-Apple Store for my customers but not on my own.</p>
-
-<p>Here is my 1st personal (30 hours) toy project:
-<a href="http://7shape.appspot.com/">7shape</a> a 7 minutes workout training application,
-based on an <a href="http://well.blogs.nytimes.com/2013/05/09/the-
-scientific-7-minute-workout/">NYT blog</a> post.</p>
-
-<p><img src="http://7shape.appspot.com//img/gallery/shot2.png" alt="" /></p>
-
-<p>I&rsquo;ve spent 20 hours on website release, marketing, 3D for the human trainer
-and application design, and last 10 hours to create the app and release it to
-Apple &hellip;</p>
-
-<p>It&rsquo;s a free app and available on the Apple Store, have fun.</p>
-
-<p><a href="https://itunes.apple.com/us/
-app/7shape/id658738780?ls=1&amp;mt=8"><img src="http://7shape.appspot.com/img/appstore.png" alt="" /></a></p>
-
-<p>My next personal project will be a game, stay tuned ;)</p>
-
-                    </div>
-                </section>
-                
                 <h1 class="content-subhead">24 Apr 2013, 18:51</h1>
                 <section class="post">
                     <header class="post-header">
@@ -625,6 +588,55 @@ souce tree, (tested on osx Lion).</p>
 continue</p>
 
 <p>Enjoy, thanks MIT.</p>
+
+                    </div>
+                </section>
+                
+                <h1 class="content-subhead">15 Nov 2011, 11:53</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://blog.nobugware.com/post/2011/11/15/compile-gevent-osx-or-freebsd-pip/" class="post-title">compile gevent on OSX or FreeBSD with pip</a>
+
+                        <p class="post-meta">
+                            
+                            
+                                under 
+                                
+                                <a class="post-category post-category-Python" href="https://blog.nobugware.com/categories/python">Python</a>
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        <p>It&rsquo;s more a reminder to myself, gevent depends on libevent2 but the setup.py
+doesn&rsquo;t correcty look for it, a simple solution:</p>
+
+<pre><code>export CFLAGS=-I/usr/local/include
+export LDFLAGS=-L/usr/local/lib
+pip install gevent
+</code></pre>
+
+<p>change it for /opt/local/&hellip; if you are on OSX or you will get a bunch of
+errors</p>
+
+<pre><code>   /Developer/usr/bin/llvm-gcc-4.2 -fno-strict-aliasing -fno-common -dynamic -pipe -O2 -DNDEBUG -g -fwrapv -O3 -Wall -Wstrict-prototypes -I/opt/local/Library/Frameworks/Python.framework/Versions/2.7/include/python2.7 -c gevent/core.c -o build/temp.macosx-10.7-x86_64-2.7/gevent/core.o
+    In file included from gevent/core.c:225:
+    gevent/libevent.h:9:19: error: event.h: No such file or directory
+    gevent/libevent.h:38:20: error: evhttp.h: No such file or directory
+    gevent/libevent.h:39:19: error: evdns.h: No such file or directory
+</code></pre>
+
+<p>By the way here is the ultimate stacks for python web dev ;)</p>
+
+<pre><code>pip install flask 
+pip install requests
+export CFLAGS=-I/usr/local/include
+export LDFLAGS=-L/usr/local/lib
+pip install gevent
+pip instal ujson
+pip install validictory
+</code></pre>
 
                     </div>
                 </section>

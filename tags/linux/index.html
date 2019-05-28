@@ -74,6 +74,154 @@
             
             <div class="posts">
                 
+                <h1 class="content-subhead">27 May 2019, 00:00</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://blog.nobugware.com/post/2019/h96-max-android-box-as-a-linux-server/" class="post-title">H96 Max&#43; Android box as a Linux server</a>
+
+                        <p class="post-meta">
+                            
+                            
+                                under 
+                                
+                                
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        
+
+<p>The H96 Max + is an Android 8.1 box with a Rockchip 3328, 4Gb RAM and 32G or 64G builtin eMMC, it&rsquo;s the same chipset as the <a href="https://blog.nobugware.com/post/2019/arch-on-rock64-with-usb-boot/">Rock64</a>, it costs around 60 USD.<br />
+The only downside of this board is the 100Mb network link, can be a non issue using a USB network adapter.</p>
+
+<p><img src="https://blog.nobugware.com/img/h96maxp.jpg" alt="" /></p>
+
+<h2 id="serial-console-pins">Serial Console Pins</h2>
+
+<p><img src="https://blog.nobugware.com/img/h96pins.jpg" alt="" /></p>
+
+<p>Baudrate 1500000 8N1 3.3V</p>
+
+<h2 id="dtb">DTB</h2>
+
+<p>You can extract the DTB from the image but I&rsquo;m using <code>rk3328-t9.dtb</code> from <a href="https://forum.armbian.com/topic/8082-armbian-for-tv-box-rk3328/page/15/?tab=comments#comment-79541">armbian forum</a></p>
+
+<h2 id="unbrick">Unbrick</h2>
+
+<p>If you write to <code>mmcblk2</code> you may override the rockchip firmware &hellip;</p>
+
+<p>Since this box does not have any reset button you need to short two pins as described in this <a href="https://forum.freaktab.com/forum/tv-player-support/rockchip-based-tv-players/rk3328-devices/751175-h96-max-4-64gb-rk3328-android-8-1-tv-box-pin-unbrick-bricked">post</a>.</p>
+
+<p>You also need a male male USB connector (it&rsquo;s a straight cable, black, green, white and red on both ends).</p>
+
+<p>Shorts the two pins while inserting the USB cable, do not plug the power cable.</p>
+
+<p>Find an image for the H96 somewhere or dump yours, it&rsquo;s only useful to recover the boot image, then write it to the eMMC with <a href="https://github.com/rockchip-linux/tools">upgrade_tool</a></p>
+
+<pre><code>sudo ./upgrade_tool uf RK3328-H96MAX+_hs2734_8.1.0_20180823.1108.img
+</code></pre>
+
+<h2 id="installation">Installation</h2>
+
+<p>Prepare a USB key as described in the <a href="https://archlinuxarm.org/platforms/armv8/rockchip/rock64">Rock64 Arch installation</a>, (in fact you can simply create the root filesystem and extract <code>ArchLinuxARM-aarch64-latest.tar.gz</code>).</p>
+
+<p>Note the output of <code>blkid</code> for this partition.</p>
+
+<p>Now prepare an SD Card following the full Arch procedure.</p>
+
+<p>The kernel is unable to see the SD Card after booting so it will mount / of the USB storage.</p>
+
+<pre><code>UUID=&quot;6642b903-f861-46cc-a08c-7c64a2a8cc54&quot; TYPE=&quot;ext4&quot; PARTUUID=&quot;0f8bc94a-01&quot;
+</code></pre>
+
+<p>Before unmounting root, create a new file <code>root/boot/boot.txt</code>.</p>
+
+<pre><code>part uuid ${devtype} ${devnum}:${bootpart} uuid
+setenv bootargs console=ttyS2,1500000 root=UUID=a3490212-03b6-46a6-9e6b-7733513a3efa storagemedia=emmc rw rootwait earlycon=uart8250,mmio32,0xff130000
+setenv fdtfile rockchip/rk3328-t9.dtb
+
+if load ${devtype} ${devnum}:${bootpart} ${kernel_addr_r} /boot/Image; then
+if load ${devtype} ${devnum}:${bootpart} ${fdt_addr_r} /boot/dtbs/${fdtfile}; then
+              fdt addr ${fdt_addr_r}
+              fdt resize
+              if load ${devtype} ${devnum}:${bootpart} ${ramdisk_addr_r} /boot/initramfs-linux.img; then
+                booti ${kernel_addr_r} ${ramdisk_addr_r}:${filesize} ${fdt_addr_r};
+              else
+                booti ${kernel_addr_r} - ${fdt_addr_r};
+        fi;
+    fi;
+fi
+</code></pre>
+
+<p>Copy the dtb file:</p>
+
+<pre><code>cp rk3328-t9.dtb root/boot/dtbs/rockchip
+</code></pre>
+
+<p>Update the bootloader:</p>
+
+<pre><code>cd root/boot
+mkimage -A arm -O linux -T script -C none -n &quot;U-Boot boot script&quot; -d boot.txt boot.scr
+</code></pre>
+
+<p><code>mkimage</code> is provided by <code>uboot-tools</code> on Arch.</p>
+
+<p>Mainline kernel won&rsquo;t work properly for now here is a copy <a href="https://drive.google.com/file/d/1dq-Ap_Fq4okR9tkDGN66QeN2b0zjmLCU/view?usp=sharing">ayufan kernel 1187</a> untar in /boot</p>
+
+<p>This is a one time thing only&hellip;</p>
+
+<h3 id="first-boot">First boot</h3>
+
+<p>Boot with the SD card and USB key, you should be able to see <code>/dev/mmblck2</code>. It should be safe to writer after the block  32768, create a partition, (it&rsquo;s here I&rsquo;ve bricked then unbricked mine).</p>
+
+<pre><code>Device         Boot Start       End   Sectors  Size Id Type
+/dev/mmcblk2p1      32768 122142719 122109952 58.2G 83 Linux
+</code></pre>
+
+<p>You can safely perform a normal Arch install on it, then remember to modify the UUID in <code>boot.txt</code> from the SD Card to boot / from the newly created <code>/dev/mmblck2p1</code> partition, (the SD card is /dev/mmblck0).</p>
+
+<p>Remove the USB key then reboot the SD card is only needed to find the kernel, the rest is read off the eMMC.</p>
+
+<h3 id="kernel-updates">Kernel Updates</h3>
+
+<p>Until mainline is stable for the rk3328, you can use my updated <a href="https://gist.github.com/akhenakh/60a4b859d294b585975bc1d8efae9b62#file-pkgbuild">Arch rockchip ayufan pkg</a>.</p>
+
+<pre><code>mount /dev/mmblck0 /mnt
+mount --bind /mnt/boot /boot
+cd linux-aarch64-rock64-bin
+makepkg -si
+</code></pre>
+
+<h2 id="stability">Stability</h2>
+
+<p>I had tons of issues but it seems it&rsquo;s related to USB 3.0.</p>
+
+<p>I&rsquo;ve blacklisted video output since it&rsquo;s not used , create <code>/etc/modprobe.d/video-blacklist.conf</code></p>
+
+<pre><code>blacklist mali 
+blacklist dw_hdmi_i2s_audio
+</code></pre>
+
+<p>Until mainline is stable do not use USB 3 port and you should be fine.</p>
+
+<h2 id="3d-printed-rack">3D Printed rack</h2>
+
+<p>Since this board is not standard, I&rsquo;ve made a <a href="https://cad.onshape.com/documents/91ef013acb34326b25db60e8/w/cd6f81aa178f365197c89a2e/e/92c8a87d4865815b6fd95caf">3D printed rack</a> for the H96 and with a support for Rpis/Odroid and Rock64.</p>
+
+<p><img src="https://blog.nobugware.com/img/h96rack.jpg" alt="" /></p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>It should be possible to boot directly from the eMMC without the SD Card.</p>
+
+<p>This board is incredibly fast and convenient for the price, it&rsquo;s a perfect target to play with clusters.<br />
+It&rsquo;s a bit hacky and I don&rsquo;t recommend it if you are not ready to debug from a serial console.</p>
+
+                    </div>
+                </section>
+                
                 <h1 class="content-subhead">22 May 2019, 00:00</h1>
                 <section class="post">
                     <header class="post-header">

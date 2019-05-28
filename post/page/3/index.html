@@ -74,6 +74,47 @@
             
             <div class="posts">
                 
+                <h1 class="content-subhead">03 Jul 2016, 08:15</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://blog.nobugware.com/post/2016/gometalinter_jetbrains_idea/" class="post-title">Enabling Gometalinter with Jetbrains Editors</a>
+
+                        <p class="post-meta">
+                            
+                            
+                                under 
+                                
+                                <a class="post-category post-category-Golang" href="https://blog.nobugware.com/categories/golang">Golang</a>
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        <p>I&rsquo;ve been using Jetbrains editor (the free <a href="https://www.jetbrains.com/idea/download/">Idea community edition</a>) or Pycharm with the <a href="https://github.com/go-lang-plugin-org/go-lang-idea-plugin">Go plugins</a> and very happy with this setup, the editor is providing some realtime linting but I was missing <code>gometalinter</code>.</p>
+
+<p>First install <code>gometalinter</code></p>
+
+<pre><code>go get -u github.com/alecthomas/gometalinter
+gometalinter --install --update
+</code></pre>
+
+<p>To add support inside Jetbrains editors use the External tools feature.<br />
+In Preferences &gt; Tools &gt; External Tools, add a configuration.</p>
+
+<p><img src="https://blog.nobugware.com/img/gometalinter.jpg" alt="gometalinter setup for jetbrains" title="gometalinter setup for jetbrains" /></p>
+
+<p>Set the Program path to your <code>$GOPATH/bin/gometalinter</code><br />
+Parameters to <code>--deadline=15s --vendor $FileDir$</code><br />
+Working directory to <code>$ProjectFileDir$</code></p>
+
+<p>For the linters messages to be clickable and jump to code add an Output filter with Regular expression to match output <code>$FILE_PATH$:$LINE$</code></p>
+
+<p><img src="https://blog.nobugware.com/img/gometalinter2.jpg" alt="gometalinter setup filter for jetbrains" title="gometalinter setup filter for jetbrains" /></p>
+
+                    </div>
+                </section>
+                
                 <h1 class="content-subhead">08 Mar 2016, 11:23</h1>
                 <section class="post">
                     <header class="post-header">
@@ -825,105 +866,6 @@ fmt.Prinln(c.Idle)
 <p>Feel free to contribute, it may need some improvement but it&rsquo;s working I&rsquo;m using it in a small metrics web server to monitor small network of servers.</p>
 
 <p>The <a href="https://github.com/akhenakh/statgo">code is on Github</a></p>
-
-                    </div>
-                </section>
-                
-                <h1 class="content-subhead">02 Aug 2015, 00:32</h1>
-                <section class="post">
-                    <header class="post-header">
-
-                        <a href="https://blog.nobugware.com/post/hugo_blog_github/" class="post-title">Host your blog on Github with autodeploy</a>
-
-                        <p class="post-meta">
-                            
-                            
-                        </p>
-                    </header>
-
-                    <div class="post-description">
-                        
-
-<p>I&rsquo;ve always developed my own blog system, that&rsquo;s a good way to learn a new langage.<br />
-But having to maintain a working server or hosting is no fun, there are some solutions like <a href="http://jekyllrb.com/">Jekyll</a> or <a href="http://gohugo.io/">Hugo</a> they generate static web pages based on some Markdown files you wrote.</p>
-
-<p>As it&rsquo;s just basic html files, they can be served by Github gh-pages.<br />
-It opens the door to blogging from anywhere without internet connection or your own laptop, just write some Markdown then publish to github later or event edit your new blog post from the Github editor.<br />
-Coupled with a <a href="http://wercker.com/">Wercker</a> auto deploy, publishing is automated, no excuse anymore.</p>
-
-<p>Here is some tips for this to work smoothly with Hugo.</p>
-
-<h2 id="github-setup">Github setup</h2>
-
-<p>First create 2 repositories on Github, one for the HTML pages, one for the markdown itself.<br />
-Let&rsquo;s call them <code>blog</code> &amp; <code>hugo-blog</code>.</p>
-
-<h2 id="dns-setup">DNS setup</h2>
-
-<p>You can use your own domain, if so you need to <a href="https://help.github.com/articles/adding-a-cname-file-to-your-repository/">enable a CNAME file for your gh-pages</a> to the <code>blog</code> repo, then add a CNAME to your DNS provider:<br />
-<code>blog.mydomain.com. IN   CNAME   username.github.io.</code></p>
-
-<h2 id="hugo-setup">Hugo setup</h2>
-
-<p>Clone the <code>hugo-blog</code> repo, put your new hugo blog files in it (created via <code>hugo new</code>).<br />
-<a href="http://gohugo.io/themes/overview/">Choose a theme for your blog</a> (don&rsquo;t forger to remove the <code>.git</code> directory from it) and set it up in your config.yml as follow:</p>
-
-<pre><code>baseurl = &quot;http://blog.mydomain.com/&quot;
-languageCode = &quot;en-us&quot;
-title = &quot;My supa blog&quot;
-canonifyurls = true
-theme = &quot;hyde&quot;
-</code></pre>
-
-<p>Then run <code>hugo server --buildDrafts</code>, point your browser to <a href="http://localhost:1313">http://localhost:1313</a>, no need to reload all modifications appear directly.</p>
-
-<h2 id="wercker-setup">Wercker setup</h2>
-
-<p>For the auto deploy to occur after each commits you need a build &amp; deploy system, <a href="http://wercker.com/">Wercker</a> is very cool as you can reproduce the exact same system on your host with Docker, subscribe to the service (it&rsquo;s free) and register your <code>hugo-blog</code> repo, hit next, next &hellip;</p>
-
-<p>Add a <code>wercker.yml</code> file in your <code>hugo-blog</code> that looks exactly like this.</p>
-
-<pre><code>box: debian
-build:
-  steps:
-    - arjen/hugo-build:
-        version: &quot;0.14&quot;
-        theme: purehugo
-        flags: --disableSitemap=true
-deploy :
-  steps :
-    - script:
-        name: Configure git
-        code: |-
-          sudo apt-get -y update
-          sudo apt-get -y install git-core
-          git config --global user.email &quot;pleasemailus@wercker.com&quot;
-          git config --global user.name &quot;wercker&quot;
-
-          # remove current .git folder
-          rm -rf .git
-    - script:
-        name: Deploy to Github pages
-        code: |-
-          cd public
-          # if you are using a custom domain set it here
-          echo &quot;blog.mydomain.com&quot; &gt; CNAME
-          git init
-          git add .
-          git commit -m &quot;deploy commit from $WERCKER_STARTED_BY&quot;
-          git push -f $GIT_REMOTE master:gh-pages 2&gt; /dev/null
-</code></pre>
-
-<p>It will use Hugo to generate the pages then deploy to your Github repo on every commit to the <code>blog</code> repo.</p>
-
-<p>Last step is to get a token from Github for the deploy to occur without your credentials.<br />
-Go to your Github settings, Personal access tokens, generate a token.</p>
-
-<p>Go to your <a href="https://app.wercker.com/#applications">Wercker app</a> settings, Deploy targets, add a new target, check <code>auto deploy successful builds to branch(es):</code> and type <code>master</code>.<br />
-Add a new variable named <code>GIT_REMOTE</code> check protected and type <code>https://{TOKEN}@github.com/yourusername/blog.git</code> replace <code>{TOKEN}</code> with the token from Github.<br />
-You can use this <a href="http://blog.wercker.com/2013/07/25/Using-wercker-to-publish-to-GitHub-pages.html">outdated blogpost from Wercker</a> for the screenshot but don&rsquo;t follow what they said.</p>
-
-<p>You are all set, happy blogging, you can check the exact same config on my repos under my username <a href="http://github.com/akhenakh">Github@akhenakh</a>.</p>
 
                     </div>
                 </section>

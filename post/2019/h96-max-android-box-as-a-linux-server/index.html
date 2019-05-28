@@ -105,7 +105,11 @@ The only downside of this board is the 100Mb network link, can be a non issue us
 
 <p><img src="https://blog.nobugware.com/img/h96maxp.jpg" alt="" /></p>
 
+<p>Here are some notes how to install Arch Linux on the H96 to make it a small server appliance.</p>
+
 <h2 id="serial-console-pins">Serial Console Pins</h2>
+
+<p>Video output won&rsquo;t work while installing you need to establish a serial connection to the board.</p>
 
 <p><img src="https://blog.nobugware.com/img/h96pins.jpg" alt="" /></p>
 
@@ -113,11 +117,13 @@ The only downside of this board is the 100Mb network link, can be a non issue us
 
 <h2 id="dtb">DTB</h2>
 
-<p>You can extract the DTB from the image but I&rsquo;m using <code>rk3328-t9.dtb</code> from <a href="https://forum.armbian.com/topic/8082-armbian-for-tv-box-rk3328/page/15/?tab=comments#comment-79541">armbian forum</a></p>
+<p>DTS/DTB are <a href="https://community.arm.com/developer/tools-software/oss-platforms/w/docs/268/device-tree">Device Tree Blob</a> describing the hardware to the kernel.</p>
+
+<p>You can extract the DTB from the Android H96 image but I&rsquo;m using <code>rk3328-t9.dtb</code> from <a href="https://forum.armbian.com/topic/8082-armbian-for-tv-box-rk3328/page/15/?tab=comments#comment-79541">armbian forum</a></p>
 
 <h2 id="unbrick">Unbrick</h2>
 
-<p>If you write to <code>mmcblk2</code> you may override the rockchip firmware &hellip;</p>
+<p>If you write to <code>mmcblk2</code> you may override the rockchip firmware located on the eMMC, which will result in a non booting device &hellip;</p>
 
 <p>Since this box does not have any reset button you need to short two pins as described in this <a href="https://forum.freaktab.com/forum/tv-player-support/rockchip-based-tv-players/rk3328-devices/751175-h96-max-4-64gb-rk3328-android-8-1-tv-box-pin-unbrick-bricked">post</a>.</p>
 

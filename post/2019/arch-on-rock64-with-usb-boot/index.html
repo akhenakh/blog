@@ -194,6 +194,17 @@ It looked like cpu overheating problems but was not, simply downgraded to 4.4 ay
 
 <p>You can install <code>linux-aarch64-rock64-bin</code> from AUR or used <a href="https://gist.github.com/akhenakh/60a4b859d294b585975bc1d8efae9b62">mine more recent AUR packages</a>.</p>
 
+<h2 id="stability">Stability</h2>
+
+<p>USB 3 port is very unstable with ayufan kernel, hopefully it may be fixed in mainline.</p>
+
+<p>It seems a bit better blacklisting uas for the usb storage, create <code>/etc/modprobe.d/blacklist-uas.conf</code></p>
+
+<pre><code>options usb-storage quirks=0781:5588:u
+</code></pre>
+
+<p>Identify your USB storage with <code>lsusb</code></p>
+
                     </div>
                 </section>
             </div>

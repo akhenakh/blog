@@ -67,6 +67,12 @@
   </url>
   
   <url>
+    <loc>https://blog.nobugware.com/tags/go/</loc>
+    <lastmod>2019-04-27T02:01:00-04:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://blog.nobugware.com/tags/caddy/</loc>
     <lastmod>2019-04-27T02:01:00-04:00</lastmod>
     <priority>0</priority>
@@ -91,26 +97,20 @@
   </url>
   
   <url>
-    <loc>https://blog.nobugware.com/tags/go/</loc>
-    <lastmod>2019-04-27T02:01:00-04:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>https://blog.nobugware.com/tags/kubernetes/</loc>
     <lastmod>2019-04-27T02:01:00-04:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://blog.nobugware.com/post/2019/kubernetes_mesh_network_load_balancing_grpc_services/</loc>
-    <lastmod>2019-03-11T00:32:43-05:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://blog.nobugware.com/tags/grpc/</loc>
     <lastmod>2019-03-11T00:32:43-05:00</lastmod>
     <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.nobugware.com/post/2019/kubernetes_mesh_network_load_balancing_grpc_services/</loc>
+    <lastmod>2019-03-11T00:32:43-05:00</lastmod>
   </url>
   
   <url>
@@ -252,14 +252,14 @@
   </url>
   
   <url>
-    <loc>https://blog.nobugware.com/tags/golang/</loc>
+    <loc>https://blog.nobugware.com/post/2016/grpc_context_go_1.7/</loc>
     <lastmod>2016-09-28T13:15:53-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://blog.nobugware.com/post/2016/grpc_context_go_1.7/</loc>
+    <loc>https://blog.nobugware.com/tags/golang/</loc>
     <lastmod>2016-09-28T13:15:53-04:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>
@@ -327,14 +327,14 @@
   </url>
   
   <url>
-    <loc>https://blog.nobugware.com/tags/freebsd/</loc>
+    <loc>https://blog.nobugware.com/post/2016/freebsd_raspberry_pi2/</loc>
     <lastmod>2016-01-10T11:32:19-05:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://blog.nobugware.com/post/2016/freebsd_raspberry_pi2/</loc>
+    <loc>https://blog.nobugware.com/tags/freebsd/</loc>
     <lastmod>2016-01-10T11:32:19-05:00</lastmod>
+    <priority>0</priority>
   </url>
   
   <url>

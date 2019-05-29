@@ -189,14 +189,17 @@ It looked like cpu overheating problems but was not, simply downgraded to 4.4 ay
 
 <h2 id="stability">Stability</h2>
 
-<p>USB 3 port is very unstable with ayufan kernel, hopefully it may be fixed in mainline.</p>
+<p>USB 3 port is unstable with ayufan kernel, hopefully it may be fixed in mainline.</p>
 
-<p>It seems a bit better blacklisting uas for the usb storage, create <code>/etc/modprobe.d/blacklist-uas.conf</code></p>
+<p>Disabling uas for your usb key seems to improve a lot.</p>
 
-<pre><code>options usb-storage quirks=0781:5588:u
+<p>Identify your USB storage with <code>lsusb -v</code></p>
+
+<p>Add usb-storage module loading options identifying your device on your bootargs in <code>/boot/boot.txt</code></p>
+
+<pre><code>setenv bootargs console=ttyS2,1500000 rootfstype=btrfs root=UUID=c9136915-614c-4203-ba8d-5f2f202ffbcd rootflags=subvol=@root usb-storage.quirks=0x078
+1:0x5588:u rw rootwait earlycon=uart8250,mmio32,0xff130000
 </code></pre>
-
-<p>Identify your USB storage with <code>lsusb</code></p>
 
                     </div>
                 </section>

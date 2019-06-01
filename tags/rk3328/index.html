@@ -173,7 +173,7 @@ mkimage -A arm -O linux -T script -C none -n &quot;U-Boot boot script&quot; -d b
 
 <h3 id="first-boot">First boot</h3>
 
-<p>Boot with the SD card and USB key, you should be able to see <code>/dev/mmblck2</code>. It should be safe to write after the block  32768, create a partition, (it&rsquo;s here I&rsquo;ve bricked then unbricked mine).</p>
+<p>Boot with the SD, you should be able to see <code>/dev/mmblck2</code>. It should be safe to write after the block  32768, create a partition, (it&rsquo;s here I&rsquo;ve bricked then unbricked mine).</p>
 
 <pre><code>Device         Boot Start       End   Sectors  Size Id Type
 /dev/mmcblk2p1      32768 122142719 122109952 58.2G 83 Linux
@@ -181,7 +181,7 @@ mkimage -A arm -O linux -T script -C none -n &quot;U-Boot boot script&quot; -d b
 
 <p>You can safely perform a normal Arch install on it, then remember to modify the UUID in <code>boot.txt</code> from the SD Card to boot / from the newly created <code>/dev/mmblck2p1</code> partition, (the SD card is /dev/mmblck0).</p>
 
-<p>Remove the USB key then reboot the SD card is only needed to find the kernel, the rest is read off the eMMC.</p>
+<p>Reboot, the SD card is only needed to find the kernel, the rest is read off the eMMC.</p>
 
 <h3 id="kernel-updates">Kernel Updates</h3>
 

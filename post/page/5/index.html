@@ -74,6 +74,125 @@
             
             <div class="posts">
                 
+                <h1 class="content-subhead">19 Feb 2014, 05:05</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://blog.nobugware.com/post/2014/02/19/freebsd-10-on-dedibox-sc-gen-2-or-any-remote-server-with-a-rescue-shell/" class="post-title">FreeBSD 10 on Dedibox SC gen 2 or any remote server with a rescue shell</a>
+
+                        <p class="post-meta">
+                            
+                            
+                                under 
+                                
+                                <a class="post-category post-category-FreeBSD" href="https://blog.nobugware.com/categories/freebsd">FreeBSD</a>
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        <p>FreeBSD 10 is out and it&rsquo;s time to replace your Linux boxes <img src="http://k
+dl.nobugware.com/static/ckeditor/plugins/smiley/images/tongue_smile.gif" alt="cheeky" /></p>
+
+<p>SC gen 2 is a VIA U2250 with 2Gb memory.</p>
+
+<p>Start the rescue shell in amd64 12.04 Ubuntu, connect to the box via SSH with
+the temporary password</p>
+
+<pre><code>sudo -s
+cd /tmp
+wget http://ftp1.fr.freebsd.org/pub/FreeBSD/snapshots/ISO-
+IMAGES/10.0/FreeBSD-10.0-STABLE-amd64-20140216-r261948-disc1.iso
+apt-get update
+apt-get install qemu-kvm
+
+sudo qemu-system-x86_64 -no-kvm -hda /dev/sda -cdrom ./FreeBSD-10.0-STABLE-
+amd64-20140216-r261948-disc1.iso -net nic,model=e1000 -vnc :1,yourpassword
+-boot d
+</code></pre>
+
+<p>This install qemu and run the FreeBSD installer from the downloaded CD.</p>
+
+<p>Run a VNC client on your computer and connect to your dedibox ip, you should
+watch FreeBSD boot from the CDROM.</p>
+
+<p>Complete a normal installation, at the end it will ask if you want to run a
+shell **answer is YES **and then type this to reinstall the bootloader.</p>
+
+<p>If you are using UFS (default)</p>
+
+<p><code>fdisk -B -b /boot/boot0 /dev/ada0</code></p>
+
+<p>If you are using ZFS:</p>
+
+<p><code>gpart bootcode -b /boot/pmbr -p /boot/gptzfsboot -i 1 ada0</code></p>
+
+<p>Type exit and reboot to the normal mode.</p>
+
+<p>Happy FreeBSD !</p>
+
+<p>Further notes:</p>
+
+<ul>
+<li>If you are not using ZFS, you can enable softupdate and TRIM as the SC gen 2 contains an hybrid SSD, you should theoretically have better performance</li>
+<li>The last fdisk command is not the normal process but it was the only way I get it boot</li>
+<li>Do not use qemu with KVM as there is a bug with this particular cpu, so yes the installation will be dead slow</li>
+<li>The DHCP won&rsquo;t answer it&rsquo;s ok</li>
+</ul>
+
+                    </div>
+                </section>
+                
+                <h1 class="content-subhead">30 Jan 2014, 17:37</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://blog.nobugware.com/post/2014/01/30/freebsd-on-raspberry-pi/" class="post-title">FreeBSD on RaspBerry Pi</a>
+
+                        <p class="post-meta">
+                            
+                            
+                                under 
+                                
+                                <a class="post-category post-category-FreeBSD" href="https://blog.nobugware.com/categories/freebsd">FreeBSD</a>
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        <p>FreeBSD images for arm are now built from the FreeBSD Foundation ! So it&rsquo;s an
+easy process to get it on your Pi.</p>
+
+<p>Download your image from the <a href="http://ftp.freebsd.org/pub/FreeBSD/snapshots/ISO-IMAGES/10.0/">ftp
+repository</a></p>
+
+<p>Insert a 4Gb or more SD card in your PC and copy the FreeBSD image into it,
+here are the commands for a Mac:</p>
+
+<pre><code>sudo diskutil list​
+sudo diskutil unmountDisk /dev/disk1​
+sudo dd if=/Users/akh/Downloads/FreeBSD-10.0-STABLE-arm-
+armv6-RPI-B-20140127-r261200.img  of=/dev/rdisk1 bs=1m​
+sudo diskutil eject /dev/disk1​
+</code></pre>
+
+<p>Boot your pi with the card and welcome to FreeBSD !</p>
+
+<p>If you are using the <a href="http://www.adafruit.com/products/814">wifi dongle from
+Adafruit</a> this may help:</p>
+
+<pre><code>echo legal.realtek.license_ack=1 &gt;&gt; /boot/loader.conf
+echo wlans_urtwn0=&quot;wlan0&quot; &gt;&gt; /etc/rc.conf
+echo ifconfig_wlan0=&quot;wpa DHCP&quot; &gt;&gt; /etc/rc.conf`
+</code></pre>
+
+<p>And set your wifi password with wpa_passphrase</p>
+
+<p><code>wpa_passphrase yourssid yourwifipassword &gt;&gt; /etc/wpa_supplicant.conf</code></p>
+
+                    </div>
+                </section>
+                
                 <h1 class="content-subhead">15 Jun 2013, 17:59</h1>
                 <section class="post">
                     <header class="post-header">
@@ -444,187 +563,6 @@ vimage_testjail_vnets, it will automagically create a bridge visible in you
 jail named ng0_testjail.</p>
 
 <p>Happy jailing !</p>
-
-                    </div>
-                </section>
-                
-                <h1 class="content-subhead">07 Feb 2012, 15:05</h1>
-                <section class="post">
-                    <header class="post-header">
-
-                        <a href="https://blog.nobugware.com/post/2012/02/07/freebsd-90-zfs-root-ovh/" class="post-title">FreeBSD 9.0 ZFS root on OVH</a>
-
-                        <p class="post-meta">
-                            
-                            
-                                under 
-                                
-                                <a class="post-category post-category-FreeBSD" href="https://blog.nobugware.com/categories/freebsd">FreeBSD</a>
-                            
-                        </p>
-                    </header>
-
-                    <div class="post-description">
-                        <p>I had so much pain to make it work so here is how to have a ZFS root with a
-raidz pool on 5 disks, specially with OVH without any console or kvm to debug
-the boot process.</p>
-
-<p>The server has 5 disks that I put in raidz and boot on it, but this should
-apply to most installation.</p>
-
-<pre><code>gpart destroy -F ada0
-gpart destroy -F ada1
-gpart destroy -F ada2
-gpart destroy -F ada3
-gpart destroy -F ada4
-
-gpart create -s gpt ada0
-gpart create -s gpt ada1
-gpart create -s gpt ada2
-gpart create -s gpt ada3
-gpart create -s gpt ada4
-
-gpart add -b 34 -s 64k -t freebsd-boot ada0
-gpart add -b 34 -s 64k -t freebsd-boot ada1
-gpart add -b 34 -s 64k -t freebsd-boot ada2
-gpart add -b 34 -s 64k -t freebsd-boot ada3
-gpart add -b 34 -s 64k -t freebsd-boot ada4
-
-# if you are very low on ram use a real partition for swap otherwise don't  
-gpart add -s 4G -t freebsd-swap -l swap0 ada0 
-gpart add -s 4G -t freebsd-swap -l swap1 ada1 
-gpart add -s 4G -t freebsd-swap -l swap2 ada2 
-gpart add -s 4G -t freebsd-swap -l swap3 ada3 
-gpart add -s 4G -t freebsd-swap -l swap4 ada4  
-
-gpart add -t freebsd-zfs -l disk0 ada0 
-gpart add -t freebsd-zfs -l disk1 ada1 
-gpart add -t freebsd-zfs -l disk2 ada2 
-gpart add -t freebsd-zfs -l disk3 ada3 
-gpart add -t freebsd-zfs -l disk4 ada4  
-
-gpart bootcode -b /boot/pmbr -p /boot/gptzfsboot -i 1 ada0 
-gpart bootcode -b /boot/pmbr -p /boot/gptzfsboot -i 1 ada1 
-gpart bootcode -b /boot/pmbr -p /boot/gptzfsboot -i 1 ada2 
-gpart bootcode -b /boot/pmbr -p /boot/gptzfsboot -i 1 ada3 
-gpart bootcode -b /boot/pmbr -p /boot/gptzfsboot -i 1 ada4  
-
-zpool create -o cachefile=/boot/zfs/zpool.cache -m none -f rpool raidz /dev/gpt/disk0 /dev/gpt/disk1 /dev/gpt/disk2 /dev/gpt/disk3 /dev/gpt/disk4 
-#cannot mount '/rpool': failed to create mountpoint  
-zfs set checksum=fletcher4 rpool 
-zfs create rpool/root 
-mkdir /tmp/mntzfs 
-zfs set mountpoint=/tmp/mntzfs rpool/root  
-zfs create -o canmount=off  rpool/root/usr 
-zfs create  -o canmount=off rpool/root/var 
-zfs create -o compression=on -o exec=on -o setuid=off rpool/root/tmp 
-zfs create -o compression=gzip -o setuid=off  rpool/root/usr/ports 
-zfs create -o compression=off -o exec=off -o setuid=off rpool/root/usr/ports/distfiles 
-zfs create -o compression=off -o exec=off -o setuid=off rpool/root/usr/ports/packages 
-zfs create -o compression=gzip -o exec=off -o setuid=off  rpool/root/usr/src 
-zfs create -o compression=lzjb rpool/root/usr/obj zfs create -o compression=lzjb  -o exec=off     -o setuid=off   rpool/root/var/crash 
-zfs create -o compression=off -o exec=off -o setuid=off   rpool/root/var/empty 
-zfs create -o compression=lzjb  -o exec=on -o setuid=off   rpool/root/var/tmp  
-zpool export rpool 
-zpool import -o cachefile=/tmp/zpool.cache rpool chmod 1777 /tmp/mntzfs/tmp chmod 1777 /tmp/mntzfs/var/tmp  
-sh cd /tmp/mntzfs 
-mkdir fileinstall 
-cd fileinstall 
-fetch http://ftp1.fr.FreeBSD.org/pub/FreeBSD/releases/amd64/9.0-RELEASE/base.txz 
-fetch http://ftp1.fr.FreeBSD.org/pub/FreeBSD/releases/amd64/9.0-RELEASE/kernel.txz 
-fetch http://ftp1.fr.FreeBSD.org/pub/FreeBSD/releases/amd64/9.0-RELEASE/src.txz 
-fetch http://ftp1.fr.FreeBSD.org/pub/FreeBSD/releases/amd64/9.0-RELEASE/doc.txz 
-export DESTDIR=/tmp/mntzfs 
-for file in base.txz kernel.txz doc.txz src.txz; 
-do (cat $file | tar --unlink -xpJf - -C ${DESTDIR:-/}); 
-done
-
-cp /tmp/zpool.cache /tmp/mntzfs/boot/zfs/zpool.cache 
-echo 'zfs_enable=&quot;YES&quot;' &gt;&gt; /tmp/mntzfs/etc/rc.conf 
-echo 'zfs_load=&quot;YES&quot;' &gt;&gt; /tmp/mntzfs/boot/loader.conf 
-echo 'if_em_load=&quot;YES&quot;' &gt;&gt; /tmp/mntzfs/boot/loader.conf 
-echo 'vfs.root.mountfrom=&quot;zfs:rpool/root&quot;' &gt;&gt; /tmp/mntzfs/boot/loader.conf  
-echo 'sshd_enable=&quot;YES&quot;' &gt;&gt; /tmp/mntzfs/etc/rc.conf 
-echo 'ifconfig_em0=&quot;inet 188.165.XXX.XXX netmask 255.255.255.0 broadcast 188.165.XXX.255&quot;' &gt;&gt; /tmp/mntzfs/etc/rc.conf 
-echo 'defaultrouter=&quot;188.165.XXX.254&quot;' &gt;&gt; /tmp/mntzfs/etc/rc.conf 
-echo 'hostname=&quot;ksXXXX.kimsufi.com&quot;' &gt;&gt; /tmp/mntzfs/etc/rc.conf  
-chroot /tmp/mntzfs /bin/sh 
-passwd root 
-vi /etc/ssh/sshd_config 
-# Change PermitRootLogin to yes for debug only exit  
-
-zfs set mountpoint=legacy rpool/root
-zfs set mountpoint=/tmp rpool/root/tmp 
-zfs set mountpoint=/usr rpool/root/usr 
-zfs set mountpoint=/var rpool/root/var 
-zpool set bootfs=rpool/root rpool  
-
-# not if you are low on RAM 
-zfs create -V 8G rpool/swap 
-zfs set checksum=off rpool/swap 
-zfs set org.freebsd:swap=on rpool/swap  
-
-zfs set readonly=on rpool/root/var/empty 
-touch /tmp/mntzfs/etc/fstab 
-# or add the swap if you use real partition 
-cd /   
-zfs umount -a
-</code></pre>
-
-<p>EDIT: as mentioned here do not put the swap in the zpool if you are low on ram
-or unstability will occur. <a href="http://lists.freebsd.org/pipermail
-/freebsd-current/2007-September/076831.html">http://lists.freebsd.org/pipermail/freebsd-
-current/2007-September/076831.html</a></p>
-
-                    </div>
-                </section>
-                
-                <h1 class="content-subhead">05 Jan 2012, 23:59</h1>
-                <section class="post">
-                    <header class="post-header">
-
-                        <a href="https://blog.nobugware.com/post/2012/01/05/compile-and-run-xv6-mac-os-x-6828/" class="post-title">compile and run xv6 on Mac Os X 6.828</a>
-
-                        <p class="post-meta">
-                            
-                            
-                        </p>
-                    </header>
-
-                    <div class="post-description">
-                        <p>The MIT has created <a href="http://pdos.csail.mit.edu/6.828/2011/xv6.html">xv6</a>: an
-operating system for learning purpose</p>
-
-<p>This works better and takes less time to create a working environnement for
-xv6 on Mac Os X, than the recommandations proposed on<a href="http://pdos.csail.mit.edu/6.828/2011/tools.html"> Tools used in
-6.828</a> simply run this</p>
-
-<pre><code>port install i386-elf-gcc
-port install qemu
-</code></pre>
-
-<p>And change the Makefile like this:</p>
-
-<pre><code>-#TOOLPREFIX = i386-jos-elf-
-+TOOLPREFIX = i386-elf-
-
--#QEMU = 
-+QEMU = /opt/local/bin/qemu-system-i386
-
--CC = $(TOOLPREFIX)gcc
-+CC = $(TOOLPREFIX)gcc-4.3.2
-</code></pre>
-
-<p><a href="http://dl.dropbox.com/u/524733/gdb-
-target-i386-elf.bz2">Here is a working gdb binary</a> simply bunzip2 it then invoke it from the xv6 directory
-souce tree, (tested on osx Lion).</p>
-
-<p>make qemu will compile and run xv6 in qemu</p>
-
-<p>make qemu-dbg will run xv6 in debug mode, run gdb-target-i386-elf and c for
-continue</p>
-
-<p>Enjoy, thanks MIT.</p>
 
                     </div>
                 </section>

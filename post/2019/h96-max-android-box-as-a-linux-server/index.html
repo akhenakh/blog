@@ -138,16 +138,9 @@ The only downside of this board is the 100Mb network link, can be a non issue us
 
 <h2 id="installation">Installation</h2>
 
-<p>Prepare a USB key as described in the <a href="https://archlinuxarm.org/platforms/armv8/rockchip/rock64">Rock64 Arch installation</a>, (in fact you can simply create the root filesystem and extract <code>ArchLinuxARM-aarch64-latest.tar.gz</code>).</p>
+<p>Prepare an SD card as described in the <a href="https://archlinuxarm.org/platforms/armv8/rockchip/rock64">Rock64 Arch installation</a>.</p>
 
 <p>Note the output of <code>blkid</code> for this partition.</p>
-
-<p>Now prepare an SD Card following the full Arch procedure.</p>
-
-<p>The kernel is unable to see the SD Card after booting so it will mount / of the USB storage.</p>
-
-<pre><code>UUID=&quot;6642b903-f861-46cc-a08c-7c64a2a8cc54&quot; TYPE=&quot;ext4&quot; PARTUUID=&quot;0f8bc94a-01&quot;
-</code></pre>
 
 <p>Before unmounting root, create a new file <code>root/boot/boot.txt</code>.</p>
 
@@ -181,7 +174,7 @@ mkimage -A arm -O linux -T script -C none -n &quot;U-Boot boot script&quot; -d b
 
 <p><code>mkimage</code> is provided by <code>uboot-tools</code> on Arch.</p>
 
-<p>Mainline kernel won&rsquo;t work properly for now here is a copy <a href="https://drive.google.com/file/d/1dq-Ap_Fq4okR9tkDGN66QeN2b0zjmLCU/view?usp=sharing">ayufan kernel 1187</a> untar in /boot</p>
+<p>Mainline kernel won&rsquo;t work properly for now here is a copy <a href="https://drive.google.com/file/d/1dq-Ap_Fq4okR9tkDGN66QeN2b0zjmLCU/view?usp=sharing">ayufan kernel 1187</a> untar in root/boot</p>
 
 <p>This is a one time thing only&hellip;</p>
 

@@ -74,6 +74,125 @@
             
             <div class="posts">
                 
+                <h1 class="content-subhead">02 Aug 2015, 16:26</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://blog.nobugware.com/post/2015/internet_access_power_outage_disaster_free/" class="post-title">Offering free internet well almost and survive disaster, power outage, Internet blackout</a>
+
+                        <p class="post-meta">
+                            
+                            
+                                under 
+                                
+                                
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        
+
+<p>In my neighborhood, I&rsquo;m experimenting to give free access to some services, not the full internet but a full access to Wikipedia, maps&hellip;<br />
+Here are some tips do to the same.</p>
+
+<p>Getting access to the internet may be crucial for our lives, but the commercial providers are here to make money out of it.
+They don&rsquo;t event provide disasters nor minimum safety access.</p>
+
+<p>Sometimes even in normal condition, while traveling your roaming will cost you hundreds just to get access to a map or Wikipedia.</p>
+
+<p>With a simple RaspberryPi, a wifi antenna and a good geographical position you can reach hundreds of people.</p>
+
+<h2 id="wifi">Wifi</h2>
+
+<p>To serve wifi to others you need to get a wifi USB dongle that can be set in AP mode.<br />
+I&rsquo;m using an Alfa network one.</p>
+
+<p>To enable the AP mode you need to install the package <code>hostapd</code>. Here is my <code>/etc/hostapd/hostapd.conf</code>.</p>
+
+<pre><code>ssid=freewifi
+interface=wlan0
+auth_algs=3
+channel=7
+hw_mode=b
+logger_stdout=-1
+logger_stdout_level=2
+country_code=CA
+</code></pre>
+
+<p>(Always ensure you are using the correct country to avoid disturbing others and look for a free channel.)</p>
+
+<p>You also need a DNS &amp; DCHP provider, install <code>dnsmasq</code>, my <code>/etc/dnsmasq.conf</code>.</p>
+
+<pre><code>no-resolv
+no-poll
+server=/localnet/10.4.0.1
+address=/#/10.4.0.1
+interface=wlan0
+bind-interfaces
+dhcp-range=10.4.0.10,10.4.0.200,12h
+</code></pre>
+
+<p>It means all DNS queries will be intercepted and will respond with the same IP 10.4.0.1, by extend every HTTP request will be redirected to 10.4.0.1.</p>
+
+<p>Enable the same IP on the vlan0 interface.<br />
+<code>ifconfig wlan0 10.4.0.1</code></p>
+
+<p>You are all set, no need for NAT no need for routing, we just want to provide access to Wikipedia.</p>
+
+<h2 id="content">Content</h2>
+
+<p>I&rsquo;m using <a href="http://akhenakh.github.io/gozim/">Gozim</a> to run a full offline copy of Wikipedia. (For example, make it listen on port 8080)</p>
+
+<p>Install nginx to reverse proxy to your content to a fake domain call <code>wikipedia.wifi</code> (port 8080) or serve any directories you want to be published.</p>
+
+<h2 id="wispr">Wispr</h2>
+
+<p>Another issue while running your own wifi AP is that these days almost all traffic is secured by HTTPS so there is no way to intercept these calls with the right certificates, the users will just get a security error page.<br />
+To solve that you need to display a popup page like the one you get when you connect to a Starbucks free wifi network.</p>
+
+<p>I&rsquo;m working on a set of tool to do just that, uninstall <code>nginx</code> and give it a shot the project is called <a href="http://github.com/akhenakh/wisprgo">WisprGo and the code is on Github too</a>.<br />
+It&rsquo;s a work in progress any help is appreciated.</p>
+
+                    </div>
+                </section>
+                
+                <h1 class="content-subhead">02 Aug 2015, 13:10</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://blog.nobugware.com/post/2015/metrics_golang_operating_system/" class="post-title">Access OS metrics from Golang</a>
+
+                        <p class="post-meta">
+                            
+                            
+                                under 
+                                
+                                <a class="post-category post-category-Golang" href="https://blog.nobugware.com/categories/golang">Golang</a>
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        <p>I&rsquo;ve recently published <a href="https://github.com/akhenakh/statgo">StatGo</a>, it gives you access to your operating system metrics like free memory, used disk spaces &hellip;</p>
+
+<p>It&rsquo;s a binding to the C library <a href="http://www.i-scream.org/libstatgrab/">libstatgrab</a>, a proven stable piece of code that works on many different systems, FreeBSD, Linux, OSX &hellip;</p>
+
+<p>It&rsquo;s very simple to use:</p>
+
+<pre><code class="language-go">s := NewStat()
+c := s.CPUStats()
+fmt.Prinln(c.Idle)
+98.2
+</code></pre>
+
+<p>Feel free to contribute, it may need some improvement but it&rsquo;s working I&rsquo;m using it in a small metrics web server to monitor small network of servers.</p>
+
+<p>The <a href="https://github.com/akhenakh/statgo">code is on Github</a></p>
+
+                    </div>
+                </section>
+                
                 <h1 class="content-subhead">02 Aug 2015, 00:32</h1>
                 <section class="post">
                     <header class="post-header">
@@ -696,125 +815,6 @@ Modem</a></p>
 <p>73 de KK6NXK</p>
 
 <p>By the way in french it&rsquo;s radio amateur and not amateur radio :)</p>
-
-                    </div>
-                </section>
-                
-                <h1 class="content-subhead">19 Feb 2014, 05:05</h1>
-                <section class="post">
-                    <header class="post-header">
-
-                        <a href="https://blog.nobugware.com/post/2014/02/19/freebsd-10-on-dedibox-sc-gen-2-or-any-remote-server-with-a-rescue-shell/" class="post-title">FreeBSD 10 on Dedibox SC gen 2 or any remote server with a rescue shell</a>
-
-                        <p class="post-meta">
-                            
-                            
-                                under 
-                                
-                                <a class="post-category post-category-FreeBSD" href="https://blog.nobugware.com/categories/freebsd">FreeBSD</a>
-                            
-                        </p>
-                    </header>
-
-                    <div class="post-description">
-                        <p>FreeBSD 10 is out and it&rsquo;s time to replace your Linux boxes <img src="http://k
-dl.nobugware.com/static/ckeditor/plugins/smiley/images/tongue_smile.gif" alt="cheeky" /></p>
-
-<p>SC gen 2 is a VIA U2250 with 2Gb memory.</p>
-
-<p>Start the rescue shell in amd64 12.04 Ubuntu, connect to the box via SSH with
-the temporary password</p>
-
-<pre><code>sudo -s
-cd /tmp
-wget http://ftp1.fr.freebsd.org/pub/FreeBSD/snapshots/ISO-
-IMAGES/10.0/FreeBSD-10.0-STABLE-amd64-20140216-r261948-disc1.iso
-apt-get update
-apt-get install qemu-kvm
-
-sudo qemu-system-x86_64 -no-kvm -hda /dev/sda -cdrom ./FreeBSD-10.0-STABLE-
-amd64-20140216-r261948-disc1.iso -net nic,model=e1000 -vnc :1,yourpassword
--boot d
-</code></pre>
-
-<p>This install qemu and run the FreeBSD installer from the downloaded CD.</p>
-
-<p>Run a VNC client on your computer and connect to your dedibox ip, you should
-watch FreeBSD boot from the CDROM.</p>
-
-<p>Complete a normal installation, at the end it will ask if you want to run a
-shell **answer is YES **and then type this to reinstall the bootloader.</p>
-
-<p>If you are using UFS (default)</p>
-
-<p><code>fdisk -B -b /boot/boot0 /dev/ada0</code></p>
-
-<p>If you are using ZFS:</p>
-
-<p><code>gpart bootcode -b /boot/pmbr -p /boot/gptzfsboot -i 1 ada0</code></p>
-
-<p>Type exit and reboot to the normal mode.</p>
-
-<p>Happy FreeBSD !</p>
-
-<p>Further notes:</p>
-
-<ul>
-<li>If you are not using ZFS, you can enable softupdate and TRIM as the SC gen 2 contains an hybrid SSD, you should theoretically have better performance</li>
-<li>The last fdisk command is not the normal process but it was the only way I get it boot</li>
-<li>Do not use qemu with KVM as there is a bug with this particular cpu, so yes the installation will be dead slow</li>
-<li>The DHCP won&rsquo;t answer it&rsquo;s ok</li>
-</ul>
-
-                    </div>
-                </section>
-                
-                <h1 class="content-subhead">30 Jan 2014, 17:37</h1>
-                <section class="post">
-                    <header class="post-header">
-
-                        <a href="https://blog.nobugware.com/post/2014/01/30/freebsd-on-raspberry-pi/" class="post-title">FreeBSD on RaspBerry Pi</a>
-
-                        <p class="post-meta">
-                            
-                            
-                                under 
-                                
-                                <a class="post-category post-category-FreeBSD" href="https://blog.nobugware.com/categories/freebsd">FreeBSD</a>
-                            
-                        </p>
-                    </header>
-
-                    <div class="post-description">
-                        <p>FreeBSD images for arm are now built from the FreeBSD Foundation ! So it&rsquo;s an
-easy process to get it on your Pi.</p>
-
-<p>Download your image from the <a href="http://ftp.freebsd.org/pub/FreeBSD/snapshots/ISO-IMAGES/10.0/">ftp
-repository</a></p>
-
-<p>Insert a 4Gb or more SD card in your PC and copy the FreeBSD image into it,
-here are the commands for a Mac:</p>
-
-<pre><code>sudo diskutil list​
-sudo diskutil unmountDisk /dev/disk1​
-sudo dd if=/Users/akh/Downloads/FreeBSD-10.0-STABLE-arm-
-armv6-RPI-B-20140127-r261200.img  of=/dev/rdisk1 bs=1m​
-sudo diskutil eject /dev/disk1​
-</code></pre>
-
-<p>Boot your pi with the card and welcome to FreeBSD !</p>
-
-<p>If you are using the <a href="http://www.adafruit.com/products/814">wifi dongle from
-Adafruit</a> this may help:</p>
-
-<pre><code>echo legal.realtek.license_ack=1 &gt;&gt; /boot/loader.conf
-echo wlans_urtwn0=&quot;wlan0&quot; &gt;&gt; /etc/rc.conf
-echo ifconfig_wlan0=&quot;wpa DHCP&quot; &gt;&gt; /etc/rc.conf`
-</code></pre>
-
-<p>And set your wifi password with wpa_passphrase</p>
-
-<p><code>wpa_passphrase yourssid yourwifipassword &gt;&gt; /etc/wpa_supplicant.conf</code></p>
 
                     </div>
                 </section>

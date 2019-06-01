@@ -74,6 +74,114 @@
             
             <div class="posts">
                 
+                <h1 class="content-subhead">19 Jan 2011, 16:50</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://blog.nobugware.com/post/2011/01/19/all-my-digital-life/" class="post-title">All my digital life</a>
+
+                        <p class="post-meta">
+                            
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        <p>In a tag cloud !</p>
+
+<p><a href="http://kdl.nobugware.com/public/wordle2.jpg"><img src="http://kdl.nobugware.com/public/wordle2.jpg" alt="" /></a></p>
+
+<p>This tag cloud has been generated with
+<a href="http://www.wordle.net/compose">Wordle</a>, the words are extracted from title&rsquo;s
+posts for this services.</p>
+
+<ul>
+<li>My facebook</li>
+<li>My twitter</li>
+<li>My Flickr</li>
+<li>My shared Google Reader articles</li>
+<li>My Tumbler</li>
+<li>My Picasa</li>
+<li>and this blog</li>
+</ul>
+
+<p>Parsed and sorted with Python via the friendfeed json API.</p>
+
+<p>Data since 2008-11-19, commons french or english words removed, iphone word
+divide by 2 ;)</p>
+
+<p>Thanks to <a href="http://friendfeed.com/">Friendfeed</a> service to aggregate my data,
+and no thanks to Facebook for killing it.</p>
+
+                    </div>
+                </section>
+                
+                <h1 class="content-subhead">08 Nov 2010, 17:30</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://blog.nobugware.com/post/2010/11/08/jmx-query-python-cpython/" class="post-title">JMX query in Python (CPython)</a>
+
+                        <p class="post-meta">
+                            
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        <p>JMX had good intentions but the API is only implemented in Java, a Java
+product for Java, with no access to the outside world.</p>
+
+<p>Jython was one of the solution but many times I had needed to call JMX from a
+CPython.</p>
+
+<p><a href="http://jpype.sourceforge.net/">Jpype</a> solved this problem and works extremely
+well.</p>
+
+<p>Just install <a href="http://jpype.sourceforge.net/">Jpype</a> then try something like
+this:</p>
+
+<p>The execution is really really fast, faster than a jvm run ?? and memory usage
+is really really slow !</p>
+
+<pre><code>#!/usr/bin/env python2.6
+import jpype
+from jpype import java
+from jpype import javax
+
+HOST='gf0'
+PORT=8386
+USER='admin'
+PASS='mypass'
+
+URL = &quot;service:jmx:rmi:///jndi/rmi://%s:%d/jmxrmi&quot; % (HOST, PORT)
+#this it the path of your libjvm /usr/lib/jvm/sun-jdk-1.6/jre/lib/amd64/server/libjvm.so on linux
+jpype.startJVM(&quot;/System/Library/Frameworks/JavaVM.framework/Libraries/libjvm_compat.dylib&quot;)
+java.lang.System.out.println(&quot;JVM load OK&quot;)
+
+jhash = java.util.HashMap()
+jarray=jpype.JArray(java.lang.String)([USER,PASS])
+jhash.put (javax.management.remote.JMXConnector.CREDENTIALS, jarray);
+jmxurl = javax.management.remote.JMXServiceURL(URL)
+jmxsoc = javax.management.remote.JMXConnectorFactory.connect(jmxurl,jhash)
+connection = jmxsoc.getMBeanServerConnection();
+
+
+object=&quot;java.lang:type=Threading&quot;
+attribute=&quot;ThreadCount&quot;
+attr=connection.getAttribute(javax.management.ObjectName(object),attribute)
+print  attribute, attr
+
+#Memory is a special case the answer is a Treemap in a CompositeDataSupport
+object=&quot;java.lang:type=Memory&quot;
+attribute=&quot;HeapMemoryUsage&quot;
+attr=connection.getAttribute(javax.management.ObjectName(object),attribute)
+print attr.contents.get(&quot;used&quot;)
+</code></pre>
+
+                    </div>
+                </section>
+                
                 <h1 class="content-subhead">09 Aug 2010, 14:41</h1>
                 <section class="post">
                     <header class="post-header">
@@ -686,166 +794,6 @@ contain everything for a *AMP platform (Apache 2.2, lighttpd, &hellip;)</p>
 <p>OpenSolaris has a nice <a href="http://pkg.opensolaris.org/release/en/index.shtml">package
 repository</a> but&hellip; without
 JET or jumpstart, at least for the moment !</p>
-
-                    </div>
-                </section>
-                
-                <h1 class="content-subhead">28 Jun 2009, 12:46</h1>
-                <section class="post">
-                    <header class="post-header">
-
-                        <a href="https://blog.nobugware.com/post/2009/06/28/use-trac-browser-jira/" class="post-title">Use Trac source browser with Jira</a>
-
-                        <p class="post-meta">
-                            
-                            
-                        </p>
-                    </header>
-
-                    <div class="post-description">
-                        <p>Jira is a nice product for issue tracking linked to a SCM repository, yes it&rsquo;s
-not free software but they provide a 5$ starter license for 5 users.</p>
-
-<p>But Jira lacks of a part that <a href="http://trac.edgewall.org/">trac</a> is doing very
-well, source browser, in facts Atlassian provides one:
-<a href="http://www.atlassian.com/software/fisheye/">Fisheye</a> but it&rsquo;s really
-expensive</p>
-
-<p>Simply go to your Jira Administration,  on the left click on Subversion
-Repositories (this menu appears after the installation of the subversion&rsquo;s
-plugin).</p>
-
-<p>Edit your SVN repository entry to match this:</p>
-
-<p><strong>Changeset Format</strong>: <a href="https://yourhost/projects/myproject/changeset/${rev">https://yourhost/projects/myproject/changeset/${rev</a>}<br />
-<strong>File Added Format</strong>: <a href="https://yourhost/projects/myproject/browser/${path}?rev=${rev">https://yourhost/projects/myproject/browser/${path}?rev=${rev</a>}<br />
-<strong>File Modified Format</strong>: <a href="https://yourhost/projects/myproject/changeset/${rev}/${path">https://yourhost/projects/myproject/changeset/${rev}/${path</a>}</p>
-
-<p>myproject is just the base url of a trac project which is configured to work
-from the root of the SVN repository.</p>
-
-<p>from trac.ini</p>
-
-<p>repository_dir = /opt/data/svn/repos/</p>
-
-                    </div>
-                </section>
-                
-                <h1 class="content-subhead">01 May 2009, 23:31</h1>
-                <section class="post">
-                    <header class="post-header">
-
-                        <a href="https://blog.nobugware.com/post/2009/05/01/mercurial-usefull-stuff/" class="post-title">mercurial usefull stuff</a>
-
-                        <p class="post-meta">
-                            
-                            
-                        </p>
-                    </header>
-
-                    <div class="post-description">
-                        
-
-<p>Using mercurial for the beginner may sounds scarry here are fast tips</p>
-
-<ul>
-<li><p>Edit ~/.hgrc</p>
-
-<p>## This is a Mercurial configuration file.
-[ui]
-username = Your Name</p>
-
-<p>#enable ssh compression
-ssh = ssh -C</p>
-
-<p>[extensions]</p>
-
-<h1 id="enable-hg-convert-to-import-you-old-svn-repository">enable hg convert to import you old svn repository</h1>
-
-<p>hgext.convert=</p>
-
-<p>#enable hg glog command
-hgext.graphlog =</p>
-
-<h1 id="enable-color-diff-need-mercurial-1-1">enable color diff, need mercurial &gt;=1.1</h1>
-
-<p>color=</p>
-
-<h1 id="enable-visual-filemerge-on-osx">enable visual filemerge on OsX</h1>
-
-<p>[merge-tools]
-filemerge.executable=opendiff
-filemerge.args=$other $local -ancestor $base -merge $output
-filemerge.gui=True</p></li>
-
-<li><p>At the root of you repository add .hgignore (and commit it) <em>hg add .hgignore</em>,_ hg commit<em>,</em> hg push_</p>
-
-<p>syntax: glob</p>
-
-<p>.DS_Store</p>
-
-<h1 id="xcode">Xcode</h1>
-
-<p>*.swp
-*~.nib
-build
-*.pbxuser
-*.perspective
-*.perspectivev3</p>
-
-<h1 id="python">Python</h1>
-
-<p>*.py[oc]c</p>
-
-<h1 id="no-subversion-directories">no subversion directories</h1>
-
-<p>.svn</p>
-
-<p>#others
-*~</p></li>
-
-<li><p>Remember to <em>hg update</em> after a pull or use <em>hg pull -u</em></p></li>
-
-<li><p>Use <em>hg glog</em></p>
-
-<p>@    changeset:   4:1961f87e1d05
-|\   tag:         tip
-| |  parent:      2:fb59b74f6239
-| |  parent:      3:18393dd152ee
-| |  user:        ME
-| |  date:        Fri May 01 23:22:23 2009 +0200
-| |  summary:     resolve conflicts
-| |
-| o  changeset:   3:18393dd152ee
-| |  parent:      1:c8785a6f41ec
-| |  user:        ME
-| |  date:        Fri May 01 15:44:25 2009 +0200
-| |  summary:     change helloworld to use tag
-| |
-o |  changeset:   2:fb59b74f6239
-|/   user:        ME
-|    date:        Fri May 01 23:12:21 2009 +0200
-|    summary:     add the super killer app
-|
-o  changeset:   1:c8785a6f41ec
-|  user:        ME
-|  date:        Thu Apr 30 01:23:17 2009 +0200
-|  summary:     add my exercices
-|
-o  changeset:   0:a2883c1a5659
-   user:        ME
-   date:        Thu Apr 30 01:14:57 2009 +0200
-   summary:     first version of chatclient socket is working</p></li>
-
-<li><p>Use <em>hg rollback</em> when something go wrong (only last commit)</p></li>
-
-<li><p>Do not use <em>hg push -f</em> if &ldquo;abort: push creates new remote heads!&ldquo;, Try <em>hg merge</em> and <em>hg update &ndash;all</em> if conflicts occurs, <em>hg commit</em>, then <em>hg push</em></p></li>
-
-<li><p>Force a merge with my files or their files:</p>
-
-<p>HGMERGE=internal:local hg merge  #keep my files
-HGMERGE=internal:other hg merge  #keep their files</p></li>
-</ul>
 
                     </div>
                 </section>

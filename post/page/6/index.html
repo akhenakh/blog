@@ -74,137 +74,6 @@
             
             <div class="posts">
                 
-                <h1 class="content-subhead">07 Feb 2012, 15:05</h1>
-                <section class="post">
-                    <header class="post-header">
-
-                        <a href="https://blog.nobugware.com/post/2012/02/07/freebsd-90-zfs-root-ovh/" class="post-title">FreeBSD 9.0 ZFS root on OVH</a>
-
-                        <p class="post-meta">
-                            
-                            
-                                under 
-                                
-                                <a class="post-category post-category-FreeBSD" href="https://blog.nobugware.com/categories/freebsd">FreeBSD</a>
-                            
-                        </p>
-                    </header>
-
-                    <div class="post-description">
-                        <p>I had so much pain to make it work so here is how to have a ZFS root with a
-raidz pool on 5 disks, specially with OVH without any console or kvm to debug
-the boot process.</p>
-
-<p>The server has 5 disks that I put in raidz and boot on it, but this should
-apply to most installation.</p>
-
-<pre><code>gpart destroy -F ada0
-gpart destroy -F ada1
-gpart destroy -F ada2
-gpart destroy -F ada3
-gpart destroy -F ada4
-
-gpart create -s gpt ada0
-gpart create -s gpt ada1
-gpart create -s gpt ada2
-gpart create -s gpt ada3
-gpart create -s gpt ada4
-
-gpart add -b 34 -s 64k -t freebsd-boot ada0
-gpart add -b 34 -s 64k -t freebsd-boot ada1
-gpart add -b 34 -s 64k -t freebsd-boot ada2
-gpart add -b 34 -s 64k -t freebsd-boot ada3
-gpart add -b 34 -s 64k -t freebsd-boot ada4
-
-# if you are very low on ram use a real partition for swap otherwise don't  
-gpart add -s 4G -t freebsd-swap -l swap0 ada0 
-gpart add -s 4G -t freebsd-swap -l swap1 ada1 
-gpart add -s 4G -t freebsd-swap -l swap2 ada2 
-gpart add -s 4G -t freebsd-swap -l swap3 ada3 
-gpart add -s 4G -t freebsd-swap -l swap4 ada4  
-
-gpart add -t freebsd-zfs -l disk0 ada0 
-gpart add -t freebsd-zfs -l disk1 ada1 
-gpart add -t freebsd-zfs -l disk2 ada2 
-gpart add -t freebsd-zfs -l disk3 ada3 
-gpart add -t freebsd-zfs -l disk4 ada4  
-
-gpart bootcode -b /boot/pmbr -p /boot/gptzfsboot -i 1 ada0 
-gpart bootcode -b /boot/pmbr -p /boot/gptzfsboot -i 1 ada1 
-gpart bootcode -b /boot/pmbr -p /boot/gptzfsboot -i 1 ada2 
-gpart bootcode -b /boot/pmbr -p /boot/gptzfsboot -i 1 ada3 
-gpart bootcode -b /boot/pmbr -p /boot/gptzfsboot -i 1 ada4  
-
-zpool create -o cachefile=/boot/zfs/zpool.cache -m none -f rpool raidz /dev/gpt/disk0 /dev/gpt/disk1 /dev/gpt/disk2 /dev/gpt/disk3 /dev/gpt/disk4 
-#cannot mount '/rpool': failed to create mountpoint  
-zfs set checksum=fletcher4 rpool 
-zfs create rpool/root 
-mkdir /tmp/mntzfs 
-zfs set mountpoint=/tmp/mntzfs rpool/root  
-zfs create -o canmount=off  rpool/root/usr 
-zfs create  -o canmount=off rpool/root/var 
-zfs create -o compression=on -o exec=on -o setuid=off rpool/root/tmp 
-zfs create -o compression=gzip -o setuid=off  rpool/root/usr/ports 
-zfs create -o compression=off -o exec=off -o setuid=off rpool/root/usr/ports/distfiles 
-zfs create -o compression=off -o exec=off -o setuid=off rpool/root/usr/ports/packages 
-zfs create -o compression=gzip -o exec=off -o setuid=off  rpool/root/usr/src 
-zfs create -o compression=lzjb rpool/root/usr/obj zfs create -o compression=lzjb  -o exec=off     -o setuid=off   rpool/root/var/crash 
-zfs create -o compression=off -o exec=off -o setuid=off   rpool/root/var/empty 
-zfs create -o compression=lzjb  -o exec=on -o setuid=off   rpool/root/var/tmp  
-zpool export rpool 
-zpool import -o cachefile=/tmp/zpool.cache rpool chmod 1777 /tmp/mntzfs/tmp chmod 1777 /tmp/mntzfs/var/tmp  
-sh cd /tmp/mntzfs 
-mkdir fileinstall 
-cd fileinstall 
-fetch http://ftp1.fr.FreeBSD.org/pub/FreeBSD/releases/amd64/9.0-RELEASE/base.txz 
-fetch http://ftp1.fr.FreeBSD.org/pub/FreeBSD/releases/amd64/9.0-RELEASE/kernel.txz 
-fetch http://ftp1.fr.FreeBSD.org/pub/FreeBSD/releases/amd64/9.0-RELEASE/src.txz 
-fetch http://ftp1.fr.FreeBSD.org/pub/FreeBSD/releases/amd64/9.0-RELEASE/doc.txz 
-export DESTDIR=/tmp/mntzfs 
-for file in base.txz kernel.txz doc.txz src.txz; 
-do (cat $file | tar --unlink -xpJf - -C ${DESTDIR:-/}); 
-done
-
-cp /tmp/zpool.cache /tmp/mntzfs/boot/zfs/zpool.cache 
-echo 'zfs_enable=&quot;YES&quot;' &gt;&gt; /tmp/mntzfs/etc/rc.conf 
-echo 'zfs_load=&quot;YES&quot;' &gt;&gt; /tmp/mntzfs/boot/loader.conf 
-echo 'if_em_load=&quot;YES&quot;' &gt;&gt; /tmp/mntzfs/boot/loader.conf 
-echo 'vfs.root.mountfrom=&quot;zfs:rpool/root&quot;' &gt;&gt; /tmp/mntzfs/boot/loader.conf  
-echo 'sshd_enable=&quot;YES&quot;' &gt;&gt; /tmp/mntzfs/etc/rc.conf 
-echo 'ifconfig_em0=&quot;inet 188.165.XXX.XXX netmask 255.255.255.0 broadcast 188.165.XXX.255&quot;' &gt;&gt; /tmp/mntzfs/etc/rc.conf 
-echo 'defaultrouter=&quot;188.165.XXX.254&quot;' &gt;&gt; /tmp/mntzfs/etc/rc.conf 
-echo 'hostname=&quot;ksXXXX.kimsufi.com&quot;' &gt;&gt; /tmp/mntzfs/etc/rc.conf  
-chroot /tmp/mntzfs /bin/sh 
-passwd root 
-vi /etc/ssh/sshd_config 
-# Change PermitRootLogin to yes for debug only exit  
-
-zfs set mountpoint=legacy rpool/root
-zfs set mountpoint=/tmp rpool/root/tmp 
-zfs set mountpoint=/usr rpool/root/usr 
-zfs set mountpoint=/var rpool/root/var 
-zpool set bootfs=rpool/root rpool  
-
-# not if you are low on RAM 
-zfs create -V 8G rpool/swap 
-zfs set checksum=off rpool/swap 
-zfs set org.freebsd:swap=on rpool/swap  
-
-zfs set readonly=on rpool/root/var/empty 
-touch /tmp/mntzfs/etc/fstab 
-# or add the swap if you use real partition 
-cd /   
-zfs umount -a
-</code></pre>
-
-<p>EDIT: as mentioned here do not put the swap in the zpool if you are low on ram
-or unstability will occur. <a href="http://lists.freebsd.org/pipermail
-/freebsd-current/2007-September/076831.html">http://lists.freebsd.org/pipermail/freebsd-
-current/2007-September/076831.html</a></p>
-
-                    </div>
-                </section>
-                
                 <h1 class="content-subhead">05 Jan 2012, 23:59</h1>
                 <section class="post">
                     <header class="post-header">
@@ -906,6 +775,48 @@ arduino pin 12 for TX, and 11 for RX then you are done !</p>
 they send it again in priority mail: 48 hours from USA to France ;)</p>
 
 <p><a href="http://kdl.nobugware.com/public/rflink.jpg"><img src="http://kdl.nobugware.com/public/rflink.jpg" alt="" /></a></p>
+
+                    </div>
+                </section>
+                
+                <h1 class="content-subhead">19 Jan 2011, 16:50</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://blog.nobugware.com/post/2011/01/19/all-my-digital-life/" class="post-title">All my digital life</a>
+
+                        <p class="post-meta">
+                            
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        <p>In a tag cloud !</p>
+
+<p><a href="http://kdl.nobugware.com/public/wordle2.jpg"><img src="http://kdl.nobugware.com/public/wordle2.jpg" alt="" /></a></p>
+
+<p>This tag cloud has been generated with
+<a href="http://www.wordle.net/compose">Wordle</a>, the words are extracted from title&rsquo;s
+posts for this services.</p>
+
+<ul>
+<li>My facebook</li>
+<li>My twitter</li>
+<li>My Flickr</li>
+<li>My shared Google Reader articles</li>
+<li>My Tumbler</li>
+<li>My Picasa</li>
+<li>and this blog</li>
+</ul>
+
+<p>Parsed and sorted with Python via the friendfeed json API.</p>
+
+<p>Data since 2008-11-19, commons french or english words removed, iphone word
+divide by 2 ;)</p>
+
+<p>Thanks to <a href="http://friendfeed.com/">Friendfeed</a> service to aggregate my data,
+and no thanks to Facebook for killing it.</p>
 
                     </div>
                 </section>

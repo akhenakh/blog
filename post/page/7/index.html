@@ -74,48 +74,6 @@
             
             <div class="posts">
                 
-                <h1 class="content-subhead">19 Jan 2011, 16:50</h1>
-                <section class="post">
-                    <header class="post-header">
-
-                        <a href="https://blog.nobugware.com/post/2011/01/19/all-my-digital-life/" class="post-title">All my digital life</a>
-
-                        <p class="post-meta">
-                            
-                            
-                        </p>
-                    </header>
-
-                    <div class="post-description">
-                        <p>In a tag cloud !</p>
-
-<p><a href="http://kdl.nobugware.com/public/wordle2.jpg"><img src="http://kdl.nobugware.com/public/wordle2.jpg" alt="" /></a></p>
-
-<p>This tag cloud has been generated with
-<a href="http://www.wordle.net/compose">Wordle</a>, the words are extracted from title&rsquo;s
-posts for this services.</p>
-
-<ul>
-<li>My facebook</li>
-<li>My twitter</li>
-<li>My Flickr</li>
-<li>My shared Google Reader articles</li>
-<li>My Tumbler</li>
-<li>My Picasa</li>
-<li>and this blog</li>
-</ul>
-
-<p>Parsed and sorted with Python via the friendfeed json API.</p>
-
-<p>Data since 2008-11-19, commons french or english words removed, iphone word
-divide by 2 ;)</p>
-
-<p>Thanks to <a href="http://friendfeed.com/">Friendfeed</a> service to aggregate my data,
-and no thanks to Facebook for killing it.</p>
-
-                    </div>
-                </section>
-                
                 <h1 class="content-subhead">08 Nov 2010, 17:30</h1>
                 <section class="post">
                     <header class="post-header">
@@ -794,6 +752,47 @@ contain everything for a *AMP platform (Apache 2.2, lighttpd, &hellip;)</p>
 <p>OpenSolaris has a nice <a href="http://pkg.opensolaris.org/release/en/index.shtml">package
 repository</a> but&hellip; without
 JET or jumpstart, at least for the moment !</p>
+
+                    </div>
+                </section>
+                
+                <h1 class="content-subhead">28 Jun 2009, 12:46</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://blog.nobugware.com/post/2009/06/28/use-trac-browser-jira/" class="post-title">Use Trac source browser with Jira</a>
+
+                        <p class="post-meta">
+                            
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        <p>Jira is a nice product for issue tracking linked to a SCM repository, yes it&rsquo;s
+not free software but they provide a 5$ starter license for 5 users.</p>
+
+<p>But Jira lacks of a part that <a href="http://trac.edgewall.org/">trac</a> is doing very
+well, source browser, in facts Atlassian provides one:
+<a href="http://www.atlassian.com/software/fisheye/">Fisheye</a> but it&rsquo;s really
+expensive</p>
+
+<p>Simply go to your Jira Administration,  on the left click on Subversion
+Repositories (this menu appears after the installation of the subversion&rsquo;s
+plugin).</p>
+
+<p>Edit your SVN repository entry to match this:</p>
+
+<p><strong>Changeset Format</strong>: <a href="https://yourhost/projects/myproject/changeset/${rev">https://yourhost/projects/myproject/changeset/${rev</a>}<br />
+<strong>File Added Format</strong>: <a href="https://yourhost/projects/myproject/browser/${path}?rev=${rev">https://yourhost/projects/myproject/browser/${path}?rev=${rev</a>}<br />
+<strong>File Modified Format</strong>: <a href="https://yourhost/projects/myproject/changeset/${rev}/${path">https://yourhost/projects/myproject/changeset/${rev}/${path</a>}</p>
+
+<p>myproject is just the base url of a trac project which is configured to work
+from the root of the SVN repository.</p>
+
+<p>from trac.ini</p>
+
+<p>repository_dir = /opt/data/svn/repos/</p>
 
                     </div>
                 </section>

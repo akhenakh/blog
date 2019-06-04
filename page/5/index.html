@@ -74,56 +74,6 @@
             
             <div class="posts">
                 
-                <h1 class="content-subhead">30 Jan 2014, 17:37</h1>
-                <section class="post">
-                    <header class="post-header">
-
-                        <a href="https://blog.nobugware.com/post/2014/01/30/freebsd-on-raspberry-pi/" class="post-title">FreeBSD on RaspBerry Pi</a>
-
-                        <p class="post-meta">
-                            
-                            
-                                under 
-                                
-                                <a class="post-category post-category-FreeBSD" href="https://blog.nobugware.com/categories/freebsd">FreeBSD</a>
-                            
-                        </p>
-                    </header>
-
-                    <div class="post-description">
-                        <p>FreeBSD images for arm are now built from the FreeBSD Foundation ! So it&rsquo;s an
-easy process to get it on your Pi.</p>
-
-<p>Download your image from the <a href="http://ftp.freebsd.org/pub/FreeBSD/snapshots/ISO-IMAGES/10.0/">ftp
-repository</a></p>
-
-<p>Insert a 4Gb or more SD card in your PC and copy the FreeBSD image into it,
-here are the commands for a Mac:</p>
-
-<pre><code>sudo diskutil list​
-sudo diskutil unmountDisk /dev/disk1​
-sudo dd if=/Users/akh/Downloads/FreeBSD-10.0-STABLE-arm-
-armv6-RPI-B-20140127-r261200.img  of=/dev/rdisk1 bs=1m​
-sudo diskutil eject /dev/disk1​
-</code></pre>
-
-<p>Boot your pi with the card and welcome to FreeBSD !</p>
-
-<p>If you are using the <a href="http://www.adafruit.com/products/814">wifi dongle from
-Adafruit</a> this may help:</p>
-
-<pre><code>echo legal.realtek.license_ack=1 &gt;&gt; /boot/loader.conf
-echo wlans_urtwn0=&quot;wlan0&quot; &gt;&gt; /etc/rc.conf
-echo ifconfig_wlan0=&quot;wpa DHCP&quot; &gt;&gt; /etc/rc.conf`
-</code></pre>
-
-<p>And set your wifi password with wpa_passphrase</p>
-
-<p><code>wpa_passphrase yourssid yourwifipassword &gt;&gt; /etc/wpa_supplicant.conf</code></p>
-
-                    </div>
-                </section>
-                
                 <h1 class="content-subhead">15 Jun 2013, 17:59</h1>
                 <section class="post">
                     <header class="post-header">
@@ -625,6 +575,56 @@ zfs umount -a
 or unstability will occur. <a href="http://lists.freebsd.org/pipermail
 /freebsd-current/2007-September/076831.html">http://lists.freebsd.org/pipermail/freebsd-
 current/2007-September/076831.html</a></p>
+
+                    </div>
+                </section>
+                
+                <h1 class="content-subhead">05 Jan 2012, 23:59</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://blog.nobugware.com/post/2012/01/05/compile-and-run-xv6-mac-os-x-6828/" class="post-title">compile and run xv6 on Mac Os X 6.828</a>
+
+                        <p class="post-meta">
+                            
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        <p>The MIT has created <a href="http://pdos.csail.mit.edu/6.828/2011/xv6.html">xv6</a>: an
+operating system for learning purpose</p>
+
+<p>This works better and takes less time to create a working environnement for
+xv6 on Mac Os X, than the recommandations proposed on<a href="http://pdos.csail.mit.edu/6.828/2011/tools.html"> Tools used in
+6.828</a> simply run this</p>
+
+<pre><code>port install i386-elf-gcc
+port install qemu
+</code></pre>
+
+<p>And change the Makefile like this:</p>
+
+<pre><code>-#TOOLPREFIX = i386-jos-elf-
++TOOLPREFIX = i386-elf-
+
+-#QEMU = 
++QEMU = /opt/local/bin/qemu-system-i386
+
+-CC = $(TOOLPREFIX)gcc
++CC = $(TOOLPREFIX)gcc-4.3.2
+</code></pre>
+
+<p><a href="http://dl.dropbox.com/u/524733/gdb-
+target-i386-elf.bz2">Here is a working gdb binary</a> simply bunzip2 it then invoke it from the xv6 directory
+souce tree, (tested on osx Lion).</p>
+
+<p>make qemu will compile and run xv6 in qemu</p>
+
+<p>make qemu-dbg will run xv6 in debug mode, run gdb-target-i386-elf and c for
+continue</p>
+
+<p>Enjoy, thanks MIT.</p>
 
                     </div>
                 </section>

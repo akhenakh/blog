@@ -74,125 +74,6 @@
             
             <div class="posts">
                 
-                <h1 class="content-subhead">01 May 2009, 23:31</h1>
-                <section class="post">
-                    <header class="post-header">
-
-                        <a href="https://blog.nobugware.com/post/2009/05/01/mercurial-usefull-stuff/" class="post-title">mercurial usefull stuff</a>
-
-                        <p class="post-meta">
-                            
-                            
-                        </p>
-                    </header>
-
-                    <div class="post-description">
-                        
-
-<p>Using mercurial for the beginner may sounds scarry here are fast tips</p>
-
-<ul>
-<li><p>Edit ~/.hgrc</p>
-
-<p>## This is a Mercurial configuration file.
-[ui]
-username = Your Name</p>
-
-<p>#enable ssh compression
-ssh = ssh -C</p>
-
-<p>[extensions]</p>
-
-<h1 id="enable-hg-convert-to-import-you-old-svn-repository">enable hg convert to import you old svn repository</h1>
-
-<p>hgext.convert=</p>
-
-<p>#enable hg glog command
-hgext.graphlog =</p>
-
-<h1 id="enable-color-diff-need-mercurial-1-1">enable color diff, need mercurial &gt;=1.1</h1>
-
-<p>color=</p>
-
-<h1 id="enable-visual-filemerge-on-osx">enable visual filemerge on OsX</h1>
-
-<p>[merge-tools]
-filemerge.executable=opendiff
-filemerge.args=$other $local -ancestor $base -merge $output
-filemerge.gui=True</p></li>
-
-<li><p>At the root of you repository add .hgignore (and commit it) <em>hg add .hgignore</em>,_ hg commit<em>,</em> hg push_</p>
-
-<p>syntax: glob</p>
-
-<p>.DS_Store</p>
-
-<h1 id="xcode">Xcode</h1>
-
-<p>*.swp
-*~.nib
-build
-*.pbxuser
-*.perspective
-*.perspectivev3</p>
-
-<h1 id="python">Python</h1>
-
-<p>*.py[oc]c</p>
-
-<h1 id="no-subversion-directories">no subversion directories</h1>
-
-<p>.svn</p>
-
-<p>#others
-*~</p></li>
-
-<li><p>Remember to <em>hg update</em> after a pull or use <em>hg pull -u</em></p></li>
-
-<li><p>Use <em>hg glog</em></p>
-
-<p>@    changeset:   4:1961f87e1d05
-|\   tag:         tip
-| |  parent:      2:fb59b74f6239
-| |  parent:      3:18393dd152ee
-| |  user:        ME
-| |  date:        Fri May 01 23:22:23 2009 +0200
-| |  summary:     resolve conflicts
-| |
-| o  changeset:   3:18393dd152ee
-| |  parent:      1:c8785a6f41ec
-| |  user:        ME
-| |  date:        Fri May 01 15:44:25 2009 +0200
-| |  summary:     change helloworld to use tag
-| |
-o |  changeset:   2:fb59b74f6239
-|/   user:        ME
-|    date:        Fri May 01 23:12:21 2009 +0200
-|    summary:     add the super killer app
-|
-o  changeset:   1:c8785a6f41ec
-|  user:        ME
-|  date:        Thu Apr 30 01:23:17 2009 +0200
-|  summary:     add my exercices
-|
-o  changeset:   0:a2883c1a5659
-   user:        ME
-   date:        Thu Apr 30 01:14:57 2009 +0200
-   summary:     first version of chatclient socket is working</p></li>
-
-<li><p>Use <em>hg rollback</em> when something go wrong (only last commit)</p></li>
-
-<li><p>Do not use <em>hg push -f</em> if &ldquo;abort: push creates new remote heads!&ldquo;, Try <em>hg merge</em> and <em>hg update &ndash;all</em> if conflicts occurs, <em>hg commit</em>, then <em>hg push</em></p></li>
-
-<li><p>Force a merge with my files or their files:</p>
-
-<p>HGMERGE=internal:local hg merge  #keep my files
-HGMERGE=internal:other hg merge  #keep their files</p></li>
-</ul>
-
-                    </div>
-                </section>
-                
                 <h1 class="content-subhead">11 Mar 2009, 22:44</h1>
                 <section class="post">
                     <header class="post-header">
@@ -981,6 +862,60 @@ port install mediatomb
 <p>`</p>
 
 <p><em>Mise a jour Aout 2009</em></p>
+
+                    </div>
+                </section>
+                
+                <h1 class="content-subhead">04 Dec 2008, 10:08</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://blog.nobugware.com/post/2008/12/04/python-30-out/" class="post-title">Python 3.0 is out</a>
+
+                        <p class="post-meta">
+                            
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        <p>Python 3.0 is here.</p>
+
+<p>Guido and others released Python 3.0, a major &ldquo;backward&rdquo; incompatible python
+release.</p>
+
+<p>It was a necessary choice to remove many old libraries, rework the std
+library, and change some behaviour.</p>
+
+<p>You can see it all in <a href="http://docs.python.org/dev/3.0/whatsnew/3.0.html">What&rsquo;s new in Python
+3.0</a>.</p>
+
+<ul>
+<li><p>The most visible change is maybe the print statement, print is now a function:</p>
+
+<p>print &ldquo;toto&rdquo;</p></li>
+</ul>
+
+<p>becomes</p>
+
+<pre><code>print(&quot;toto&quot;)
+</code></pre>
+
+<ul>
+<li><p><a href="http://docs.python.org/dev/3.0/whatsnew/2.6.html#pep-3101">The % operator whis is supplented by the format() method:</a></p>
+
+<p>old: &ldquo;Name: %s&rdquo; % &ldquo;john&rdquo;<br />
+new: &ldquo;Name: {0}&ldquo;.format(&ldquo;john&rdquo;)<br />
+old: &ldquo;Names: %s %s&rdquo; % (&ldquo;John&rdquo;,&ldquo;Paul&rdquo;)<br />
+new: &ldquo;Names: {1} {0}&ldquo;.format(&ldquo;Paul&rdquo;,&ldquo;John&rdquo;)<br />
+new named: &ldquo;Names: {first_name} {family_name}&ldquo;.format(family_name=&ldquo;Dububu&rdquo;, first_name=&ldquo;Jacky&rdquo;)</p></li>
+
+<li><p>And<a href="http://docs.python.org/dev/3.0/whatsnew/2.6.html#pep-3116"> the new IO library, which become the standard one</a></p></li>
+</ul>
+
+<p>A <a href="http://docs.python.org/dev/3.0/library/2to3.html#to3-reference">2to3 migration module
+</a>could help
+you for this transition.</p>
 
                     </div>
                 </section>

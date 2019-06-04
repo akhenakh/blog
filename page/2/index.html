@@ -74,69 +74,6 @@
             
             <div class="posts">
                 
-                <h1 class="content-subhead">23 Apr 2018, 14:37</h1>
-                <section class="post">
-                    <header class="post-header">
-
-                        <a href="https://blog.nobugware.com/post/2018/bitlbee_slack_hangouts_facebook_irc_gateway/" class="post-title">Bitlbee: Slack, Hangouts &amp; Facebook via IRC gateway</a>
-
-                        <p class="post-meta">
-                            
-                            
-                        </p>
-                    </header>
-
-                    <div class="post-description">
-                        
-
-<p>Having multiple clients to handle multiple networks is a mess, especially the Slack client which is really heavy and annoying.</p>
-
-<p><a href="https://get.slack.help/hc/en-us/articles/201727913-Connect-to-Slack-over-IRC-and-XMPP">Slack is deprecating its IRC gateway interface</a> on May 15h 2018.</p>
-
-<p><a href="https://www.bitlbee.org">Bitlbee</a> is an IRC server working as a gateway to different IMs.</p>
-
-<p>Optionally Bitlbee can be compiled with <a href="https://developer.pidgin.im/wiki/WhatIsLibpurple">LibPurple</a> to support even more networks, like Slack and Hangouts.</p>
-
-<p>Here are some notes for Slack, Facebook and Hangouts to be enabled with Bitlbee.</p>
-
-<h2 id="slack">Slack</h2>
-
-<p>You need <a href="https://github.com/dylex/slack-libpurple">Slack for libpurple</a>, compiled and installed, it will provide <code>/usr/lib/purple-2/libslack.so</code>.<br />
-Restart Bitlbee run, check with <code>help purple</code> you can see <code>* slack (Slack)</code>.</p>
-
-<p><code>account add slack myuser@domain.slack.com</code><br />
-Create a <a href="https://api.slack.com/custom-integrations/legacy-tokens">Legacy token</a>.<br />
-<code>account slack set api_token xoxp-xxxxxxxxx</code><br />
-<code>account slack on</code></p>
-
-<p>Join an existing Slack channel:<br />
-<code>chat add slack general</code> then join #general</p>
-
-<h2 id="hangouts-gtalk">Hangouts, Gtalk</h2>
-
-<p>You need <a href="https://bitbucket.org/EionRobb/purple-hangouts">Hangouts for libpurple</a>, <a href="https://aur.archlinux.org/packages/purple-hangouts-hg/">AUR Arch</a> it will provide <code>/usr/lib/purple-2/libhangouts.so</code>.</p>
-
-<p><code>account add hangouts youremail@yourdomain.com</code></p>
-
-<h2 id="facebook">Facebook</h2>
-
-<p>You need <a href="https://github.com/bitlbee/bitlbee-facebook">Facebook for Bitlbee</a>.</p>
-
-<p>List existing group chats: <code>fbchats facebook</code>, sometimes it will only display older chats.</p>
-
-<p>Look at the URL in your browser when clicking on a chat on <a href="messenger.com">https://messenger.com</a>, grab the id of the group chat and type the command:<br />
-<code>chat add facebook 1393844480dd74 #myclub</code> then join #myclub channel.</p>
-
-<p><a href="https://wiki.bitlbee.org/HowtoFacebookMQTT">More Facebook commands</a>.</p>
-
-<h2 id="apply-to-all">Apply to all</h2>
-
-<p>Autojoining channel on connection:<br />
-<code>channel myclub set auto_join true</code></p>
-
-                    </div>
-                </section>
-                
                 <h1 class="content-subhead">18 Jan 2018, 08:20</h1>
                 <section class="post">
                     <header class="post-header">
@@ -1046,6 +983,62 @@ func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloRe
 <p>Note that Envoy is also capable of <a href="https://lyft.github.io/envoy/docs/configuration/http_filters/grpc_http1_bridge_filter.html">bridging your HTTP/1.1 queries to gRPC</a>, which is a killer feature (I haven&rsquo;t tested it yet) , you would normally do it by code with <a href="https://github.com/grpc-ecosystem/grpc-gateway">gRPC-gateway</a>.</p>
 
 <p>Envoy is really new and I&rsquo;m still digging into but already proves itself to be a <strong>complete load balancing proxy solution</strong>  with or without gRPC in your stack.</p>
+
+                    </div>
+                </section>
+                
+                <h1 class="content-subhead">22 Jul 2016, 19:11</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://blog.nobugware.com/post/2016/streaming_raspberry_twitch_audio_rtl_sdr/" class="post-title">Streaming using a Raspberry Pi Camera to Twitch in Full HD while injecting audio from rtl sdr</a>
+
+                        <p class="post-meta">
+                            
+                            
+                                under 
+                                
+                                <a class="post-category post-category-HamRadio" href="https://blog.nobugware.com/categories/hamradio">HamRadio</a>
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        
+
+<p>I have found the right setup to stream in 1080p from a Raspberry Pi using the camera to <a href="https://www.twitch.tv">TwitchTV</a> while injecting audio on the fly!</p>
+
+<p>Create an account on Twitch and grab you stream key in the Dashboard.</p>
+
+<p>This <code>stream.sh</code> script will create a FIFO start <code>rtl_fm</code> at freq 162.550M to listen to Canada weather bulletin (use your local NOAA channel) and inject and encode the audio to the existing h264 stream from the camera then stream it to twitch using rtmp.</p>
+
+<pre><code>#! /bin/bash
+STREAM_URL=&quot;rtmp://live.justin.tv/app/&quot;
+KEY=&quot;live_XXXXX_XXXXXXXXXXXXXX&quot; # put your key here
+
+mkfifo /tmp/streamaudio.wav
+rtl_fm -f 162.550M -s 22050 -g 30 | sox -r 22050 -t raw -e signed -b 16 -c 1 -V1 - -r 22050 -t wavpcm  -  &gt; /tmp/streamaudio.wav &amp;
+
+/opt/vc/bin/raspivid -n -vf -t 0 -w 1920 -h 1080 -fps 25 -o - | ffmpeg -re -i - -i /tmp/streamaudio.wav -codec copy -strict experimental -acodec libmp3lame -ar 22050 -threads 8 -f flv &quot;$STREAM_URL/$KEY&quot;
+</code></pre>
+
+<p>You can of course send other audio sources or no audio at all.</p>
+
+<p>This setup is taking around 10% cpu on a Raspberry Pi 2.</p>
+
+<p>If you are lucky enough my channel will be up and running.<br />
+<div class="embed">
+    <iframe height="378" width="620" frameborder="0" scrolling="no" src="http://www.twitch.tv/akhenakh/embed"></iframe>
+</div>
+</p>
+
+<h2 id="what-is-rtl-sdr">What is RTL SDR ?</h2>
+
+<p>Using a 20$ <a href="http://www.rtl-sdr.com/buy-rtl-sdr-dvb-t-dongles/">USB dongle</a> you have a  software radio scranner, capable of listening to radio amateurs, NOAA weather bulletin even <a href="http://blog.nobugware.com/post/2015/listening_to_satellites_for_30_dollars/">satellites</a>.</p>
+
+<p>Note that you can also stream from your laptop using the great and free <a href="https://obsproject.com/">ObsProject</a>.</p>
+
+<p>Happy streaming.</p>
 
                     </div>
                 </section>

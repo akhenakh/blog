@@ -201,13 +201,13 @@
   </url>
   
   <url>
-    <loc>https://blog.nobugware.com/categories/bsd/</loc>
+    <loc>https://blog.nobugware.com/tags/bsd/</loc>
     <lastmod>2017-10-08T09:57:56-05:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://blog.nobugware.com/tags/bsd/</loc>
+    <loc>https://blog.nobugware.com/categories/bsd/</loc>
     <lastmod>2017-10-08T09:57:56-05:00</lastmod>
     <priority>0</priority>
   </url>
@@ -257,13 +257,13 @@
   </url>
   
   <url>
-    <loc>https://blog.nobugware.com/categories/golang/</loc>
+    <loc>https://blog.nobugware.com/tags/golang/</loc>
     <lastmod>2016-09-28T13:15:53-04:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://blog.nobugware.com/tags/golang/</loc>
+    <loc>https://blog.nobugware.com/categories/golang/</loc>
     <lastmod>2016-09-28T13:15:53-04:00</lastmod>
     <priority>0</priority>
   </url>

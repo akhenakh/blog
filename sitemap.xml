@@ -9,7 +9,19 @@
   </url>
   
   <url>
+    <loc>https://blog.nobugware.com/categories/devops/</loc>
+    <lastmod>2019-06-19T06:00:00-04:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
     <loc>https://blog.nobugware.com/</loc>
+    <lastmod>2019-06-19T06:00:00-04:00</lastmod>
+    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.nobugware.com/tags/kubernetes/</loc>
     <lastmod>2019-06-19T06:00:00-04:00</lastmod>
     <priority>0</priority>
   </url>
@@ -33,12 +45,6 @@
   </url>
   
   <url>
-    <loc>https://blog.nobugware.com/categories/devops/</loc>
-    <lastmod>2019-06-19T06:00:00-04:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>https://blog.nobugware.com/tags/k3s/</loc>
     <lastmod>2019-06-19T06:00:00-04:00</lastmod>
     <priority>0</priority>
@@ -47,12 +53,6 @@
   <url>
     <loc>https://blog.nobugware.com/post/2019/k3s-on-arm64/</loc>
     <lastmod>2019-06-19T06:00:00-04:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://blog.nobugware.com/tags/kubernetes/</loc>
-    <lastmod>2019-06-19T06:00:00-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>

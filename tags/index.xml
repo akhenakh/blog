@@ -12,6 +12,15 @@
     
     
     <item>
+      <title>Kubernetes</title>
+      <link>https://blog.nobugware.com/tags/kubernetes/</link>
+      <pubDate>Wed, 19 Jun 2019 06:00:00 -0400</pubDate>
+      
+      <guid>https://blog.nobugware.com/tags/kubernetes/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>arm64</title>
       <link>https://blog.nobugware.com/tags/arm64/</link>
       <pubDate>Wed, 19 Jun 2019 06:00:00 -0400</pubDate>
@@ -26,15 +35,6 @@
       <pubDate>Wed, 19 Jun 2019 06:00:00 -0400</pubDate>
       
       <guid>https://blog.nobugware.com/tags/k3s/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>kubernetes</title>
-      <link>https://blog.nobugware.com/tags/kubernetes/</link>
-      <pubDate>Wed, 19 Jun 2019 06:00:00 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/tags/kubernetes/</guid>
       <description></description>
     </item>
     

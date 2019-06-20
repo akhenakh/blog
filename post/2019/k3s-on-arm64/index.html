@@ -155,13 +155,14 @@ Add the skip option to the args <code>- --enable-skip-login</code></p>
 </code></pre></li>
 </ul>
 
-<p>Merge <code>/etc/rancher/k3s/k3s.yaml</code> to your <code>.kube/config</code> on your workstation host, then <code>kubectl proxy</code> to <a href="http://localhost:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/#!/overview?namespace=default">localhost:8001</a>
-* Install a different version</p>
-
-<pre><code>      curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION=v0.6.1 sh -
-</code></pre>
+<p>Merge <code>/etc/rancher/k3s/k3s.yaml</code> to your <code>.kube/config</code> on your workstation host, then <code>kubectl proxy</code> to <a href="http://localhost:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/#!/overview?namespace=default">localhost:8001</a></p>
 
 <ul>
+<li><p>Install a different version</p>
+
+<pre><code>  curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION=v0.6.1 sh -
+</code></pre></li>
+
 <li><p>Install agents</p>
 
 <pre><code>  curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION=v0.6.1 K3S_URL=https://mymaster.home:6443 K3S_TOKEN=K101864xxxxxxxxxxxxxxxxxxx::node:xxxxxxxxxxxxxxxxxxxxxxxxx sh -

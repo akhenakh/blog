@@ -3,18 +3,18 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kubernetes &middot; Fabrice Aneche</title>
+    <title>kubernetes &middot; Fabrice Aneche</title>
 
     <meta name="description" content="">
 
     <meta name="generator" content="Hugo 0.55.3" />
     <meta name="twitter:card" content="summary">
     
-    <meta name="twitter:title" content="Kubernetes &middot; Fabrice Aneche">
+    <meta name="twitter:title" content="kubernetes &middot; Fabrice Aneche">
     <meta name="twitter:description" content="">
 
     <meta property="og:type" content="article">
-    <meta property="og:title" content="Kubernetes &middot; Fabrice Aneche">
+    <meta property="og:title" content="kubernetes &middot; Fabrice Aneche">
     <meta property="og:description" content="">
 
     <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Oxygen:400,700' rel='stylesheet' type='text/css'>
@@ -122,10 +122,14 @@ Clone the k3s and change the image to be arm64 <code>k8s.gcr.io/metrics-server-a
       sudo  k3s kubectl -n kube-system create -f k3s/recipes/metrics-server
 </code></pre>
 
-<p>Test it by running <code>k3s kubectl top node</code>
-* Deploy dashboard
-  Change the image to be arm64  <code>k8s.gcr.io/kubernetes-dashboard-arm64:v1.10.1</code>.
-  Add the skip option to the args <code>- --enable-skip-login</code></p>
+<p>Test it by running <code>k3s kubectl top node</code></p>
+
+<ul>
+<li>Deploy dashboard<br />
+Change the image to be arm64  <code>k8s.gcr.io/kubernetes-dashboard-arm64:v1.10.1</code>.<br />
+Add the skip option to the args <code>- --enable-skip-login</code>
+<br /></li>
+</ul>
 
 <pre><code>      curl -sfL https://raw.githubusercontent.com/kubernetes/dashboard/v1.10.1/src/deploy/recommended/kubernetes-dashboard.yaml &gt; kubernetes-dashboard.yaml
       vi kubernetes-dashboard.yaml

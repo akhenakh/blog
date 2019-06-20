@@ -102,16 +102,14 @@
 <ul>
 <li>If you haven&rsquo;t installed k3s with the <code>install.sh</code>, you may need to load some modules: <code>br_netfilter</code> and <code>overlay</code></li>
 <li>Docker is not needed since k3s is using containerd but it seems I had to start docker to initialized the whole cgroups, at least on Arch</li>
-
-<li><p>Remember to modify all the templates to use an arm64 image</p>
-
-<pre><code>  containers:
-  - name: kubernetes-dashboard
-    image: k8s.gcr.io/kubernetes-dashboard-arm64:v1.10.1
-</code></pre></li>
-
-<li><p>Deploy metrics server
-Clone the k3s and change the image to be arm64 <code>k8s.gcr.io/metrics-server-arm64:v0.3.1</code></p></li>
+<li>Remember to modify all the templates to use an arm64 image
+<code>
+      containers:
+      - name: kubernetes-dashboard
+        image: k8s.gcr.io/kubernetes-dashboard-arm64:v1.10.1
+</code></li>
+<li>Deploy metrics server
+Clone the k3s and change the image to be arm64 <code>k8s.gcr.io/metrics-server-arm64:v0.3.1</code></li>
 </ul>
 
 <pre><code>      git clone git@github.com:rancher/k3s.git
@@ -151,7 +149,7 @@ Add the skip option to the args <code>- --enable-skip-login</code></li>
 <p>Merge <code>/etc/rancher/k3s/k3s.yaml</code> to your <code>.kube/config</code> on your workstation host, then <code>kubectl proxy</code> to <a href="http://localhost:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/#!/overview?namespace=default">localhost:8001</a>
 * Install a different version</p>
 
-<pre><code>  curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION=v0.6.1 sh -
+<pre><code>      curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION=v0.6.1 sh -
 </code></pre>
 
 <ul>

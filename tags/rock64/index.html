@@ -108,43 +108,45 @@
       - name: kubernetes-dashboard
         image: k8s.gcr.io/kubernetes-dashboard-arm64:v1.10.1
 </code></li>
-<li>Deploy metrics server
-Clone the k3s and change the image to be arm64 <code>k8s.gcr.io/metrics-server-arm64:v0.3.1</code></li>
-</ul>
 
-<pre><code>      git clone git@github.com:rancher/k3s.git
-      vi k3s/recipes/metrics-server/metrics-server-deployment.yaml
-      sudo  k3s kubectl -n kube-system create -f k3s/recipes/metrics-server
+<li><p>Deploy metrics server
+Clone the k3s and change the image to be arm64 <code>k8s.gcr.io/metrics-server-arm64:v0.3.1</code></p>
+
+<pre><code>  git clone git@github.com:rancher/k3s.git
+  vi k3s/recipes/metrics-server/metrics-server-deployment.yaml
+  sudo  k3s kubectl -n kube-system create -f k3s/recipes/metrics-server
 </code></pre>
 
-<p>Test it by running <code>k3s kubectl top node</code></p>
+<p>Test it by running <code>k3s kubectl top node</code></p></li>
+
+<li><p>Deploy dashboard
+Change the image to be arm64  <code>k8s.gcr.io/kubernetes-dashboard-arm64:v1.10.1</code>.
+Add the skip option to the args <code>- --enable-skip-login</code>
+```
+  curl -sfL <a href="https://raw.githubusercontent.com/kubernetes/dashboard/v1.10.1/src/deploy/recommended/kubernetes-dashboard.yaml">https://raw.githubusercontent.com/kubernetes/dashboard/v1.10.1/src/deploy/recommended/kubernetes-dashboard.yaml</a> &gt; kubernetes-dashboard.yaml
+  vi kubernetes-dashboard.yaml
+  cat &lt;&lt;EOF | k3s kubectl create -f -
+  apiVersion: rbac.authorization.k8s.io/v1beta1
+  kind: ClusterRoleBinding
+  metadata:
+    name: kubernetes-dashboard
+    labels:
+      k8s-app: kubernetes-dashboard
+  roleRef:
+    apiGroup: rbac.authorization.k8s.io
+    kind: ClusterRole
+    name: cluster-admin
+  subjects:</p>
 
 <ul>
-<li>Deploy dashboard
-Change the image to be arm64  <code>k8s.gcr.io/kubernetes-dashboard-arm64:v1.10.1</code>.
-Add the skip option to the args <code>- --enable-skip-login</code></li>
+<li>kind: ServiceAccount
+name: kubernetes-dashboard
+namespace: kube-system
+EOF
+sudo  k3s kubectl -n kube-system create -f kubernetes-dashboard.yaml
+```</li>
+</ul></li>
 </ul>
-
-<pre><code>      curl -sfL https://raw.githubusercontent.com/kubernetes/dashboard/v1.10.1/src/deploy/recommended/kubernetes-dashboard.yaml &gt; kubernetes-dashboard.yaml
-      vi kubernetes-dashboard.yaml
-      cat &lt;&lt;EOF | k3s kubectl create -f -
-      apiVersion: rbac.authorization.k8s.io/v1beta1
-      kind: ClusterRoleBinding
-      metadata:
-        name: kubernetes-dashboard
-        labels:
-          k8s-app: kubernetes-dashboard
-      roleRef:
-        apiGroup: rbac.authorization.k8s.io
-        kind: ClusterRole
-        name: cluster-admin
-      subjects:
-      - kind: ServiceAccount
-        name: kubernetes-dashboard
-        namespace: kube-system
-      EOF
-      sudo  k3s kubectl -n kube-system create -f kubernetes-dashboard.yaml
-</code></pre>
 
 <p>Merge <code>/etc/rancher/k3s/k3s.yaml</code> to your <code>.kube/config</code> on your workstation host, then <code>kubectl proxy</code> to <a href="http://localhost:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/#!/overview?namespace=default">localhost:8001</a>
 * Install a different version</p>

@@ -111,12 +111,13 @@
 </code></pre></li>
 
 <li><p>Deploy metrics server
-Clone the k3s and change the image to be arm64 <code>k8s.gcr.io/metrics-server-arm64:v0.3.1</code></p>
-
-<p>git clone git@github.com:rancher/k3s.git
-  vi k3s/recipes/metrics-server/metrics-server-deployment.yaml
-  sudo  k3s kubectl -n kube-system create -f k3s/recipes/metrics-server</p></li>
+Clone the k3s and change the image to be arm64 <code>k8s.gcr.io/metrics-server-arm64:v0.3.1</code></p></li>
 </ul>
+
+<pre><code>      git clone git@github.com:rancher/k3s.git
+      vi k3s/recipes/metrics-server/metrics-server-deployment.yaml
+      sudo  k3s kubectl -n kube-system create -f k3s/recipes/metrics-server
+</code></pre>
 
 <p>Test it by running <code>k3s kubectl top node</code></p>
 
@@ -124,8 +125,9 @@ Clone the k3s and change the image to be arm64 <code>k8s.gcr.io/metrics-server-a
 <li>Deploy dashboard
 Change the image to be arm64  <code>k8s.gcr.io/kubernetes-dashboard-arm64:v1.10.1</code>.
 Add the skip option to the args <code>- --enable-skip-login</code></li>
-
-<li><p>curl -sfL <a href="https://raw.githubusercontent.com/kubernetes/dashboard/v1.10.1/src/deploy/recommended/kubernetes-dashboard.yaml">https://raw.githubusercontent.com/kubernetes/dashboard/v1.10.1/src/deploy/recommended/kubernetes-dashboard.yaml</a> &gt; kubernetes-dashboard.yaml
+<li>
+```
+  curl -sfL <a href="https://raw.githubusercontent.com/kubernetes/dashboard/v1.10.1/src/deploy/recommended/kubernetes-dashboard.yaml">https://raw.githubusercontent.com/kubernetes/dashboard/v1.10.1/src/deploy/recommended/kubernetes-dashboard.yaml</a> &gt; kubernetes-dashboard.yaml
   vi kubernetes-dashboard.yaml
   cat &lt;&lt;EOF | k3s kubectl create -f -
   apiVersion: rbac.authorization.k8s.io/v1beta1
@@ -138,14 +140,15 @@ Add the skip option to the args <code>- --enable-skip-login</code></li>
     apiGroup: rbac.authorization.k8s.io
     kind: ClusterRole
     name: cluster-admin
-  subjects:</p>
+  subjects:
 
 <ul>
 <li>kind: ServiceAccount
 name: kubernetes-dashboard
 namespace: kube-system
 EOF
-sudo  k3s kubectl -n kube-system create -f kubernetes-dashboard.yaml</li>
+sudo  k3s kubectl -n kube-system create -f kubernetes-dashboard.yaml
+```</li>
 </ul></li>
 </ul>
 

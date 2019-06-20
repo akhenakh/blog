@@ -74,6 +74,56 @@
             
             <div class="posts">
                 
+                <h1 class="content-subhead">05 Jan 2012, 23:59</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://blog.nobugware.com/post/2012/01/05/compile-and-run-xv6-mac-os-x-6828/" class="post-title">compile and run xv6 on Mac Os X 6.828</a>
+
+                        <p class="post-meta">
+                            
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        <p>The MIT has created <a href="http://pdos.csail.mit.edu/6.828/2011/xv6.html">xv6</a>: an
+operating system for learning purpose</p>
+
+<p>This works better and takes less time to create a working environnement for
+xv6 on Mac Os X, than the recommandations proposed on<a href="http://pdos.csail.mit.edu/6.828/2011/tools.html"> Tools used in
+6.828</a> simply run this</p>
+
+<pre><code>port install i386-elf-gcc
+port install qemu
+</code></pre>
+
+<p>And change the Makefile like this:</p>
+
+<pre><code>-#TOOLPREFIX = i386-jos-elf-
++TOOLPREFIX = i386-elf-
+
+-#QEMU = 
++QEMU = /opt/local/bin/qemu-system-i386
+
+-CC = $(TOOLPREFIX)gcc
++CC = $(TOOLPREFIX)gcc-4.3.2
+</code></pre>
+
+<p><a href="http://dl.dropbox.com/u/524733/gdb-
+target-i386-elf.bz2">Here is a working gdb binary</a> simply bunzip2 it then invoke it from the xv6 directory
+souce tree, (tested on osx Lion).</p>
+
+<p>make qemu will compile and run xv6 in qemu</p>
+
+<p>make qemu-dbg will run xv6 in debug mode, run gdb-target-i386-elf and c for
+continue</p>
+
+<p>Enjoy, thanks MIT.</p>
+
+                    </div>
+                </section>
+                
                 <h1 class="content-subhead">15 Nov 2011, 11:53</h1>
                 <section class="post">
                     <header class="post-header">
@@ -767,72 +817,6 @@ divide by 2 ;)</p>
 
 <p>Thanks to <a href="http://friendfeed.com/">Friendfeed</a> service to aggregate my data,
 and no thanks to Facebook for killing it.</p>
-
-                    </div>
-                </section>
-                
-                <h1 class="content-subhead">08 Nov 2010, 17:30</h1>
-                <section class="post">
-                    <header class="post-header">
-
-                        <a href="https://blog.nobugware.com/post/2010/11/08/jmx-query-python-cpython/" class="post-title">JMX query in Python (CPython)</a>
-
-                        <p class="post-meta">
-                            
-                            
-                        </p>
-                    </header>
-
-                    <div class="post-description">
-                        <p>JMX had good intentions but the API is only implemented in Java, a Java
-product for Java, with no access to the outside world.</p>
-
-<p>Jython was one of the solution but many times I had needed to call JMX from a
-CPython.</p>
-
-<p><a href="http://jpype.sourceforge.net/">Jpype</a> solved this problem and works extremely
-well.</p>
-
-<p>Just install <a href="http://jpype.sourceforge.net/">Jpype</a> then try something like
-this:</p>
-
-<p>The execution is really really fast, faster than a jvm run ?? and memory usage
-is really really slow !</p>
-
-<pre><code>#!/usr/bin/env python2.6
-import jpype
-from jpype import java
-from jpype import javax
-
-HOST='gf0'
-PORT=8386
-USER='admin'
-PASS='mypass'
-
-URL = &quot;service:jmx:rmi:///jndi/rmi://%s:%d/jmxrmi&quot; % (HOST, PORT)
-#this it the path of your libjvm /usr/lib/jvm/sun-jdk-1.6/jre/lib/amd64/server/libjvm.so on linux
-jpype.startJVM(&quot;/System/Library/Frameworks/JavaVM.framework/Libraries/libjvm_compat.dylib&quot;)
-java.lang.System.out.println(&quot;JVM load OK&quot;)
-
-jhash = java.util.HashMap()
-jarray=jpype.JArray(java.lang.String)([USER,PASS])
-jhash.put (javax.management.remote.JMXConnector.CREDENTIALS, jarray);
-jmxurl = javax.management.remote.JMXServiceURL(URL)
-jmxsoc = javax.management.remote.JMXConnectorFactory.connect(jmxurl,jhash)
-connection = jmxsoc.getMBeanServerConnection();
-
-
-object=&quot;java.lang:type=Threading&quot;
-attribute=&quot;ThreadCount&quot;
-attr=connection.getAttribute(javax.management.ObjectName(object),attribute)
-print  attribute, attr
-
-#Memory is a special case the answer is a Treemap in a CompositeDataSupport
-object=&quot;java.lang:type=Memory&quot;
-attribute=&quot;HeapMemoryUsage&quot;
-attr=connection.getAttribute(javax.management.ObjectName(object),attribute)
-print attr.contents.get(&quot;used&quot;)
-</code></pre>
 
                     </div>
                 </section>

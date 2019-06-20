@@ -74,6 +74,42 @@
             
             <div class="posts">
                 
+                <h1 class="content-subhead">02 Aug 2015, 13:10</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://blog.nobugware.com/post/2015/metrics_golang_operating_system/" class="post-title">Access OS metrics from Golang</a>
+
+                        <p class="post-meta">
+                            
+                            
+                                under 
+                                
+                                <a class="post-category post-category-Golang" href="https://blog.nobugware.com/categories/golang">Golang</a>
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        <p>I&rsquo;ve recently published <a href="https://github.com/akhenakh/statgo">StatGo</a>, it gives you access to your operating system metrics like free memory, used disk spaces &hellip;</p>
+
+<p>It&rsquo;s a binding to the C library <a href="http://www.i-scream.org/libstatgrab/">libstatgrab</a>, a proven stable piece of code that works on many different systems, FreeBSD, Linux, OSX &hellip;</p>
+
+<p>It&rsquo;s very simple to use:</p>
+
+<pre><code class="language-go">s := NewStat()
+c := s.CPUStats()
+fmt.Prinln(c.Idle)
+98.2
+</code></pre>
+
+<p>Feel free to contribute, it may need some improvement but it&rsquo;s working I&rsquo;m using it in a small metrics web server to monitor small network of servers.</p>
+
+<p>The <a href="https://github.com/akhenakh/statgo">code is on Github</a></p>
+
+                    </div>
+                </section>
+                
                 <h1 class="content-subhead">02 Aug 2015, 00:32</h1>
                 <section class="post">
                     <header class="post-header">
@@ -765,56 +801,6 @@ shell **answer is YES **and then type this to reinstall the bootloader.</p>
 <li>Do not use qemu with KVM as there is a bug with this particular cpu, so yes the installation will be dead slow</li>
 <li>The DHCP won&rsquo;t answer it&rsquo;s ok</li>
 </ul>
-
-                    </div>
-                </section>
-                
-                <h1 class="content-subhead">30 Jan 2014, 17:37</h1>
-                <section class="post">
-                    <header class="post-header">
-
-                        <a href="https://blog.nobugware.com/post/2014/01/30/freebsd-on-raspberry-pi/" class="post-title">FreeBSD on RaspBerry Pi</a>
-
-                        <p class="post-meta">
-                            
-                            
-                                under 
-                                
-                                <a class="post-category post-category-FreeBSD" href="https://blog.nobugware.com/categories/freebsd">FreeBSD</a>
-                            
-                        </p>
-                    </header>
-
-                    <div class="post-description">
-                        <p>FreeBSD images for arm are now built from the FreeBSD Foundation ! So it&rsquo;s an
-easy process to get it on your Pi.</p>
-
-<p>Download your image from the <a href="http://ftp.freebsd.org/pub/FreeBSD/snapshots/ISO-IMAGES/10.0/">ftp
-repository</a></p>
-
-<p>Insert a 4Gb or more SD card in your PC and copy the FreeBSD image into it,
-here are the commands for a Mac:</p>
-
-<pre><code>sudo diskutil list​
-sudo diskutil unmountDisk /dev/disk1​
-sudo dd if=/Users/akh/Downloads/FreeBSD-10.0-STABLE-arm-
-armv6-RPI-B-20140127-r261200.img  of=/dev/rdisk1 bs=1m​
-sudo diskutil eject /dev/disk1​
-</code></pre>
-
-<p>Boot your pi with the card and welcome to FreeBSD !</p>
-
-<p>If you are using the <a href="http://www.adafruit.com/products/814">wifi dongle from
-Adafruit</a> this may help:</p>
-
-<pre><code>echo legal.realtek.license_ack=1 &gt;&gt; /boot/loader.conf
-echo wlans_urtwn0=&quot;wlan0&quot; &gt;&gt; /etc/rc.conf
-echo ifconfig_wlan0=&quot;wpa DHCP&quot; &gt;&gt; /etc/rc.conf`
-</code></pre>
-
-<p>And set your wifi password with wpa_passphrase</p>
-
-<p><code>wpa_passphrase yourssid yourwifipassword &gt;&gt; /etc/wpa_supplicant.conf</code></p>
 
                     </div>
                 </section>

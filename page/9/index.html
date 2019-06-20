@@ -74,6 +74,60 @@
             
             <div class="posts">
                 
+                <h1 class="content-subhead">04 Dec 2008, 10:08</h1>
+                <section class="post">
+                    <header class="post-header">
+
+                        <a href="https://blog.nobugware.com/post/2008/12/04/python-30-out/" class="post-title">Python 3.0 is out</a>
+
+                        <p class="post-meta">
+                            
+                            
+                        </p>
+                    </header>
+
+                    <div class="post-description">
+                        <p>Python 3.0 is here.</p>
+
+<p>Guido and others released Python 3.0, a major &ldquo;backward&rdquo; incompatible python
+release.</p>
+
+<p>It was a necessary choice to remove many old libraries, rework the std
+library, and change some behaviour.</p>
+
+<p>You can see it all in <a href="http://docs.python.org/dev/3.0/whatsnew/3.0.html">What&rsquo;s new in Python
+3.0</a>.</p>
+
+<ul>
+<li><p>The most visible change is maybe the print statement, print is now a function:</p>
+
+<p>print &ldquo;toto&rdquo;</p></li>
+</ul>
+
+<p>becomes</p>
+
+<pre><code>print(&quot;toto&quot;)
+</code></pre>
+
+<ul>
+<li><p><a href="http://docs.python.org/dev/3.0/whatsnew/2.6.html#pep-3101">The % operator whis is supplented by the format() method:</a></p>
+
+<p>old: &ldquo;Name: %s&rdquo; % &ldquo;john&rdquo;<br />
+new: &ldquo;Name: {0}&ldquo;.format(&ldquo;john&rdquo;)<br />
+old: &ldquo;Names: %s %s&rdquo; % (&ldquo;John&rdquo;,&ldquo;Paul&rdquo;)<br />
+new: &ldquo;Names: {1} {0}&ldquo;.format(&ldquo;Paul&rdquo;,&ldquo;John&rdquo;)<br />
+new named: &ldquo;Names: {first_name} {family_name}&ldquo;.format(family_name=&ldquo;Dububu&rdquo;, first_name=&ldquo;Jacky&rdquo;)</p></li>
+
+<li><p>And<a href="http://docs.python.org/dev/3.0/whatsnew/2.6.html#pep-3116"> the new IO library, which become the standard one</a></p></li>
+</ul>
+
+<p>A <a href="http://docs.python.org/dev/3.0/library/2to3.html#to3-reference">2to3 migration module
+</a>could help
+you for this transition.</p>
+
+                    </div>
+                </section>
+                
                 <h1 class="content-subhead">04 Dec 2008, 09:17</h1>
                 <section class="post">
                     <header class="post-header">

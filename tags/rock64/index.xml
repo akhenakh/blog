@@ -20,7 +20,7 @@
       <description>I&amp;rsquo;m evaluating k3s a Lightweight Kubernetes on a 3 nodes arm64 cluster (RK3328 Quad arm64).
 At the time of writing the stable release is k3s v0.6.1.
 Here are my notes:
- If you haven&amp;rsquo;t installed k3s with the install.sh, you may need to load some modules: br_netfilter and overlay Docker is not needed since k3s is using containerd but it seems I had to start docker to initialized the whole cgroups, at least on Arch Remember to modify all the templates to use an arm64 image  containers: - name: kubernetes-dashboard image: k8s.</description>
+ If you haven&amp;rsquo;t installed k3s with the install.sh, you may need to load some modules: br_netfilter and overlay Docker is not needed since k3s is using containerd but it seems I had to start docker to initialized the whole cgroups, at least on Arch Remember to modify all the templates to use an arm64 image</description>
     </item>
     
     <item>

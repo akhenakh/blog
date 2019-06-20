@@ -109,53 +109,60 @@
 <ul>
 <li>If you haven&rsquo;t installed k3s with the <code>install.sh</code>, you may need to load some modules: <code>br_netfilter</code> and <code>overlay</code></li>
 <li>Docker is not needed since k3s is using containerd but it seems I had to start docker to initialized the whole cgroups, at least on Arch</li>
-<li>Remember to modify all the templates to use an arm64 image
-<code>
-          containers:
+
+<li><p>Remember to modify all the templates to use an arm64 image</p>
+
+<pre><code>          containers:
           - name: kubernetes-dashboard
             image: k8s.gcr.io/kubernetes-dashboard-arm64:v1.10.1
-</code></li>
-<li>Deploy metrics server
-Clone the k3s and change the image to be arm64 <code>k8s.gcr.io/metrics-server-arm64:v0.3.1</code>
-<code>
-   git clone git@github.com:rancher/k3s.git
+</code></pre></li>
+
+<li><p>Deploy metrics server
+Clone the k3s and change the image to be arm64 <code>k8s.gcr.io/metrics-server-arm64:v0.3.1</code></p>
+
+<pre><code>   git clone git@github.com:rancher/k3s.git
    vi k3s/recipes/metrics-server/metrics-server-deployment.yaml
    sudo  k3s kubectl -n kube-system create -f k3s/recipes/metrics-server
-</code>
-Test it by running <code>k3s kubectl top node</code></li>
-<li>Deploy dashboard<br />
-Change the image to be arm64  <code>k8s.gcr.io/kubernetes-dashboard-arm64:v1.10.1</code>.<br />
-Add the skip option to the args <code>- --enable-skip-login</code>
-<code>
-      curl -sfL https://raw.githubusercontent.com/kubernetes/dashboard/v1.10.1/src/deploy/recommended/kubernetes-dashboard.yaml &gt; kubernetes-dashboard.yaml
-      vi kubernetes-dashboard.yaml
-      cat &lt;&lt;EOF | sudo k3s kubectl create -f -
-      apiVersion: rbac.authorization.k8s.io/v1beta1
-      kind: ClusterRoleBinding
-      metadata:
-        name: kubernetes-dashboard
-        labels:
-          k8s-app: kubernetes-dashboard
-      roleRef:
-        apiGroup: rbac.authorization.k8s.io
-        kind: ClusterRole
-        name: cluster-admin
-      subjects:
-      - kind: ServiceAccount
-        name: kubernetes-dashboard
-        namespace: kube-system
-      EOF
-      sudo  k3s kubectl -n kube-system create -f kubernetes-dashboard.yaml
-</code>
-Merge <code>/etc/rancher/k3s/k3s.yaml</code> to your <code>.kube/config</code> on your workstation host, then <code>kubectl proxy</code> to <a href="http://localhost:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/#!/overview?namespace=default">localhost:8001</a></li>
-<li>Install a different version
-<code>
-  curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION=v0.6.1 sh -
-</code></li>
-<li>Install agents
-<code>
-  curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION=v0.6.1 K3S_URL=https://mymaster.home:6443 K3S_TOKEN=K101864xxxxxxxxxxxxxxxxxxx::node:xxxxxxxxxxxxxxxxxxxxxxxxx sh -
-</code></li>
+</code></pre></li>
+</ul>
+
+<p>Test it by running <code>k3s kubectl top node</code>
+* Deploy dashboard<br />
+  Change the image to be arm64  <code>k8s.gcr.io/kubernetes-dashboard-arm64:v1.10.1</code>.<br />
+  Add the skip option to the args <code>- --enable-skip-login</code></p>
+
+<pre><code>          curl -sfL https://raw.githubusercontent.com/kubernetes/dashboard/v1.10.1/src/deploy/recommended/kubernetes-dashboard.yaml &gt; kubernetes-dashboard.yaml
+          vi kubernetes-dashboard.yaml
+          cat &lt;&lt;EOF | sudo k3s kubectl create -f -
+          apiVersion: rbac.authorization.k8s.io/v1beta1
+          kind: ClusterRoleBinding
+          metadata:
+            name: kubernetes-dashboard
+            labels:
+              k8s-app: kubernetes-dashboard
+          roleRef:
+            apiGroup: rbac.authorization.k8s.io
+            kind: ClusterRole
+            name: cluster-admin
+          subjects:
+          - kind: ServiceAccount
+            name: kubernetes-dashboard
+            namespace: kube-system
+          EOF
+          sudo  k3s kubectl -n kube-system create -f kubernetes-dashboard.yaml
+</code></pre>
+
+<p>Merge <code>/etc/rancher/k3s/k3s.yaml</code> to your <code>.kube/config</code> on your workstation host, then <code>kubectl proxy</code> to <a href="http://localhost:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/#!/overview?namespace=default">localhost:8001</a>
+* Install a different version</p>
+
+<pre><code>      curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION=v0.6.1 sh -
+</code></pre>
+
+<ul>
+<li><p>Install agents</p>
+
+<pre><code>  curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION=v0.6.1 K3S_URL=https://mymaster.home:6443 K3S_TOKEN=K101864xxxxxxxxxxxxxxxxxxx::node:xxxxxxxxxxxxxxxxxxxxxxxxx sh -
+</code></pre></li>
 </ul>
 
                     </div>

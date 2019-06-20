@@ -3,18 +3,18 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DevOps &middot; Fabrice Aneche</title>
+    <title>devops &middot; Fabrice Aneche</title>
 
     <meta name="description" content="">
 
     <meta name="generator" content="Hugo 0.55.3" />
     <meta name="twitter:card" content="summary">
     
-    <meta name="twitter:title" content="DevOps &middot; Fabrice Aneche">
+    <meta name="twitter:title" content="devops &middot; Fabrice Aneche">
     <meta name="twitter:description" content="">
 
     <meta property="og:type" content="article">
-    <meta property="og:title" content="DevOps &middot; Fabrice Aneche">
+    <meta property="og:title" content="devops &middot; Fabrice Aneche">
     <meta property="og:description" content="">
 
     <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Oxygen:400,700' rel='stylesheet' type='text/css'>
@@ -113,50 +113,47 @@
 <li><p>Deploy metrics server
 Clone the k3s and change the image to be arm64 <code>k8s.gcr.io/metrics-server-arm64:v0.3.1</code></p>
 
-<pre><code>  git clone git@github.com:rancher/k3s.git
-  vi k3s/recipes/metrics-server/metrics-server-deployment.yaml
-  sudo  k3s kubectl -n kube-system create -f k3s/recipes/metrics-server
-</code></pre>
-
-<p>Test it by running <code>k3s kubectl top node</code></p></li>
-
-<li><p>Deploy dashboard<br />
-Change the image to be arm64  <code>k8s.gcr.io/kubernetes-dashboard-arm64:v1.10.1</code>.<br />
-Add the skip option to the args <code>- --enable-skip-login</code></p>
-
-<pre><code>  curl -sfL https://raw.githubusercontent.com/kubernetes/dashboard/v1.10.1/src/deploy/recommended/kubernetes-dashboard.yaml &gt; kubernetes-dashboard.yaml
-  vi kubernetes-dashboard.yaml
-  cat &lt;&lt;EOF | sudo k3s kubectl create -f -
-  apiVersion: rbac.authorization.k8s.io/v1beta1
-  kind: ClusterRoleBinding
-  metadata:
-    name: kubernetes-dashboard
-    labels:
-      k8s-app: kubernetes-dashboard
-  roleRef:
-    apiGroup: rbac.authorization.k8s.io
-    kind: ClusterRole
-    name: cluster-admin
-  subjects:
-  - kind: ServiceAccount
-    name: kubernetes-dashboard
-    namespace: kube-system
-  EOF
-  sudo  k3s kubectl -n kube-system create -f kubernetes-dashboard.yaml
-</code></pre></li>
+<p>git clone git@github.com:rancher/k3s.git
+   vi k3s/recipes/metrics-server/metrics-server-deployment.yaml
+   sudo  k3s kubectl -n kube-system create -f k3s/recipes/metrics-server</p></li>
 </ul>
+
+<p>Test it by running <code>k3s kubectl top node</code>
+* Deploy dashboard<br />
+  Change the image to be arm64  <code>k8s.gcr.io/kubernetes-dashboard-arm64:v1.10.1</code>.<br />
+  Add the skip option to the args <code>- --enable-skip-login</code></p>
+
+<pre><code>      curl -sfL https://raw.githubusercontent.com/kubernetes/dashboard/v1.10.1/src/deploy/recommended/kubernetes-dashboard.yaml &gt; kubernetes-dashboard.yaml
+      vi kubernetes-dashboard.yaml
+      cat &lt;&lt;EOF | sudo k3s kubectl create -f -
+      apiVersion: rbac.authorization.k8s.io/v1beta1
+      kind: ClusterRoleBinding
+      metadata:
+        name: kubernetes-dashboard
+        labels:
+          k8s-app: kubernetes-dashboard
+      roleRef:
+        apiGroup: rbac.authorization.k8s.io
+        kind: ClusterRole
+        name: cluster-admin
+      subjects:
+      - kind: ServiceAccount
+        name: kubernetes-dashboard
+        namespace: kube-system
+      EOF
+      sudo  k3s kubectl -n kube-system create -f kubernetes-dashboard.yaml
+</code></pre>
 
 <p>Merge <code>/etc/rancher/k3s/k3s.yaml</code> to your <code>.kube/config</code> on your workstation host, then <code>kubectl proxy</code> to <a href="http://localhost:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/#!/overview?namespace=default">localhost:8001</a>
 * Install a different version</p>
 
-<pre><code>      curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION=v0.6.1 sh -
+<pre><code>  curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION=v0.6.1 sh -
 </code></pre>
 
 <ul>
 <li><p>Install agents</p>
 
-<pre><code>  curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION=v0.6.1 K3S_URL=https://mymaster.home:6443 K3S_TOKEN=K101864xxxxxxxxxxxxxxxxxxx::node:xxxxxxxxxxxxxxxxxxxxxxxxx sh -
-</code></pre></li>
+<p>curl -sfL <a href="https://get.k3s.io">https://get.k3s.io</a> | INSTALL_K3S_VERSION=v0.6.1 K3S_URL=<a href="https://mymaster.home:6443">https://mymaster.home:6443</a> K3S_TOKEN=K101864xxxxxxxxxxxxxxxxxxx::node:xxxxxxxxxxxxxxxxxxxxxxxxx sh -</p></li>
 </ul>
 
                     </div>

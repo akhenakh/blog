@@ -3,18 +3,18 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kubernetes &middot; Fabrice Aneche</title>
+    <title>kubernetes &middot; Fabrice Aneche</title>
 
     <meta name="description" content="">
 
     <meta name="generator" content="Hugo 0.55.3" />
     <meta name="twitter:card" content="summary">
     
-    <meta name="twitter:title" content="Kubernetes &middot; Fabrice Aneche">
+    <meta name="twitter:title" content="kubernetes &middot; Fabrice Aneche">
     <meta name="twitter:description" content="">
 
     <meta property="og:type" content="article">
-    <meta property="og:title" content="Kubernetes &middot; Fabrice Aneche">
+    <meta property="og:title" content="kubernetes &middot; Fabrice Aneche">
     <meta property="og:description" content="">
 
     <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Oxygen:400,700' rel='stylesheet' type='text/css'>
@@ -121,11 +121,11 @@ Clone the k3s and change the image to be arm64 <code>k8s.gcr.io/metrics-server-a
 <p>Test it by running <code>k3s kubectl top node</code></p>
 
 <ul>
-<li><p>Deploy dashboard
+<li>Deploy dashboard
 Change the image to be arm64  <code>k8s.gcr.io/kubernetes-dashboard-arm64:v1.10.1</code>.
-Add the skip option to the args <code>- --enable-skip-login</code></p>
+Add the skip option to the args <code>- --enable-skip-login</code></li>
 
-<p>curl -sfL <a href="https://raw.githubusercontent.com/kubernetes/dashboard/v1.10.1/src/deploy/recommended/kubernetes-dashboard.yaml">https://raw.githubusercontent.com/kubernetes/dashboard/v1.10.1/src/deploy/recommended/kubernetes-dashboard.yaml</a> &gt; kubernetes-dashboard.yaml
+<li><p>curl -sfL <a href="https://raw.githubusercontent.com/kubernetes/dashboard/v1.10.1/src/deploy/recommended/kubernetes-dashboard.yaml">https://raw.githubusercontent.com/kubernetes/dashboard/v1.10.1/src/deploy/recommended/kubernetes-dashboard.yaml</a> &gt; kubernetes-dashboard.yaml
   vi kubernetes-dashboard.yaml
   cat &lt;&lt;EOF | k3s kubectl create -f -
   apiVersion: rbac.authorization.k8s.io/v1beta1

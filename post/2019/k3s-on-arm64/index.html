@@ -126,19 +126,20 @@ Clone the k3s and change the image to be arm64 <code>k8s.gcr.io/metrics-server-a
 </code></pre></li>
 </ul>
 
-<p>Test it by running <code>k3s kubectl top node</code>
-* Dynamic storage class<br />
-  Kubernetes provides a local storage but <a href="https://kubernetes.io/blog/2019/04/04/kubernetes-1.14-local-persistent-volumes-ga/">no dynamic volume provisioning</a>, you still have to manually create the PersistentVolume which breaks any automatic deployment (especially from Helm).<br />
-  Rancher developed <a href="https://github.com/rancher/local-path-provisioner">local-path-provisioner</a> for that purpose.
-  I couldn&rsquo;t find a recent build for arm64, so I built one, you can find it <a href="https://cloud.docker.com/repository/registry-1.docker.io/akhenakh/local-path-provisioner">here</a>.</p>
-
-<pre><code>  curl -sfL https://raw.githubusercontent.com/rancher/local-path-provisioner/master/deploy/local-path-storage.yaml &gt; local-path-storage.yaml
-  # Edit local-path-storage.yaml to set image to khenakh/local-path-provisioner:arm64-v0.0.9
-  kubectl create -f local-path-storage.yaml
-  kubectl patch storageclass local-path -p '{&quot;metadata&quot;: {&quot;annotations&quot;:{&quot;storageclass.kubernetes.io/is-default-class&quot;:&quot;true&quot;}}}'
-</code></pre>
+<p>Test it by running <code>k3s kubectl top node</code></p>
 
 <ul>
+<li><p>Dynamic storage class<br />
+Kubernetes provides a local storage but <a href="https://kubernetes.io/blog/2019/04/04/kubernetes-1.14-local-persistent-volumes-ga/">no dynamic volume provisioning</a>, you still have to manually create the PersistentVolume which breaks any automatic deployment (especially from Helm).<br />
+Rancher developed <a href="https://github.com/rancher/local-path-provisioner">local-path-provisioner</a> for that purpose.
+I couldn&rsquo;t find a recent build for arm64, so I built one, you can find it <a href="https://cloud.docker.com/repository/registry-1.docker.io/akhenakh/local-path-provisioner">here</a>.</p>
+
+<pre><code>curl -sfL https://raw.githubusercontent.com/rancher/local-path-provisioner/master/deploy/local-path-storage.yaml &gt; local-path-storage.yaml
+# Edit local-path-storage.yaml to set image to khenakh/local-path-provisioner:arm64-v0.0.9
+kubectl create -f local-path-storage.yaml
+kubectl patch storageclass local-path -p '{&quot;metadata&quot;: {&quot;annotations&quot;:{&quot;storageclass.kubernetes.io/is-default-class&quot;:&quot;true&quot;}}}'
+</code></pre></li>
+
 <li><p>Deploy dashboard<br />
 Change the image to be arm64  <code>k8s.gcr.io/kubernetes-dashboard-arm64:v1.10.1</code>.<br />
 Add the skip option to the args <code>- --enable-skip-login</code></p>

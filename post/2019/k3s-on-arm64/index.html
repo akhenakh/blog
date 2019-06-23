@@ -135,7 +135,7 @@ Rancher developed <a href="https://github.com/rancher/local-path-provisioner">lo
 I couldn&rsquo;t find a recent build for arm64, so I built one, you can find it <a href="https://cloud.docker.com/repository/registry-1.docker.io/akhenakh/local-path-provisioner">here</a>.</p>
 
 <pre><code>curl -sfL https://raw.githubusercontent.com/rancher/local-path-provisioner/master/deploy/local-path-storage.yaml &gt; local-path-storage.yaml
-# Edit local-path-storage.yaml to set image to khenakh/local-path-provisioner:arm64-v0.0.9
+# Edit local-path-storage.yaml to set image to akhenakh/local-path-provisioner:arm64-v0.0.9
 kubectl create -f local-path-storage.yaml
 kubectl patch storageclass local-path -p '{&quot;metadata&quot;: {&quot;annotations&quot;:{&quot;storageclass.kubernetes.io/is-default-class&quot;:&quot;true&quot;}}}'
 </code></pre></li>

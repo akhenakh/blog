@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="generator" content="Hugo 0.58.1" />
+		<title>Access Web Interface  - Fabrice Aneche</title>
+
+		<meta name="description" content="Here is a simple yet useful trick.
+As stated in the Kubernetes documentation you can use kubectl proxy to access web service interface within the Kubernetes cluster.
+I&rsquo;ve seen a lot of people using the proxy to access the dashboard but you can use it to access any web interface, like admin interface without the need to create an ingress and protect it.
+http://kubernetes_master_address/api/v1/namespaces/namespace_name/services/service_name[:port_name]/proxy  For example here is how to access the traefik dashboard:">
+
+
+		
+	
+		
+
+
+
+
+<link rel="stylesheet" href="https://blog.nobugware.com/css/ui.css">
+
+	
+		
+
+		<link  rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway">
+
+		
+	</head>
+
+<body>
+<header class="container no-print">
+	<div class="u-header">
+		<nav class="bar">
+	<ul><li>
+			<a href="https://blog.nobugware.com/">
+				<img class="icon-text" src="https://blog.nobugware.com/img/prev.svg"/>
+			</a>
+		</li><li><a href="https://blog.nobugware.com/about">About</a></li><li><a href="https://blog.nobugware.com/post/">Post</a></li></ul>
+</nav>
+
+	</div>
+</header>
+<main class="container">
+
+<article>
+	<header><hgroup id="brand">
+	<h1>Access Web Interface </h1>
+	<h5>
+		
+		<time datetime="2019-09-09 13:00:00 -0400 -0400">Sep 09, 2019</time>
+		<span class="no-print">
+			-
+				
+				<a href="https://blog.nobugware.com/tags/devops">devops</a>
+				
+				<a href="https://blog.nobugware.com/tags/kubernetes">kubernetes</a>
+				<span>
+	</h5>
+	
+</hgroup>
+<hr class="sep" />
+</header>
+	<p>Here is a simple yet useful trick.</p>
+
+<p>As stated in the <a href="https://kubernetes.io/docs/tasks/access-application-cluster/access-cluster/#accessing-services-running-on-the-cluster">Kubernetes documentation</a> you can use <code>kubectl proxy</code> to access web service interface within the Kubernetes cluster.</p>
+
+<p>I&rsquo;ve seen a lot of people using the proxy to access the dashboard but you can use it to access any web interface, like admin interface without the need to create an ingress and protect it.</p>
+
+<pre><code>http://kubernetes_master_address/api/v1/namespaces/namespace_name/services/service_name[:port_name]/proxy
+</code></pre>
+
+<p>For example here is how to access the traefik dashboard:</p>
+
+<p><a href="http://localhost:8001/api/v1/namespaces/default/services/http:traefik-dashboard:dashboard-http/proxy/dashboard/#!/service?namespace=default">http://localhost:8001/api/v1/namespaces/default/services/http:traefik-dashboard:dashboard-http/proxy/dashboard/#!/service?namespace=default</a></p>
+
+</article>
+<nav class="no-print post-nav">
+
+	<a class="prev-post" href="https://blog.nobugware.com/post/2019/bare-metal-kubernetes-quick-installations-on-arch/">
+		<img class="icon-text" src="https://blog.nobugware.com/img/prev.svg"/>Bare Metal Kubernetes Quick Installation on Arch</a>
+
+
+</nav>
+
+
+<section id="related">
+  <h4>See Also</h4>
+  <ul>
+    
+  	<li><a href="https://blog.nobugware.com/post/2019/deploying-a-website-with-caddy-git-and-kubernetes/">Deploying a website with Caddy, Git and Kubernetes</a></li>
+  	
+  	<li><a href="https://blog.nobugware.com/post/2019/bare-metal-kubernetes-quick-installations-on-arch/">Bare Metal Kubernetes Quick Installation on Arch</a></li>
+  	
+  	<li><a href="https://blog.nobugware.com/post/2019/k3s-on-arm64/">k3s on arm64</a></li>
+  	
+  </ul>
+</section>
+
+
+
+
+			<hr class="sep" />
+		</main>
+		<footer class="container no-print">
+			<div class="u-footer">
+				
+
+<a href="https://github.com/akhenakh/"><img class="icon-social" src="https://blog.nobugware.com/img/github.svg" alt="Github"/></a>
+
+
+<a href="https://twitter.com/akhenakh"><img class="icon-social" src="https://blog.nobugware.com/img/twitter.svg" alt="Twitter"/></a>
+
+<a href="https://blog.nobugware.com/index.xml" target="_blank"><img class="icon-social" src="https://blog.nobugware.com/img/feed.svg" alt="Feed"></a>
+
+				<p>
+					
+					Theme used: <a href="https://github.com/yursan9/manis-hugo-theme">Manis</a><br>
+					
+					
+					
+				</p>
+				
+				<a href="#brand">
+					<img class="icon-text" src="https://blog.nobugware.com/img/toup.svg" alt="To Up"/>
+					<span>Back to Up</span>
+				</a>
+				
+			</div>
+		</footer>
+		
+	</body>
+</html>
+

@@ -6,10 +6,22 @@
     <description>Recent content on Fabrice Aneche</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 09 Sep 2019 00:00:00 -0400</lastBuildDate>
+    <lastBuildDate>Mon, 09 Sep 2019 13:00:00 -0400</lastBuildDate>
     
 	<atom:link href="https://blog.nobugware.com/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Access Web Interface </title>
+      <link>https://blog.nobugware.com/post/2019/access-web-interface/</link>
+      <pubDate>Mon, 09 Sep 2019 13:00:00 -0400</pubDate>
+      
+      <guid>https://blog.nobugware.com/post/2019/access-web-interface/</guid>
+      <description>Here is a simple yet useful trick.
+As stated in the Kubernetes documentation you can use kubectl proxy to access web service interface within the Kubernetes cluster.
+I&amp;rsquo;ve seen a lot of people using the proxy to access the dashboard but you can use it to access any web interface, like admin interface without the need to create an ingress and protect it.
+http://kubernetes_master_address/api/v1/namespaces/namespace_name/services/service_name[:port_name]/proxy  For example here is how to access the traefik dashboard:</description>
+    </item>
     
     <item>
       <title>Bare Metal Kubernetes Quick Installation on Arch</title>

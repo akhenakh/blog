@@ -8,8 +8,8 @@
 
 		<meta name="description" content="I&rsquo;m still playing with my 3 nodes arm64 cluster, having some stability issues with k3s, I turned into kubeadm to deploy a bare metal non HA one master two workers Kubernetes cluster.
 My host is Arch which is theoretically not supported but still works.
-Required tasks sudo pacman -S ethtool ebtables socat cni-plugins  I needed a private registry to host my images, on master node:
-docker run -d -p 5000:5000 --restart=always -v /opt/local-path-provisioner/registry:/var/lib/registry --name registry registry:2  On all hosts:">
+Required tasks sudo pacman -S ethtool ebtables socat cni-plugins  Install aur/kubelet-bin and aur/kubeadm-bin
+I needed a private registry to host my images, on master node:">
 
 
 		
@@ -75,6 +75,8 @@ docker run -d -p 5000:5000 --restart=always -v /opt/local-path-provisioner/regis
 <pre><code>sudo pacman -S ethtool ebtables socat cni-plugins
 </code></pre>
 
+<p>Install <code>aur/kubelet-bin</code> and <code>aur/kubeadm-bin</code></p>
+
 <p>I needed a private registry to host my images, on master node:</p>
 
 <pre><code>docker run -d -p 5000:5000 --restart=always -v /opt/local-path-provisioner/registry:/var/lib/registry  --name registry registry:2
@@ -82,7 +84,7 @@ docker run -d -p 5000:5000 --restart=always -v /opt/local-path-provisioner/regis
 
 <p>On all hosts:</p>
 
-<pre><code>cat /etc/sysctl.d/bridge.conf &lt;&lt;EOF                             
+<pre><code>cat &gt; /etc/sysctl.d/bridge.conf &lt;&lt;EOF                             
 net.bridge.bridge-nf-call-iptables=1
 EOF
 

@@ -980,10 +980,9 @@ Windows Media Components for QuickTime Les CODECS windows media pour permettre l
 Guido and others released Python 3.0, a major &amp;ldquo;backward&amp;rdquo; incompatible python release.
 It was a necessary choice to remove many old libraries, rework the std library, and change some behaviour.
 You can see it all in What&amp;rsquo;s new in Python 3.0.
- The most visible change is maybe the print statement, print is now a function:
-print &amp;ldquo;toto&amp;rdquo;
-  becomes
-print(&amp;quot;toto&amp;quot;)   The % operator whis is supplented by the format() method:</description>
+ The most visible change is maybe the print statement, print is now a function:  print &amp;ldquo;toto&amp;rdquo;
+becomes
+print(&amp;quot;toto&amp;quot;)   The % operator whis is supplented by the format() method:  old: &amp;ldquo;Name: %s&amp;rdquo; % &amp;ldquo;john&amp;rdquo;</description>
     </item>
     
     <item>

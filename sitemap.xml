@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://blog.nobugware.com/about/</loc>
+    <lastmod>2019-09-07T18:57:12+07:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://blog.nobugware.com/categories/</loc>
     <lastmod>2019-06-19T06:00:00-04:00</lastmod>
     <priority>0</priority>
@@ -212,13 +217,13 @@
   </url>
   
   <url>
-    <loc>https://blog.nobugware.com/tags/bsd/</loc>
+    <loc>https://blog.nobugware.com/categories/bsd/</loc>
     <lastmod>2017-10-08T09:57:56-05:00</lastmod>
     <priority>0</priority>
   </url>
   
   <url>
-    <loc>https://blog.nobugware.com/categories/bsd/</loc>
+    <loc>https://blog.nobugware.com/tags/bsd/</loc>
     <lastmod>2017-10-08T09:57:56-05:00</lastmod>
     <priority>0</priority>
   </url>

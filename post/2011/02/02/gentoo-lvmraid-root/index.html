@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="generator" content="Hugo 0.58.1" />
+		<title>Gentoo lvm&#43;raid root - Fabrice Aneche</title>
+
+		<meta name="description" content="Gentoo support for lvm root is still a pain in the ass, here is a working solution.
+Assuming you have 2 disks same size to be mirrored.
+You want a mirrored /boot and a big lvm.
+Start a normal gentoo installation with this disks layout:
+fdisk -l /dev/sda Device Boot Start End Blocks Id System /dev/sda1 * 1 31 248976 fd Linux raid autodetect /dev/sda2 32 242246 1945591987&#43; fd Linux raid autodetect fdisk -l /dev/sdb Device Boot Start End Blocks Id System /dev/sdb1 * 1 31 248976 fd Linux raid autodetect /dev/sdb2 32 242246 1945591987&#43; 83 Linux raid autodetect  Set both disk the boot flags on the first partition and set all partitions to FD Linux raid autodetect.">
+
+
+		
+	
+		
+
+
+
+
+<link rel="stylesheet" href="https://blog.nobugware.com/css/ui.css">
+
+	
+		
+
+		<link  rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway">
+
+		
+	</head>
+
+<body>
+<header class="container no-print">
+	<div class="u-header">
+		<nav class="bar">
+	<ul><li>
+			<a href="https://blog.nobugware.com/">
+				<img class="icon-text" src="https://blog.nobugware.com/img/prev.svg"/>
+			</a>
+		</li><li><a href="https://blog.nobugware.com/about">About</a></li><li><a href="https://blog.nobugware.com/post/">Post</a></li></ul>
+</nav>
+
+	</div>
+</header>
+<main class="container">
+
+<article>
+	<header><hgroup id="brand">
+	<h1>Gentoo lvm&#43;raid root</h1>
+	<h5>
+		
+		<time datetime="2011-02-02 22:06:52 -0400 -0400">Feb 02, 2011</time>
+		<span class="no-print">
+			-
+				
+				<a href="https://blog.nobugware.com/tags/gentoo">gentoo</a>
+				
+				<a href="https://blog.nobugware.com/tags/lvm">lvm</a>
+				
+				<a href="https://blog.nobugware.com/tags/raid">raid</a>
+				<span>
+	</h5>
+	
+</hgroup>
+<hr class="sep" />
+</header>
+	<p>Gentoo support for lvm root is still a pain in the ass, here is a working
+solution.</p>
+
+<p>Assuming you have 2 disks same size to be mirrored.</p>
+
+<p>You want a mirrored /boot and a big lvm.</p>
+
+<p>Start a normal gentoo installation with this disks layout:</p>
+
+<pre><code>fdisk -l /dev/sda
+   Device Boot      Start         End      Blocks   Id  System
+/dev/sda1   *           1          31      248976   fd  Linux raid autodetect
+/dev/sda2              32      242246  1945591987+  fd  Linux raid autodetect
+
+fdisk -l /dev/sdb
+   Device Boot      Start         End      Blocks   Id  System
+/dev/sdb1   *           1          31      248976   fd  Linux raid autodetect
+/dev/sdb2              32      242246  1945591987+  83  Linux raid autodetect
+</code></pre>
+
+<p>Set both disk the boot flags on the first partition and set all partitions to
+FD Linux raid autodetect.</p>
+
+<pre><code>mdadm --create /dev/md0 --level=1 --raid-devices=2 /dev/sda1 /dev/sdb1
+mdadm --create /dev/md1 --level=1 --raid-devices=2 /dev/sda2 /dev/sdb2
+</code></pre>
+
+<p>If it complains about another array by this is name is already running or disk
+used.</p>
+
+<p>First stop them all:</p>
+
+<pre><code>cat /proc/mdstat
+</code></pre>
+
+<p>Identify the old arrays then stop it:</p>
+
+<pre><code>mdadm --stop /dev/md??
+</code></pre>
+
+<p>Clean the partition if necessaray</p>
+
+<pre><code>dd if=/dev/zero of=/dev/sda1 count=100 bs=1024
+dd if=/dev/zero of=/dev/sda1 count=100 bs=1024
+</code></pre>
+
+<p>Create the boot:</p>
+
+<pre><code>mkfs.ext3 /dev/md0
+</code></pre>
+
+<p>Create the lvm root and swap:</p>
+
+<pre><code>pvcreate /dev/md1
+vgcreate vg0 /dev/md1
+lvcreate  -L10G -nroot vg0
+lvcreate  -L16G -nswap vg0
+# set the minfree to 0 and increase the number of inodes to 600k
+mkfs.ext4 -m0 -N 600000  /dev/vg0/root
+mkswap /dev/vg0/swap
+</code></pre>
+
+<p>Mount them all !</p>
+
+<pre><code>mount /dev/vg0/root /mnt/gentoo
+mkdir /mnt/gentoo/boot
+mount /dev/md0 /mnt/gentoo/boot
+</code></pre>
+
+<p>Continue with the standard install procedure, mount -t proc &hellip;</p>
+
+<p>After the emerge &ndash;sync in the install procedure get back here:</p>
+
+<pre><code>emerge lvm2 dmadm genkernel
+emerge gentoo-sources
+mdadm --examine --scan &gt;&gt; /etc/mdadm.conf
+</code></pre>
+
+<p>Edit /etc/genkernel.conf:</p>
+
+<p>Set LVM=&ldquo;yes&rdquo;</p>
+
+<p>Set MDADM=&ldquo;yes&rdquo;</p>
+
+<p>Edit /etc/fstab</p>
+
+<pre><code>/dev/md0        /boot       ext3        noauto,noatime  1 2
+/dev/vg0/root       /       ext4        noatime     0 1
+/dev/vg0/swap       none        swap        sw      0 0
+</code></pre>
+
+<p>Compile your kernel with genkernel (note that if you want to compile your own
+kernel without genkernel this is possible with the command genkernel
+initramfs).</p>
+
+<pre><code>genkernel --menuconfig all
+</code></pre>
+
+<p>Continue to normal procedure until grub, apply grub on both disks:</p>
+
+<pre><code>grub&gt; root (hd0,0) 
+grub&gt; setup (hd0)   
+grub&gt; root (hd2,0) 
+grub&gt; setup (hd1)   
+grub&gt; quit           
+</code></pre>
+
+<p>Then edit grub.conf</p>
+
+<pre><code>title Gentoo
+root (hd0,0)
+kernel /boot/kernel-genkernel-x86_64-2.6.36-gentoo-r5 root=/dev/ram0 real_root=/dev/vg0/root dolvm domdadm lvmraid=/dev/md1
+initrd /boot/initramfs-genkernel-x86_64-2.6.36-gentoo-r5
+</code></pre>
+
+<p>Explanation, for lvm to find his disks, we need a ramfs with the static lvm
+command, but to find back our raids md we also need mdadm to save the config
+somewhere, that&rsquo;s exactly what the genkernel initramfs is doing.</p>
+
+<p>Then we invoke the kernel with ramfs and domdadm dolvm and lvmraid.</p>
+
+<p>You can use the initramfs with your own kernel, you only have to be sure all
+needed hardware drivers to detect the disks are in the kernel, and not as
+modules.</p>
+
+<p>Remember that when gentoo stable will update to baselayout2 you will have to
+add rc-update add mdraid boot.</p>
+
+<p>EDIT: on recent Gentoo I have to add this to kernel boot line:</p>
+
+<pre><code>kernel /boot/kernel-genkernel-x86_64-3.1.10-gentoo-r1 root=/dev/ram0 init=/linuxrc real_root=/dev/vg0/root udev dolvm domdadm gentoo=nodevfs lvmraid=/dev/md1 rootfstype=ext4
+</code></pre>
+
+</article>
+<nav class="no-print post-nav">
+
+	<a class="prev-post" href="https://blog.nobugware.com/post/2011/01/28/amazing-piece-electonic/">
+		<img class="icon-text" src="https://blog.nobugware.com/img/prev.svg"/>An amazing piece of electonic</a>
+
+
+	<a class="next-post" href="https://blog.nobugware.com/post/2011/03/31/freebsd-zfs/">(Re)Discovering FreeBSD and ZFS<img class="icon-text" src="https://blog.nobugware.com/img/next.svg"/>
+	</a>
+
+</nav>
+
+
+<section id="related">
+  <h4>See Also</h4>
+  <ul>
+    
+  	<li><a href="https://blog.nobugware.com/post/2009/07/31/python-26-gentoo-stable/">Python 2.6 in Gentoo stable</a></li>
+  	
+  	<li><a href="https://blog.nobugware.com/post/2008/12/03/gentoo-bref-recap-des-commandes-de-gestion-de-paquets/">Gentoo bref récap des commandes de gestion de paquets</a></li>
+  	
+  </ul>
+</section>
+
+
+
+
+			<hr class="sep" />
+		</main>
+		<footer class="container no-print">
+			<div class="u-footer">
+				
+<a href="mailto:akh@inair.space"><img class="icon-social" src="https://blog.nobugware.com/img/email.svg" alt="Email Me!"/></a>
+
+
+<a href="https://github.com/akhenakh/"><img class="icon-social" src="https://blog.nobugware.com/img/github.svg" alt="Github"/></a>
+
+
+<a href="https://twitter.com/akhenakh"><img class="icon-social" src="https://blog.nobugware.com/img/twitter.svg" alt="Twitter"/></a>
+
+<a href="https://blog.nobugware.com/index.xml" target="_blank"><img class="icon-social" src="https://blog.nobugware.com/img/feed.svg" alt="Feed"></a>
+
+				<p>
+					
+					Theme used: <a href="https://github.com/yursan9/manis-hugo-theme">Manis</a><br>
+					
+					
+					
+				</p>
+				
+				<a href="#brand">
+					<img class="icon-text" src="https://blog.nobugware.com/img/toup.svg" alt="To Up"/>
+					<span>Back to Up</span>
+				</a>
+				
+			</div>
+		</footer>
+		
+	</body>
+</html>
+

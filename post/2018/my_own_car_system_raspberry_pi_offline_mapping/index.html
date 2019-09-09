@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="generator" content="Hugo 0.58.1" />
+		<title>My Own Car System, Rear Camera, Offline Maps &amp; Routing on Raspberry Pi part I - Fabrice Aneche</title>
+
+		<meta name="description" content="At first I needed a car rear camera, one thing led to another&hellip;
+My Car, from 2011, only has an LCD display and no rear camera, so I bought a PAL rear camera, we passed some cables from the rear window to the front then everything begun.
+Here is my journey to transform my car into a modern system running on RPi3 (a never ending project).
+Hardware I&rsquo;m using an Rpi3 (old model).">
+
+
+		
+	
+		
+
+
+
+
+<link rel="stylesheet" href="https://blog.nobugware.com/css/ui.css">
+
+	
+		
+
+		<link  rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway">
+
+		
+	</head>
+
+<body>
+<header class="container no-print">
+	<div class="u-header">
+		<nav class="bar">
+	<ul><li>
+			<a href="https://blog.nobugware.com/">
+				<img class="icon-text" src="https://blog.nobugware.com/img/prev.svg"/>
+			</a>
+		</li><li><a href="https://blog.nobugware.com/about">About</a></li><li><a href="https://blog.nobugware.com/post/">Post</a></li></ul>
+</nav>
+
+	</div>
+</header>
+<main class="container">
+
+<article>
+	<header><hgroup id="brand">
+	<h1>My Own Car System, Rear Camera, Offline Maps &amp; Routing on Raspberry Pi part I</h1>
+	<h5>
+		
+		<time datetime="2018-06-10 09:19:57 -0500 -0500">Jun 10, 2018</time>
+		<span class="no-print">
+			-
+				
+				<a href="https://blog.nobugware.com/tags/Geo">Geo</a>
+				
+				<a href="https://blog.nobugware.com/tags/Go">Go</a>
+				
+				<a href="https://blog.nobugware.com/tags/Qt">Qt</a>
+				<span>
+	</h5>
+	
+</hgroup>
+<hr class="sep" />
+</header>
+	
+
+<p>At first I needed a car rear camera, one thing led to another&hellip;</p>
+
+<p>My Car, from 2011, only has an LCD display and no rear camera, so I bought a <a href="https://www.amazon.ca/gp/product/B06ZY949CF">PAL rear camera</a>, we passed some cables from the rear window to the front then everything begun.<br />
+Here is my journey to transform my car into a modern system running on RPi3 (a never ending project).</p>
+
+<h2 id="hardware">Hardware</h2>
+
+<p>I&rsquo;m using an Rpi3 (old model).</p>
+
+<p>With <a href="https://archlinuxarm.org">Arch for ARM</a> but any system will do.</p>
+
+<p>The screen is an <a href="https://www.amazon.ca/gp/product/B019K6CRVY/ref=oh_aui_search_detailpage?ie=UTF8&amp;psc=1">Eleduino Raspberry Pi 7 Inch 1024x600 Pixel IPS Hdmi Input Capacitive Touch Screen Display</a><br />
+An <a href="https://www.ebay.ca/itm/USB-2-0-Easycap-Video-With-Audio-VHS-DC60-to-DVD-Converter-Capture-Card-Adapter-/142504839503?hash=item212df3494f&amp;_uhb=1">USB 2.0 EasyCap</a> to retrieve the composite signal.</p>
+
+<p>No driver needed for both the screen and the video capture dongle.</p>
+
+<pre><code>mplayer tv:// -tv driver=v4l2:device=/dev/video0:fps=25:outfmt=yuy2:norm=PAL
+</code></pre>
+
+<p><img src="https://blog.nobugware.com/img/rearcam.jpg" alt="Camera" /><br />
+mplayer is working out of the box, so I thought everything was okay with the camera, so I thought.</p>
+
+<p>I needed a GUI to display the camera and the date (at this this time this project was just a rear camera display).<br />
+So I choose <a href="https://github.com/therecipe/qt">Qt &amp; Golang</a>, not the normal contenders but I can&rsquo;t handle C++ and had experiences with QtGo, and modern Qt apps are just QML code anyway&hellip; So I thought&hellip;</p>
+
+<p>I&rsquo;ve started to code a small QML app but when displaying the video I got:</p>
+
+<pre><code>ERROR: from element /GstPipeline:pipeline0/GstV4l2Src:v4l2src0: Device '/dev/video0' does not support progressive interlacing
+Additional debug info:
+gstv4l2object.c(3768): gst_v4l2_object_set_format_full (): /GstPipeline:pipeline0/GstV4l2Src:v4l2src0:
+Device wants interleaved interlacing
+</code></pre>
+
+<p>Qt via Gstreamer does not allow non interlaced videos :(<br />
+One solution is to force a pipeline with an interlacer.</p>
+
+<p>Easy on the command line
+<code>gst-launch-1.0 v4l2src  ! interlace ! xvimagesink</code></p>
+
+<p>Not that easy via Qt I had to patch the Qt Gstreamer plugin <code>camerabinsession.cpp</code> to insert a filter on the preview:
+at the end of <code>GstElement *CameraBinSession::buildCameraSource()</code></p>
+
+<pre><code class="language-c++">    const QByteArray envInterlace = qgetenv(&quot;QT_GSTREAMER_CAMERABIN_VIDEO_INTERLACE&quot;);
+    if (envInterlace.length() &gt; 0) {
+        GstElement *interlace = gst_element_factory_make (&quot;interlace&quot;, NULL);
+        if (interlace == NULL)
+            g_error (&quot;Could not create 'interlace' element&quot;);
+
+
+        g_object_set(G_OBJECT(m_camerabin), &quot;viewfinder-filter&quot;, interlace, NULL);
+
+        #if CAMERABIN_DEBUG
+            qDebug() &lt;&lt; &quot;set camera filter&quot; &lt;&lt; interlace;
+        #endif
+        gst_object_unref (interlace);
+    }
+</code></pre>
+
+<h2 id="gps">GPS</h2>
+
+<p>I had a serial GPS around, why not display a moving map?</p>
+
+<p>Enable serial port in <code>/boot/config.txt</code> (note Bluetooth must be disabled &hellip;)</p>
+
+<pre><code>enable_uart=1
+dtoverlay=pi3-disable-bt
+</code></pre>
+
+<p>pin 8  TXD<br />
+pin 10 RXD</p>
+
+<p>remove <code>console=ttyAMA0,115200</code> and <code>kgdboc=ttyAMA0,115200</code> from <code>/boot/cmdline.txt</code></p>
+
+<p>I thought it would be very easy to read NMEA via serial.<br />
+It was, gpsd worked in seconds but &hellip; it seems we can&rsquo;t disable the auto speed, equal 4s lost at start.<br />
+Plus Qt is using libgeoclue or Gypsy which <a href="https://gypsy.freedesktop.org/why-not-gpsd.html">does not want to talk with gpsd</a>.<br />
+I tried both of them, they didn&rsquo;t work, it&rsquo;s a mess to debug, documentation is just the API&hellip;</p>
+
+<p>So one thing led to another&hellip; I&rsquo;ve written a very small and simple gpsd in Go with a gRPC interface, so it can be queried from anything.<br />
+It&rsquo;s also a bit more advanced since it can map match &amp; route match the positions with OSRM.</p>
+
+<h2 id="offline-maps">Offline maps</h2>
+
+<p><a href="https://openmaptiles.org">OpenMapTiles project is great</a> to generate vectors data in MBTILES format, you can serve them with <a href="https://github.com/akhenakh/mbmatch">mbmatch</a>.<br />
+Qt Map QML can display them using the <code>mapboxgl</code> driver, some <a href="https://openmaptiles.org/styles/">free styles</a> are provided.</p>
+
+<p>Here is an example QML Map plugin.</p>
+
+<pre><code class="language-QML">    Plugin {
+        id: mapPlugin
+        name: &quot;mapboxgl&quot;
+        PluginParameter{
+            name: &quot;mapboxgl.mapping.additional_style_urls&quot;
+            value: &quot;http://localhost:4000/osm-liberty-gl.style&quot;
+        }
+    }
+</code></pre>
+
+<p>Note on X11 and EGL:<br />
+Using the mapboxgl renderer under X11 on the Rpi3 is taking a lot of ressources.<br />
+Qt5 is <a href="https://doc.qt.io/qt-5/embedded-linux.html">capable of directly talking to the GPU without X11</a>, the performance difference is night and day.</p>
+
+<p>So just run your Qt app without X11 with the following env vars.</p>
+
+<pre><code>QT_QPA_PLATFORM=eglfs:/dev/fb0
+QT_QPA_EGLFS_HIDECURSOR=yes
+</code></pre>
+
+<h2 id="offline-routing">Offline Routing</h2>
+
+<p>Hopefully the provided Qt <code>osm</code> plugins knows how to route using the <a href="https://github.com/Project-OSRM/osrm-backend/blob/master/docs/http.md">OSRM API</a>.<br />
+So you can run a local <a href="https://github.com/Project-OSRM/osrm-backend">OSRM backend</a> for routing and it will just work.</p>
+
+<p>Generate the route indexes.</p>
+
+<pre><code>osrm-extract -p /usr/share/osrm/profiles/car.lua quebec-latest.osm.pbf 
+osrm-contract quebec-latest.osrm
+osrm-routed quebec-latest.osrm
+</code></pre>
+
+<pre><code class="language-QML">    Plugin {
+        id: routePlugin
+        name: &quot;osm&quot;
+        PluginParameter{
+            name: &quot;osm.routing.host&quot;
+            value: &quot;http://localhost:5000/route/v1/driving/&quot;
+        }
+    }
+</code></pre>
+
+<p><img src="https://blog.nobugware.com/img/mocs.jpg" alt="Mocs" /></p>
+
+<p>The app can display the rear camera and a moving map !!</p>
+
+<p><a href="https://blog.nobugware.com/post/2018/my_own_car_system_raspberry_pi_offline_mapping_map_matching_places_part2/">Part 2</a>  will be about searching places by extracting OSM data and indexing them in a small Go program that can run on the rpi, reading ODB data from the car via Bluetooth, packaging the whole thing and open sourcing some code.</p>
+
+</article>
+<nav class="no-print post-nav">
+
+	<a class="prev-post" href="https://blog.nobugware.com/post/2018/bitlbee_slack_hangouts_facebook_irc_gateway/">
+		<img class="icon-text" src="https://blog.nobugware.com/img/prev.svg"/>Bitlbee: Slack, Hangouts &amp; Facebook via IRC gateway</a>
+
+
+	<a class="next-post" href="https://blog.nobugware.com/post/2018/my_own_car_system_raspberry_pi_offline_mapping_map_matching_places_part2/">My Own Car System, Rear Camera, Offline Maps &amp; Routing, Map Matching with Go on Raspberry Pi part II<img class="icon-text" src="https://blog.nobugware.com/img/next.svg"/>
+	</a>
+
+</nav>
+
+
+<section id="related">
+  <h4>See Also</h4>
+  <ul>
+    
+  	<li><a href="https://blog.nobugware.com/post/2018/google-s2-python-jupyter/">Google S2 with Python &amp; Jupyter</a></li>
+  	
+  	<li><a href="https://blog.nobugware.com/post/2017/hacking_temperature_radio_sensors_and_graphing_with_prometheus/">Hacking Temperature Radio Sensors and Graphing with Prometheus</a></li>
+  	
+  	<li><a href="https://blog.nobugware.com/post/2016/go_mobile_ios_real_usage/">Using Go mobile on iOS for real</a></li>
+  	
+  </ul>
+</section>
+
+
+
+
+			<hr class="sep" />
+		</main>
+		<footer class="container no-print">
+			<div class="u-footer">
+				
+<a href="mailto:akh@inair.space"><img class="icon-social" src="https://blog.nobugware.com/img/email.svg" alt="Email Me!"/></a>
+
+
+<a href="https://github.com/akhenakh/"><img class="icon-social" src="https://blog.nobugware.com/img/github.svg" alt="Github"/></a>
+
+
+<a href="https://twitter.com/akhenakh"><img class="icon-social" src="https://blog.nobugware.com/img/twitter.svg" alt="Twitter"/></a>
+
+<a href="https://blog.nobugware.com/index.xml" target="_blank"><img class="icon-social" src="https://blog.nobugware.com/img/feed.svg" alt="Feed"></a>
+
+				<p>
+					
+					Theme used: <a href="https://github.com/yursan9/manis-hugo-theme">Manis</a><br>
+					
+					
+					
+				</p>
+				
+				<a href="#brand">
+					<img class="icon-text" src="https://blog.nobugware.com/img/toup.svg" alt="To Up"/>
+					<span>Back to Up</span>
+				</a>
+				
+			</div>
+		</footer>
+		
+	</body>
+</html>
+

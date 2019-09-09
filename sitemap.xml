@@ -8,45 +8,28 @@
   </url>
   
   <url>
-    <loc>https://blog.nobugware.com/categories/</loc>
-    <lastmod>2019-06-19T06:00:00-04:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.nobugware.com/</loc>
-    <lastmod>2019-06-19T06:00:00-04:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.nobugware.com/post/</loc>
-    <lastmod>2019-06-19T06:00:00-04:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.nobugware.com/tags/</loc>
-    <lastmod>2019-06-19T06:00:00-04:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>https://blog.nobugware.com/tags/arm64/</loc>
     <lastmod>2019-06-19T06:00:00-04:00</lastmod>
-    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.nobugware.com/categories/</loc>
+    <lastmod>2019-06-19T06:00:00-04:00</lastmod>
   </url>
   
   <url>
     <loc>https://blog.nobugware.com/categories/devops/</loc>
     <lastmod>2019-06-19T06:00:00-04:00</lastmod>
-    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.nobugware.com/</loc>
+    <lastmod>2019-06-19T06:00:00-04:00</lastmod>
   </url>
   
   <url>
     <loc>https://blog.nobugware.com/tags/k3s/</loc>
     <lastmod>2019-06-19T06:00:00-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
@@ -57,13 +40,21 @@
   <url>
     <loc>https://blog.nobugware.com/tags/kubernetes/</loc>
     <lastmod>2019-06-19T06:00:00-04:00</lastmod>
-    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.nobugware.com/post/</loc>
+    <lastmod>2019-06-19T06:00:00-04:00</lastmod>
   </url>
   
   <url>
     <loc>https://blog.nobugware.com/tags/rock64/</loc>
     <lastmod>2019-06-19T06:00:00-04:00</lastmod>
-    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.nobugware.com/tags/</loc>
+    <lastmod>2019-06-19T06:00:00-04:00</lastmod>
   </url>
   
   <url>
@@ -74,13 +65,11 @@
   <url>
     <loc>https://blog.nobugware.com/tags/linux/</loc>
     <lastmod>2019-05-27T00:00:00-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
     <loc>https://blog.nobugware.com/tags/rk3328/</loc>
     <lastmod>2019-05-27T00:00:00-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
@@ -91,7 +80,11 @@
   <url>
     <loc>https://blog.nobugware.com/tags/arm/</loc>
     <lastmod>2019-05-22T00:00:00-04:00</lastmod>
-    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.nobugware.com/tags/caddy/</loc>
+    <lastmod>2019-04-27T02:01:00-04:00</lastmod>
   </url>
   
   <url>
@@ -100,39 +93,28 @@
   </url>
   
   <url>
-    <loc>https://blog.nobugware.com/tags/go/</loc>
-    <lastmod>2019-04-27T02:01:00-04:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.nobugware.com/tags/caddy/</loc>
-    <lastmod>2019-04-27T02:01:00-04:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>https://blog.nobugware.com/tags/devops/</loc>
     <lastmod>2019-04-27T02:01:00-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
     <loc>https://blog.nobugware.com/tags/docker/</loc>
     <lastmod>2019-04-27T02:01:00-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
     <loc>https://blog.nobugware.com/tags/git/</loc>
     <lastmod>2019-04-27T02:01:00-04:00</lastmod>
-    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.nobugware.com/tags/go/</loc>
+    <lastmod>2019-04-27T02:01:00-04:00</lastmod>
   </url>
   
   <url>
     <loc>https://blog.nobugware.com/tags/grpc/</loc>
     <lastmod>2019-03-11T00:32:43-05:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
@@ -153,13 +135,11 @@
   <url>
     <loc>https://blog.nobugware.com/tags/geo/</loc>
     <lastmod>2018-08-27T00:19:57-02:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
     <loc>https://blog.nobugware.com/categories/go/</loc>
     <lastmod>2018-08-27T00:19:57-02:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
@@ -170,7 +150,6 @@
   <url>
     <loc>https://blog.nobugware.com/categories/geo/</loc>
     <lastmod>2018-08-01T00:19:57-02:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
@@ -181,7 +160,6 @@
   <url>
     <loc>https://blog.nobugware.com/tags/qt/</loc>
     <lastmod>2018-08-01T00:19:57-02:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
@@ -202,7 +180,6 @@
   <url>
     <loc>https://blog.nobugware.com/tags/python/</loc>
     <lastmod>2018-01-18T08:20:15-05:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
@@ -213,19 +190,16 @@
   <url>
     <loc>https://blog.nobugware.com/tags/hamradio/</loc>
     <lastmod>2017-10-08T14:28:46-04:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.nobugware.com/categories/bsd/</loc>
-    <lastmod>2017-10-08T09:57:56-05:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
     <loc>https://blog.nobugware.com/tags/bsd/</loc>
     <lastmod>2017-10-08T09:57:56-05:00</lastmod>
-    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.nobugware.com/categories/bsd/</loc>
+    <lastmod>2017-10-08T09:57:56-05:00</lastmod>
   </url>
   
   <url>
@@ -241,13 +215,11 @@
   <url>
     <loc>https://blog.nobugware.com/tags/chromebook/</loc>
     <lastmod>2017-07-22T21:28:24-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
     <loc>https://blog.nobugware.com/categories/linux/</loc>
     <lastmod>2017-07-22T21:28:24-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
@@ -258,13 +230,11 @@
   <url>
     <loc>https://blog.nobugware.com/tags/osx/</loc>
     <lastmod>2017-02-25T09:57:56-05:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
     <loc>https://blog.nobugware.com/categories/system/</loc>
     <lastmod>2016-10-20T08:58:10-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
@@ -275,7 +245,11 @@
   <url>
     <loc>https://blog.nobugware.com/categories/golang/</loc>
     <lastmod>2016-09-28T13:15:53-04:00</lastmod>
-    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.nobugware.com/tags/golang/</loc>
+    <lastmod>2016-09-28T13:15:53-04:00</lastmod>
   </url>
   
   <url>
@@ -284,15 +258,8 @@
   </url>
   
   <url>
-    <loc>https://blog.nobugware.com/tags/golang/</loc>
-    <lastmod>2016-09-28T13:15:53-04:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>https://blog.nobugware.com/tags/s2/</loc>
     <lastmod>2016-09-22T15:39:32-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
@@ -308,7 +275,6 @@
   <url>
     <loc>https://blog.nobugware.com/categories/hamradio/</loc>
     <lastmod>2016-07-22T19:11:47-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
@@ -319,7 +285,6 @@
   <url>
     <loc>https://blog.nobugware.com/tags/video/</loc>
     <lastmod>2016-07-22T19:11:47-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
@@ -350,18 +315,16 @@
   <url>
     <loc>https://blog.nobugware.com/categories/freebsd/</loc>
     <lastmod>2016-01-10T11:32:19-05:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.nobugware.com/post/2016/freebsd_raspberry_pi2/</loc>
-    <lastmod>2016-01-10T11:32:19-05:00</lastmod>
   </url>
   
   <url>
     <loc>https://blog.nobugware.com/tags/freebsd/</loc>
     <lastmod>2016-01-10T11:32:19-05:00</lastmod>
-    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.nobugware.com/post/2016/freebsd_raspberry_pi2/</loc>
+    <lastmod>2016-01-10T11:32:19-05:00</lastmod>
   </url>
   
   <url>
@@ -400,14 +363,18 @@
   </url>
   
   <url>
+    <loc>https://blog.nobugware.com/tags/gozim/</loc>
+    <lastmod>2015-01-02T17:50:45-04:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://blog.nobugware.com/post/2015/01/02/run-a-full-wikipedia-copy-from-any-computers/</loc>
     <lastmod>2015-01-02T17:50:45-04:00</lastmod>
   </url>
   
   <url>
-    <loc>https://blog.nobugware.com/tags/gozim/</loc>
-    <lastmod>2015-01-02T17:50:45-04:00</lastmod>
-    <priority>0</priority>
+    <loc>https://blog.nobugware.com/tags/airspy/</loc>
+    <lastmod>2014-12-13T07:55:48-04:00</lastmod>
   </url>
   
   <url>
@@ -416,9 +383,8 @@
   </url>
   
   <url>
-    <loc>https://blog.nobugware.com/tags/airspy/</loc>
-    <lastmod>2014-12-13T07:55:48-04:00</lastmod>
-    <priority>0</priority>
+    <loc>https://blog.nobugware.com/tags/freebsd-gce/</loc>
+    <lastmod>2014-11-28T20:29:34-04:00</lastmod>
   </url>
   
   <url>
@@ -427,20 +393,13 @@
   </url>
   
   <url>
-    <loc>https://blog.nobugware.com/tags/freebsd-gce/</loc>
-    <lastmod>2014-11-28T20:29:34-04:00</lastmod>
-    <priority>0</priority>
+    <loc>https://blog.nobugware.com/tags/aprs/</loc>
+    <lastmod>2014-07-28T17:36:59-04:00</lastmod>
   </url>
   
   <url>
     <loc>https://blog.nobugware.com/post/2014/07/28/simple-aprs/</loc>
     <lastmod>2014-07-28T17:36:59-04:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://blog.nobugware.com/tags/aprs/</loc>
-    <lastmod>2014-07-28T17:36:59-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
@@ -451,13 +410,11 @@
   <url>
     <loc>https://blog.nobugware.com/tags/radio/</loc>
     <lastmod>2014-07-08T01:22:33-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
     <loc>https://blog.nobugware.com/tags/radio-amateur/</loc>
     <lastmod>2014-07-08T01:22:33-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
@@ -468,7 +425,6 @@
   <url>
     <loc>https://blog.nobugware.com/tags/freebsd-dedibox/</loc>
     <lastmod>2014-02-19T05:05:20-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
@@ -479,7 +435,6 @@
   <url>
     <loc>https://blog.nobugware.com/tags/pi/</loc>
     <lastmod>2014-01-30T17:37:20-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
@@ -490,7 +445,6 @@
   <url>
     <loc>https://blog.nobugware.com/tags/iphone-7shape/</loc>
     <lastmod>2013-06-15T17:59:12-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
@@ -501,7 +455,6 @@
   <url>
     <loc>https://blog.nobugware.com/categories/python/</loc>
     <lastmod>2013-02-19T16:53:12-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
@@ -510,26 +463,28 @@
   </url>
   
   <url>
-    <loc>https://blog.nobugware.com/post/2013/02/14/my-developer-tools/</loc>
-    <lastmod>2013-02-14T19:20:35-04:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://blog.nobugware.com/tags/cocoa/</loc>
     <lastmod>2013-02-14T19:20:35-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
     <loc>https://blog.nobugware.com/tags/code/</loc>
     <lastmod>2013-02-14T19:20:35-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
     <loc>https://blog.nobugware.com/tags/ios/</loc>
     <lastmod>2013-02-14T19:20:35-04:00</lastmod>
-    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.nobugware.com/post/2013/02/14/my-developer-tools/</loc>
+    <lastmod>2013-02-14T19:20:35-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.nobugware.com/tags/gae/</loc>
+    <lastmod>2013-02-12T20:59:31-04:00</lastmod>
   </url>
   
   <url>
@@ -538,9 +493,8 @@
   </url>
   
   <url>
-    <loc>https://blog.nobugware.com/tags/gae/</loc>
-    <lastmod>2013-02-12T20:59:31-04:00</lastmod>
-    <priority>0</priority>
+    <loc>https://blog.nobugware.com/tags/appcode/</loc>
+    <lastmod>2012-10-16T09:56:41-04:00</lastmod>
   </url>
   
   <url>
@@ -549,21 +503,13 @@
   </url>
   
   <url>
-    <loc>https://blog.nobugware.com/tags/appcode/</loc>
-    <lastmod>2012-10-16T09:56:41-04:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>https://blog.nobugware.com/tags/objc/</loc>
     <lastmod>2012-10-16T09:56:41-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
     <loc>https://blog.nobugware.com/tags/xcode/</loc>
     <lastmod>2012-10-16T09:56:41-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
@@ -574,7 +520,6 @@
   <url>
     <loc>https://blog.nobugware.com/tags/requests/</loc>
     <lastmod>2012-03-29T08:23:50-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
@@ -585,25 +530,21 @@
   <url>
     <loc>https://blog.nobugware.com/tags/jails/</loc>
     <lastmod>2012-02-28T15:32:47-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
     <loc>https://blog.nobugware.com/tags/vimage/</loc>
     <lastmod>2012-02-28T15:32:47-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
     <loc>https://blog.nobugware.com/tags/vnet/</loc>
     <lastmod>2012-02-28T15:32:47-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
     <loc>https://blog.nobugware.com/tags/zfs/</loc>
     <lastmod>2012-02-28T15:32:47-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
@@ -619,13 +560,11 @@
   <url>
     <loc>https://blog.nobugware.com/tags/qemu/</loc>
     <lastmod>2012-01-05T23:59:14-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
     <loc>https://blog.nobugware.com/tags/xv6/</loc>
     <lastmod>2012-01-05T23:59:14-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
@@ -641,13 +580,11 @@
   <url>
     <loc>https://blog.nobugware.com/tags/kvm/</loc>
     <lastmod>2011-10-14T13:57:13-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
     <loc>https://blog.nobugware.com/tags/virtio/</loc>
     <lastmod>2011-10-14T13:57:13-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
@@ -656,20 +593,18 @@
   </url>
   
   <url>
+    <loc>https://blog.nobugware.com/tags/gimp/</loc>
+    <lastmod>2011-08-31T15:40:52-04:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://blog.nobugware.com/post/2011/08/31/gimp-273-osx/</loc>
     <lastmod>2011-08-31T15:40:52-04:00</lastmod>
   </url>
   
   <url>
-    <loc>https://blog.nobugware.com/tags/gimp/</loc>
-    <lastmod>2011-08-31T15:40:52-04:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>https://blog.nobugware.com/tags/mac/</loc>
     <lastmod>2011-08-31T15:40:52-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
@@ -683,26 +618,23 @@
   </url>
   
   <url>
+    <loc>https://blog.nobugware.com/tags/gentoo/</loc>
+    <lastmod>2011-02-02T22:06:52-04:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://blog.nobugware.com/post/2011/02/02/gentoo-lvmraid-root/</loc>
     <lastmod>2011-02-02T22:06:52-04:00</lastmod>
   </url>
   
   <url>
-    <loc>https://blog.nobugware.com/tags/gentoo/</loc>
-    <lastmod>2011-02-02T22:06:52-04:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>https://blog.nobugware.com/tags/lvm/</loc>
     <lastmod>2011-02-02T22:06:52-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
     <loc>https://blog.nobugware.com/tags/raid/</loc>
     <lastmod>2011-02-02T22:06:52-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
@@ -713,7 +645,6 @@
   <url>
     <loc>https://blog.nobugware.com/tags/arduino/</loc>
     <lastmod>2011-01-28T11:52:12-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
@@ -722,20 +653,18 @@
   </url>
   
   <url>
-    <loc>https://blog.nobugware.com/post/2010/11/08/jmx-query-python-cpython/</loc>
-    <lastmod>2010-11-08T17:30:03-04:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://blog.nobugware.com/tags/glassfish/</loc>
     <lastmod>2010-11-08T17:30:03-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
     <loc>https://blog.nobugware.com/tags/jmx/</loc>
     <lastmod>2010-11-08T17:30:03-04:00</lastmod>
-    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.nobugware.com/post/2010/11/08/jmx-query-python-cpython/</loc>
+    <lastmod>2010-11-08T17:30:03-04:00</lastmod>
   </url>
   
   <url>
@@ -749,26 +678,23 @@
   </url>
   
   <url>
-    <loc>https://blog.nobugware.com/post/2010/02/12/nginx-ssl-tomcat-confluence/</loc>
-    <lastmod>2010-02-12T14:02:03-04:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://blog.nobugware.com/tags/confluence/</loc>
     <lastmod>2010-02-12T14:02:03-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
     <loc>https://blog.nobugware.com/tags/nginx/</loc>
     <lastmod>2010-02-12T14:02:03-04:00</lastmod>
-    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.nobugware.com/post/2010/02/12/nginx-ssl-tomcat-confluence/</loc>
+    <lastmod>2010-02-12T14:02:03-04:00</lastmod>
   </url>
   
   <url>
     <loc>https://blog.nobugware.com/tags/tomcat/</loc>
     <lastmod>2010-02-12T14:02:03-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
@@ -777,14 +703,13 @@
   </url>
   
   <url>
-    <loc>https://blog.nobugware.com/post/2009/08/05/quand-je-ne-bosse-pas-je-vole/</loc>
+    <loc>https://blog.nobugware.com/tags/flysim/</loc>
     <lastmod>2009-08-05T22:17:35-04:00</lastmod>
   </url>
   
   <url>
-    <loc>https://blog.nobugware.com/tags/flysim/</loc>
+    <loc>https://blog.nobugware.com/post/2009/08/05/quand-je-ne-bosse-pas-je-vole/</loc>
     <lastmod>2009-08-05T22:17:35-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
@@ -795,13 +720,11 @@
   <url>
     <loc>https://blog.nobugware.com/tags/sdk/</loc>
     <lastmod>2009-08-04T11:09:06-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
     <loc>https://blog.nobugware.com/tags/svn/</loc>
     <lastmod>2009-08-04T11:09:06-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
@@ -817,30 +740,26 @@
   <url>
     <loc>https://blog.nobugware.com/tags/jumpstart/</loc>
     <lastmod>2009-07-28T19:22:12-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
     <loc>https://blog.nobugware.com/tags/solaris/</loc>
     <lastmod>2009-07-28T19:22:12-04:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.nobugware.com/post/2009/06/28/use-trac-browser-jira/</loc>
-    <lastmod>2009-06-28T12:46:35-04:00</lastmod>
   </url>
   
   <url>
     <loc>https://blog.nobugware.com/tags/jira/</loc>
     <lastmod>2009-06-28T12:46:35-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
     <loc>https://blog.nobugware.com/tags/trac/</loc>
     <lastmod>2009-06-28T12:46:35-04:00</lastmod>
-    <priority>0</priority>
+  </url>
+  
+  <url>
+    <loc>https://blog.nobugware.com/post/2009/06/28/use-trac-browser-jira/</loc>
+    <lastmod>2009-06-28T12:46:35-04:00</lastmod>
   </url>
   
   <url>
@@ -856,7 +775,6 @@
   <url>
     <loc>https://blog.nobugware.com/tags/objectivec/</loc>
     <lastmod>2009-03-11T22:44:11-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
@@ -865,14 +783,23 @@
   </url>
   
   <url>
+    <loc>https://blog.nobugware.com/tags/virtualbox/</loc>
+    <lastmod>2009-02-17T11:35:49-04:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://blog.nobugware.com/post/2009/02/17/virtualbox-nat-ssh-guest/</loc>
     <lastmod>2009-02-17T11:35:49-04:00</lastmod>
   </url>
   
   <url>
-    <loc>https://blog.nobugware.com/tags/virtualbox/</loc>
-    <lastmod>2009-02-17T11:35:49-04:00</lastmod>
-    <priority>0</priority>
+    <loc>https://blog.nobugware.com/tags/hadoop/</loc>
+    <lastmod>2009-02-09T14:51:46-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.nobugware.com/tags/late/</loc>
+    <lastmod>2009-02-09T14:51:46-04:00</lastmod>
   </url>
   
   <url>
@@ -881,27 +808,13 @@
   </url>
   
   <url>
-    <loc>https://blog.nobugware.com/tags/hadoop/</loc>
-    <lastmod>2009-02-09T14:51:46-04:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
-    <loc>https://blog.nobugware.com/tags/late/</loc>
-    <lastmod>2009-02-09T14:51:46-04:00</lastmod>
-    <priority>0</priority>
-  </url>
-  
-  <url>
     <loc>https://blog.nobugware.com/tags/mapreduce/</loc>
     <lastmod>2009-02-09T14:51:46-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
     <loc>https://blog.nobugware.com/tags/scheduling/</loc>
     <lastmod>2009-02-09T14:51:46-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>
@@ -942,7 +855,6 @@
   <url>
     <loc>https://blog.nobugware.com/tags/iphone/</loc>
     <lastmod>2008-12-04T09:17:43-04:00</lastmod>
-    <priority>0</priority>
   </url>
   
   <url>

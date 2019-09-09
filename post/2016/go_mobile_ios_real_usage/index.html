@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="generator" content="Hugo 0.58.1" />
+		<title>Using Go mobile on iOS for real - Fabrice Aneche</title>
+
+		<meta name="description" content="Go Mobile can generate native framework for iOS and Android using Go code, I was curious what could be achieved with it.
+Most tutorials are Hello world and I wanted to test it with real code.
+You can use it to generate a full app only using Go code, but I&rsquo;m only interested by the bindings part (SDK applications), using a native ObjC/Swift app calling Go code.
+I&rsquo;m using some existing Go code regionagogo, (a geofence database), moderately complex since it uses BoltDB and Google S2 library.">
+
+
+		
+	
+		
+
+
+
+
+<link rel="stylesheet" href="https://blog.nobugware.com/css/ui.css">
+
+	
+		
+
+		<link  rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway">
+
+		
+	</head>
+
+<body>
+<header class="container no-print">
+	<div class="u-header">
+		<nav class="bar">
+	<ul><li>
+			<a href="https://blog.nobugware.com/">
+				<img class="icon-text" src="https://blog.nobugware.com/img/prev.svg"/>
+			</a>
+		</li><li><a href="https://blog.nobugware.com/about">About</a></li><li><a href="https://blog.nobugware.com/post/">Post</a></li></ul>
+</nav>
+
+	</div>
+</header>
+<main class="container">
+
+<article>
+	<header><hgroup id="brand">
+	<h1>Using Go mobile on iOS for real</h1>
+	<h5>
+		
+		<time datetime="2016-09-22 15:39:32 -0400 -0400">Sep 22, 2016</time>
+		<span class="no-print">
+			-
+				
+				<a href="https://blog.nobugware.com/tags/Geo">Geo</a>
+				
+				<a href="https://blog.nobugware.com/tags/Golang">Golang</a>
+				
+				<a href="https://blog.nobugware.com/tags/S2">S2</a>
+				<span>
+	</h5>
+	
+</hgroup>
+<hr class="sep" />
+</header>
+	<p><a href="https://github.com/golang/go/wiki/Mobile">Go Mobile</a> can generate native framework for iOS and Android using Go code, I was curious what could be achieved with it.<br />
+Most tutorials are Hello world and I wanted to test it with real code.<br />
+You can use it to generate a full app only using Go code, but I&rsquo;m only interested by the bindings part (SDK applications), using a native ObjC/Swift app calling Go code.</p>
+
+<p>I&rsquo;m using some existing Go code <a href="https://github.com/akhenakh/regionagogo">regionagogo</a>, (a geofence database), moderately complex since it uses <a href="https://github.com/boltdb/bolt">BoltDB</a> and <a href="https://github.com/golang/geo">Google S2 library</a>.</p>
+
+<p><a href="https://github.com/golang/go/wiki/Mobile">Go Mobile</a> is limited <a href="https://godoc.org/golang.org/x/mobile/cmd/gobind#hdr-Type_restrictions">to a subset of types</a> you can use, main reason is to be correctly transcribed to Java and ObjC.</p>
+
+<p>So the first thing to do is to write some Go wrapper like you would do in ObjC to call some C++ code but first:</p>
+
+<p>Functions must return either no results, one result, or two results where the type of the second is the built-in <code>error</code> type.<br />
+So far no major complication, but also note that you <strong>can&rsquo;t return slices</strong>, that could be a major pain, there are some workaround solutions like <a href="https://github.com/scisci/go-mobile-collection">go-mobile-collection</a> that can generate an API to operate on slice.<br />
+You also have to respect some naming for your constructor like <code>New...()</code>.</p>
+
+<p>At the end your wrapper won&rsquo;t look very Goish but it&rsquo;s what it takes for it to be translated.</p>
+
+<p>Knowing those constraints you can write a simple wrapper like this:</p>
+
+<pre><code class="language-go">package mobile
+
+type GeoDB struct {
+	db regionagogo.GeoFenceDB
+}
+
+func NewGeoDB() *GeoDB {
+	g := &amp;GeoDB{}
+	return g
+}
+
+func (g *GeoDB) OpenDB(path string) error {
+	db, err := rbolt.NewGeoFenceBoltDB(path)
+	if err != nil {
+		return err
+	}
+	g.db = db
+	return nil
+}
+
+...
+</code></pre>
+
+<p>Then use the gomobile command:</p>
+
+<pre><code>gomobile bind -target=ios github.com/akhenakh/regionagogo/mobile
+</code></pre>
+
+<p>It generates a native iOS Mobile.Framework, drop it into your XCode project and start using it.</p>
+
+<ul>
+<li><code>GeoDB</code> translates to <code>GoMobileNewGeoDB()</code> and returns a <code>GoMobileGeoDB*</code> in ObjC domain.</li>
+<li><code>OpenDB(path string) error</code> to <code>- (BOOL)openDB:(NSString*)path error:(NSError**)error</code>.</li>
+</ul>
+
+<p>A simple example would be:</p>
+
+<pre><code class="language-C">GoMobileGeoDB *db = GoMobileNewGeoDB();
+NSString *resourcePath = [[NSBundle mainBundle] pathForResource:@&quot;region&quot; ofType:@&quot;db&quot;];
+        
+NSError *error;
+[db openDB:resourcePath error:&amp;error];
+if (error != nil) {
+    NSLog(@&quot;error opening db %@&quot;, [error localizedDescription]);
+    return;
+}
+</code></pre>
+
+<p>It&rsquo;s performing very well, on my iPhone 6, around 4,000 queries per second to test a position in a small fence, to 60,000 queries in a hit miss (calling Go overhead is not that big),  while using a ridiculously small amount of memory.</p>
+
+<p>I&rsquo;ve made a demo iOS app where you can hit the map and it tells you in which fence you are.</p>
+
+<p><img src="https://blog.nobugware.com/img/shotmap.jpg" alt="app" title="geofence app" /><br />
+Remember this is running locally on your phone without any network access (but the map), the geo computation and the Polygons are returned by Go code.</p>
+
+<p>Until now I had to maintain libraries in both languages, Go mobile is a nice alternative!</p>
+
+<p>Sources for the wrapper are available in <a href="https://github.com/akhenakh/regionagogo/tree/gomobile/mobile">regionagogo gomobile branch</a>, and here is the <a href="https://github.com/akhenakh/testgomobileios">iOS demo app</a>.</p>
+
+</article>
+<nav class="no-print post-nav">
+
+	<a class="prev-post" href="https://blog.nobugware.com/post/2016/grpc_envoy_nghttp2_load_balancing/">
+		<img class="icon-text" src="https://blog.nobugware.com/img/prev.svg"/>gRPC Envoy Nghttp2 and Load Balancing</a>
+
+
+	<a class="next-post" href="https://blog.nobugware.com/post/2016/grpc_context_go_1.7/">gRPC wrong types context and Go 1.7<img class="icon-text" src="https://blog.nobugware.com/img/next.svg"/>
+	</a>
+
+</nav>
+
+
+<section id="related">
+  <h4>See Also</h4>
+  <ul>
+    
+  	<li><a href="https://blog.nobugware.com/post/2016/geo_db_s2_geohash_database/">A fast geo database with Google S2 take #2</a></li>
+  	
+  	<li><a href="https://blog.nobugware.com/post/2016/freebsd_raspberry_pi2/">Freebsd on Raspberry Pi 2 and Golang</a></li>
+  	
+  </ul>
+</section>
+
+
+
+
+			<hr class="sep" />
+		</main>
+		<footer class="container no-print">
+			<div class="u-footer">
+				
+<a href="mailto:akh@inair.space"><img class="icon-social" src="https://blog.nobugware.com/img/email.svg" alt="Email Me!"/></a>
+
+
+<a href="https://github.com/akhenakh/"><img class="icon-social" src="https://blog.nobugware.com/img/github.svg" alt="Github"/></a>
+
+
+<a href="https://twitter.com/akhenakh"><img class="icon-social" src="https://blog.nobugware.com/img/twitter.svg" alt="Twitter"/></a>
+
+<a href="https://blog.nobugware.com/index.xml" target="_blank"><img class="icon-social" src="https://blog.nobugware.com/img/feed.svg" alt="Feed"></a>
+
+				<p>
+					
+					Theme used: <a href="https://github.com/yursan9/manis-hugo-theme">Manis</a><br>
+					
+					
+					
+				</p>
+				
+				<a href="#brand">
+					<img class="icon-text" src="https://blog.nobugware.com/img/toup.svg" alt="To Up"/>
+					<span>Back to Up</span>
+				</a>
+				
+			</div>
+		</footer>
+		
+	</body>
+</html>
+

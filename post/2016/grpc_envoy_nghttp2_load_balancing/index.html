@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="generator" content="Hugo 0.58.1" />
+		<title>gRPC Envoy Nghttp2 and Load Balancing - Fabrice Aneche</title>
+
+		<meta name="description" content="How to load balance gRPC servers with Envoy or Nghttp2">
+
+
+		
+	
+		
+
+
+
+
+<link rel="stylesheet" href="https://blog.nobugware.com/css/ui.css">
+
+	
+		
+
+		<link  rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway">
+
+		
+	</head>
+
+<body>
+<header class="container no-print">
+	<div class="u-header">
+		<nav class="bar">
+	<ul><li>
+			<a href="https://blog.nobugware.com/">
+				<img class="icon-text" src="https://blog.nobugware.com/img/prev.svg"/>
+			</a>
+		</li><li><a href="https://blog.nobugware.com/about">About</a></li><li><a href="https://blog.nobugware.com/post/">Post</a></li></ul>
+</nav>
+
+	</div>
+</header>
+<main class="container">
+
+<article>
+	<header><hgroup id="brand">
+	<h1>gRPC Envoy Nghttp2 and Load Balancing</h1>
+	<h5>
+		
+		<time datetime="2016-09-20 17:40:04 -0400 -0400">Sep 20, 2016</time>
+		<span class="no-print">
+			-
+				
+				<a href="https://blog.nobugware.com/tags/grpc">grpc</a>
+				
+				<a href="https://blog.nobugware.com/tags/go">go</a>
+				<span>
+	</h5>
+	
+</hgroup>
+<hr class="sep" />
+</header>
+	<p>I&rsquo;ve been using <a href="http://www.grpc.io/">gRPC</a> at work and in several personal projects for months and happy with it, but when it comes to load balancing gRPC does not come with batteries included.</p>
+
+<p>For a long time the only document was the <a href="https://github.com/grpc/grpc/commit/b31ec1e81c93d4c9bf30a4600096a6a6f5b90935">Load Balancing draft in the gRPC repo</a>, the clients should implement a Picker interface to know about the servers, so the pooling and controling the load were handled by the clients.<br />
+HTTP/2 was new and most of the reverse proxies implementations were not capable of load balancing gRPC HTTP2 frames, the only solution was to use a TCP load balancer, generating errors, improper  and weird behaviours for the clients.</p>
+
+<p>At least two projects are now supporting gRPC load balancing easily.</p>
+
+<ul>
+<li>The recently announced <a href="https://lyft.github.io/envoy/">Envoy</a> from Lyft</li>
+<li>And nghttpx from <a href="https://www.nghttp2.org/">nghttp2</a></li>
+</ul>
+
+<p>Here are some notes to simply load balance two <a href="https://github.com/grpc/grpc-go/tree/master/examples/helloworld">gRPC Helloworld server!</a> running on ports 50050 &amp; 50051.</p>
+
+<ul>
+<li><p>For nghttp2, a simple configuration file will do</p>
+
+<pre><code>frontend=*,8000;no-tls
+backend=localhost,50050;;no-tls;proto=h2;fall=2;rise=2
+backend=localhost,50051;;no-tls;proto=h2;fall=2;rise=2
+workers=8
+</code></pre></li>
+
+<li><p>For envoy, here is the cluster part</p>
+
+<pre><code class="language-js">&quot;clusters&quot;: [
+  {
+    &quot;name&quot;: &quot;local_service&quot;,
+    &quot;connect_timeout_ms&quot;: 250,
+    &quot;type&quot;: &quot;static&quot;,
+    &quot;lb_type&quot;: &quot;least_request&quot;,
+    &quot;features&quot;: &quot;http2&quot;,
+    &quot;hosts&quot;: [
+      {
+        &quot;url&quot;: &quot;tcp://127.0.0.1:50050&quot;
+      },
+      {
+        &quot;url&quot;: &quot;tcp://127.0.0.1:50051&quot;
+      }
+    ]
+  }
+]
+</code></pre></li>
+</ul>
+
+<p>You can then tweak the greeter_client to loop for requests, so you can simulate a client doing multiple requests while killing/restarting your servers.</p>
+
+<pre><code class="language-go">for {  
+    r, err := c.SayHello(context.Background(), &amp;pb.HelloRequest{Name: name}) 
+    if err != nil { 
+        log.Printf(&quot;could not greet: %v&quot;, err)
+    }
+    log.Printf(&quot;Greeting: %s&quot;, r.Message)
+}
+</code></pre>
+
+<p>And modify the greeter_server to show on which port/server you get your response:</p>
+
+<pre><code class="language-go">// SayHello implements helloworld.GreeterServer
+func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloReply, error) {
+    return &amp;pb.HelloReply{Message: &quot;Hello &quot; + in.Name + port}, nil 
+}
+</code></pre>
+
+<p>Those tests aren&rsquo;t enabling any TLS so use <code>grpc.WithInsecure()</code>.</p>
+
+<p>Note that Envoy is also capable of <a href="https://lyft.github.io/envoy/docs/configuration/http_filters/grpc_http1_bridge_filter.html">bridging your HTTP/1.1 queries to gRPC</a>, which is a killer feature (I haven&rsquo;t tested it yet) , you would normally do it by code with <a href="https://github.com/grpc-ecosystem/grpc-gateway">gRPC-gateway</a>.</p>
+
+<p>Envoy is really new and I&rsquo;m still digging into but already proves itself to be a <strong>complete load balancing proxy solution</strong>  with or without gRPC in your stack.</p>
+
+</article>
+<nav class="no-print post-nav">
+
+	<a class="prev-post" href="https://blog.nobugware.com/post/2016/streaming_raspberry_twitch_audio_rtl_sdr/">
+		<img class="icon-text" src="https://blog.nobugware.com/img/prev.svg"/>Streaming using a Raspberry Pi Camera to Twitch in Full HD while injecting audio from rtl sdr</a>
+
+
+	<a class="next-post" href="https://blog.nobugware.com/post/2016/go_mobile_ios_real_usage/">Using Go mobile on iOS for real<img class="icon-text" src="https://blog.nobugware.com/img/next.svg"/>
+	</a>
+
+</nav>
+
+
+
+
+
+			<hr class="sep" />
+		</main>
+		<footer class="container no-print">
+			<div class="u-footer">
+				
+<a href="mailto:akh@inair.space"><img class="icon-social" src="https://blog.nobugware.com/img/email.svg" alt="Email Me!"/></a>
+
+
+<a href="https://github.com/akhenakh/"><img class="icon-social" src="https://blog.nobugware.com/img/github.svg" alt="Github"/></a>
+
+
+<a href="https://twitter.com/akhenakh"><img class="icon-social" src="https://blog.nobugware.com/img/twitter.svg" alt="Twitter"/></a>
+
+<a href="https://blog.nobugware.com/index.xml" target="_blank"><img class="icon-social" src="https://blog.nobugware.com/img/feed.svg" alt="Feed"></a>
+
+				<p>
+					
+					Theme used: <a href="https://github.com/yursan9/manis-hugo-theme">Manis</a><br>
+					
+					
+					
+				</p>
+				
+				<a href="#brand">
+					<img class="icon-text" src="https://blog.nobugware.com/img/toup.svg" alt="To Up"/>
+					<span>Back to Up</span>
+				</a>
+				
+			</div>
+		</footer>
+		
+	</body>
+</html>
+

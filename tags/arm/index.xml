@@ -21,7 +21,7 @@
 Warning, you can brick your device (but can unbrick it), you are on your own.
  Follow Arch Instructions to Install on an SD Card Boot on it Insert your USB device and follow the exact same installation but this time to the /dev/sdadevice
 At the end
-Mount / into root again Run blkid to grab the UUID of your /   /dev/sda1: UUID=&amp;quot;a3490212-03b6-46a6-9e6b-7733513a3efa&amp;quot; TYPE=&amp;quot;ext4&amp;quot;  Add the file root/boot/boot.</description>
+Mount / into root again Run blkid to grab the UUID of your /</description>
     </item>
     
   </channel>

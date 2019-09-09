@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="generator" content="Hugo 0.58.1" />
+		<title>Migrate to Hugo - Fabrice Aneche</title>
+
+		<meta name="description" content="This blog is running Hugo with an auto deploy via Wercker and hosted on Github Page. Take #2
+Previous blog was hosted on Google App Engine with a Python blog system, to get the previous articles, I had to run in a small data migration.
+Make a backup from GAE admin web interface: Go to Datastore admin and backup your entity mine was Post and then backup to blobstore, go to Blob Viewer and download your file named around datastore_backup_datastore_backup_2015_08_02_Post-157413521680733022360302ADC43E4-output-1-attempt-1">
+
+
+		
+	
+		
+
+
+
+
+<link rel="stylesheet" href="https://blog.nobugware.com/css/ui.css">
+
+	
+		
+
+		<link  rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway">
+
+		
+	</head>
+
+<body>
+<header class="container no-print">
+	<div class="u-header">
+		<nav class="bar">
+	<ul><li>
+			<a href="https://blog.nobugware.com/">
+				<img class="icon-text" src="https://blog.nobugware.com/img/prev.svg"/>
+			</a>
+		</li><li><a href="https://blog.nobugware.com/about">About</a></li><li><a href="https://blog.nobugware.com/post/">Post</a></li></ul>
+</nav>
+
+	</div>
+</header>
+<main class="container">
+
+<article>
+	<header><hgroup id="brand">
+	<h1>Migrate to Hugo</h1>
+	<h5>
+		
+		<time datetime="2015-08-01 22:36:51 -0400 -0400">Aug 01, 2015</time>
+		<span class="no-print">
+			<span>
+	</h5>
+	
+</hgroup>
+<hr class="sep" />
+</header>
+	<p>This blog is running Hugo with an auto deploy via Wercker and hosted on Github Page.
+Take #2</p>
+
+<p>Previous blog was hosted on Google App Engine with a <a href="http://github.com/akhenakh/bloggae">Python blog system</a>, to get the previous articles, I had to run in a small data migration.</p>
+
+<p>Make a backup from GAE admin web interface: Go to Datastore admin and backup your entity mine was Post and then backup to blobstore, go to Blob Viewer and download your file named around <code>datastore_backup_datastore_backup_2015_08_02_Post-157413521680733022360302ADC43E4-output-1-attempt-1</code></p>
+
+<p>I put the migration code I&rsquo;ve used here, it&rsquo;s super ugly but helped me to migrate from GAE to Hugo, so it may be help you too.</p>
+
+<p>I&rsquo;ve used <a href="http://www.aaronsw.com/2002/html2text/">html2text</a> to convert my HTML data back to Markdown.</p>
+
+<pre><code class="language-python">import sys
+import os
+import json
+import html2text
+import errno
+import datetime
+
+sys.path.append('/usr/local/google_appengine')
+from google.appengine.api.files import records
+from google.appengine.datastore import entity_pb
+from google.appengine.api import datastore
+
+def mkdir_p(path):
+    try:
+        os.makedirs(path)
+    except OSError as exc:
+        if exc.errno == errno.EEXIST and os.path.isdir(path):
+            pass
+        else: raise
+
+raw = open(&quot;datastore&quot;, 'r')
+titles = open(&quot;titles.txt&quot;, 'r').readlines()
+reader = records.RecordsReader(raw)
+i = 0
+for record in reader:
+    entity_proto = entity_pb.EntityProto(contents=record)
+    entity = datastore.Entity.FromPb(entity_proto)
+
+    if entity.get(&quot;status&quot;) == 1:
+        path = titles[i].rstrip()
+        content = html2text.html2text(entity[&quot;content_html&quot;], &quot;http://blog.nobugware.com/&quot;)
+        directory = os.path.dirname(path)
+        mkdir_p(&quot;post&quot; + directory)
+
+        # get current local time and utc time
+        localnow = datetime.datetime.now()
+        utcnow = datetime.datetime.utcnow()
+
+        # compute the time difference in seconds
+        tzd = localnow - utcnow
+        secs = tzd.days * 24 * 3600 + tzd.seconds
+
+        # get a positive or negative prefix
+        prefix = '+'
+        if secs &lt; 0:
+            prefix = '-'
+            secs = abs(secs)
+
+        # print the local time with the difference, correctly formatted
+        suffix = &quot;%s%02d:%02d&quot; % (prefix, secs/3600, secs/60%60)
+        now = localnow.replace(microsecond=0)
+        date = &quot;%s%s&quot; % (entity[&quot;creation_date&quot;].isoformat(' '), suffix)
+        tags_string = &quot;&quot;
+        tags_cleaned = []
+        if entity.get(&quot;tags&quot;) is not None:
+            tags = entity.get(&quot;tags&quot;)
+            for tag in tags:
+                tags_cleaned.append(&quot;\&quot;&quot;+ tag + &quot;\&quot;&quot;)
+            tags_string = &quot;,&quot;.join(tags_cleaned)
+
+        print tags_string
+        page = &quot;&quot;&quot;+++
+date = &quot;%s&quot;
+title = &quot;%s&quot;
+tags = [%s]
++++
+
+%s
+&quot;&quot;&quot; % ( date, entity[&quot;title&quot;] , tags_string, content)
+    md=open(&quot;post&quot; + path + &quot;.md&quot;, 'w')
+    md.write(page.encode('utf8'))
+    md.close()
+    i = i + 1
+</code></pre>
+
+</article>
+<nav class="no-print post-nav">
+
+	<a class="prev-post" href="https://blog.nobugware.com/post/2015/04/grafana_influxdb/">
+		<img class="icon-text" src="https://blog.nobugware.com/img/prev.svg"/>A 10 minutes walk into Grafana &amp; Influxdb</a>
+
+
+	<a class="next-post" href="https://blog.nobugware.com/post/hugo_blog_github/">Host your blog on Github with autodeploy<img class="icon-text" src="https://blog.nobugware.com/img/next.svg"/>
+	</a>
+
+</nav>
+
+
+
+
+
+			<hr class="sep" />
+		</main>
+		<footer class="container no-print">
+			<div class="u-footer">
+				
+<a href="mailto:akh@inair.space"><img class="icon-social" src="https://blog.nobugware.com/img/email.svg" alt="Email Me!"/></a>
+
+
+<a href="https://github.com/akhenakh/"><img class="icon-social" src="https://blog.nobugware.com/img/github.svg" alt="Github"/></a>
+
+
+<a href="https://twitter.com/akhenakh"><img class="icon-social" src="https://blog.nobugware.com/img/twitter.svg" alt="Twitter"/></a>
+
+<a href="https://blog.nobugware.com/index.xml" target="_blank"><img class="icon-social" src="https://blog.nobugware.com/img/feed.svg" alt="Feed"></a>
+
+				<p>
+					
+					Theme used: <a href="https://github.com/yursan9/manis-hugo-theme">Manis</a><br>
+					
+					
+					
+				</p>
+				
+				<a href="#brand">
+					<img class="icon-text" src="https://blog.nobugware.com/img/toup.svg" alt="To Up"/>
+					<span>Back to Up</span>
+				</a>
+				
+			</div>
+		</footer>
+		
+	</body>
+</html>
+

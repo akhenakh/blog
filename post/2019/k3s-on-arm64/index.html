@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="generator" content="Hugo 0.58.1" />
+		<title>k3s on arm64 - Fabrice Aneche</title>
+
+		<meta name="description" content="Deploying Kubernetes on arm64 with the help of k3s">
+
+
+		
+	
+		
+
+
+
+
+<link rel="stylesheet" href="https://blog.nobugware.com/css/ui.css">
+
+	
+		
+
+		<link  rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway">
+
+		
+	</head>
+
+<body>
+<header class="container no-print">
+	<div class="u-header">
+		<nav class="bar">
+	<ul><li>
+			<a href="https://blog.nobugware.com/">
+				<img class="icon-text" src="https://blog.nobugware.com/img/prev.svg"/>
+			</a>
+		</li><li><a href="https://blog.nobugware.com/about">About</a></li><li><a href="https://blog.nobugware.com/post/">Post</a></li></ul>
+</nav>
+
+	</div>
+</header>
+<main class="container">
+
+<article>
+	<header><hgroup id="brand">
+	<h1>k3s on arm64</h1>
+	<h5>
+		
+		<time datetime="2019-06-19 06:00:00 -0400 -0400">Jun 19, 2019</time>
+		<span class="no-print">
+			-
+				
+				<a href="https://blog.nobugware.com/tags/kubernetes">kubernetes</a>
+				
+				<a href="https://blog.nobugware.com/tags/k3s">k3s</a>
+				
+				<a href="https://blog.nobugware.com/tags/arm64">arm64</a>
+				
+				<a href="https://blog.nobugware.com/tags/rock64">rock64</a>
+				<span>
+	</h5>
+	
+</hgroup>
+<hr class="sep" />
+</header>
+	<p>I&rsquo;m evaluating <a href="https://k3s.io/">k3s</a> a Lightweight Kubernetes on a <a href="https://blog.nobugware.com/post/2019/h96-max-android-box-as-a-linux-server/">3 nodes arm64 cluster</a> (RK3328 Quad arm64).</p>
+
+<p><img src="https://blog.nobugware.com/img/clusterarm.jpg" alt="" /></p>
+
+<p>At the time of writing the stable release is k3s <a href="https://github.com/rancher/k3s/releases/tag/v0.6.1">v0.6.1</a>.</p>
+
+<p>Here are my notes:</p>
+
+<ul>
+<li>If you haven&rsquo;t installed k3s with the <code>install.sh</code>, you may need to load some modules: <code>br_netfilter</code> and <code>overlay</code></li>
+<li>Docker is not needed since k3s is using containerd but it seems I had to start docker to initialized the whole cgroups, at least on Arch</li>
+
+<li><p>Remember to modify all the templates to use an arm64 image</p>
+
+<pre><code>          containers:
+          - name: kubernetes-dashboard
+            image: k8s.gcr.io/kubernetes-dashboard-arm64:v1.10.1
+</code></pre></li>
+
+<li><p>Deploy metrics server
+Clone the k3s and change the image to be arm64 <code>k8s.gcr.io/metrics-server-arm64:v0.3.1</code></p>
+
+<pre><code>   git clone git@github.com:rancher/k3s.git
+   vi k3s/recipes/metrics-server/metrics-server-deployment.yaml
+   sudo  k3s kubectl -n kube-system create -f k3s/recipes/metrics-server
+</code></pre></li>
+</ul>
+
+<p>Test it by running <code>k3s kubectl top node</code></p>
+
+<ul>
+<li><p>Dynamic storage class<br />
+Kubernetes provides a local storage but <a href="https://kubernetes.io/blog/2019/04/04/kubernetes-1.14-local-persistent-volumes-ga/">no dynamic volume provisioning</a>, you still have to manually create the PersistentVolume which breaks any automatic deployment (especially from Helm).<br />
+Rancher developed <a href="https://github.com/rancher/local-path-provisioner">local-path-provisioner</a> for that purpose.
+I couldn&rsquo;t find a recent build for arm64, so I built one, you can find it <a href="https://cloud.docker.com/repository/registry-1.docker.io/akhenakh/local-path-provisioner">here</a>.</p>
+
+<pre><code>curl -sfL https://raw.githubusercontent.com/rancher/local-path-provisioner/master/deploy/local-path-storage.yaml &gt; local-path-storage.yaml
+# Edit local-path-storage.yaml to set image to akhenakh/local-path-provisioner:arm64-v0.0.9
+kubectl create -f local-path-storage.yaml
+kubectl patch storageclass local-path -p '{&quot;metadata&quot;: {&quot;annotations&quot;:{&quot;storageclass.kubernetes.io/is-default-class&quot;:&quot;true&quot;}}}'
+</code></pre></li>
+
+<li><p>Deploy dashboard<br />
+Change the image to be arm64  <code>k8s.gcr.io/kubernetes-dashboard-arm64:v1.10.1</code>.<br />
+Add the skip option to the args <code>- --enable-skip-login</code></p>
+
+<pre><code>      curl -sfL https://raw.githubusercontent.com/kubernetes/dashboard/v1.10.1/src/deploy/recommended/kubernetes-dashboard.yaml &gt; kubernetes-dashboard.yaml
+      vi kubernetes-dashboard.yaml
+      cat &lt;&lt;EOF | sudo k3s kubectl create -f -
+      apiVersion: rbac.authorization.k8s.io/v1beta1
+      kind: ClusterRoleBinding
+      metadata:
+        name: kubernetes-dashboard
+        labels:
+          k8s-app: kubernetes-dashboard
+      roleRef:
+        apiGroup: rbac.authorization.k8s.io
+        kind: ClusterRole
+        name: cluster-admin
+      subjects:
+      - kind: ServiceAccount
+        name: kubernetes-dashboard
+        namespace: kube-system
+      EOF
+      sudo  k3s kubectl -n kube-system create -f kubernetes-dashboard.yaml
+</code></pre></li>
+</ul>
+
+<p>Merge <code>/etc/rancher/k3s/k3s.yaml</code> to your <code>.kube/config</code> on your workstation host, then <code>kubectl proxy</code> to <a href="http://localhost:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/#!/overview?namespace=default">localhost:8001</a>
+* Install a different version</p>
+
+<pre><code>      curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION=v0.6.1 sh -
+</code></pre>
+
+<ul>
+<li><p>Install agents</p>
+
+<pre><code>  curl -sfL https://get.k3s.io | INSTALL_K3S_VERSION=v0.6.1 K3S_URL=https://mymaster.home:6443 K3S_TOKEN=K101864xxxxxxxxxxxxxxxxxxx::node:xxxxxxxxxxxxxxxxxxxxxxxxx sh -
+</code></pre></li>
+</ul>
+
+</article>
+<nav class="no-print post-nav">
+
+	<a class="prev-post" href="https://blog.nobugware.com/post/2019/h96-max-android-box-as-a-linux-server/">
+		<img class="icon-text" src="https://blog.nobugware.com/img/prev.svg"/>H96 Max&#43; Android box as a Linux server</a>
+
+
+</nav>
+
+
+<section id="related">
+  <h4>See Also</h4>
+  <ul>
+    
+  	<li><a href="https://blog.nobugware.com/post/2019/arch-on-rock64-with-usb-boot/">Arch on Rock64 with USB boot</a></li>
+  	
+  	<li><a href="https://blog.nobugware.com/post/2019/deploying-a-website-with-caddy-git-and-kubernetes/">Deploying a website with Caddy, Git and Kubernetes</a></li>
+  	
+  </ul>
+</section>
+
+
+
+
+			<hr class="sep" />
+		</main>
+		<footer class="container no-print">
+			<div class="u-footer">
+				
+<a href="mailto:akh@inair.space"><img class="icon-social" src="https://blog.nobugware.com/img/email.svg" alt="Email Me!"/></a>
+
+
+<a href="https://github.com/akhenakh/"><img class="icon-social" src="https://blog.nobugware.com/img/github.svg" alt="Github"/></a>
+
+
+<a href="https://twitter.com/akhenakh"><img class="icon-social" src="https://blog.nobugware.com/img/twitter.svg" alt="Twitter"/></a>
+
+<a href="https://blog.nobugware.com/index.xml" target="_blank"><img class="icon-social" src="https://blog.nobugware.com/img/feed.svg" alt="Feed"></a>
+
+				<p>
+					
+					Theme used: <a href="https://github.com/yursan9/manis-hugo-theme">Manis</a><br>
+					
+					
+					
+				</p>
+				
+				<a href="#brand">
+					<img class="icon-text" src="https://blog.nobugware.com/img/toup.svg" alt="To Up"/>
+					<span>Back to Up</span>
+				</a>
+				
+			</div>
+		</footer>
+		
+	</body>
+</html>
+

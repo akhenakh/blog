@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="generator" content="Hugo 0.58.1" />
+		<title>Freebsd on Raspberry Pi 2 and Golang - Fabrice Aneche</title>
+
+		<meta name="description" content="FreeBSD is now fully supported on the Raspberry Pi2, makes it a fun small computer to experiment with BSD.
+If you have a Raspberry Pi 1, you can simply install 10.2-RELEASE image.
+For Raspberry Pi 2, you need 11.0-CURRENT which is the development branch, images can be found here.
+dd the image as usual to a SD card, it will be auto resized at first boot. (See growfs_enable=&quot;YES&quot;) in rc.">
+
+
+		
+	
+		
+
+
+
+
+<link rel="stylesheet" href="https://blog.nobugware.com/css/ui.css">
+
+	
+		
+
+		<link  rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway">
+
+		
+	</head>
+
+<body>
+<header class="container no-print">
+	<div class="u-header">
+		<nav class="bar">
+	<ul><li>
+			<a href="https://blog.nobugware.com/">
+				<img class="icon-text" src="https://blog.nobugware.com/img/prev.svg"/>
+			</a>
+		</li><li><a href="https://blog.nobugware.com/about">About</a></li><li><a href="https://blog.nobugware.com/post/">Post</a></li></ul>
+</nav>
+
+	</div>
+</header>
+<main class="container">
+
+<article>
+	<header><hgroup id="brand">
+	<h1>Freebsd on Raspberry Pi 2 and Golang</h1>
+	<h5>
+		
+		<time datetime="2016-01-10 11:32:19 -0500 -0500">Jan 10, 2016</time>
+		<span class="no-print">
+			-
+				
+				<a href="https://blog.nobugware.com/tags/FreeBSD">FreeBSD</a>
+				
+				<a href="https://blog.nobugware.com/tags/Golang">Golang</a>
+				<span>
+	</h5>
+	
+</hgroup>
+<hr class="sep" />
+</header>
+	
+
+<p>FreeBSD is now <a href="https://wiki.freebsd.org/FreeBSD/arm/Raspberry%20Pi">fully supported on the Raspberry Pi2</a>, makes it a fun small computer to experiment with BSD.</p>
+
+<p>If you have a Raspberry Pi 1, you can simply install <a href="ftp://ftp.freebsd.org/pub/FreeBSD/releases/arm/armv6/ISO-IMAGES/10.2/FreeBSD-10.2-RELEASE-arm-armv6-RPI-B.img.xz">10.2-RELEASE image</a>.</p>
+
+<p>For Raspberry Pi 2, you need 11.0-CURRENT which is the development branch, images can be <a href="ftp://ftp.freebsd.org/pub/FreeBSD/snapshots/arm/armv6/ISO-IMAGES/11.0/">found here</a>.</p>
+
+<p><code>dd</code> the image as usual to a SD card, it will be auto resized at first boot. (See <code>growfs_enable=&quot;YES&quot;</code>) in <code>rc.conf</code>.</p>
+
+<h2 id="cpu-frequency">CPU frequency</h2>
+
+<p>To enable on demand cpu overclocking (ranging from 600 to 1000MHz), enable powerd by adding this to <code>rc.conf</code>.</p>
+
+<pre><code>powerd_enable=&quot;YES&quot;
+powerd_flags=&quot;-a hadp&quot;
+</code></pre>
+
+<h2 id="production-speed">Production speed</h2>
+
+<p>FreeBSD CURRENT is the development version, some debugging tools may slow down your system.</p>
+
+<p>As stated in <a href="https://raw.githubusercontent.com/freebsd/freebsd/master/UPDATING">UPDATING</a> if you are running CURRENT:</p>
+
+<pre><code>ln -s 'abort:false,junk:false' /etc/malloc.conf
+</code></pre>
+
+<h2 id="wifi">Wifi</h2>
+
+<p>Depending on your wifi dongle this may be different, for RealTek devices add an entry to <code>/etc/wpa_supplicant.conf</code>:</p>
+
+<pre><code>network={
+    ssid=&quot;myssid&quot;
+    psk=&quot;mypass&quot;
+}
+</code></pre>
+
+<p>And this to <code>/etc/rc.conf</code>:</p>
+
+<pre><code>wlans_urtwn0=&quot;wlan0&quot;
+ifconfig_wlan0=&quot;WPA SYNCDHCP&quot;
+</code></pre>
+
+<p>And this to <code>/boot/loader.conf</code></p>
+
+<pre><code>legal.realtek.license_ack=1
+</code></pre>
+
+<p>And type <code>service netif restart</code>.</p>
+
+<h2 id="installing-the-ports">Installing the ports</h2>
+
+<p>The ports are a long list of third parties software you can install on your system, first synchronize the ports tree:</p>
+
+<pre><code>portsnap fetch
+portsnap extract
+</code></pre>
+
+<p>It&rsquo;s highly recommend you install <code>portmaster</code> to keep your ports updated:</p>
+
+<pre><code>cd /usr/ports/ports-mgmt/portmaster/
+make install clean
+</code></pre>
+
+<p>To later update your ports tree and ports:</p>
+
+<pre><code>portsnap fetch update
+portmaster -a
+</code></pre>
+
+<p>To compile and install a port simply go to its directory and run <code>make install clean</code>.</p>
+
+<h2 id="keeping-the-sources-updated-optional">Keeping the sources updated (optional)</h2>
+
+<p>All the FreeBSD sources are available and can be used to recompile the whole system.</p>
+
+<p>Subversion needs some space in <code>/tmp</code> to complete this task, edit <code>/etc/fstab</code> to grow tmpfs to at least 70M the reboot:</p>
+
+<pre><code>tmpfs /tmp tmpfs rw,mode=1777,size=70m 0 0
+</code></pre>
+
+<pre><code>cd /usr/ports/security/ca_root_nss
+make install clean
+svnlite checkout https://svn.FreeBSD.org/base/head /usr/src
+</code></pre>
+
+<p>To keep it in sync later, just type:</p>
+
+<pre><code>cd /usr/src
+svnlite update
+</code></pre>
+
+<p>Keeping your FreeBSD updated can be achieved by recompiling the system aka <a href="https://www.freebsd.org/doc/en/books/handbook/makeworld.html">make world</a>, note that this could take a long time on a Raspberry Pi but still doable (remember to use <code>make -j 4</code> on RPi2).</p>
+
+<h2 id="installing-go-optional">Installing Go (optional)</h2>
+
+<p>If you are into Go and need a recent version, first you need to compile Go 1.4 as a bootstraper (note that you also need to install <code>git</code>):</p>
+
+<pre><code>cd /usr/ports/lang/go14
+make install clean
+</code></pre>
+
+<p>Then you can compile a more recent Go, for example using <code>/usr/local/go</code>:</p>
+
+<pre><code>cd /usr/local
+git clone https://go.googlesource.com/go
+cd go/src
+env TMPDIR=/var/tmp GOARM=7 GOROOT_BOOTSTRAP=/usr/local/go14 ./all.bash
+</code></pre>
+
+<p>Add <code>/usr/local/go/bin</code> to your <code>PATH</code>.</p>
+
+</article>
+<nav class="no-print post-nav">
+
+	<a class="prev-post" href="https://blog.nobugware.com/post/2015/listening_to_satellites_for_30_dollars/">
+		<img class="icon-text" src="https://blog.nobugware.com/img/prev.svg"/>Listening to satellites for 30 dollars</a>
+
+
+	<a class="next-post" href="https://blog.nobugware.com/post/2016/myaprs_aprs_on_iphone/">MyAPRS APRS for iPhone<img class="icon-text" src="https://blog.nobugware.com/img/next.svg"/>
+	</a>
+
+</nav>
+
+
+
+
+
+			<hr class="sep" />
+		</main>
+		<footer class="container no-print">
+			<div class="u-footer">
+				
+<a href="mailto:akh@inair.space"><img class="icon-social" src="https://blog.nobugware.com/img/email.svg" alt="Email Me!"/></a>
+
+
+<a href="https://github.com/akhenakh/"><img class="icon-social" src="https://blog.nobugware.com/img/github.svg" alt="Github"/></a>
+
+
+<a href="https://twitter.com/akhenakh"><img class="icon-social" src="https://blog.nobugware.com/img/twitter.svg" alt="Twitter"/></a>
+
+<a href="https://blog.nobugware.com/index.xml" target="_blank"><img class="icon-social" src="https://blog.nobugware.com/img/feed.svg" alt="Feed"></a>
+
+				<p>
+					
+					Theme used: <a href="https://github.com/yursan9/manis-hugo-theme">Manis</a><br>
+					
+					
+					
+				</p>
+				
+				<a href="#brand">
+					<img class="icon-text" src="https://blog.nobugware.com/img/toup.svg" alt="To Up"/>
+					<span>Back to Up</span>
+				</a>
+				
+			</div>
+		</footer>
+		
+	</body>
+</html>
+

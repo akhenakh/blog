@@ -65,7 +65,8 @@ Note that I&amp;rsquo;m using it over KVM on Gentoo: (kvm -hda /dev/vg0/freebsdv
       <guid>https://blog.nobugware.com/post/2010/08/09/zfs-linux/</guid>
       <description>For license reasons (god damn GPL), ZFS can&amp;rsquo;t be integrated into the Linux kernel, but there is a userland fuse version called ZFS-FUSE, so I tried to measure the fuse overhead vs others filesystems presents on my server.
 This tests are not benchmarks, but just show that ZFS-FUSE is fast enough and seems to be stable (at least for my personal server)
- ZFS with lzjb compression ``` dd if=/dev/zero of=/testzfs/toto bs=2048 count=200000 409600000 bytes (410 MB) copied, 9.</description>
+ ZFS with lzjb compression
+dd if=/dev/zero of=/testzfs/toto bs=2048 count=200000 409600000 bytes (410 MB) copied, 9.</description>
     </item>
     
     <item>

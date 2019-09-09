@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="generator" content="Hugo 0.58.1" />
+		<title>Traefik gRPC Load Balancing and Traces Propagation - Fabrice Aneche</title>
+
+		<meta name="description" content="Traefik gRPC load balancing and traces propagation">
+
+
+		
+	
+		
+
+
+
+
+<link rel="stylesheet" href="https://blog.nobugware.com/css/ui.css">
+
+	
+		
+
+		<link  rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway">
+
+		
+	</head>
+
+<body>
+<header class="container no-print">
+	<div class="u-header">
+		<nav class="bar">
+	<ul><li>
+			<a href="https://blog.nobugware.com/">
+				<img class="icon-text" src="https://blog.nobugware.com/img/prev.svg"/>
+			</a>
+		</li><li><a href="https://blog.nobugware.com/about">About</a></li><li><a href="https://blog.nobugware.com/post/">Post</a></li></ul>
+</nav>
+
+	</div>
+</header>
+<main class="container">
+
+<article>
+	<header><hgroup id="brand">
+	<h1>Traefik gRPC Load Balancing and Traces Propagation</h1>
+	<h5>
+		
+		<time datetime="2019-03-04 00:32:43 -0400 -0400">Mar 04, 2019</time>
+		<span class="no-print">
+			-
+				
+				<a href="https://blog.nobugware.com/tags/Kubernetes">Kubernetes</a>
+				
+				<a href="https://blog.nobugware.com/tags/gRPC">gRPC</a>
+				
+				<a href="https://blog.nobugware.com/tags/Go">Go</a>
+				
+				<a href="https://blog.nobugware.com/tags/devops">devops</a>
+				<span>
+	</h5>
+	
+</hgroup>
+<hr class="sep" />
+</header>
+	
+
+<p>Following my recent <a href="https://blog.nobugware.com/post/2019/kubernetes_quick_development_setup_minikube_prometheus_grafana/">blog post on setting up a dev environment in Kubernetes</a>, here are some tips to use <a href="https://traefik.io">Traefik</a> as a gRPC load balancer.</p>
+
+<p><a href="https://traefik.io">Traefik</a> can be used on the edge and route incoming HTTP traffic to your Kubernetes cluster, but it&rsquo;s also <a href="https://docs.traefik.io/user-guide/grpc/">supporting gRPC</a>.<br />
+<br/>
+<br/>
+<br/></p>
+
+<h2 id="grpc-load-balancing-with-traefik">gRPC Load Balancing with Traefik</h2>
+
+<p>Here I have a gRPC service I want to expose on the edge.</p>
+
+<pre><code class="language-yaml">apiVersion: v1
+kind: Service
+metadata:
+  name: myapp
+  labels:
+    name: &quot;myapp&quot;
+    type: &quot;grpc&quot;
+spec:
+  ports:
+    - port: 9200
+      name: &quot;grpc&quot;
+      targetPort: grpc
+      protocol: TCP
+  selector:
+    app: &quot;myapp&quot;
+  clusterIP: None
+</code></pre>
+
+<p>Note the <code>clusterIP: None</code>, it&rsquo;s a <a href="https://kubernetes.io/docs/concepts/services-networking/service/#headless-services">headless service</a>.</p>
+
+<p>It will create a non loadbalanced service, pod&rsquo;s services can be accessed directly.</p>
+
+<pre><code>myapp.default.svc.cluster.local.    2       IN      A       172.17.0.19
+myapp.default.svc.cluster.local.    2       IN      A       172.17.0.10
+myapp.default.svc.cluster.local.    2       IN      A       172.17.0.16
+</code></pre>
+
+<p>Here is the ingress for Traefik.</p>
+
+<pre><code class="language-yaml">apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: myapp-ingress
+  namespace: default
+  labels:
+    name: &quot;myapp&quot;
+  annotations:
+    ingress.kubernetes.io/protocol: h2c
+spec:
+  rules:
+  - host: myapp-lb.minikube
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: myapp
+          servicePort: 9200
+</code></pre>
+
+<p>Note the <code>h2c</code> prefix, indicating HTTP2 protocol without TLS to your backend !</p>
+
+<p><img src="https://blog.nobugware.com/img/grpctraefik.jpg" alt="Traefik" /></p>
+
+<h2 id="tracing">Tracing</h2>
+
+<p>Traefik can be <a href="https://docs.traefik.io/configuration/tracing/">configured to emit tracing</a>.</p>
+
+<p>I&rsquo;m using <a href="https://medium.com/@rghetia/distributed-tracing-and-monitoring-using-opencensus-fe5f6e9479fb"><code>ocgrpc</code> Opencensus</a>, for gRPC metrics &amp; traces.<br />
+It automatically emits several counters for gRPC and traces using the <a href="https://godoc.org/google.golang.org/grpc#StatsHandler">StatsHandler</a>.</p>
+
+<p>Unfortunately <a href="https://github.com/census-instrumentation/opencensus-go/issues/838"><code>ocgrpc</code> does not yet propagate Jaeger traces</a>, I&rsquo;ve <a href="https://github.com/akhenakh/ocgrpc_propagation">temporary forked it to support Jaeger</a>.</p>
+
+<p>As you can see you can follow the request from Traefik down to your services.</p>
+
+<p><img src="https://blog.nobugware.com/img/jaegergrpc.jpg" alt="Jaeger" /></p>
+
+<p>Happy tracing !</p>
+
+</article>
+<nav class="no-print post-nav">
+
+	<a class="prev-post" href="https://blog.nobugware.com/post/2019/kubernetes_quick_development_setup_minikube_prometheus_grafana/">
+		<img class="icon-text" src="https://blog.nobugware.com/img/prev.svg"/>Kubernetes Quick Setup with Prometheus, Grafana &amp; Jaeger</a>
+
+
+	<a class="next-post" href="https://blog.nobugware.com/post/2019/kubernetes_mesh_network_load_balancing_grpc_services/">gRPC Load Balancing inside Kubernetes<img class="icon-text" src="https://blog.nobugware.com/img/next.svg"/>
+	</a>
+
+</nav>
+
+
+<section id="related">
+  <h4>See Also</h4>
+  <ul>
+    
+  	<li><a href="https://blog.nobugware.com/post/2019/kubernetes_quick_development_setup_minikube_prometheus_grafana/">Kubernetes Quick Setup with Prometheus, Grafana &amp; Jaeger</a></li>
+  	
+  	<li><a href="https://blog.nobugware.com/post/2018/wasm_go_s2_javascript/">Wasm with Go to build an S2 cover map viewer</a></li>
+  	
+  	<li><a href="https://blog.nobugware.com/post/2018/my_own_car_system_raspberry_pi_offline_mapping_map_matching_places_part2/">My Own Car System, Rear Camera, Offline Maps &amp; Routing, Map Matching with Go on Raspberry Pi part II</a></li>
+  	
+  </ul>
+</section>
+
+
+
+
+			<hr class="sep" />
+		</main>
+		<footer class="container no-print">
+			<div class="u-footer">
+				
+<a href="mailto:akh@inair.space"><img class="icon-social" src="https://blog.nobugware.com/img/email.svg" alt="Email Me!"/></a>
+
+
+<a href="https://github.com/akhenakh/"><img class="icon-social" src="https://blog.nobugware.com/img/github.svg" alt="Github"/></a>
+
+
+<a href="https://twitter.com/akhenakh"><img class="icon-social" src="https://blog.nobugware.com/img/twitter.svg" alt="Twitter"/></a>
+
+<a href="https://blog.nobugware.com/index.xml" target="_blank"><img class="icon-social" src="https://blog.nobugware.com/img/feed.svg" alt="Feed"></a>
+
+				<p>
+					
+					Theme used: <a href="https://github.com/yursan9/manis-hugo-theme">Manis</a><br>
+					
+					
+					
+				</p>
+				
+				<a href="#brand">
+					<img class="icon-text" src="https://blog.nobugware.com/img/toup.svg" alt="To Up"/>
+					<span>Back to Up</span>
+				</a>
+				
+			</div>
+		</footer>
+		
+	</body>
+</html>
+

@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="generator" content="Hugo 0.58.1" />
+		<title>Wasm with Go to build an S2 cover map viewer - Fabrice Aneche</title>
+
+		<meta name="description" content="Wasm with Go to build an S2 cover map viewer">
+
+
+		
+	
+		
+
+
+
+
+<link rel="stylesheet" href="https://blog.nobugware.com/css/ui.css">
+
+	
+		
+
+		<link  rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway">
+
+		
+	</head>
+
+<body>
+<header class="container no-print">
+	<div class="u-header">
+		<nav class="bar">
+	<ul><li>
+			<a href="https://blog.nobugware.com/">
+				<img class="icon-text" src="https://blog.nobugware.com/img/prev.svg"/>
+			</a>
+		</li><li><a href="https://blog.nobugware.com/about">About</a></li><li><a href="https://blog.nobugware.com/post/">Post</a></li></ul>
+</nav>
+
+	</div>
+</header>
+<main class="container">
+
+<article>
+	<header><hgroup id="brand">
+	<h1>Wasm with Go to build an S2 cover map viewer</h1>
+	<h5>
+		
+		<time datetime="2018-08-27 00:19:57 -0200 -0200">Aug 27, 2018</time>
+		<span class="no-print">
+			-
+				
+				<a href="https://blog.nobugware.com/tags/Go">Go</a>
+				
+				<a href="https://blog.nobugware.com/tags/Geo">Geo</a>
+				<span>
+	</h5>
+	
+</hgroup>
+<hr class="sep" />
+</header>
+	
+
+<p>I needed a reason to use <a href="https://golang.org/doc/go1.11#wasm">the new Go 1.11 Wasm port</a> for &ldquo;real&rdquo;.</p>
+
+<p>To make it short, it compiles Go code to <a href="https://webassembly.org/">Wasm</a> binary format for a virtual machine running in web browsers.</p>
+
+<p>I&rsquo;ve always needed a debug tool to display <a href="https://blog.nobugware.com/post/2016/geo_db_s2_geohash_database/">S2 Cells</a> on a map for different shapes, some online tools already exist:</p>
+
+<ul>
+<li><a href="http://s2map.com">s2map.com</a> unfortunately the backend is often/currently dead.</li>
+<li><a href="https://s2.sidewalklabs.com/regioncoverer/">regioncoverer</a> which doesn&rsquo;t allow polygons.</li>
+</ul>
+
+<p>I&rsquo;ve planned for a Qt Go app or a QGIS plugin with C++ bindings to Python but to ship those modules would be a nightmare.</p>
+
+<p>I needed another solution, a simple web app would do it, not very complicated but since I hate HTML/CSS/js, I&rsquo;ve never bothered to start one&hellip;<br />
+The s2map solution was great but having to start a backend and pay for it, was a no go for the long run, plus since I work with Go I needed something that was relying on the S2 Go port for matching results.</p>
+
+<p>So here I am doing some web dev&hellip;</p>
+
+<h2 id="wasm-go">Wasm &amp; Go</h2>
+
+<p>First Wasm is not the best solution (GopherJS maybe is) to my problem but hey it&rsquo;s working.</p>
+
+<p>The <code>main()</code> is a bit weird but close enough to a normal Go program:</p>
+
+<pre><code class="language-Go">func registerCallbacks() {
+	js.Global().Set(&quot;geocell&quot;, js.NewCallback(geoJSONToCells))
+}
+
+func main() {
+	c := make(chan struct{}, 0)
+	println(&quot;Wasm ready&quot;)
+	registerCallbacks()
+	&lt;-c
+}
+</code></pre>
+
+<p>Since our function <code>geocell()</code> will be called by js, we wait for a channel that will never be triggered so the main loop won&rsquo;t return.</p>
+
+<p><code>NewCallback()</code> wants a <code>fn func(event Value)</code> it means <strong>you can&rsquo;t return directly from Go to js</strong> &hellip;</p>
+
+<pre><code class="language-Go">func geoJSONToCells(i []js.Value)  
+</code></pre>
+
+<p>Just a slice of untyped values thank you js.</p>
+
+<p>All other functions (not exposed to js) can be normal Go functions, packages &hellip;</p>
+
+<p>Interaction with the DOM is very limited via the package <a href="https://tip.golang.org/pkg/syscall/js/?GOOS=js&amp;GOARCH=wasm">syscall/js</a><br />
+So far, to update back the UI (from Go to  js), I pass the result of the computation via a set and call the js method, very hackish &hellip;</p>
+
+<pre><code class="language-Go">func updateUIWithData(data string) {
+	js.Global().Set(&quot;data&quot;, data)
+	js.Global().Call(&quot;updateui&quot;)
+}
+</code></pre>
+
+<p>The <code>updateui()</code> is a regular js function that processes <code>data</code> and updates the DOM.</p>
+
+<h2 id="app">App</h2>
+
+<p>The app is calling a lot of Go code and libraries that were not written for the web but are now executed from a webpage without any backends:</p>
+
+<ul>
+<li>the web interface creates a shape on a js Leaflet layer</li>
+<li>exports the shape in GeoJSON</li>
+<li>serializes it to JSON</li>
+<li>calls the <code>geoJSONToCells()</code> func passing the JSON as string argument</li>
+<li>computes the S2 cells in the Go world</li>
+<li>sets the result back via a js var containing GeoJSON as string</li>
+<li>reads back this GeoJSON and displays it as a Leaflet layer</li>
+</ul>
+
+<p>The first loading and running of the Wasm is very slow on Chrome but not on Firefox, the execution itself is really fast.</p>
+
+<p><a href="https://s2.inair.space"><img src="https://blog.nobugware.com/img/ws2.jpg" alt="ws2" /></a></p>
+
+<p>Code is on <a href="https://github.com/akhenakh/ws2">Github</a> and <a href="https://s2.inair.space/">Demo is hosted on Github Pages at https://s2.inair.space</a>, sorry folks Wasm works on phones but the demo won&rsquo;t be very useful on mobile.</p>
+
+<h2 id="size">Size</h2>
+
+<p>You can argue 11M (1.5M gzipped) is too big for a webapp providing only one functionality, and you are probably right (then look at a modern webpage), but how big would be a Python app shipped with the C++ library or a full Qt app &hellip;</p>
+
+<p>Also the size could be a non-issue, in a near future, a solution like <a href="https://github.com/dave/jsgo">jsgo.io</a> could provide package level CDN caching.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>Again you should have really good reasons to use Wasm, the back and forth between js &amp; Wasm is nonsense, but the tooling will improve and I&rsquo;m sure we will see plenty of solutions around it (one is gRPC in the browser).</p>
+
+<p>EDIT: <code>Call()</code> can call a js method no need for eval !</p>
+
+</article>
+<nav class="no-print post-nav">
+
+	<a class="prev-post" href="https://blog.nobugware.com/post/2018/my_own_car_system_raspberry_pi_offline_mapping_map_matching_places_part2/">
+		<img class="icon-text" src="https://blog.nobugware.com/img/prev.svg"/>My Own Car System, Rear Camera, Offline Maps &amp; Routing, Map Matching with Go on Raspberry Pi part II</a>
+
+
+	<a class="next-post" href="https://blog.nobugware.com/post/2019/kubernetes_quick_development_setup_minikube_prometheus_grafana/">Kubernetes Quick Setup with Prometheus, Grafana &amp; Jaeger<img class="icon-text" src="https://blog.nobugware.com/img/next.svg"/>
+	</a>
+
+</nav>
+
+
+<section id="related">
+  <h4>See Also</h4>
+  <ul>
+    
+  	<li><a href="https://blog.nobugware.com/post/2018/my_own_car_system_raspberry_pi_offline_mapping_map_matching_places_part2/">My Own Car System, Rear Camera, Offline Maps &amp; Routing, Map Matching with Go on Raspberry Pi part II</a></li>
+  	
+  	<li><a href="https://blog.nobugware.com/post/2018/my_own_car_system_raspberry_pi_offline_mapping/">My Own Car System, Rear Camera, Offline Maps &amp; Routing on Raspberry Pi part I</a></li>
+  	
+  	<li><a href="https://blog.nobugware.com/post/2018/google-s2-python-jupyter/">Google S2 with Python &amp; Jupyter</a></li>
+  	
+  </ul>
+</section>
+
+
+
+
+			<hr class="sep" />
+		</main>
+		<footer class="container no-print">
+			<div class="u-footer">
+				
+<a href="mailto:akh@inair.space"><img class="icon-social" src="https://blog.nobugware.com/img/email.svg" alt="Email Me!"/></a>
+
+
+<a href="https://github.com/akhenakh/"><img class="icon-social" src="https://blog.nobugware.com/img/github.svg" alt="Github"/></a>
+
+
+<a href="https://twitter.com/akhenakh"><img class="icon-social" src="https://blog.nobugware.com/img/twitter.svg" alt="Twitter"/></a>
+
+<a href="https://blog.nobugware.com/index.xml" target="_blank"><img class="icon-social" src="https://blog.nobugware.com/img/feed.svg" alt="Feed"></a>
+
+				<p>
+					
+					Theme used: <a href="https://github.com/yursan9/manis-hugo-theme">Manis</a><br>
+					
+					
+					
+				</p>
+				
+				<a href="#brand">
+					<img class="icon-text" src="https://blog.nobugware.com/img/toup.svg" alt="To Up"/>
+					<span>Back to Up</span>
+				</a>
+				
+			</div>
+		</footer>
+		
+	</body>
+</html>
+

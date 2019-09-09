@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="generator" content="Hugo 0.58.1" />
+		<title>Telegraf &amp; Prometheus Swiss Army Knife for Metrics - Fabrice Aneche</title>
+
+		<meta name="description" content="Install a simple hybrid Telegraf &amp; Prometheus solution to collect system metrics">
+
+
+		
+	
+		
+
+
+
+
+<link rel="stylesheet" href="https://blog.nobugware.com/css/ui.css">
+
+	
+		
+
+		<link  rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway">
+
+		
+	</head>
+
+<body>
+<header class="container no-print">
+	<div class="u-header">
+		<nav class="bar">
+	<ul><li>
+			<a href="https://blog.nobugware.com/">
+				<img class="icon-text" src="https://blog.nobugware.com/img/prev.svg"/>
+			</a>
+		</li><li><a href="https://blog.nobugware.com/about">About</a></li><li><a href="https://blog.nobugware.com/post/">Post</a></li></ul>
+</nav>
+
+	</div>
+</header>
+<main class="container">
+
+<article>
+	<header><hgroup id="brand">
+	<h1>Telegraf &amp; Prometheus Swiss Army Knife for Metrics</h1>
+	<h5>
+		
+		<time datetime="2016-10-20 08:58:10 -0400 -0400">Oct 20, 2016</time>
+		<span class="no-print">
+			<span>
+	</h5>
+	
+</hgroup>
+<hr class="sep" />
+</header>
+	
+
+<p>There are a lot of different solutions when it comes to collecting metrics, I found myself happy with this hybrid solution.</p>
+
+<p><a href="https://github.com/influxdata/telegraf">Telegraf</a> is an agent written in Go for collecting metrics from the system it&rsquo;s running on.<br />
+It&rsquo;s developed by Influxdata the people behind InfluxDB, but Telegraf has a <a href="https://github.com/influxdata/telegraf#supported-output-plugins">lot of outputs plugins</a> and can be used without InfluxDB.<br />
+Many different platform (FreeBSD, Linux, x86, Arm &hellip;) are offered and only one single static binary (Thanks to Golang) is needed to deploy an agent.</p>
+
+<p><a href="https://prometheus.io/">Prometheus</a> is a time series database for your metrics, with an efficient storage.<br />
+It&rsquo;s easy to deploy, no external dependencies, it&rsquo;s gaining traction in the community because it&rsquo;s a complete solution, for example capable of <a href="https://prometheus.io/docs/operating/configuration/#&lt;kubernetes_sd_config">discovering your targets inside a Kubernete cluster</a>.</p>
+
+<p>Here is a simple configuration to discover both products.</p>
+
+<p>You can deploy the agent on every hosts you want to monitor but need only one Prometheus running.</p>
+
+<h2 id="install-prometheus">Install Prometheus</h2>
+
+<p><a href="https://prometheus.io/download/">Download Prometheus</a> for your platform and edit a config file named <code>prometheus.yml</code>.</p>
+
+<pre><code>scrape_configs:
+  - job_name: 'telegraf'
+    scrape_interval: 10s
+    static_configs:
+      - targets: ['mynode:9126']
+</code></pre>
+
+<p>Prometheus is a special beast in the monitoring world, the agents are not connecting to the server, it&rsquo;s the opposite the server is scrapping the agents.<br />
+In this config we are creating a job called <code>telegraf</code> to be scrapped every 10s connecting to mynode host on port <code>9126</code>.</p>
+
+<p>That&rsquo;s all you need to run a Prometheus server, start it by specifying a path to store the metrics and the path of the config file:</p>
+
+<pre><code>prometheus -storage.local.path /opt/local/var/prometheus -config.file prometheus.yml
+</code></pre>
+
+<p>The server will listen on port <code>9090</code> for the HTTP console.</p>
+
+<h2 id="install-telegraf">Install Telegraf</h2>
+
+<p><a href="https://github.com/influxdata/telegraf#installation">Download Telegraf</a> agent for your platform and edit <code>telegraf.conf</code>.</p>
+
+<pre><code>[[outputs.prometheus_client]]
+    listen = &quot;127.0.0.1:9126&quot;
+
+# Read metrics about cpu usage
+[[inputs.cpu]]
+  ## Whether to report per-cpu stats or not
+  percpu = true
+  ## Whether to report total system cpu stats or not
+  totalcpu = true
+  ## If true, collect raw CPU time metrics.
+  collect_cpu_time = false
+
+# Read metrics about memory usage
+[[inputs.mem]]
+
+# Read metrics about network interface usage
+[[inputs.net]]
+  ## By default, telegraf gathers stats from any up interface (excluding loopback)
+  ## Setting interfaces will tell it to gather these explicit interfaces,
+  ## regardless of status.
+  interfaces = [&quot;en2&quot;]
+</code></pre>
+
+<p>Remember this is the node agent &ldquo;client&rdquo; but since Prometheus server will connect it, you are providing a listening endpoint.<br />
+Starts the agent with <code>telegraf -config telegraf.conf</code></p>
+
+<p>There are many more <a href="https://github.com/influxdata/telegraf#supported-input-plugins">inputs plugins for telegraf</a> for example you can monitor all your Docker instance.</p>
+
+<pre><code># Read metrics about docker containers
+[[inputs.docker]]
+  endpoint = &quot;unix:///var/run/docker.sock&quot;
+  ## Only collect metrics for these containers, collect all if empty
+  container_names = []
+  ## Timeout for docker list, info, and stats commands
+  timeout = &quot;5s&quot;
+
+  ## Whether to report for each container per-device blkio (8:0, 8:1...) and
+  ## network (eth0, eth1, ...) stats or not
+  perdevice = false
+  ## Whether to report for each container total blkio and network stats or not
+  total = false
+</code></pre>
+
+<p>It&rsquo;s also capable of monitoring third parties product like <a href="https://github.com/influxdata/telegraf#supported-input-plugins">MySQL, Cassandra</a> &hellip;</p>
+
+<h2 id="read-metrics">Read Metrics</h2>
+
+<p>Prometheus is provided with a visual HTTP console &amp; query tool available on port <code>9090</code>.</p>
+
+<p>The <a href="https://prometheus.io/docs/querying/examples/">query language is described here</a>.</p>
+
+<p>The console can&rsquo;t be really used as a dashboard, you can use <a href="http://grafana.org/">Grafana</a> which can speak directly to prometheus.</p>
+
+<p>Install or run Grafana with docker</p>
+
+<pre><code>docker run -i -p 3000:3000 -e &quot;GF_SECURITY_ADMIN_PASSWORD=mypassword&quot;  grafana/grafana
+</code></pre>
+
+<p>Point your browser to the port <code>3000</code>.<br />
+Add a Prometheus data source and point the host to your Prometheus server port <code>9090</code>.</p>
+
+<p>Then create your dashboard, here are some queries to display the telegraf agents:</p>
+
+<ul>
+<li><p>CPU<br />
+<code>cpu_usage_idle{host=&quot;myhost&quot;, cpu=&quot;cpu-total&quot;}</code><br />
+<code>cpu_usage_user{host=&quot;myhost&quot;, cpu=&quot;cpu-total&quot;}</code><br />
+<code>cpu_usage_system{host=&quot;myhost&quot;, cpu=&quot;cpu-total&quot;}</code></p></li>
+
+<li><p>Memory<br />
+<code>mem_available_percent{host=&quot;myhost&quot;}</code></p></li>
+
+<li><p>Docker Memory<br />
+<code>docker_container_mem_usage_percent</code><br />
+Legend format <code>{{container_name}}</code></p></li>
+
+<li><p>Docker CPU<br />
+<code>docker_container_cpu_usage_percent</code><br />
+Legend format <code>{{container_name}}</code></p></li>
+</ul>
+
+<p><img src="https://blog.nobugware.com/img/graphprom.jpg" alt="Graph prometheus" /></p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>You can easily <a href="https://prometheus.io/docs/practices/instrumentation/">instrument your own development</a> using the <a href="https://prometheus.io/docs/instrumenting/clientlibs/">client libraries</a>.<br />
+There is also a <a href="https://github.com/prometheus/pushgateway">Prometheus gateway</a> for the short lived jobs, so you can batch to the gateway between the scrap period.</p>
+
+<p>It&rsquo;s a simple setup but capable of handling a lot of data in different contexts, system monitoring &amp; instrumentation.</p>
+
+</article>
+<nav class="no-print post-nav">
+
+	<a class="prev-post" href="https://blog.nobugware.com/post/2016/grpc_context_go_1.7/">
+		<img class="icon-text" src="https://blog.nobugware.com/img/prev.svg"/>gRPC wrong types context and Go 1.7</a>
+
+
+	<a class="next-post" href="https://blog.nobugware.com/post/2017/back_from_osx_to_linux/">From OSX to Linux<img class="icon-text" src="https://blog.nobugware.com/img/next.svg"/>
+	</a>
+
+</nav>
+
+
+
+
+
+			<hr class="sep" />
+		</main>
+		<footer class="container no-print">
+			<div class="u-footer">
+				
+<a href="mailto:akh@inair.space"><img class="icon-social" src="https://blog.nobugware.com/img/email.svg" alt="Email Me!"/></a>
+
+
+<a href="https://github.com/akhenakh/"><img class="icon-social" src="https://blog.nobugware.com/img/github.svg" alt="Github"/></a>
+
+
+<a href="https://twitter.com/akhenakh"><img class="icon-social" src="https://blog.nobugware.com/img/twitter.svg" alt="Twitter"/></a>
+
+<a href="https://blog.nobugware.com/index.xml" target="_blank"><img class="icon-social" src="https://blog.nobugware.com/img/feed.svg" alt="Feed"></a>
+
+				<p>
+					
+					Theme used: <a href="https://github.com/yursan9/manis-hugo-theme">Manis</a><br>
+					
+					
+					
+				</p>
+				
+				<a href="#brand">
+					<img class="icon-text" src="https://blog.nobugware.com/img/toup.svg" alt="To Up"/>
+					<span>Back to Up</span>
+				</a>
+				
+			</div>
+		</footer>
+		
+	</body>
+</html>
+

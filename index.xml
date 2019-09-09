@@ -44,7 +44,7 @@ Here are some notes how to install Arch Linux on the H96 to make it a small serv
 Warning, you can brick your device (but can unbrick it), you are on your own.
  Follow Arch Instructions to Install on an SD Card Boot on it Insert your USB device and follow the exact same installation but this time to the /dev/sdadevice
 At the end
-Mount / into root again Run blkid to grab the UUID of your /   /dev/sda1: UUID=&amp;quot;a3490212-03b6-46a6-9e6b-7733513a3efa&amp;quot; TYPE=&amp;quot;ext4&amp;quot;  Add the file root/boot/boot.</description>
+Mount / into root again Run blkid to grab the UUID of your /</description>
     </item>
     
     <item>
@@ -745,7 +745,8 @@ The execution is really really fast, faster than a jvm run ?? and memory usage i
       <guid>https://blog.nobugware.com/post/2010/08/09/zfs-linux/</guid>
       <description>For license reasons (god damn GPL), ZFS can&amp;rsquo;t be integrated into the Linux kernel, but there is a userland fuse version called ZFS-FUSE, so I tried to measure the fuse overhead vs others filesystems presents on my server.
 This tests are not benchmarks, but just show that ZFS-FUSE is fast enough and seems to be stable (at least for my personal server)
- ZFS with lzjb compression ``` dd if=/dev/zero of=/testzfs/toto bs=2048 count=200000 409600000 bytes (410 MB) copied, 9.</description>
+ ZFS with lzjb compression
+dd if=/dev/zero of=/testzfs/toto bs=2048 count=200000 409600000 bytes (410 MB) copied, 9.</description>
     </item>
     
     <item>
@@ -992,8 +993,8 @@ print(&amp;quot;toto&amp;quot;)   The % operator whis is supplented by the forma
       
       <guid>https://blog.nobugware.com/post/2008/12/04/apprendre-coder-pour-liphone-avec-luniversite-de-stanford/</guid>
       <description>Tous les cours, tous les slides, tous les exemples en lignes, sont forts ces californiens.
-le cours Iphone development ainsi que le cours sur cocoa: [](http://www.stanford.edu/class/cs193e/)
-Je vous remet mon article sur apprendre objective C.</description>
+[le cours Iphone development](http://www.stanford.edu/class/cs193p/cgi- bin/index.php) ainsi que le cours sur cocoa:
+Je vous remet mon article sur [apprendre objective C](/post/2008/10/20/iphone- sdk-exemple-de-code-et-documentation).</description>
     </item>
     
     <item>

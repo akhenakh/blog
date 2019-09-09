@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="generator" content="Hugo 0.58.1" />
+		<title>iPhone and iPod blog - Fabrice Aneche</title>
+
+		<meta name="description" content="Some informations for iphone developers, and iphone owners. We have created a new iphone &amp; ipod blog in french, with a dedicated developer category: tout sur l&rsquo;iphone (everything about the iPhone).
+I will continue to write iphone development related posts here, mostly traducted from tout sur l&rsquo;iphone, but if you are a french speaker I recommend you to read the blog first and his developer part which will be bigger.">
+
+
+		
+	
+		
+
+
+
+
+<link rel="stylesheet" href="https://blog.nobugware.com/css/ui.css">
+
+	
+		
+
+		<link  rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway">
+
+		
+	</head>
+
+<body>
+<header class="container no-print">
+	<div class="u-header">
+		<nav class="bar">
+	<ul><li>
+			<a href="https://blog.nobugware.com/">
+				<img class="icon-text" src="https://blog.nobugware.com/img/prev.svg"/>
+			</a>
+		</li><li><a href="https://blog.nobugware.com/about">About</a></li><li><a href="https://blog.nobugware.com/post/">Post</a></li></ul>
+</nav>
+
+	</div>
+</header>
+<main class="container">
+
+<article>
+	<header><hgroup id="brand">
+	<h1>iPhone and iPod blog</h1>
+	<h5>
+		
+		<time datetime="2009-08-04 11:09:06 -0400 -0400">Aug 04, 2009</time>
+		<span class="no-print">
+			-
+				
+				<a href="https://blog.nobugware.com/tags/sdk">sdk</a>
+				
+				<a href="https://blog.nobugware.com/tags/svn">svn</a>
+				<span>
+	</h5>
+	
+</hgroup>
+<hr class="sep" />
+</header>
+	
+
+<p>Some informations for iphone developers, and iphone owners. We have created a
+new iphone &amp; ipod blog in french, with a dedicated developer category: <a href="http://www.toutsurliphone.fr">tout
+sur l&rsquo;iphone</a> (everything about the iPhone).</p>
+
+<p>I will continue to write iphone development related posts here, mostly
+traducted from <a href="http://www.toutsurliphone.fr">tout sur l&rsquo;iphone</a>, but if you
+are a french speaker I recommend you to read the blog first and <a href="http://www.toutsurliphone.fr/dev">his developer
+part</a> which will be bigger.</p>
+
+<h4 id="iphone-development-with-3-0-1-firmware">iPhone development with 3.0.1 firmware</h4>
+
+<p>Since security update 3.0.1 Xcode may refuse to use your updated phone.</p>
+
+<p>You just have to show this version to Xcode, open terminal and type:</p>
+
+<pre><code>ln -s /Developer/Platforms/iPhoneOS.platform/DeviceSupport/3.0\ \(7A341\) /Developer/Platforms/iPhoneOS.platform/DeviceSupport/3.0.1
+</code></pre>
+
+<h4 id="xcode-3-1-with-subversion-1-5">Xcode 3.1 with Subversion 1.5</h4>
+
+<p>If you have checkouted your code with a recent svn command, xcode may not
+handle it correctly due to the fact it&rsquo;s linked with a svn 1.0 version.</p>
+
+<p>To link it with a recent library, first backup the plugin then change the
+linked library path in the binaray with install_name_tool:</p>
+
+<pre><code>install_name_tool -change /usr/lib/libsvn_client-1.0.dylib /opt/local/lib/libsvn_client-1.0.dylib /Developer/Library/Xcode/Plug-ins/XcodeSubversionPlugin.xcplugin/Contents/MacOS/XcodeSubversionPlugin
+install_name_tool -change /usr/lib/libsvn_delta-1.0.dylib /opt/local/lib/libsvn_delta-1.0.dylib /Developer/Library/Xcode/Plug-ins/XcodeSubversionPlugin.xcplugin/Contents/MacOS/XcodeSubversionPlugin
+install_name_tool -change /usr/lib/libsvn_diff-1.0.dylib /opt/local/lib/libsvn_diff-1.0.dylib /Developer/Library/Xcode/Plug-ins/XcodeSubversionPlugin.xcplugin/Contents/MacOS/XcodeSubversionPlugin
+install_name_tool -change /usr/lib/libsvn_fs_fs-1.0.dylib /opt/local/lib/libsvn_fs_fs-1.0.dylib /Developer/Library/Xcode/Plug-ins/XcodeSubversionPlugin.xcplugin/Contents/MacOS/XcodeSubversionPlugin
+install_name_tool -change /usr/lib/libsvn_fs-1.0.dylib /opt/local/lib/libsvn_fs-1.0.dylib /Developer/Library/Xcode/Plug-ins/XcodeSubversionPlugin.xcplugin/Contents/MacOS/XcodeSubversionPlugin
+install_name_tool -change /usr/lib/libsvn_ra_local-1.0.dylib /opt/local/lib/libsvn_ra_local-1.0.dylib /Developer/Library/Xcode/Plug-ins/XcodeSubversionPlugin.xcplugin/Contents/MacOS/XcodeSubversionPlugin
+install_name_tool -change /usr/lib/libsvn_ra_svn-1.0.dylib /opt/local/lib/libsvn_ra_svn-1.0.dylib /Developer/Library/Xcode/Plug-ins/XcodeSubversionPlugin.xcplugin/Contents/MacOS/XcodeSubversionPlugin
+install_name_tool -change /usr/lib/libsvn_ra-1.0.dylib /opt/local/lib/libsvn_ra-1.0.dylib /Developer/Library/Xcode/Plug-ins/XcodeSubversionPlugin.xcplugin/Contents/MacOS/XcodeSubversionPlugin
+install_name_tool -change /usr/lib/libsvn_repos-1.0.dylib /opt/local/lib/libsvn_repos-1.0.dylib /Developer/Library/Xcode/Plug-ins/XcodeSubversionPlugin.xcplugin/Contents/MacOS/XcodeSubversionPlugin
+install_name_tool -change /usr/lib/libsvn_subr-1.0.dylib /opt/local/lib/libsvn_subr-1.0.dylib /Developer/Library/Xcode/Plug-ins/XcodeSubversionPlugin.xcplugin/Contents/MacOS/XcodeSubversionPlugin
+install_name_tool -change /usr/lib/libsvn_wc-1.0.dylib /opt/local/lib/libsvn_wc-1.0.dylib /Developer/Library/Xcode/Plug-ins/XcodeSubversionPlugin.xcplugin/Contents/MacOS/XcodeSubversionPlugin
+install_name_tool -change /usr/lib/libaprutil-1.0.dylib /opt/local/lib/libaprutil-1.0.dylib /Developer/Library/Xcode/Plug-ins/XcodeSubversionPlugin.xcplugin/Contents/MacOS/XcodeSubversionPlugininstall_name_tool -change /usr/lib/libaprutil-1.0.dylib /opt/local/lib/libaprutil-1.0.dylib /Developer/Library/Xcode/Plug-ins/XcodeSubversionPlugin.xcplugin/Contents/MacOS/XcodeSubversionPlugininstall_name_tool -change /usr/lib/libaprutil-1.0.dylib /opt/local/lib/libaprutil-1.0.dylib /Developer/Library/Xcode/Plug-ins/XcodeSubversionPlugin.xcplugin/Contents/MacOS/XcodeSubversionPlugin
+install_name_tool -change /usr/lib/libapr-1.0.dylib /opt/local/lib/libapr-1.0.dylib /Developer/Library/Xcode/Plug-ins/XcodeSubversionPlugin.xcplugin/Contents/MacOS/XcodeSubversionPlugin
+</code></pre>
+
+</article>
+<nav class="no-print post-nav">
+
+	<a class="prev-post" href="https://blog.nobugware.com/post/2009/07/31/python-26-gentoo-stable/">
+		<img class="icon-text" src="https://blog.nobugware.com/img/prev.svg"/>Python 2.6 in Gentoo stable</a>
+
+
+	<a class="next-post" href="https://blog.nobugware.com/post/2009/08/05/quand-je-ne-bosse-pas-je-vole/">Quand je ne bosse pas je vole<img class="icon-text" src="https://blog.nobugware.com/img/next.svg"/>
+	</a>
+
+</nav>
+
+
+
+
+
+			<hr class="sep" />
+		</main>
+		<footer class="container no-print">
+			<div class="u-footer">
+				
+<a href="mailto:akh@inair.space"><img class="icon-social" src="https://blog.nobugware.com/img/email.svg" alt="Email Me!"/></a>
+
+
+<a href="https://github.com/akhenakh/"><img class="icon-social" src="https://blog.nobugware.com/img/github.svg" alt="Github"/></a>
+
+
+<a href="https://twitter.com/akhenakh"><img class="icon-social" src="https://blog.nobugware.com/img/twitter.svg" alt="Twitter"/></a>
+
+<a href="https://blog.nobugware.com/index.xml" target="_blank"><img class="icon-social" src="https://blog.nobugware.com/img/feed.svg" alt="Feed"></a>
+
+				<p>
+					
+					Theme used: <a href="https://github.com/yursan9/manis-hugo-theme">Manis</a><br>
+					
+					
+					
+				</p>
+				
+				<a href="#brand">
+					<img class="icon-text" src="https://blog.nobugware.com/img/toup.svg" alt="To Up"/>
+					<span>Back to Up</span>
+				</a>
+				
+			</div>
+		</footer>
+		
+	</body>
+</html>
+

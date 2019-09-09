@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="generator" content="Hugo 0.58.1" />
+		<title>Gentoo bref récap des commandes de gestion de paquets - Fabrice Aneche</title>
+
+		<meta name="description" content="Avant toute chose installer l&rsquo;outil gentoolkit
+emerge -av gentoolkit
+Ces nouvelles commandes vont vous permettre de:
+A quel port appartient un binaire:
+ equery belongs cjpeg [ Searching for file(s) cjpeg in *... ] media-libs/jpeg-6b-r8 (/usr/bin/cjpeg)  Quels sont les dependances d&rsquo;un port:
+equery depends gd [ Searching for packages depending on gd... ] dev-lang/php-5.2.6-r7 (gd-external? media-libs/gd)  Quels sont les fichiers installes par un package:
+ equery files less [ Searching for packages matching less.">
+
+
+		
+	
+		
+
+
+
+
+<link rel="stylesheet" href="https://blog.nobugware.com/css/ui.css">
+
+	
+		
+
+		<link  rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway">
+
+		
+	</head>
+
+<body>
+<header class="container no-print">
+	<div class="u-header">
+		<nav class="bar">
+	<ul><li>
+			<a href="https://blog.nobugware.com/">
+				<img class="icon-text" src="https://blog.nobugware.com/img/prev.svg"/>
+			</a>
+		</li><li><a href="https://blog.nobugware.com/about">About</a></li><li><a href="https://blog.nobugware.com/post/">Post</a></li></ul>
+</nav>
+
+	</div>
+</header>
+<main class="container">
+
+<article>
+	<header><hgroup id="brand">
+	<h1>Gentoo bref récap des commandes de gestion de paquets</h1>
+	<h5>
+		
+		<time datetime="2008-12-03 10:32:54 -0400 -0400">Dec 03, 2008</time>
+		<span class="no-print">
+			-
+				
+				<a href="https://blog.nobugware.com/tags/linux">linux</a>
+				
+				<a href="https://blog.nobugware.com/tags/gentoo">gentoo</a>
+				<span>
+	</h5>
+	
+</hgroup>
+<hr class="sep" />
+</header>
+	<p>Avant toute chose installer l&rsquo;outil gentoolkit</p>
+
+<p><code>emerge -av gentoolkit</code></p>
+
+<p>Ces nouvelles commandes vont vous permettre de:</p>
+
+<p>A quel port appartient un binaire:</p>
+
+<pre><code> equery belongs cjpeg
+ [ Searching for file(s) cjpeg in *... ] 
+media-libs/jpeg-6b-r8 (/usr/bin/cjpeg) 
+</code></pre>
+
+<p>Quels sont les dependances d&rsquo;un port:</p>
+
+<pre><code>equery depends gd
+[ Searching for packages depending on gd... ]
+dev-lang/php-5.2.6-r7 (gd-external? media-libs/gd)
+</code></pre>
+
+<p>Quels sont les fichiers installes par un package:</p>
+
+<pre><code> equery files less
+[ Searching for packages matching less... ]
+* Contents of sys-apps/less-418:
+/etc
+/etc/env.d
+/etc/env.d/70less
+/usr
+/usr/bin
+/usr/bin/code2color
+/usr/bin/less
+/usr/bin/lessecho
+/usr/bin/lesskey
+/usr/bin/lesspipe.sh
+/usr/share
+/usr/share/doc
+/usr/share/doc/less-418
+/usr/share/doc/less-418/NEWS.bz2
+/usr/share/doc/less-418/README.Gentoo.bz2
+/usr/share/doc/less-418/README.bz2
+/usr/share/man
+/usr/share/man/man1
+/usr/share/man/man1/less.1.bz2
+/usr/share/man/man1/lessecho.1.bz2
+/usr/share/man/man1/lesskey.1.bz2
+</code></pre>
+
+<p>Mettre a jour vos machines en s&rsquo;assurant que tous les USE soient respectes, si
+vous changez une variable USE en ajoutant mysql par exemple, il est en theorie
+necessaire de recompiler tous les packages qui peuvent avoir ce use flag, puis
+enlever le &ndash;pretent</p>
+
+<p><code>emerge --update --deep --newuse world --pretend</code></p>
+
+<p>Verifier que chaque binaire reference une librairie encore existante sur votre
+syseme:</p>
+
+<p>Apres une mise a jour il se peut par exemple que la libgdbm ai change de
+revision majeure libgdbm.so.3, un binaire linke a cette librairie en
+libgdbm.so.2 ne fonctionnera plus, c&rsquo;est le role de <em>revdep-rebuild</em> de
+retrouver quels binaires doivent etre recompile.</p>
+
+<p>Enlever les versions obsoletes d&rsquo;un package:</p>
+
+<p><code>emerge --prune gentoo-sources</code></p>
+
+</article>
+<nav class="no-print post-nav">
+
+	<a class="prev-post" href="https://blog.nobugware.com/post/2008/12/03/probleme-daffichage-avec-man/">
+		<img class="icon-text" src="https://blog.nobugware.com/img/prev.svg"/>Probleme d&#39;affichage avec man</a>
+
+
+	<a class="next-post" href="https://blog.nobugware.com/post/2008/12/04/apprendre-coder-pour-liphone-avec-luniversite-de-stanford/">Apprendre à coder pour l&#39;iphone avec l&#39;universite de Stanford<img class="icon-text" src="https://blog.nobugware.com/img/next.svg"/>
+	</a>
+
+</nav>
+
+
+<section id="related">
+  <h4>See Also</h4>
+  <ul>
+    
+  	<li><a href="https://blog.nobugware.com/post/2008/12/03/probleme-daffichage-avec-man/">Probleme d&#39;affichage avec man</a></li>
+  	
+  </ul>
+</section>
+
+
+
+
+			<hr class="sep" />
+		</main>
+		<footer class="container no-print">
+			<div class="u-footer">
+				
+<a href="mailto:akh@inair.space"><img class="icon-social" src="https://blog.nobugware.com/img/email.svg" alt="Email Me!"/></a>
+
+
+<a href="https://github.com/akhenakh/"><img class="icon-social" src="https://blog.nobugware.com/img/github.svg" alt="Github"/></a>
+
+
+<a href="https://twitter.com/akhenakh"><img class="icon-social" src="https://blog.nobugware.com/img/twitter.svg" alt="Twitter"/></a>
+
+<a href="https://blog.nobugware.com/index.xml" target="_blank"><img class="icon-social" src="https://blog.nobugware.com/img/feed.svg" alt="Feed"></a>
+
+				<p>
+					
+					Theme used: <a href="https://github.com/yursan9/manis-hugo-theme">Manis</a><br>
+					
+					
+					
+				</p>
+				
+				<a href="#brand">
+					<img class="icon-text" src="https://blog.nobugware.com/img/toup.svg" alt="To Up"/>
+					<span>Back to Up</span>
+				</a>
+				
+			</div>
+		</footer>
+		
+	</body>
+</html>
+

@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="generator" content="Hugo 0.58.1" />
+		<title>NSThread iPhone Template - Fabrice Aneche</title>
+
+		<meta name="description" content="This is firstly a reminder for myself, here is a great example how to fire up a thread to perform long operation on iphone, without blocking reactivity.
+Stanford CS 193P iPhone application programming is still the best place to find optimised example that works.
+All this examples was taken from this courses, see chap 10 &amp; 11 about TableView optimisation
+`
+// LetsMakeAThreadAppDelegate.m // LetsMakeAThread // // Created by Evan Doll on 10/27/08.">
+
+
+		
+	
+		
+
+
+
+
+<link rel="stylesheet" href="https://blog.nobugware.com/css/ui.css">
+
+	
+		
+
+		<link  rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway">
+
+		
+	</head>
+
+<body>
+<header class="container no-print">
+	<div class="u-header">
+		<nav class="bar">
+	<ul><li>
+			<a href="https://blog.nobugware.com/">
+				<img class="icon-text" src="https://blog.nobugware.com/img/prev.svg"/>
+			</a>
+		</li><li><a href="https://blog.nobugware.com/about">About</a></li><li><a href="https://blog.nobugware.com/post/">Post</a></li></ul>
+</nav>
+
+	</div>
+</header>
+<main class="container">
+
+<article>
+	<header><hgroup id="brand">
+	<h1>NSThread iPhone Template</h1>
+	<h5>
+		
+		<time datetime="2008-12-22 14:42:12 -0400 -0400">Dec 22, 2008</time>
+		<span class="no-print">
+			-
+				
+				<a href="https://blog.nobugware.com/tags/cocoa">cocoa</a>
+				
+				<a href="https://blog.nobugware.com/tags/objectivec">objectivec</a>
+				<span>
+	</h5>
+	
+</hgroup>
+<hr class="sep" />
+</header>
+	<p>This is firstly a reminder for myself, here is a great example how to fire up
+a thread to perform long operation on iphone, without blocking reactivity.</p>
+
+<p><a href="http://www.stanford.edu/class/cs193p/cgi-bin/index.php">Stanford CS 193P iPhone application
+programming</a> is still
+the best place to find optimised example that works.</p>
+
+<p>All this examples was taken from this courses, see chap 10 &amp; 11 about
+TableView optimisation</p>
+
+<p>`</p>
+
+<pre><code>//  LetsMakeAThreadAppDelegate.m
+//  LetsMakeAThread
+//
+//  Created by Evan Doll on 10/27/08.
+
+#import &quot;LetsMakeAThreadAppDelegate.h&quot;
+
+@implementation LetsMakeAThreadAppDelegate
+
+@synthesize window;
+@synthesize spinner;
+@synthesize answerLabel;
+@synthesize button;
+
+- (void)applicationDidFinishLaunching:(UIApplication *)application {
+    answerLabel.text = @&quot;&quot;;
+
+    // Override point for customization after application launch
+    [window makeKeyAndVisible];
+}
+
+- (IBAction)beginDeepThought:(id)sender
+{
+    [spinner startAnimating];
+    button.hidden = YES;
+
+    [NSThread detachNewThreadSelector:@selector(backgroundThinking) toTarget:self withObject:nil];
+}
+
+- (void)backgroundThinking
+{
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+    [NSThread sleepForTimeInterval:5];
+    [self performSelectorOnMainThread:@selector(didFindAnswer:) withObject:@&quot;42&quot; waitUntilDone:NO];
+    [pool release];
+}
+
+- (void)didFindAnswer:(NSString *)answer
+{
+    [spinner stopAnimating];
+    answerLabel.text = answer;
+}
+
+- (void)dealloc {
+    [window release];
+    [spinner release];
+    [answerLabel release];
+    [button release];
+
+    [super dealloc];
+}
+
+@end
+</code></pre>
+
+<p>`</p>
+
+<p>By the way here is how to set a lock and how to implement a little cache for
+loaded pictures (cachedImages is a NSDictionary, ImageLoadingOperation a
+subclass of NSOperation)</p>
+
+<p>`</p>
+
+<pre><code>- (void)someMethod
+{
+        [myLock lock];
+        // We only want one thread executing this code at once
+        [myLock unlock]
+}
+
+- (UIImage *)cachedImageForURL:(NSURL *)url
+{
+    id cachedObject = [cachedImages objectForKey:url];
+    if (cachedObject == nil) {
+        // Set the loading placeholder in our cache dictionary.
+        [cachedImages setObject:LoadingPlaceholder forKey:url];
+
+        // Create and enqueue a new image loading operation
+        ImageLoadingOperation *operation = [[ImageLoadingOperation alloc] initWithImageURL:url target:self action:@selector(didFinishLoadingImageWithResult:)];
+        [operationQueue addOperation:operation];
+        [operation release];
+    } else if (![cachedObject isKindOfClass:[UIImage class]]) {
+        // We're already loading the image. Don't kick off another request.
+        cachedObject = nil;
+    }
+
+    return cachedObject;
+}
+
+- (void)didFinishLoadingImageWithResult:(NSDictionary *)result
+{
+    NSURL *url = [result objectForKey:@&quot;url&quot;];
+    UIImage *image = [result objectForKey:@&quot;image&quot;];
+
+    // Store the image in our cache.
+    // One way to enhance this application further would be to purge images that haven't been used lately,
+    // or to purge aggressively in response to a memory warning.
+    [cachedImages setObject:image forKey:url];
+
+    [self.tableView reloadData];
+}
+</code></pre>
+
+<p>`</p>
+
+<p>As you can see @selector can send only one object, here is a quick tips: just
+put all your objects into a NSArray or NSDict then send it back with
+withObject:.</p>
+
+<p>`</p>
+
+<pre><code>// Package it up to send back to our target.
+NSDictionary *result = [NSDictionary dictionaryWithObjectsAndKeys:image, ImageResultKey, imageURL, URLResultKey, nil];
+[target performSelectorOnMainThread:action withObject:result waitUntilDone:NO];
+</code></pre>
+
+<p>`</p>
+
+</article>
+<nav class="no-print post-nav">
+
+	<a class="prev-post" href="https://blog.nobugware.com/post/2008/12/16/un-peu-de-statistiques/">
+		<img class="icon-text" src="https://blog.nobugware.com/img/prev.svg"/>Un peu de statistiques</a>
+
+
+	<a class="next-post" href="https://blog.nobugware.com/post/2009/01/05/happy-new-year/">Happy new year<img class="icon-text" src="https://blog.nobugware.com/img/next.svg"/>
+	</a>
+
+</nav>
+
+
+<section id="related">
+  <h4>See Also</h4>
+  <ul>
+    
+  	<li><a href="https://blog.nobugware.com/post/2008/12/04/apprendre-coder-pour-liphone-avec-luniversite-de-stanford/">Apprendre à coder pour l&#39;iphone avec l&#39;universite de Stanford</a></li>
+  	
+  </ul>
+</section>
+
+
+
+
+			<hr class="sep" />
+		</main>
+		<footer class="container no-print">
+			<div class="u-footer">
+				
+<a href="mailto:akh@inair.space"><img class="icon-social" src="https://blog.nobugware.com/img/email.svg" alt="Email Me!"/></a>
+
+
+<a href="https://github.com/akhenakh/"><img class="icon-social" src="https://blog.nobugware.com/img/github.svg" alt="Github"/></a>
+
+
+<a href="https://twitter.com/akhenakh"><img class="icon-social" src="https://blog.nobugware.com/img/twitter.svg" alt="Twitter"/></a>
+
+<a href="https://blog.nobugware.com/index.xml" target="_blank"><img class="icon-social" src="https://blog.nobugware.com/img/feed.svg" alt="Feed"></a>
+
+				<p>
+					
+					Theme used: <a href="https://github.com/yursan9/manis-hugo-theme">Manis</a><br>
+					
+					
+					
+				</p>
+				
+				<a href="#brand">
+					<img class="icon-text" src="https://blog.nobugware.com/img/toup.svg" alt="To Up"/>
+					<span>Back to Up</span>
+				</a>
+				
+			</div>
+		</footer>
+		
+	</body>
+</html>
+

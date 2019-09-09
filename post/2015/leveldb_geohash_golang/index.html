@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="generator" content="Hugo 0.58.1" />
+		<title>A blazing fast geo database with LevelDB, Go and Geohashes - Fabrice Aneche</title>
+
+		<meta name="description" content="You probably have heard of LevelDB it’s a blazing fast key value store (as a library not a daemon), that uses Snappy compression.
+There is plenty of usages for it, the API is very simple at least in Go (I will be using Goleveldb).
+The key is a []byte the value is a []byte so you can “get”, “put” &amp; “delete” that’s it.
+I needed a low memory low cpu system that could collect millions of geo data and query over them, Geohash has an interesting property you can encode longitude and latitude into a string : f2m616nn this hash represents the lat &amp; long 46.">
+
+
+		
+	
+		
+
+
+
+
+<link rel="stylesheet" href="https://blog.nobugware.com/css/ui.css">
+
+	
+		
+
+		<link  rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway">
+
+		
+	</head>
+
+<body>
+<header class="container no-print">
+	<div class="u-header">
+		<nav class="bar">
+	<ul><li>
+			<a href="https://blog.nobugware.com/">
+				<img class="icon-text" src="https://blog.nobugware.com/img/prev.svg"/>
+			</a>
+		</li><li><a href="https://blog.nobugware.com/about">About</a></li><li><a href="https://blog.nobugware.com/post/">Post</a></li></ul>
+</nav>
+
+	</div>
+</header>
+<main class="container">
+
+<article>
+	<header><hgroup id="brand">
+	<h1>A blazing fast geo database with LevelDB, Go and Geohashes</h1>
+	<h5>
+		
+		<time datetime="2015-08-30 18:25:02 -0400 -0400">Aug 30, 2015</time>
+		<span class="no-print">
+			<span>
+	</h5>
+	
+</hgroup>
+<hr class="sep" />
+</header>
+	<p>You probably have heard of <a href="https://github.com/google/leveldb">LevelDB</a> it’s a blazing fast key value store (as a library not a daemon), that uses Snappy compression.<br />
+There is plenty of usages for it, the API is very simple at least in Go (I will be using <a href="https://github.com/syndtr/goleveldb">Goleveldb</a>).</p>
+
+<p>The key is a <code>[]byte</code> the value is a <code>[]byte</code> so you can “get”, “put” &amp; “delete” that’s it.</p>
+
+<p>I needed a low memory low cpu system that could collect millions of geo data and query over them,  <a href="https://en.wikipedia.org/wiki/Geohash">Geohash</a> has an interesting property you can encode longitude and latitude into a string : <code>f2m616nn</code> this hash represents the lat &amp; long 46.770, -71.304 <a href="http://geohash.org/f2m616nn">f2m616nn</a>, if you shorten the string to <code>f2m61</code> it still refers to the same lat &amp; long but with less precisions <a href="http://geohash.org/f2m61">f2m61</a>.<br />
+A 4 digits hash leads to 19545 meters precision, to perfom a lookup around a position you simply query for the 8 adjacent blocks. <a href="http://github.com/TomiHiltunen/geohash-golang">A Geohash library for Go</a>.</p>
+
+<p>Here you would store all of your data points matching a geohash to the same set.<br />
+Problem there is no such thing as a set in LevelDB.</p>
+
+<p>But there is a cursor so you can seek to a position then iterate over the next or previous one (byte ordered).<br />
+So your data could be stored that way:  4 digits geohash + a uniq id.</p>
+
+<p>Then you can perform proximity lookup by searching for the 8 adjacents hashes from the position your are looking with a precision of 20km, good but not very flexible.</p>
+
+<p>We can have a more generic solution, first we need a key a simple int64 uniq id.</p>
+
+<pre><code class="language-go">// NewKey generates a new key using time prefixed by 'K'
+func NewKey() Key {
+	return NewKeyWithInt(time.Now().UnixNano())
+}
+
+// NewKeyWithInt returns a key prefixed by 'K' with value i
+func NewKeyWithInt(id int64) Key {
+	key := bytes.NewBufferString(&quot;K&quot;)
+	binary.Write(key, binary.BigEndian, id)
+	return key.Bytes()
+}
+</code></pre>
+
+<p>Here we can encode a key with a Unix timestamp so our key is not just a key it’s also an encoded time value, it will be uniq thanks to the nanosecond precision. We are using BigEndian so it can be byte compared: older will be before newer after.</p>
+
+<p>Now about geo encoding our key will be of the form:<br />
+<code>G201508282105dhv766K��Ϸ�Y�</code>  (note the end of the key is binary encoded)
+You always need a prefix for your keys so you can seek and browse them without running over different keys types, here I have a <code>G</code> as Geo, then a string encoded date prefix, so we can search by date, but we don’t want extra precision here, it would add extra seek to LevelDB, (that’s why we have a modulo of 10 for minutes) then we add a precise geohash and finally our previous uniq id.</p>
+
+<pre><code class="language-go">// NewGeoKey generates a new key using a position &amp; a key
+func NewGeoKey(latitude, longitude float64) GeoKey {
+	t := time.Now().UTC()
+	kint := t.UnixNano()
+	kid := NewKeyWithInt(kint)
+	// G + string date + geohash 6 + timestamped key 
+	// G201508282105dhv766K....
+	gk := geohash.EncodeWithPrecision(latitude, longitude, 6)
+	ts := t.Format(&quot;2006010215&quot;)
+
+	// modulo 10 to store 10mn interval
+	m := t.Minute() - t.Minute()%10
+	zkey := []byte(&quot;G&quot; + ts + fmt.Sprintf(&quot;%02d&quot;, m) + gk)
+	zkey = append(zkey, kid...)
+	return zkey
+}
+</code></pre>
+
+<p>We can now lookup by flexible date &amp; by flexible proximity like a Redis ZRANGE, you simply need to reverse the process.</p>
+
+<pre><code class="language-go">// GeoKeyPrefix return prefixes to lookup using a GeoKey and timerange
+func GeoKeyPrefix(start, stop time.Time) []string {
+	var res []string
+	d := 10 * time.Minute
+	var t time.Time
+	t = start
+	for {
+		if t.After(stop) {
+			break
+		}
+
+		key := &quot;G&quot; + t.Format(&quot;2006010215&quot;) + fmt.Sprintf(&quot;%02d&quot;, t.Minute()-t.Minute()%10)
+		res = append(res, key)
+		t = t.Add(d)
+	}
+	return res
+}
+</code></pre>
+
+<p>Lookup that way:</p>
+
+<pre><code class="language-go">	d := time.Duration(-10) * time.Minute
+	geoPrefixs := GeoKeyPrefix(time.Now().UTC().Add(d), time.Now().UTC())
+
+	// find adjacent hashes in m
+	// 1, 5003530
+	// 2, 625441
+	// 3, 123264
+	// 4, 19545
+	// 5, 3803
+	// 6, 610
+	gk := geohash.EncodeWithPrecision(lat, long, 4)
+	adjs := geohash.CalculateAllAdjacent(gk)
+	adjs = append(adjs, gk)
+
+	// for each adjacent blocks
+	for _, gkl := range adjs {
+
+		// for each time range modulo 10
+		for _, geoPrefix := range geoPrefixs {
+			startGeoKey := []byte(geoPrefix + gkl)
+			iter := s.NewIterator(util.BytesPrefix(startGeoKey), nil)
+
+			for iter.Next() {
+				log.Println(iter.Value())
+			}
+			iter.Release()
+		}
+	}
+</code></pre>
+
+<p>It can be optimized, reducing the size of the keys, but it performs extremely well storing around 3 millions geopoints per day, using less than 3% cpu and can received hundreds of queries per second.</p>
+
+<p>Oh did I forget to mention it&rsquo;s running on a Raspberry Pi? :)</p>
+
+<p>I could maybe turn it into a library but it&rsquo;s so simple it&rsquo;s probably useless.<br />
+Next blog post: what are those millions points used for?</p>
+
+</article>
+<nav class="no-print post-nav">
+
+	<a class="prev-post" href="https://blog.nobugware.com/post/2015/internet_access_power_outage_disaster_free/">
+		<img class="icon-text" src="https://blog.nobugware.com/img/prev.svg"/>Offering free internet well almost and survive disaster, power outage, Internet blackout</a>
+
+
+	<a class="next-post" href="https://blog.nobugware.com/post/2015/listening_to_satellites_for_30_dollars/">Listening to satellites for 30 dollars<img class="icon-text" src="https://blog.nobugware.com/img/next.svg"/>
+	</a>
+
+</nav>
+
+
+
+
+
+			<hr class="sep" />
+		</main>
+		<footer class="container no-print">
+			<div class="u-footer">
+				
+<a href="mailto:akh@inair.space"><img class="icon-social" src="https://blog.nobugware.com/img/email.svg" alt="Email Me!"/></a>
+
+
+<a href="https://github.com/akhenakh/"><img class="icon-social" src="https://blog.nobugware.com/img/github.svg" alt="Github"/></a>
+
+
+<a href="https://twitter.com/akhenakh"><img class="icon-social" src="https://blog.nobugware.com/img/twitter.svg" alt="Twitter"/></a>
+
+<a href="https://blog.nobugware.com/index.xml" target="_blank"><img class="icon-social" src="https://blog.nobugware.com/img/feed.svg" alt="Feed"></a>
+
+				<p>
+					
+					Theme used: <a href="https://github.com/yursan9/manis-hugo-theme">Manis</a><br>
+					
+					
+					
+				</p>
+				
+				<a href="#brand">
+					<img class="icon-text" src="https://blog.nobugware.com/img/toup.svg" alt="To Up"/>
+					<span>Back to Up</span>
+				</a>
+				
+			</div>
+		</footer>
+		
+	</body>
+</html>
+

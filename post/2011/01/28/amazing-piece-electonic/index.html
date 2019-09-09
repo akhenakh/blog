@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="generator" content="Hugo 0.58.1" />
+		<title>An amazing piece of electonic - Fabrice Aneche</title>
+
+		<meta name="description" content="Sparkfun and others sell a 434Mhz transmitter and a receiver for €2.88 and €3.61.
+This version receives at 2400bauds but there is a 4800 bauds version.
+Simply connect the transmitter to an arduino pin then your are done (almost).
+My first try was to follow the example from sparkfun, which simply read a value from the receiver:
+// read in values, debug to computer if (Serial.available() &gt; 0) { incomingByte = Serial.">
+
+
+		
+	
+		
+
+
+
+
+<link rel="stylesheet" href="https://blog.nobugware.com/css/ui.css">
+
+	
+		
+
+		<link  rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway">
+
+		
+	</head>
+
+<body>
+<header class="container no-print">
+	<div class="u-header">
+		<nav class="bar">
+	<ul><li>
+			<a href="https://blog.nobugware.com/">
+				<img class="icon-text" src="https://blog.nobugware.com/img/prev.svg"/>
+			</a>
+		</li><li><a href="https://blog.nobugware.com/about">About</a></li><li><a href="https://blog.nobugware.com/post/">Post</a></li></ul>
+</nav>
+
+	</div>
+</header>
+<main class="container">
+
+<article>
+	<header><hgroup id="brand">
+	<h1>An amazing piece of electonic</h1>
+	<h5>
+		
+		<time datetime="2011-01-28 11:52:12 -0400 -0400">Jan 28, 2011</time>
+		<span class="no-print">
+			-
+				
+				<a href="https://blog.nobugware.com/tags/arduino">arduino</a>
+				<span>
+	</h5>
+	
+</hgroup>
+<hr class="sep" />
+</header>
+	<p>Sparkfun and others sell a 434Mhz
+<a href="http://www.sparkfun.com/products/8946">transmitter</a> and a
+<a href="http://www.sparkfun.com/products/8949">receiver</a> for €2.88 and €3.61.</p>
+
+<p>This version receives at 2400bauds but there is a 4800 bauds version.</p>
+
+<p>Simply connect the transmitter to an arduino pin then your are done (almost).</p>
+
+<p>My first try was to follow the example from sparkfun, which simply read a
+value from the receiver:</p>
+
+<pre><code>// read in values, debug to computer
+    
+if (Serial.available() &gt; 0) {
+      incomingByte = Serial.read();
+      Serial.println(incomingByte, DEC);
+}
+</code></pre>
+
+<p>This has collected a ton of garbage (without emitting).</p>
+
+<p>The answer was to use
+<a href="http://www.open.com.au/mikem/arduino/VirtualWire.pdf">OpenWire</a> an amazing
+piece of software &hellip; that handles checksuming for you, just connect to your
+arduino pin 12 for TX, and 11 for RX then you are done !</p>
+
+<p>This is working like a charm in all my house without requiring any antennas.</p>
+
+<p>You can get all your Arduinos connected for less than 7€ !</p>
+
+<p>PS: Sparkfun are great dealers this parts was missing in the first shipping
+they send it again in priority mail: 48 hours from USA to France ;)</p>
+
+<p><a href="http://kdl.nobugware.com/public/rflink.jpg"><img src="http://kdl.nobugware.com/public/rflink.jpg" alt="" /></a></p>
+
+</article>
+<nav class="no-print post-nav">
+
+	<a class="prev-post" href="https://blog.nobugware.com/post/2011/01/19/all-my-digital-life/">
+		<img class="icon-text" src="https://blog.nobugware.com/img/prev.svg"/>All my digital life</a>
+
+
+	<a class="next-post" href="https://blog.nobugware.com/post/2011/02/02/gentoo-lvmraid-root/">Gentoo lvm&#43;raid root<img class="icon-text" src="https://blog.nobugware.com/img/next.svg"/>
+	</a>
+
+</nav>
+
+
+
+
+
+			<hr class="sep" />
+		</main>
+		<footer class="container no-print">
+			<div class="u-footer">
+				
+<a href="mailto:akh@inair.space"><img class="icon-social" src="https://blog.nobugware.com/img/email.svg" alt="Email Me!"/></a>
+
+
+<a href="https://github.com/akhenakh/"><img class="icon-social" src="https://blog.nobugware.com/img/github.svg" alt="Github"/></a>
+
+
+<a href="https://twitter.com/akhenakh"><img class="icon-social" src="https://blog.nobugware.com/img/twitter.svg" alt="Twitter"/></a>
+
+<a href="https://blog.nobugware.com/index.xml" target="_blank"><img class="icon-social" src="https://blog.nobugware.com/img/feed.svg" alt="Feed"></a>
+
+				<p>
+					
+					Theme used: <a href="https://github.com/yursan9/manis-hugo-theme">Manis</a><br>
+					
+					
+					
+				</p>
+				
+				<a href="#brand">
+					<img class="icon-text" src="https://blog.nobugware.com/img/toup.svg" alt="To Up"/>
+					<span>Back to Up</span>
+				</a>
+				
+			</div>
+		</footer>
+		
+	</body>
+</html>
+

@@ -6,10 +6,10 @@
 		<meta name="generator" content="Hugo 0.58.1" />
 		<title>Access Web Interface  - Fabrice Aneche</title>
 
-		<meta name="description" content="Here is a simple yet useful trick.
-As stated in the Kubernetes documentation you can use kubectl proxy to access web service interface within the Kubernetes cluster.
-I&rsquo;ve seen a lot of people using the proxy to access the dashboard but you can use it to access any web interface, like admin interface without the need to create an ingress and protect it.
-http://kubernetes_master_address/api/v1/namespaces/namespace_name/services/service_name[:port_name]/proxy  For example here is how to access the traefik dashboard:">
+		<meta name="description" content="Here is a simple yet useful trick to access web interface within your cluster.
+As stated in the Kubernetes documentation you can use kubectl proxy.
+I&rsquo;ve seen a lot of people using the proxy to access the dashboard but you can use it to access any web interfaces, without the need to create an ingress and protect it.
+http://kubernetes_master_address/api/v1/namespaces/namespace_name/services/service_name[:port_name]/proxy  For example here is how to access the Traefik dashboard described as follow:">
 
 
 		
@@ -56,22 +56,39 @@ http://kubernetes_master_address/api/v1/namespaces/namespace_name/services/servi
 				<a href="https://blog.nobugware.com/tags/devops">devops</a>
 				
 				<a href="https://blog.nobugware.com/tags/kubernetes">kubernetes</a>
+				
+				<a href="https://blog.nobugware.com/tags/traefik">traefik</a>
 				<span>
 	</h5>
 	
 </hgroup>
 <hr class="sep" />
 </header>
-	<p>Here is a simple yet useful trick.</p>
+	<p>Here is a simple yet useful trick to access web interface within your cluster.</p>
 
-<p>As stated in the <a href="https://kubernetes.io/docs/tasks/access-application-cluster/access-cluster/#accessing-services-running-on-the-cluster">Kubernetes documentation</a> you can use <code>kubectl proxy</code> to access web service interface within the Kubernetes cluster.</p>
+<p>As stated in the <a href="https://kubernetes.io/docs/tasks/access-application-cluster/access-cluster/#accessing-services-running-on-the-cluster">Kubernetes documentation</a> you can use <code>kubectl proxy</code>.</p>
 
-<p>I&rsquo;ve seen a lot of people using the proxy to access the dashboard but you can use it to access any web interface, like admin interface without the need to create an ingress and protect it.</p>
+<p>I&rsquo;ve seen a lot of people using the proxy to access the dashboard but you can use it to access any web interfaces, without the need to create an ingress and protect it.</p>
 
 <pre><code>http://kubernetes_master_address/api/v1/namespaces/namespace_name/services/service_name[:port_name]/proxy
 </code></pre>
 
-<p>For example here is how to access the traefik dashboard:</p>
+<p>For example here is how to access the Traefik dashboard described as follow:</p>
+
+<pre><code class="language-yaml">apiVersion: v1
+kind: Service
+metadata:
+  name: traefik-dashboard
+spec:
+  type: ClusterIP
+  selector:
+    app: traefik
+    release: traefik
+  ports:
+  - name: dashboard-http
+    port: 80
+    targetPort: 8080
+</code></pre>
 
 <p><a href="http://localhost:8001/api/v1/namespaces/default/services/http:traefik-dashboard:dashboard-http/proxy/dashboard/#!/service?namespace=default">http://localhost:8001/api/v1/namespaces/default/services/http:traefik-dashboard:dashboard-http/proxy/dashboard/#!/service?namespace=default</a></p>
 

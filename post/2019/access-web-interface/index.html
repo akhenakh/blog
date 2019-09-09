@@ -4,11 +4,11 @@
 		<meta charset="utf-8"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta name="generator" content="Hugo 0.58.1" />
-		<title>Access Web Interface  - Fabrice Aneche</title>
+		<title>Access Kubernetes Web Interfaces from the Outside - Fabrice Aneche</title>
 
 		<meta name="description" content="Here is a simple yet useful trick to access web interface within your cluster.
 As stated in the Kubernetes documentation you can use kubectl proxy.
-I&rsquo;ve seen a lot of people using the proxy to access the dashboard but you can use it to access any web interfaces, without the need to create an ingress and protect it.
+I&rsquo;ve seen a lot of people using the proxy to access the dashboard but you can use it to access any web interfaces, without the need to create an ingress and protect it, especially useful in dev environment.
 http://kubernetes_master_address/api/v1/namespaces/namespace_name/services/service_name[:port_name]/proxy  For example here is how to access the Traefik dashboard described as follow:">
 
 
@@ -46,7 +46,7 @@ http://kubernetes_master_address/api/v1/namespaces/namespace_name/services/servi
 
 <article>
 	<header><hgroup id="brand">
-	<h1>Access Web Interface </h1>
+	<h1>Access Kubernetes Web Interfaces from the Outside</h1>
 	<h5>
 		
 		<time datetime="2019-09-09 13:00:00 -0400 -0400">Sep 09, 2019</time>
@@ -68,7 +68,7 @@ http://kubernetes_master_address/api/v1/namespaces/namespace_name/services/servi
 
 <p>As stated in the <a href="https://kubernetes.io/docs/tasks/access-application-cluster/access-cluster/#accessing-services-running-on-the-cluster">Kubernetes documentation</a> you can use <code>kubectl proxy</code>.</p>
 
-<p>I&rsquo;ve seen a lot of people using the proxy to access the dashboard but you can use it to access any web interfaces, without the need to create an ingress and protect it.</p>
+<p>I&rsquo;ve seen a lot of people using the proxy to access the dashboard but you can use it to access any web interfaces, without the need to create an ingress and protect it, especially useful in dev environment.</p>
 
 <pre><code>http://kubernetes_master_address/api/v1/namespaces/namespace_name/services/service_name[:port_name]/proxy
 </code></pre>

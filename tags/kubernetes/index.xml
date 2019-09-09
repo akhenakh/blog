@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>kubernetes on Fabrice Aneche</title>
+    <title>Kubernetes on Fabrice Aneche</title>
     <link>https://blog.nobugware.com/tags/kubernetes/</link>
-    <description>Recent content in kubernetes on Fabrice Aneche</description>
+    <description>Recent content in Kubernetes on Fabrice Aneche</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Mon, 09 Sep 2019 13:00:00 -0400</lastBuildDate>
@@ -12,14 +12,14 @@
     
     
     <item>
-      <title>Access Web Interface </title>
+      <title>Access Kubernetes Web Interfaces from the Outside</title>
       <link>https://blog.nobugware.com/post/2019/access-web-interface/</link>
       <pubDate>Mon, 09 Sep 2019 13:00:00 -0400</pubDate>
       
       <guid>https://blog.nobugware.com/post/2019/access-web-interface/</guid>
       <description>Here is a simple yet useful trick to access web interface within your cluster.
 As stated in the Kubernetes documentation you can use kubectl proxy.
-I&amp;rsquo;ve seen a lot of people using the proxy to access the dashboard but you can use it to access any web interfaces, without the need to create an ingress and protect it.
+I&amp;rsquo;ve seen a lot of people using the proxy to access the dashboard but you can use it to access any web interfaces, without the need to create an ingress and protect it, especially useful in dev environment.
 http://kubernetes_master_address/api/v1/namespaces/namespace_name/services/service_name[:port_name]/proxy  For example here is how to access the Traefik dashboard described as follow:</description>
     </item>
     

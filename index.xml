@@ -6,10 +6,22 @@
     <description>Recent content on Fabrice Aneche</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 19 Jun 2019 06:00:00 -0400</lastBuildDate>
+    <lastBuildDate>Mon, 09 Sep 2019 00:00:00 -0400</lastBuildDate>
     
 	<atom:link href="https://blog.nobugware.com/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Bare Metal Kubernetes Quick Installations on Arch</title>
+      <link>https://blog.nobugware.com/post/2019/bare-metal-kubernetes-quick-installations-on-arch/</link>
+      <pubDate>Mon, 09 Sep 2019 00:00:00 -0400</pubDate>
+      
+      <guid>https://blog.nobugware.com/post/2019/bare-metal-kubernetes-quick-installations-on-arch/</guid>
+      <description>I&amp;rsquo;m still playing with my 3 nodes arm64 cluster, having some stability issues with k3s, I turned into kubeadm to deploy a bare metal non HA one master two workers Kubernetes cluster.
+My host is Arch which is theoretically not supported but still works.
+Required tasks sudo pacman -S ethtool ebtables socat cni-plugins  I needed a private registry to host my images, on master node:
+docker run -d -p 5000:5000 --restart=always -v /opt/local-path-provisioner/registry:/var/lib/registry --name registry registry:2  On all hosts:</description>
+    </item>
     
     <item>
       <title>k3s on arm64</title>

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="generator" content="Hugo 0.58.1" />
+		<title>Bare Metal Kubernetes Quick Installations on Arch - Fabrice Aneche</title>
+
+		<meta name="description" content="I&rsquo;m still playing with my 3 nodes arm64 cluster, having some stability issues with k3s, I turned into kubeadm to deploy a bare metal non HA one master two workers Kubernetes cluster.
+My host is Arch which is theoretically not supported but still works.
+Required tasks sudo pacman -S ethtool ebtables socat cni-plugins  I needed a private registry to host my images, on master node:
+docker run -d -p 5000:5000 --restart=always -v /opt/local-path-provisioner/registry:/var/lib/registry --name registry registry:2  On all hosts:">
+
+
+		
+	
+		
+
+
+
+
+<link rel="stylesheet" href="https://blog.nobugware.com/css/ui.css">
+
+	
+		
+
+		<link  rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway">
+
+		
+	</head>
+
+<body>
+<header class="container no-print">
+	<div class="u-header">
+		<nav class="bar">
+	<ul><li>
+			<a href="https://blog.nobugware.com/">
+				<img class="icon-text" src="https://blog.nobugware.com/img/prev.svg"/>
+			</a>
+		</li><li><a href="https://blog.nobugware.com/about">About</a></li><li><a href="https://blog.nobugware.com/post/">Post</a></li></ul>
+</nav>
+
+	</div>
+</header>
+<main class="container">
+
+<article>
+	<header><hgroup id="brand">
+	<h1>Bare Metal Kubernetes Quick Installations on Arch</h1>
+	<h5>
+		
+		<time datetime="2019-09-09 00:00:00 -0400 -0400">Sep 09, 2019</time>
+		<span class="no-print">
+			-
+				
+				<a href="https://blog.nobugware.com/tags/kubernetes">kubernetes</a>
+				
+				<a href="https://blog.nobugware.com/tags/%20linux"> linux</a>
+				
+				<a href="https://blog.nobugware.com/tags/arch">arch</a>
+				<span>
+	</h5>
+	
+</hgroup>
+<hr class="sep" />
+</header>
+	
+
+<p>I&rsquo;m still playing with my 3 nodes arm64 cluster, having some stability issues with <a href="https://github.com/rancher/k3s">k3s</a>, I turned into <a href="https://github.com/kubernetes/kubeadm">kubeadm</a> to deploy a bare metal non HA one master two workers Kubernetes cluster.</p>
+
+<p>My host is Arch which is theoretically not supported but still works.</p>
+
+<h2 id="required-tasks">Required tasks</h2>
+
+<pre><code>sudo pacman -S ethtool ebtables socat cni-plugins
+</code></pre>
+
+<p>I needed a private registry to host my images, on master node:</p>
+
+<pre><code>docker run -d -p 5000:5000 --restart=always -v /opt/local-path-provisioner/registry:/var/lib/registry  --name registry registry:2
+</code></pre>
+
+<p>On all hosts:</p>
+
+<pre><code>cat /etc/sysctl.d/bridge.conf &lt;&lt;EOF                             
+net.bridge.bridge-nf-call-iptables=1
+EOF
+
+cat &gt; /etc/docker/daemon.json &lt;&lt;EOF
+{
+  &quot;insecure-registries&quot; : [&quot;mymasternode:5000&quot;],
+  &quot;exec-opts&quot;: [&quot;native.cgroupdriver=systemd&quot;]
+}
+EOF
+
+sudo systemctl restart docker
+</code></pre>
+
+<h2 id="kubeadm">Kubeadm</h2>
+
+<p>Start kubeadm on the master</p>
+
+<pre><code>sudo kubeadm init --pod-network-cidr 10.244.0.0/16 --apiserver-advertise-address 192.168.40.10 --apiserver-cert-extra-sans extrahostname.node  --node-name mymasternode
+</code></pre>
+
+<p>To make kubectl talk to the new cluster:</p>
+
+<pre><code>mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+</code></pre>
+
+<p>Change kubeadm config to point it to <code>/usr/lib/cni</code> which is the path used by the Arch package edit <code>/var/lib/kubelet/kubeadm-flags.env</code>:</p>
+
+<pre><code>KUBELET_KUBEADM_ARGS=&quot;--cgroup-driver=systemd --hostname-override=mymasternode --network-plugin=cni --pod-infra-container-image=k8s.gcr.io/pause:3.1 --resolv-conf=/run/systemd/resolve/resolv.conf --cni-bin-dir=/usr/lib/cni&quot;
+sudo systemctl restart kubelet
+</code></pre>
+
+<p>On worker nodes:</p>
+
+<pre><code>kubeadm join  192.168.40.10:6443 --token q3l12s.r811b5pbibi9mjy \
+    --discovery-token-ca-cert-hash sha256:b67aaaaaaaaaaaaaaaaabbbbbbbccccccc --node-name myworker1
+</code></pre>
+
+<p>Modify <code>/var/lib/kubelet/kubeadm-flags.env</code> to add <code>--cni-bin-dir=/usr/lib/cni</code> on the workers then restart kubelete</p>
+
+<h2 id="install-flannel">Install Flannel</h2>
+
+<p>On this very small cluster with a dedicated layer 2 connection there is no need for vxlan (which I had issues troubleshooting with k3s), so I&rsquo;ve applied the multi arch Flannel deployment with a twist.</p>
+
+<pre><code>curl https://raw.githubusercontent.com/coreos/flannel/62e44c867a2846fefb68bd5f178daf4da3095ccb/Documentation/kube-flannel.yml |  sed &quot;s/vxlan/host-gw/&quot; &gt; kube-flannel.yaml
+</code></pre>
+
+<p>Label your nodes as wanted:</p>
+
+<pre><code>kubectl label node myworker2 node-role.kubernetes.io/worker=worker
+</code></pre>
+
+<h2 id="delete-everything">Delete everything</h2>
+
+<p>If something goes wrong you can restart from scratch with.</p>
+
+<pre><code>kubectl drain &lt;node name&gt; --delete-local-data --force --ignore-daemonsets
+kubeadm reset
+docker system prune -a
+iptables -F &amp;&amp; iptables -t nat -F &amp;&amp; iptables -t mangle -F &amp;&amp; iptables -X
+</code></pre>
+
+</article>
+<nav class="no-print post-nav">
+
+	<a class="prev-post" href="https://blog.nobugware.com/post/2019/k3s-on-arm64/">
+		<img class="icon-text" src="https://blog.nobugware.com/img/prev.svg"/>k3s on arm64</a>
+
+
+</nav>
+
+
+<section id="related">
+  <h4>See Also</h4>
+  <ul>
+    
+  	<li><a href="https://blog.nobugware.com/post/2019/k3s-on-arm64/">k3s on arm64</a></li>
+  	
+  	<li><a href="https://blog.nobugware.com/post/2019/deploying-a-website-with-caddy-git-and-kubernetes/">Deploying a website with Caddy, Git and Kubernetes</a></li>
+  	
+  </ul>
+</section>
+
+
+
+
+			<hr class="sep" />
+		</main>
+		<footer class="container no-print">
+			<div class="u-footer">
+				
+
+<a href="https://github.com/akhenakh/"><img class="icon-social" src="https://blog.nobugware.com/img/github.svg" alt="Github"/></a>
+
+
+<a href="https://twitter.com/akhenakh"><img class="icon-social" src="https://blog.nobugware.com/img/twitter.svg" alt="Twitter"/></a>
+
+<a href="https://blog.nobugware.com/index.xml" target="_blank"><img class="icon-social" src="https://blog.nobugware.com/img/feed.svg" alt="Feed"></a>
+
+				<p>
+					
+					Theme used: <a href="https://github.com/yursan9/manis-hugo-theme">Manis</a><br>
+					
+					
+					
+				</p>
+				
+				<a href="#brand">
+					<img class="icon-text" src="https://blog.nobugware.com/img/toup.svg" alt="To Up"/>
+					<span>Back to Up</span>
+				</a>
+				
+			</div>
+		</footer>
+		
+	</body>
+</html>
+

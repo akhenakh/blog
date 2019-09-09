@@ -3,27 +3,57 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://blog.nobugware.com/tags/arch/</loc>
+    <lastmod>2019-09-09T00:00:00-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.nobugware.com/post/2019/bare-metal-kubernetes-quick-installations-on-arch/</loc>
+    <lastmod>2019-09-09T00:00:00-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.nobugware.com/categories/</loc>
+    <lastmod>2019-09-09T00:00:00-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.nobugware.com/categories/devops/</loc>
+    <lastmod>2019-09-09T00:00:00-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.nobugware.com/</loc>
+    <lastmod>2019-09-09T00:00:00-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.nobugware.com/tags/kubernetes/</loc>
+    <lastmod>2019-09-09T00:00:00-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.nobugware.com/tags/linux/</loc>
+    <lastmod>2019-09-09T00:00:00-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.nobugware.com/post/</loc>
+    <lastmod>2019-09-09T00:00:00-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.nobugware.com/tags/</loc>
+    <lastmod>2019-09-09T00:00:00-04:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://blog.nobugware.com/about/</loc>
     <lastmod>2019-09-07T18:57:12+07:00</lastmod>
   </url>
   
   <url>
     <loc>https://blog.nobugware.com/tags/arm64/</loc>
-    <lastmod>2019-06-19T06:00:00-04:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://blog.nobugware.com/categories/</loc>
-    <lastmod>2019-06-19T06:00:00-04:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://blog.nobugware.com/categories/devops/</loc>
-    <lastmod>2019-06-19T06:00:00-04:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://blog.nobugware.com/</loc>
     <lastmod>2019-06-19T06:00:00-04:00</lastmod>
   </url>
   
@@ -38,32 +68,12 @@
   </url>
   
   <url>
-    <loc>https://blog.nobugware.com/tags/kubernetes/</loc>
-    <lastmod>2019-06-19T06:00:00-04:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://blog.nobugware.com/post/</loc>
-    <lastmod>2019-06-19T06:00:00-04:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://blog.nobugware.com/tags/rock64/</loc>
     <lastmod>2019-06-19T06:00:00-04:00</lastmod>
   </url>
   
   <url>
-    <loc>https://blog.nobugware.com/tags/</loc>
-    <lastmod>2019-06-19T06:00:00-04:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://blog.nobugware.com/post/2019/h96-max-android-box-as-a-linux-server/</loc>
-    <lastmod>2019-05-27T00:00:00-04:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://blog.nobugware.com/tags/linux/</loc>
     <lastmod>2019-05-27T00:00:00-04:00</lastmod>
   </url>
   

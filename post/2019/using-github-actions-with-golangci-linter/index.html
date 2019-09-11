@@ -94,35 +94,37 @@ jobs:
 
 <p>And the usual badge you can put in your <code>README.md</code></p>
 
-<pre><code> [![Lint Status](https://github.com/myusername/myrepo/workflows/Golangci-lint/badge.svg)](https://github.com/myusername/myrepo/actions)
+<pre><code>[![Lint Status](https://github.com/myusername/myrepo/workflows/golangci-lint/badge.svg)](https://github.com/myusername/myrepo/actions)
 </code></pre>
 
 <p>Also remember you can tune <code>golangci-lint</code> by placing a file at the root of your repo like:</p>
 
-<pre><code> run:
-  # default concurrency is a available CPU number
-  concurrency: 4
+<pre><code>run:
+ # default concurrency is a available CPU number
+ concurrency: 4
 
-  # timeout for analysis, e.g. 30s, 5m, default is 1m
-  deadline: 2m
+ # timeout for analysis, e.g. 30s, 5m, default is 1m
+ deadline: 2m
 
-  skip-files:
-    - gen.go
+ skip-files:
+   - gen.go
 
-      # modules-download-mode: vendor
+     # modules-download-mode: vendor
 
 
 linters:
-  disable:
-    - errcheck
-    - gochecknoglobals
-    - dupl
-  presets:
-    - bugs
-    - unused
-    - complexity
-    - style
+ disable:
+   - errcheck
+   - gochecknoglobals
+   - dupl
+ presets:
+   - bugs
+   - unused
+   - complexity
+   - style
 </code></pre>
+
+<p>Note: The worflow name part of the badge url is case sensitive ;)</p>
 
 </article>
 <nav class="no-print post-nav">

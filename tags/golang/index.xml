@@ -19,7 +19,7 @@
       <guid>https://blog.nobugware.com/post/2019/using-github-actions-with-golangci-linter/</guid>
       <description>Github delivered a beta Github Actions, it&amp;rsquo;s a worflow that can run almost anything related to your code, like a CI/CD.
 Here is a workflow for Go 1.13 module projects and golangci-lint.
-name: Golangci-lint on: [push] jobs: build: name: Build runs-on: ubuntu-latest steps: - name: Set up Go 1.13 uses: actions/setup-go@v1 with: go-version: 1.13 id: go - name: Check out code into the Go module directory uses: actions/checkout@v1 - name: Install golangci-lint run: curl -sfL https://raw.</description>
+name: golangci-lint on: [push] jobs: build: name: Build runs-on: ubuntu-latest steps: - name: Set up Go 1.13 uses: actions/setup-go@v1 with: go-version: 1.13 id: go - name: Check out code into the Go module directory uses: actions/checkout@v1 - name: Install golangci-lint run: curl -sfL https://raw.</description>
     </item>
     
     <item>

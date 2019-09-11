@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="generator" content="Hugo 0.58.1" />
+		<title>Using Github Actions with Golangci-linter - Fabrice Aneche</title>
+
+		<meta name="description" content="Use Github actions to start golangci-lint on every commits.">
+
+
+		
+	
+		
+
+
+
+
+<link rel="stylesheet" href="https://blog.nobugware.com/css/ui.css">
+
+	
+		
+
+		<link  rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway">
+
+		
+	</head>
+
+<body>
+<header class="container no-print">
+	<div class="u-header">
+		<nav class="bar">
+	<ul><li>
+			<a href="https://blog.nobugware.com/">
+				<img class="icon-text" src="https://blog.nobugware.com/img/prev.svg"/>
+			</a>
+		</li><li><a href="https://blog.nobugware.com/about">About</a></li><li><a href="https://blog.nobugware.com/post/">Post</a></li></ul>
+</nav>
+
+	</div>
+</header>
+<main class="container">
+
+<article>
+	<header><hgroup id="brand">
+	<h1>Using Github Actions with Golangci-linter</h1>
+	<h5>
+		
+		<time datetime="2019-09-11 00:00:00 -0400 -0400">Sep 11, 2019</time>
+		<span class="no-print">
+			-
+				
+				<a href="https://blog.nobugware.com/tags/go">go</a>
+				
+				<a href="https://blog.nobugware.com/tags/github">github</a>
+				
+				<a href="https://blog.nobugware.com/tags/golang">golang</a>
+				<span>
+	</h5>
+	
+</hgroup>
+<hr class="sep" />
+</header>
+	<p>Github delivered a beta <a href="https://github.com/features/actions">Github Actions</a>, it&rsquo;s a worflow that can run almost anything related to your code, like a CI/CD.</p>
+
+<p>Here is a workflow for Go 1.13 module projects and golangci-lint.</p>
+
+<pre><code class="language-yaml">name: Golangci-lint
+on: [push]
+jobs:
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Set up Go 1.13
+      uses: actions/setup-go@v1
+      with:
+        go-version: 1.13
+      id: go
+
+    - name: Check out code into the Go module directory
+      uses: actions/checkout@v1
+
+    - name: Install golangci-lint
+      run: curl -sfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh| sh -s -- -b $(go env GOPATH)/bin v1.18.0
+
+    - name: Run golangci-lint
+      run: $(go env GOPATH)/bin/golangci-lint run
+</code></pre>
+
+<p>This file should be placed in your repo under <code>.github/workflows/golangci-lint.yml</code> but the action web editor will do it for you.</p>
+
+<p>And the usual badge you can put in your <code>README.md</code></p>
+
+<pre><code> [![Lint Status](https://github.com/myusername/myrepo/workflows/Golangci-lint/badge.svg)](https://github.com/myusername/myrepo/actions)
+</code></pre>
+
+<p>Also remember you can tune <code>golangci-lint</code> by placing a file at the root of your repo like:</p>
+
+<pre><code> run:
+  # default concurrency is a available CPU number
+  concurrency: 4
+
+  # timeout for analysis, e.g. 30s, 5m, default is 1m
+  deadline: 2m
+
+  skip-files:
+    - gen.go
+
+      # modules-download-mode: vendor
+
+
+linters:
+  disable:
+    - errcheck
+    - gochecknoglobals
+    - dupl
+  presets:
+    - bugs
+    - unused
+    - complexity
+    - style
+</code></pre>
+
+</article>
+<nav class="no-print post-nav">
+
+	<a class="prev-post" href="https://blog.nobugware.com/post/2019/access-web-interface/">
+		<img class="icon-text" src="https://blog.nobugware.com/img/prev.svg"/>Access Kubernetes Web Interfaces from the Outside</a>
+
+
+</nav>
+
+
+<section id="related">
+  <h4>See Also</h4>
+  <ul>
+    
+  	<li><a href="https://blog.nobugware.com/post/2016/grpc_envoy_nghttp2_load_balancing/">gRPC Envoy Nghttp2 and Load Balancing</a></li>
+  	
+  	<li><a href="https://blog.nobugware.com/post/2015/metrics_golang_operating_system/">Access OS metrics from Golang</a></li>
+  	
+  	<li><a href="https://blog.nobugware.com/post/2015/01/02/run-a-full-wikipedia-copy-from-any-computers/">Run a full Wikipedia copy from any computers</a></li>
+  	
+  </ul>
+</section>
+
+
+
+
+			<hr class="sep" />
+		</main>
+		<footer class="container no-print">
+			<div class="u-footer">
+				
+
+<a href="https://github.com/akhenakh/"><img class="icon-social" src="https://blog.nobugware.com/img/github.svg" alt="Github"/></a>
+
+
+<a href="https://twitter.com/akhenakh"><img class="icon-social" src="https://blog.nobugware.com/img/twitter.svg" alt="Twitter"/></a>
+
+<a href="https://blog.nobugware.com/index.xml" target="_blank"><img class="icon-social" src="https://blog.nobugware.com/img/feed.svg" alt="Feed"></a>
+
+				<p>
+					
+					Theme used: <a href="https://github.com/yursan9/manis-hugo-theme">Manis</a><br>
+					
+					
+					
+				</p>
+				
+				<a href="#brand">
+					<img class="icon-text" src="https://blog.nobugware.com/img/toup.svg" alt="To Up"/>
+					<span>Back to Up</span>
+				</a>
+				
+			</div>
+		</footer>
+		
+	</body>
+</html>
+

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>github on Fabrice Aneche</title>
+    <link>https://blog.nobugware.com/tags/github/</link>
+    <description>Recent content in github on Fabrice Aneche</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 11 Sep 2019 00:00:00 -0400</lastBuildDate>
+    
+	<atom:link href="https://blog.nobugware.com/tags/github/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Using Github Actions with Golangci-linter</title>
+      <link>https://blog.nobugware.com/post/2019/using-github-actions-with-golangci-linter/</link>
+      <pubDate>Wed, 11 Sep 2019 00:00:00 -0400</pubDate>
+      
+      <guid>https://blog.nobugware.com/post/2019/using-github-actions-with-golangci-linter/</guid>
+      <description>Github delivered a beta Github Actions, it&amp;rsquo;s a worflow that can run almost anything related to your code, like a CI/CD.
+Here is a workflow for Go 1.13 module projects and golangci-lint.
+name: Golangci-lint on: [push] jobs: build: name: Build runs-on: ubuntu-latest steps: - name: Set up Go 1.13 uses: actions/setup-go@v1 with: go-version: 1.13 id: go - name: Check out code into the Go module directory uses: actions/checkout@v1 - name: Install golangci-lint run: curl -sfL https://raw.</description>
+    </item>
+    
+  </channel>
+</rss>

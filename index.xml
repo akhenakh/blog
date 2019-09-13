@@ -37,7 +37,7 @@ http://kubernetes_master_address/api/v1/namespaces/namespace_name/services/servi
     <item>
       <title>Bare Metal Kubernetes Quick Installation Arm64 &amp; Arch</title>
       <link>https://blog.nobugware.com/post/2019/bare-metal-kubernetes-quick-installations-on-arch/</link>
-      <pubDate>Mon, 09 Sep 2019 00:00:00 -0400</pubDate>
+      <pubDate>Mon, 09 Sep 2019 00:01:00 -0400</pubDate>
       
       <guid>https://blog.nobugware.com/post/2019/bare-metal-kubernetes-quick-installations-on-arch/</guid>
       <description>I&amp;rsquo;m still playing with my 3 nodes arm64 cluster, having some stability issues with k3s, I turned into kubeadm to deploy a bare metal non HA one master two workers Kubernetes cluster.

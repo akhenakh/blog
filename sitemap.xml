@@ -3,8 +3,38 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://blog.nobugware.com/tags/devops/</loc>
+    <lastmod>2019-09-17T00:00:00-04:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://blog.nobugware.com/</loc>
-    <lastmod>2019-09-11T00:00:00-04:00</lastmod>
+    <lastmod>2019-09-17T00:00:00-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.nobugware.com/tags/kubernetes/</loc>
+    <lastmod>2019-09-17T00:00:00-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.nobugware.com/post/</loc>
+    <lastmod>2019-09-17T00:00:00-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.nobugware.com/tags/</loc>
+    <lastmod>2019-09-17T00:00:00-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.nobugware.com/tags/traefik/</loc>
+    <lastmod>2019-09-17T00:00:00-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.nobugware.com/post/2019/traefik-2-0-with-kubernetes/</loc>
+    <lastmod>2019-09-17T00:00:00-04:00</lastmod>
   </url>
   
   <url>
@@ -23,37 +53,12 @@
   </url>
   
   <url>
-    <loc>https://blog.nobugware.com/post/</loc>
-    <lastmod>2019-09-11T00:00:00-04:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://blog.nobugware.com/tags/</loc>
-    <lastmod>2019-09-11T00:00:00-04:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://blog.nobugware.com/post/2019/using-github-actions-with-golangci-linter/</loc>
     <lastmod>2019-09-11T00:00:00-04:00</lastmod>
   </url>
   
   <url>
     <loc>https://blog.nobugware.com/post/2019/access-web-interface/</loc>
-    <lastmod>2019-09-09T13:00:00-04:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://blog.nobugware.com/tags/devops/</loc>
-    <lastmod>2019-09-09T13:00:00-04:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://blog.nobugware.com/tags/kubernetes/</loc>
-    <lastmod>2019-09-09T13:00:00-04:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://blog.nobugware.com/tags/traefik/</loc>
     <lastmod>2019-09-09T13:00:00-04:00</lastmod>
   </url>
   

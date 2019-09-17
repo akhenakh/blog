@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="generator" content="Hugo 0.58.1" />
+		<title>Traefik 2.0 with Kubernetes - Fabrice Aneche</title>
+
+		<meta name="description" content="Traefik 2.0 is [here]( &ldquo;https://github.com/containous/traefik/releases/tag/v2.0.0&quot;) !
+Traefik is a reverse proxy load balancer (and more), it can learn the routes to respond to by discovering them in multiple providers, Docker, Kubernetes &hellip;
+Traefik v1.x is very stable, v2.x is fresh new tech, with breaking changes and unfinished documentation, so test is first.
+From Traefik&rsquo;s documentation:
+ Providers discover the services that live on your infrastructure (their IP, health, &hellip;) Entrypoints listen for incoming traffic (ports, &hellip;) Routers analyse the requests (host, path, headers, SSL, &hellip;) Services forward the request to your services (load balancing, &hellip;) Middlewares may update the request or make decisions based on the request (authentication, rate limiting, headers, &hellip;)  Kubernetes In Traefik v1, Kubernetes ingress were used to discover the routes:">
+
+
+		
+	
+		
+
+
+
+
+<link rel="stylesheet" href="https://blog.nobugware.com/css/ui.css">
+
+	
+		
+
+		<link  rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway">
+
+		
+	</head>
+
+<body>
+<header class="container no-print">
+	<div class="u-header">
+		<nav class="bar">
+	<ul><li>
+			<a href="https://blog.nobugware.com/">
+				<img class="icon-text" src="https://blog.nobugware.com/img/prev.svg"/>
+			</a>
+		</li><li><a href="https://blog.nobugware.com/about">About</a></li><li><a href="https://blog.nobugware.com/post/">Post</a></li></ul>
+</nav>
+
+	</div>
+</header>
+<main class="container">
+
+<article>
+	<header><hgroup id="brand">
+	<h1>Traefik 2.0 with Kubernetes</h1>
+	<h5>
+		
+		<time datetime="2019-09-17 00:00:00 -0400 -0400">Sep 17, 2019</time>
+		<span class="no-print">
+			-
+				
+				<a href="https://blog.nobugware.com/tags/kubernetes">kubernetes</a>
+				
+				<a href="https://blog.nobugware.com/tags/traefik">traefik</a>
+				
+				<a href="https://blog.nobugware.com/tags/devops">devops</a>
+				<span>
+	</h5>
+	
+</hgroup>
+<hr class="sep" />
+</header>
+	
+
+<p>Traefik 2.0 is [here]( &ldquo;<a href="https://github.com/containous/traefik/releases/tag/v2.0.0&quot;">https://github.com/containous/traefik/releases/tag/v2.0.0&quot;</a>) !</p>
+
+<p>Traefik is a reverse proxy load balancer (and more), it can learn the routes to respond to by discovering them in <a href="https://docs.traefik.io/v2.0/providers/overview/">multiple providers, Docker, Kubernetes &hellip;</a></p>
+
+<p>Traefik v1.x is very stable, v2.x is fresh new tech, <a href="https://docs.traefik.io/v2.0/migration/v1-to-v2/">with breaking changes</a> and unfinished documentation, so test is first.</p>
+
+<p>From Traefik&rsquo;s documentation:</p>
+
+<ul>
+<li>Providers discover the services that live on your infrastructure (their IP, health, &hellip;)</li>
+<li>Entrypoints listen for incoming traffic (ports, &hellip;)</li>
+<li>Routers analyse the requests (host, path, headers, SSL, &hellip;)</li>
+<li>Services forward the request to your services (load balancing, &hellip;)</li>
+<li>Middlewares may update the request or make decisions based on the request (authentication, rate limiting, headers, &hellip;)</li>
+</ul>
+
+<h2 id="kubernetes">Kubernetes</h2>
+
+<p>In Traefik v1, Kubernetes ingress were used to discover the routes:</p>
+
+<pre><code>apiVersion: extensions/v1beta1
+kind: Ingress
+</code></pre>
+
+<p>In Traefik v2, a <a href="https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/">custom resource definition</a> is needed to provide <code>IngressRouter.</code><br />
+With Kubernetes the providers is called <a href="https://docs.traefik.io/v2.0/providers/kubernetes-crd/">Kubernetes-crd</a></p>
+
+<p>So first install the CRD:</p>
+
+<pre><code>kubectl apply -f https://raw.githubusercontent.com/containous/traefik/master/integration/fixtures/k8s/01-crd.yml
+</code></pre>
+
+<p>It provides, <a href="https://docs.traefik.io/v2.0/middlewares/overview/">Middleware</a>, <a href="https://docs.traefik.io/v2.0/providers/kubernetes-crd/">IngressRoute</a>, IngressRouteTCP &amp; TLSOption.</p>
+
+</article>
+<nav class="no-print post-nav">
+
+	<a class="prev-post" href="https://blog.nobugware.com/post/2019/using-github-actions-with-golangci-linter/">
+		<img class="icon-text" src="https://blog.nobugware.com/img/prev.svg"/>Using Github Actions with Golangci-linter</a>
+
+
+</nav>
+
+
+<section id="related">
+  <h4>See Also</h4>
+  <ul>
+    
+  	<li><a href="https://blog.nobugware.com/post/2019/access-web-interface/">Access Kubernetes Web Interfaces from the Outside</a></li>
+  	
+  	<li><a href="https://blog.nobugware.com/post/2019/deploying-a-website-with-caddy-git-and-kubernetes/">Deploying a website with Caddy, Git and Kubernetes</a></li>
+  	
+  	<li><a href="https://blog.nobugware.com/post/2019/bare-metal-kubernetes-quick-installations-on-arch/">Bare Metal Kubernetes Quick Installation Arm64 &amp; Arch</a></li>
+  	
+  </ul>
+</section>
+
+
+
+
+			<hr class="sep" />
+		</main>
+		<footer class="container no-print">
+			<div class="u-footer">
+				
+
+<a href="https://github.com/akhenakh/"><img class="icon-social" src="https://blog.nobugware.com/img/github.svg" alt="Github"/></a>
+
+
+<a href="https://twitter.com/akhenakh"><img class="icon-social" src="https://blog.nobugware.com/img/twitter.svg" alt="Twitter"/></a>
+
+<a href="https://blog.nobugware.com/index.xml" target="_blank"><img class="icon-social" src="https://blog.nobugware.com/img/feed.svg" alt="Feed"></a>
+
+				<p>
+					
+					Theme used: <a href="https://github.com/yursan9/manis-hugo-theme">Manis</a><br>
+					
+					
+					
+				</p>
+				
+				<a href="#brand">
+					<img class="icon-text" src="https://blog.nobugware.com/img/toup.svg" alt="To Up"/>
+					<span>Back to Up</span>
+				</a>
+				
+			</div>
+		</footer>
+                
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-1245966-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+
+		
+	</body>
+</html>
+

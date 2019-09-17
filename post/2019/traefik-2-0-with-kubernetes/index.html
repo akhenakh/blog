@@ -103,6 +103,71 @@ With Kubernetes the providers is called <a href="https://docs.traefik.io/v2.0/pr
 
 <p>Now the real changes, the way you declare a route:</p>
 
+<p>First in v1, we used to redirect http to https as follow using the <code>traefik.toml</code> config:</p>
+
+<pre><code>    defaultEntryPoints = [&quot;http&quot;,&quot;https&quot;]
+    [entryPoints]
+      [entryPoints.http]
+      address = &quot;:80&quot;
+      compress = true
+        [entryPoints.http.redirect]
+          regex = &quot;^http://(.*)&quot;
+          replacement = &quot;https://$1&quot;
+          permanent = true
+</code></pre>
+
+<p>In v2 we need to use a middleware, expressed like this for Kubernetes</p>
+
+<pre><code>apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: https-only
+spec:
+  redirectScheme:
+    scheme: https
+</code></pre>
+
+<p>In v1 we described a route as follow:</p>
+
+<pre><code>apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: caddy-git
+  labels:
+    app: &quot;caddy-git&quot;
+  annotations:
+    kubernetes.io/ingress.class: traefik
+spec:
+  rules:
+    - host: blogadmin.nobugware.com
+      http:
+        paths:
+        - path: /
+          backend:
+            serviceName: caddy-git
+            servicePort: http
+</code></pre>
+
+<p>In v2:</p>
+
+<pre><code>apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: test
+  namespace: default
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`blog.nobugware.com`)
+      kind: Rule
+      services:
+        - name: caddy-git
+          port: 80
+      middlewares:
+        - name: https-only
+</code></pre>
+
 </article>
 <nav class="no-print post-nav">
 

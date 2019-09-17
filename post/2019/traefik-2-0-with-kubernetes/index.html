@@ -63,7 +63,7 @@
 </header>
 	
 
-<p>Traefik 2.0 is [here](&ldquo;<a href="https://github.com/containous/traefik/releases/tag/v2.0.0&quot;">https://github.com/containous/traefik/releases/tag/v2.0.0&quot;</a>) !</p>
+<p>Traefik 2.0 is <a href="%22https://github.com/containous/traefik/releases/tag/v2.0.0%22">here</a> !</p>
 
 <p>Traefik is a reverse proxy load balancer (and more), it can learn the routes to respond to by discovering them in <a href="https://docs.traefik.io/v2.0/providers/overview/">multiple providers, Docker, Kubernetes &hellip;</a></p>
 
@@ -74,7 +74,7 @@
 <ul>
 <li>Providers discover the services that live on your infrastructure (their IP, health, &hellip;)</li>
 <li>Entrypoints listen for incoming traffic (ports, &hellip;)</li>
-<li>Routers analyse the requests (host, path, headers, SSL, &hellip;)</li>
+<li>Routers analyze the requests (host, path, headers, SSL, &hellip;)</li>
 <li>Services forward the request to your services (load balancing, &hellip;)</li>
 <li>Middlewares may update the request or make decisions based on the request (authentication, rate limiting, headers, &hellip;)</li>
 </ul>
@@ -94,7 +94,7 @@ With Kubernetes the providers is called <a href="https://docs.traefik.io/v2.0/pr
 
 <p>It provides, <a href="https://docs.traefik.io/v2.0/middlewares/overview/">Middleware</a>, <a href="https://docs.traefik.io/v2.0/providers/kubernetes-crd/">IngressRoute</a>, IngressRouteTCP &amp; TLSOption.</p>
 
-<p>We need a service account, same as before, and then deploy Traefik itself, the good thing with Traefik v2 is you don&rsquo;t need a traefik config file anymore, since you can do almost anything with the <code>IngressRoute</code> anotations.</p>
+<p>We need a service account, same as before, and then deploy Traefik itself, the good thing with Traefik v2 is you don&rsquo;t need a traefik config file anymore, since you can do almost anything with the <code>IngressRoute</code> annotations.</p>
 
 <p>Here is a complete gist which will install the CRD, the needed service account and deploy one Traefik 2.0 pod.</p>
 
@@ -173,6 +173,11 @@ spec:
       middlewares:
         - name: https-only
 </code></pre>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>There are way more to explore, like <a href="https://blog.containo.us/traefik-2-0-6531ec5196c2">traffic mirroring and canary updates</a>.<br />
+This is a really promising new beginning for Traefik !</p>
 
 </article>
 <nav class="no-print post-nav">

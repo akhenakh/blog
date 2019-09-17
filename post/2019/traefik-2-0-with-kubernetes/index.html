@@ -103,6 +103,8 @@ With Kubernetes the providers is called <a href="https://docs.traefik.io/v2.0/pr
 
 <p>Now the real changes, the way you declare a route:</p>
 
+<h2 id="middleware">Middleware</h2>
+
 <p>First in v1, we used to redirect http to https as follow using the <code>traefik.toml</code> config:</p>
 
 <pre><code>    defaultEntryPoints = [&quot;http&quot;,&quot;https&quot;]
@@ -127,7 +129,11 @@ spec:
     scheme: https
 </code></pre>
 
-<p>In v1 we described a route as follow:</p>
+<p>They can be chained !</p>
+
+<h2 id="route">Route</h2>
+
+<p>In v1 we used to describe a route as follow:</p>
 
 <pre><code>apiVersion: extensions/v1beta1
 kind: Ingress
@@ -139,7 +145,7 @@ metadata:
     kubernetes.io/ingress.class: traefik
 spec:
   rules:
-    - host: blogadmin.nobugware.com
+    - host: blog.nobugware.com
       http:
         paths:
         - path: /

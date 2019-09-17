@@ -94,12 +94,14 @@ kind: Ingress
 <p>In Traefik v2, a <a href="https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/">custom resource definition</a> is needed to provide <code>IngressRouter.</code><br />
 With Kubernetes the providers is called <a href="https://docs.traefik.io/v2.0/providers/kubernetes-crd/">Kubernetes-crd</a></p>
 
-<p>So first install the CRD:</p>
-
-<pre><code>kubectl apply -f https://raw.githubusercontent.com/containous/traefik/master/integration/fixtures/k8s/01-crd.yml
-</code></pre>
+<p>The CRD can be found <a href="https://raw.githubusercontent.com/containous/traefik/master/integration/fixtures/k8s/01-crd.yml">here</a></p>
 
 <p>It provides, <a href="https://docs.traefik.io/v2.0/middlewares/overview/">Middleware</a>, <a href="https://docs.traefik.io/v2.0/providers/kubernetes-crd/">IngressRoute</a>, IngressRouteTCP &amp; TLSOption.</p>
+
+<p>Here is a complete gist which will install the CRD, the needed service account and deploy one Traefik 2.0</p>
+
+<pre><code>kubectl apply -f https://gist.githubusercontent.com/akhenakh/56f922f39f7b8b212e3f878f91a00b10/raw/b95f96b37f3b84620fc2b675188fbeda7f2c268a/traefik.yaml
+</code></pre>
 
 </article>
 <nav class="no-print post-nav">

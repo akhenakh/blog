@@ -98,14 +98,14 @@ With Kubernetes the providers is called <a href="https://docs.traefik.io/v2.0/pr
 
 <p>It provides, <a href="https://docs.traefik.io/v2.0/middlewares/overview/">Middleware</a>, <a href="https://docs.traefik.io/v2.0/providers/kubernetes-crd/">IngressRoute</a>, IngressRouteTCP &amp; TLSOption.</p>
 
-<p>Then we need a service account, same as before, and the deploy Traefik itself, the good thing with Traefik v2 is you don&rsquo;t need a traefik config file anymore, since you can do almost anything with the <code>IngressRoute</code> anotations.</p>
+<p>We need a service account, same as before, and then deploy Traefik itself, the good thing with Traefik v2 is you don&rsquo;t need a traefik config file anymore, since you can do almost anything with the <code>IngressRoute</code> anotations.</p>
 
-<p>Here is a complete gist which will install the CRD, the needed service account and deploy one Traefik 2.0</p>
+<p>Here is a complete gist which will install the CRD, the needed service account and deploy one Traefik 2.0 pod.</p>
 
 <pre><code>kubectl apply -f https://gist.githubusercontent.com/akhenakh/56f922f39f7b8b212e3f878f91a00b10/raw/b95f96b37f3b84620fc2b675188fbeda7f2c268a/traefik.yaml
 </code></pre>
 
-<p>Now here is the real change, the way you declare a route:</p>
+<p>Now the real changes, the way you declare a route:</p>
 
 </article>
 <nav class="no-print post-nav">

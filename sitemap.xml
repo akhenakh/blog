@@ -3,6 +3,16 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://blog.nobugware.com/categories/</loc>
+    <lastmod>2019-09-17T00:00:00-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.nobugware.com/categories/devops/</loc>
+    <lastmod>2019-09-17T00:00:00-04:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://blog.nobugware.com/tags/devops/</loc>
     <lastmod>2019-09-17T00:00:00-04:00</lastmod>
   </url>
@@ -69,16 +79,6 @@
   
   <url>
     <loc>https://blog.nobugware.com/post/2019/bare-metal-kubernetes-quick-installations-on-arch/</loc>
-    <lastmod>2019-09-09T00:02:00-04:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://blog.nobugware.com/categories/</loc>
-    <lastmod>2019-09-09T00:02:00-04:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://blog.nobugware.com/categories/devops/</loc>
     <lastmod>2019-09-09T00:02:00-04:00</lastmod>
   </url>
   

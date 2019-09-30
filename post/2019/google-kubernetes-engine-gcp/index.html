@@ -112,14 +112,13 @@ Accessible directly by your Kubernetes cluster if they both are in the same GCP 
 
 <p>The provided fluentd is consuming 300MiB per nodes.</p>
 
-<p>The required <a href="https://opencensus.io/">OpenCensus library</a> to push metrics &amp; traces to StackDriver is &ldquo;stodgy&rdquo;, prefer Prometheus &amp; <a href="https://opentracing.io">OpenTracing</a>, I&rsquo;ve migrated several projects to OpenCensus for StackDriver support and regret it.</p>
+<p>The required <a href="https://opencensus.io/">OpenCensus library</a> to push metrics &amp; traces to StackDriver is &ldquo;stodgy&rdquo;, prefer <a href="https://prometheus.io/">Prometheus</a> &amp; <a href="https://opentracing.io">OpenTracing</a>, I&rsquo;ve migrated several projects to OpenCensus for StackDriver support and regret it.</p>
 
-<p>I&rsquo;m now completely disabling StackDriver at cluster creation and use Prometheus + Grafana.<br />
-Remember to enable KubeStateMetrics to collect your Kub cluster states. Don&rsquo;t worry the <code>kubectl log</code> command still works, also give a shot to <a href="https://grafana.com/oss/loki">Loki</a> for handling your logs history.</p>
+<p>Having to manage my own tools is costly but I&rsquo;m back to completely disable StackDriver at cluster creation and use <a href="https://prometheus.io/">Prometheus</a> + <a href="https://grafana.com">Grafana</a> &amp; <a href="https://www.jaegertracing.io/">Jaeger</a>.<br />
+Remember to enable prometheus <code>KubeStateMetrics=true</code> to collect your Kub cluster states.<br />
+Don&rsquo;t worry the <code>kubectl log</code> command still works, also give a shot to <a href="https://grafana.com/oss/loki">Loki</a> for handling your logs history.</p>
 
-<p>Helm command option for Prometheus Kube integration <code>--set kubeStateMetrics.enabled=true</code></p>
-
-<p>Install Grafana and the great <a href="https://grafana.com/grafana/dashboards/8588">Kubernetes dashboard for Grafana</a></p>
+<p>In Grafana install the great <a href="https://grafana.com/grafana/dashboards/8588">Kubernetes dashboard</a>.</p>
 
 <h3 id="preemptive-vm">Preemptive VM</h3>
 

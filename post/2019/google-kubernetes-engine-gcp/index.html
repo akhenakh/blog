@@ -113,7 +113,8 @@ options:
 
 <p>The required <a href="https://opencensus.io/">OpenCensus library</a> to push metrics &amp; traces to StackDriver is &ldquo;stodgy&rdquo;, prefer Prometheus &amp; <a href="https://opentracing.io">OpenTracing</a>, I&rsquo;ve migrated several projects to OpenCensus for StackDriver support and regret it.</p>
 
-<p>I&rsquo;m now completly disabling StackDriver at cluster creation and use Prometheus + Grafana as always, remember to enable KubeStateMetrics to collect your Kub cluster states. Don&rsquo;t worry the <code>kubectl log</code> command still works, also give a shot to <a href="https://grafana.com/oss/loki">Loki</a> for handling your logs history.</p>
+<p>I&rsquo;m now completely disabling StackDriver at cluster creation and use Prometheus + Grafana.<br />
+Remember to enable KubeStateMetrics to collect your Kub cluster states. Don&rsquo;t worry the <code>kubectl log</code> command still works, also give a shot to <a href="https://grafana.com/oss/loki">Loki</a> for handling your logs history.</p>
 
 <p>Helm command option for Prometheus Kube integration <code>--set kubeStateMetrics.enabled=true</code></p>
 

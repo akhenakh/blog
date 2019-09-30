@@ -95,7 +95,7 @@ options:
 
 <p>Add a repository (can be Github), add a hook on commit or tag, it will get the image <code>akhenakh/gotools</code> and execute <code>make build-only</code>, then create a docker image, resulting artifacts will be pushed to the &lsquo;gcr.io/$PROJECT_ID/authord&rsquo;</p>
 
-<p>Note the <code>[akhenakh/gotools](https://github.com/akhenakh/goimages/blob/master/gotools/Dockerfile)</code> image is a custom image with several tools like protobuf, golangci-lint, it&rsquo;s really easy to provide your own build system since Cloud Build is simply spawning an instance of your docker image then execute the commands your provide.</p>
+<p>Note the <a href="https://github.com/akhenakh/goimages/blob/master/gotools/Dockerfile"><code>akhenakh/gotools</code></a> image is a custom image with several tools like protobuf, golangci-lint, it&rsquo;s really easy to provide your own build system since Cloud Build is simply spawning an instance of your docker image then execute the commands your provide.</p>
 
 <h2 id="container-registry">Container Registry</h2>
 

@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="generator" content="Hugo 0.58.1" />
+		<title>Google Kubernetes Engine &amp; GCP - Fabrice Aneche</title>
+
+		<meta name="description" content="I&rsquo;ve been using Google Compute Engine (GCP) &amp; Google Kubernetes Engine (GKE) for years and a beta tester for many services.
+And I love it, I hated AWS since the first release to these days, naming is cumbersome, UX is terrible&hellip;
+Here are a quick survey of the tools and how I&rsquo;ve used them for small to medium projects:
+Cloud Build Cloud Build is super easy, it&rsquo;s a scriptable CI/CD, very similar to Github Actions, there is a one hour free tier per day, the default machine is very slow, it can be tuned in the cloudbuild.">
+
+
+		
+	
+		
+
+
+
+
+<link rel="stylesheet" href="https://blog.nobugware.com/css/ui.css">
+
+	
+		
+
+		<link  rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway">
+
+		
+	</head>
+
+<body>
+<header class="container no-print">
+	<div class="u-header">
+		<nav class="bar">
+	<ul><li>
+			<a href="https://blog.nobugware.com/">
+				<img class="icon-text" src="https://blog.nobugware.com/img/prev.svg"/>
+			</a>
+		</li><li><a href="https://blog.nobugware.com/about">About</a></li><li><a href="https://blog.nobugware.com/post/">Post</a></li></ul>
+</nav>
+
+	</div>
+</header>
+<main class="container">
+
+<article>
+	<header><hgroup id="brand">
+	<h1>Google Kubernetes Engine &amp; GCP</h1>
+	<h5>
+		
+		<time datetime="2019-09-30 00:00:00 -0400 -0400">Sep 30, 2019</time>
+		<span class="no-print">
+			-
+				
+				<a href="https://blog.nobugware.com/tags/devops">devops</a>
+				
+				<a href="https://blog.nobugware.com/tags/gcp">gcp</a>
+				
+				<a href="https://blog.nobugware.com/tags/gke">gke</a>
+				
+				<a href="https://blog.nobugware.com/tags/kubernetes">kubernetes</a>
+				<span>
+	</h5>
+	
+</hgroup>
+<hr class="sep" />
+</header>
+	
+
+<p>I&rsquo;ve been using Google Compute Engine (GCP) &amp; Google Kubernetes Engine (GKE) for years and a beta tester for many services.<br />
+And I love it, I hated AWS since the first release to these days, naming is cumbersome, UX is terrible&hellip;</p>
+
+<p>Here are a quick survey of the tools and how I&rsquo;ve used them for small to medium projects:</p>
+
+<h2 id="cloud-build">Cloud Build</h2>
+
+<p><a href="https://cloud.google.com/cloud-build/">Cloud Build</a> is super easy, it&rsquo;s a scriptable CI/CD, very similar to Github Actions, there is a one hour free tier per day, the default machine is very slow, it can be tuned in the <code>cloudbuild.yaml</code> file as the following example:</p>
+
+<pre><code>steps:
+- name: 'akhenakh/gotools'
+  args:  ['make build-only']
+  env: ['GO111MODULE=on', 'VERSION=$SHORT_SHA']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', 
+  '-t', 'gcr.io/$PROJECT_ID/authord:$SHORT_SHA',
+  '-t', 'gcr.io/$PROJECT_ID/authord:latest',
+  'author/cmd/authord']
+  env: ['PROJECT_ROOT=.']
+images:
+- 'gcr.io/$PROJECT_ID/authord'
+options:  
+  machineType: N1_HIGHCPU_8
+</code></pre>
+
+<p>Add a repository (can be Github), add a hook on commit or tag, it will get the image <code>akhenakh/gotools</code> and execute <code>make build-only</code>, then create a docker image, resulting artifacts will be pushed to the &lsquo;gcr.io/$PROJECT_ID/authord&rsquo;</p>
+
+<p>Note the <a href="https://github.com/akhenakh/goimages/blob/master/gotools/Dockerfile"><code>akhenakh/gotools</code></a> image is a custom image with several tools like protobuf, golangci-lint, it&rsquo;s really easy to provide your own build system since Cloud Build is simply spawning an instance of your docker image then execute the commands your provide.</p>
+
+<h2 id="container-registry">Container Registry</h2>
+
+<p>Not much to say here, it&rsquo;s a docker private container registry, accessible at this address: &lsquo;gcr.io/$PROJECT_ID/myimage&rsquo;</p>
+
+<h2 id="google-kubernetes-engine">Google Kubernetes Engine</h2>
+
+<p>No surprise since the Kubernetes project is mainly handled by Google, GKE is the most up to date provider, a delight to use almost on every subjects but metrics&hellip;</p>
+
+<h3 id="logging-metrics">Logging &amp; Metrics</h3>
+
+<p>Google is offering a service call StackDriver which is supposed to be a fully integrated, metrics, logs, traces, but &hellip; it&rsquo;s terrible, unfinished/WIP product Google bought.</p>
+
+<p>The provided fluentd is consuming 300MiB per nodes.</p>
+
+<p>The required <a href="https://opencensus.io/">OpenCensus library</a> to push metrics &amp; traces to StackDriver is &ldquo;stodgy&rdquo;, prefer Prometheus &amp; <a href="https://opentracing.io">OpenTracing</a>, I&rsquo;ve migrated several projects to OpenCensus for StackDriver support and regret it.</p>
+
+<p>I now totally disable StackDriver at cluster creation and use Prometheus + Grafana as always, remember to enable KubeStateMetrics to collect your Kub cluster states. Don&rsquo;t worry the <code>kubectl log</code> command will still work, also give a shot to <a href="https://grafana.com/oss/loki">Loki</a> for handling your logs history.</p>
+
+<p>Helm command option for Prometheus Kube integration <code>--set kubeStateMetrics.enabled=true</code></p>
+
+<p>Install Grafana and the great <a href="https://grafana.com/grafana/dashboards/8588">Kubernetes dashboard for Grafana</a></p>
+
+<h3 id="preemptive-vm">Preemptive VM</h3>
+
+<p>Preemptive VMs are cheap instances with no guarantee from Google, they can be shutdown at any time, it can be use for ephemeral jobs.<br />
+It has a nice side effect as acting as a <a href="https://netflix.github.io/chaosmonkey/">Chaos monkey</a> tool.</p>
+
+<h3 id="octant-to-the-rescue">Octant to the rescue</h3>
+
+<p>The state of the Kubernetes dashboards are unclear, the <a href="https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/">Web UI</a> is not supported anymore, Google recommends to use the Cloud console which is okay but won&rsquo;t be available on your developer instance (Minkube, k3s&hellip;).</p>
+
+<p>I&rsquo;m a big fan of the <a href="https://github.com/vmware/octant">Octant frontend</a>, no installation in your cluster required, it runs on your client machine.</p>
+
+<h2 id="cloud-sql">Cloud SQL</h2>
+
+<p>Not everybody wants to manage a database, Cloud SQL offers managed Mysql and Postgresql instances with HA &amp; backups.<br />
+Note that Postgresql extensions like Postgis are supported !</p>
+
+<h2 id="overall">Overall</h2>
+
+<p>Don&rsquo;t be fooled by this post, I had to report the negative parts but I will never exchange GCP for AWS nor Azure !<br />
+And by the way I&rsquo;m not affiliated with Google in any ways :)</p>
+
+</article>
+<nav class="no-print post-nav">
+
+	<a class="prev-post" href="https://blog.nobugware.com/post/2019/traefik-2-0-with-kubernetes/">
+		<img class="icon-text" src="https://blog.nobugware.com/img/prev.svg"/>Traefik 2.0 with Kubernetes</a>
+
+
+</nav>
+
+
+<section id="related">
+  <h4>See Also</h4>
+  <ul>
+    
+  	<li><a href="https://blog.nobugware.com/post/2019/traefik-2-0-with-kubernetes/">Traefik 2.0 with Kubernetes</a></li>
+  	
+  	<li><a href="https://blog.nobugware.com/post/2019/access-web-interface/">Access Kubernetes Web Interfaces from the Outside</a></li>
+  	
+  	<li><a href="https://blog.nobugware.com/post/2019/deploying-a-website-with-caddy-git-and-kubernetes/">Deploying a website with Caddy, Git and Kubernetes</a></li>
+  	
+  </ul>
+</section>
+
+
+
+
+			<hr class="sep" />
+		</main>
+		<footer class="container no-print">
+			<div class="u-footer">
+				
+
+<a href="https://github.com/akhenakh/"><img class="icon-social" src="https://blog.nobugware.com/img/github.svg" alt="Github"/></a>
+
+
+<a href="https://twitter.com/akhenakh"><img class="icon-social" src="https://blog.nobugware.com/img/twitter.svg" alt="Twitter"/></a>
+
+<a href="https://blog.nobugware.com/index.xml" target="_blank"><img class="icon-social" src="https://blog.nobugware.com/img/feed.svg" alt="Feed"></a>
+
+				<p>
+					
+					Theme used: <a href="https://github.com/yursan9/manis-hugo-theme">Manis</a><br>
+					
+					
+					
+				</p>
+				
+				<a href="#brand">
+					<img class="icon-text" src="https://blog.nobugware.com/img/toup.svg" alt="To Up"/>
+					<span>Back to Up</span>
+				</a>
+				
+			</div>
+		</footer>
+                
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-1245966-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+
+		
+	</body>
+</html>
+

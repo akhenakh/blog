@@ -6,7 +6,7 @@
     <description>Recent content in Tags on Fabrice Aneche</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 17 Sep 2019 00:00:00 -0400</lastBuildDate>
+    <lastBuildDate>Mon, 30 Sep 2019 00:00:00 -0400</lastBuildDate>
     
 	<atom:link href="https://blog.nobugware.com/tags/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,16 +14,34 @@
     <item>
       <title>devops</title>
       <link>https://blog.nobugware.com/tags/devops/</link>
-      <pubDate>Tue, 17 Sep 2019 00:00:00 -0400</pubDate>
+      <pubDate>Mon, 30 Sep 2019 00:00:00 -0400</pubDate>
       
       <guid>https://blog.nobugware.com/tags/devops/</guid>
       <description></description>
     </item>
     
     <item>
+      <title>gcp</title>
+      <link>https://blog.nobugware.com/tags/gcp/</link>
+      <pubDate>Mon, 30 Sep 2019 00:00:00 -0400</pubDate>
+      
+      <guid>https://blog.nobugware.com/tags/gcp/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>gke</title>
+      <link>https://blog.nobugware.com/tags/gke/</link>
+      <pubDate>Mon, 30 Sep 2019 00:00:00 -0400</pubDate>
+      
+      <guid>https://blog.nobugware.com/tags/gke/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Kubernetes</title>
       <link>https://blog.nobugware.com/tags/kubernetes/</link>
-      <pubDate>Tue, 17 Sep 2019 00:00:00 -0400</pubDate>
+      <pubDate>Mon, 30 Sep 2019 00:00:00 -0400</pubDate>
       
       <guid>https://blog.nobugware.com/tags/kubernetes/</guid>
       <description></description>
@@ -156,7 +174,7 @@
     </item>
     
     <item>
-      <title>grpc</title>
+      <title>gRPC</title>
       <link>https://blog.nobugware.com/tags/grpc/</link>
       <pubDate>Mon, 11 Mar 2019 00:32:43 -0500</pubDate>
       

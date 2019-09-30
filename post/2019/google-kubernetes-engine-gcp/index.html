@@ -95,7 +95,7 @@ options:
 
 <p>Add a repository (can be Github), add a hook on commit or tag, it will get the image <code>akhenakh/gotools</code> and execute <code>make build-only</code>, then create a docker image, resulting artifacts will be pushed to the &lsquo;gcr.io/$PROJECT_ID/authord&rsquo;</p>
 
-<p>Note the <a href="https://github.com/akhenakh/goimages/blob/master/gotools/Dockerfile"><code>akhenakh/gotools</code></a> image is a custom image with several tools like protobuf, golangci-lint, it&rsquo;s really easy to provide your own build system since Cloud Build is simply spawning an instance of your docker image then execute the commands your provide.</p>
+<p>Note the <code>[akhenakh/gotools](https://github.com/akhenakh/goimages/blob/master/gotools/Dockerfile)</code> image is a custom image with several tools like protobuf, golangci-lint, it&rsquo;s really easy to provide your own build system since Cloud Build is simply spawning an instance of your docker image then execute the commands your provide.</p>
 
 <h2 id="container-registry">Container Registry</h2>
 
@@ -126,13 +126,13 @@ It has a nice side effect as acting as a <a href="https://netflix.github.io/chao
 
 <h3 id="octant-to-the-rescue">Octant to the rescue</h3>
 
-<p>The state of the Kubernetes dashboards are unclear, the <a href="https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/">Web UI</a> is not supported anymore, Google recommends to use the Cloud console which is okay but won&rsquo;t be available on your developer instance (Minkube, k3s&hellip;).</p>
+<p>The state of the Kubernetes dashboards are unclear, the <a href="https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/">Web UI</a> is not supported anymore, Google recommends to use the Cloud console which is okay but won&rsquo;t be available on your developer instance (Minikube, k3s&hellip;).</p>
 
 <p>I&rsquo;m a big fan of the <a href="https://github.com/vmware/octant">Octant frontend</a>, no installation in your cluster required, it runs on your client machine.</p>
 
 <h2 id="cloud-sql">Cloud SQL</h2>
 
-<p>Not everybody wants to manage a database, Cloud SQL offers managed Mysql and Postgresql instances with HA &amp; backups.<br />
+<p>Not everybody wants to manage a database, especially inside Kubernetes, Cloud SQL offers managed Mysql and Postgresql instances with HA &amp; backups.<br />
 Note that Postgresql extensions like Postgis are supported !</p>
 
 <h2 id="overall">Overall</h2>

@@ -3,13 +3,48 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://blog.nobugware.com/categories/</loc>
+    <lastmod>2019-10-04T13:00:00-04:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://blog.nobugware.com/tags/devops/</loc>
-    <lastmod>2019-09-30T00:00:00-04:00</lastmod>
+    <lastmod>2019-10-04T13:00:00-04:00</lastmod>
   </url>
   
   <url>
     <loc>https://blog.nobugware.com/</loc>
-    <lastmod>2019-09-30T00:00:00-04:00</lastmod>
+    <lastmod>2019-10-04T13:00:00-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.nobugware.com/tags/geo/</loc>
+    <lastmod>2019-10-04T13:00:00-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.nobugware.com/categories/geo/</loc>
+    <lastmod>2019-10-04T13:00:00-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.nobugware.com/tags/go/</loc>
+    <lastmod>2019-10-04T13:00:00-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.nobugware.com/post/</loc>
+    <lastmod>2019-10-04T13:00:00-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.nobugware.com/post/2019/self_hosted_world_maps/</loc>
+    <lastmod>2019-10-04T13:00:00-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.nobugware.com/tags/</loc>
+    <lastmod>2019-10-04T13:00:00-04:00</lastmod>
   </url>
   
   <url>
@@ -33,21 +68,6 @@
   </url>
   
   <url>
-    <loc>https://blog.nobugware.com/post/</loc>
-    <lastmod>2019-09-30T00:00:00-04:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://blog.nobugware.com/tags/</loc>
-    <lastmod>2019-09-30T00:00:00-04:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://blog.nobugware.com/categories/</loc>
-    <lastmod>2019-09-17T00:00:00-04:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://blog.nobugware.com/categories/devops/</loc>
     <lastmod>2019-09-17T00:00:00-04:00</lastmod>
   </url>
@@ -64,11 +84,6 @@
   
   <url>
     <loc>https://blog.nobugware.com/tags/github/</loc>
-    <lastmod>2019-09-11T00:00:00-04:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://blog.nobugware.com/tags/go/</loc>
     <lastmod>2019-09-11T00:00:00-04:00</lastmod>
   </url>
   
@@ -188,11 +203,6 @@
   </url>
   
   <url>
-    <loc>https://blog.nobugware.com/tags/geo/</loc>
-    <lastmod>2018-08-27T00:19:57-02:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://blog.nobugware.com/categories/go/</loc>
     <lastmod>2018-08-27T00:19:57-02:00</lastmod>
   </url>
@@ -200,11 +210,6 @@
   <url>
     <loc>https://blog.nobugware.com/post/2018/wasm_go_s2_javascript/</loc>
     <lastmod>2018-08-27T00:19:57-02:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://blog.nobugware.com/categories/geo/</loc>
-    <lastmod>2018-08-01T00:19:57-02:00</lastmod>
   </url>
   
   <url>
@@ -248,12 +253,12 @@
   </url>
   
   <url>
-    <loc>https://blog.nobugware.com/categories/bsd/</loc>
+    <loc>https://blog.nobugware.com/tags/bsd/</loc>
     <lastmod>2017-10-08T09:57:56-05:00</lastmod>
   </url>
   
   <url>
-    <loc>https://blog.nobugware.com/tags/bsd/</loc>
+    <loc>https://blog.nobugware.com/categories/bsd/</loc>
     <lastmod>2017-10-08T09:57:56-05:00</lastmod>
   </url>
   

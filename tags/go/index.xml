@@ -1,15 +1,28 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>go on Fabrice Aneche</title>
+    <title>Go on Fabrice Aneche</title>
     <link>https://blog.nobugware.com/tags/go/</link>
-    <description>Recent content in go on Fabrice Aneche</description>
+    <description>Recent content in Go on Fabrice Aneche</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 11 Sep 2019 00:00:00 -0400</lastBuildDate>
+    <lastBuildDate>Fri, 04 Oct 2019 13:00:00 -0400</lastBuildDate>
     
 	<atom:link href="https://blog.nobugware.com/tags/go/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Self Hosted World Maps</title>
+      <link>https://blog.nobugware.com/post/2019/self_hosted_world_maps/</link>
+      <pubDate>Fri, 04 Oct 2019 13:00:00 -0400</pubDate>
+      
+      <guid>https://blog.nobugware.com/post/2019/self_hosted_world_maps/</guid>
+      <description>Maps are fun, self hosted maps are awesome !
+Serving world maps was reserved to big companies like Google, thanks to the OpenStreetMap project, we now have access to an open world of data.
+Generating Tiles MapBox (and others) worked hard to create a vector format bundled in a SQLite file: mbtiles format.
+It&amp;rsquo;s vector based as opposed to older raster maps containing 256x256 PNG images.
+The Openmaptiles folks did a great job automating the map generation.</description>
+    </item>
     
     <item>
       <title>Using Github Actions with Golangci-linter</title>

@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="generator" content="Hugo 0.58.1" />
+		<title>Advanced Traefik 2.0 with Kubernetes - Fabrice Aneche</title>
+
+		<meta name="description" content="Following my earlier post about Traefik 2 and Kubernetes, here are some advanced configuration examples:
+Protecting a route with a password Create an htpasswd file named users for a user admin
+ htpasswd -c htpass admin  Use kubectl to create the secret (easier for multiline file).
+kubectl create secret generic admin-authsecret --from-file=users  Create a middleware for authentication:
+apiVersion: traefik.containo.us/v1alpha1 kind: Middleware metadata: name: admin-auth spec: basicAuth: secret: admin-authsecret  Then apply this middleware to each IngressRoute you want to protect.">
+
+
+		
+	
+		
+
+
+
+
+<link rel="stylesheet" href="https://blog.nobugware.com/css/ui.css">
+
+	
+		
+
+		<link  rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway">
+
+		
+	</head>
+
+<body>
+<header class="container no-print">
+	<div class="u-header">
+		<nav class="bar">
+	<ul><li>
+			<a href="https://blog.nobugware.com/">
+				<img class="icon-text" src="https://blog.nobugware.com/img/prev.svg"/>
+			</a>
+		</li><li><a href="https://blog.nobugware.com/about">About</a></li><li><a href="https://blog.nobugware.com/post/">Post</a></li></ul>
+</nav>
+
+	</div>
+</header>
+<main class="container">
+
+<article>
+	<header><hgroup id="brand">
+	<h1>Advanced Traefik 2.0 with Kubernetes</h1>
+	<h5>
+		
+		<time datetime="2019-10-07 00:00:00 -0400 -0400">Oct 07, 2019</time>
+		<span class="no-print">
+			-
+				
+				<a href="https://blog.nobugware.com/tags/devops">devops</a>
+				
+				<a href="https://blog.nobugware.com/tags/kubernetes">kubernetes</a>
+				
+				<a href="https://blog.nobugware.com/tags/traefik">traefik</a>
+				<span>
+	</h5>
+	
+</hgroup>
+<hr class="sep" />
+</header>
+	
+
+<p>Following my <a href="https://blog.nobugware.com/post/2019/traefik-2-0-with-kubernetes/">earlier post about Traefik 2 and Kubernetes</a>, here are some advanced configuration examples:</p>
+
+<h2 id="protecting-a-route-with-a-password">Protecting a route with a password</h2>
+
+<p>Create an htpasswd file named <code>users</code> for a user <code>admin</code></p>
+
+<pre><code> htpasswd -c   htpass admin
+</code></pre>
+
+<p>Use kubectl to create the secret (easier for multiline file).</p>
+
+<pre><code>kubectl create secret generic admin-authsecret --from-file=users
+</code></pre>
+
+<p>Create a middleware for authentication:</p>
+
+<pre><code>apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: admin-auth
+spec:
+  basicAuth:
+    secret: admin-authsecret
+</code></pre>
+
+<p>Then apply this middleware to each <code>IngressRoute</code> you want to protect.</p>
+
+<h2 id="prometheus">Prometheus</h2>
+
+<p>To enable Traefik prometheus metrics, add these args options to the template spec args:</p>
+
+<pre><code>			# create a dedicated entrypoints for metrics
+            - --entrypoints.metrics.address=:8888
+            - --metrics.prometheus=true
+            - --metrics.prometheus.entryPoint=metrics
+</code></pre>
+
+<p>Add the scrape annotation to the deployment spec metadata:</p>
+
+<pre><code>      annotations:
+        prometheus.io/scrape: 'true'
+        prometheus.io/port: '8888'
+</code></pre>
+
+<p>Note: The older Traefik Grafana template are incompatible with Traefik 2.0 since several metrics have been renamed.</p>
+
+<h2 id="jaeger">Jaeger</h2>
+
+<p>To enable tracing with Jaege, add these args options to the template spec args:</p>
+
+<pre><code>        - --tracing=true
+        - --tracing.jaeger=true
+        - --tracing.jaeger.localAgentHostPort=jaeger-agent:6831
+        - --tracing.jaeger.samplingParam=1
+        - --tracing.jaeger.samplingType=const
+        - --tracing.jaeger.propagation=b3
+</code></pre>
+
+<p>Do not use this in production since it will trace every requests, but use a probabilistic one.</p>
+
+<p>Note: do not use double quote around <code>localAgentHostPort</code> value &hellip;</p>
+
+<h2 id="traefik-dashboard">Traefik Dashboard</h2>
+
+<p>To expose the Traefik dashboard:</p>
+
+<p>Be sure to have a <code>traefik-admin</code> service:</p>
+
+<pre><code>apiVersion: v1
+kind: Service
+metadata:
+  name: traefik-admin
+spec:
+  ports:
+    - port: 8080
+      name: admin
+      targetPort: admin
+  selector:
+    app: traefik
+</code></pre>
+
+<p>Then a route for the dashboard:</p>
+
+<pre><code>apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: traefik-ingress
+  namespace: default
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`traefik.mydomain.tld`)
+      middlewares:
+        - name: admin-auth
+      kind: Rule
+      services:
+        - name: traefik-admin
+          port: 8080
+  tls:
+    certResolver: default
+</code></pre>
+
+<p><code>admin-auth</code> is a login password middleware to protect the page (see above).</p>
+
+<h2 id="grafana-dashboard">Grafana Dashboard</h2>
+
+<p>To expose Grafana dashboard:</p>
+
+<pre><code>apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: grafana-ingress
+  namespace: default
+spec:
+  entryPoints:
+  - websecure
+  routes:
+  - kind: Rule
+    match: Host(`grafana.mydomain.tld`)
+    middlewares:
+    - name: admin-auth
+    - name: compress
+    services:
+    - name: grafana
+      port: 80
+  tls:
+    certResolver: default
+</code></pre>
+
+<h2 id="let-s-encrypt">Let&rsquo;s encrypt</h2>
+
+<p>You&rsquo;ll need a storage for the SSL certificates, it&rsquo;s important because each time you&rsquo;ll restart Traefik it will regenerate them, if you don&rsquo;t, possibly hitting let&rsquo;s encrypt rate limits.</p>
+
+<pre><code>apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    component: &quot;server&quot;
+    app: traefik
+  name: traefik-acme-storage
+spec:
+  accessModes:
+    - ReadWriteOnce
+
+  resources:
+    requests:
+      storage: &quot;100Mi&quot;
+</code></pre>
+
+<p>Do not forget to mount the disk:</p>
+
+<pre><code>          volumeMounts:
+            - name: storage-volume
+              mountPath: /data
+              subPath: &quot;&quot;
+      volumes:
+        - name: storage-volume
+          persistentVolumeClaim:
+            claimName: traefik-acme-storage
+</code></pre>
+
+<p>To enable let&rsquo;s encrypt, add these args options to the template spec args</p>
+
+<pre><code>            - --certificatesresolvers.default.acme.email=root@mydomain.tld
+            - --certificatesresolvers.default.acme.storage=/data/acme.json
+</code></pre>
+
+<p>Enable a DNS provider for the dns challenge:
+Look for your <a href="https://go-acme.github.io/lego/dns/">DNS provider settings</a>.</p>
+
+<p>Example with Gandi:</p>
+
+<pre><code>--certificatesResolvers.default.acme.dnsChallenge.provider=gandiv5
+            - --certificatesResolvers.default.acme.dnsChallenge.delayBeforeCheck=5
+</code></pre>
+
+<p>The provider is looking for a key in the env, set in your deployment as usual:</p>
+
+<pre><code>          env:
+            - name: GANDIV5_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: gandi-secret
+                  key: secret
+</code></pre>
+
+</article>
+<nav class="no-print post-nav">
+
+	<a class="prev-post" href="https://blog.nobugware.com/post/2019/self_hosted_world_maps/">
+		<img class="icon-text" src="https://blog.nobugware.com/img/prev.svg"/>Self Hosted World Maps</a>
+
+
+</nav>
+
+
+<section id="related">
+  <h4>See Also</h4>
+  <ul>
+    
+  	<li><a href="https://blog.nobugware.com/post/2019/traefik-2-0-with-kubernetes/">Traefik 2.0 with Kubernetes</a></li>
+  	
+  	<li><a href="https://blog.nobugware.com/post/2019/access-web-interface/">Access Kubernetes Web Interfaces from the Outside</a></li>
+  	
+  	<li><a href="https://blog.nobugware.com/post/2019/google-kubernetes-engine-gcp/">Google Kubernetes Engine &amp; GCP</a></li>
+  	
+  </ul>
+</section>
+
+
+
+
+			<hr class="sep" />
+		</main>
+		<footer class="container no-print">
+			<div class="u-footer">
+				
+
+<a href="https://github.com/akhenakh/"><img class="icon-social" src="https://blog.nobugware.com/img/github.svg" alt="Github"/></a>
+
+
+<a href="https://twitter.com/akhenakh"><img class="icon-social" src="https://blog.nobugware.com/img/twitter.svg" alt="Twitter"/></a>
+
+<a href="https://blog.nobugware.com/index.xml" target="_blank"><img class="icon-social" src="https://blog.nobugware.com/img/feed.svg" alt="Feed"></a>
+
+				<p>
+					
+					Theme used: <a href="https://github.com/yursan9/manis-hugo-theme">Manis</a><br>
+					
+					
+					
+				</p>
+				
+				<a href="#brand">
+					<img class="icon-text" src="https://blog.nobugware.com/img/toup.svg" alt="To Up"/>
+					<span>Back to Up</span>
+				</a>
+				
+			</div>
+		</footer>
+                
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-1245966-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+
+		
+	</body>
+</html>
+

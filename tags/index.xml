@@ -6,7 +6,7 @@
     <description>Recent content in Tags on Fabrice Aneche</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 04 Oct 2019 13:00:00 -0400</lastBuildDate>
+    <lastBuildDate>Mon, 07 Oct 2019 00:00:00 -0400</lastBuildDate>
     
 	<atom:link href="https://blog.nobugware.com/tags/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,9 +14,27 @@
     <item>
       <title>devops</title>
       <link>https://blog.nobugware.com/tags/devops/</link>
-      <pubDate>Fri, 04 Oct 2019 13:00:00 -0400</pubDate>
+      <pubDate>Mon, 07 Oct 2019 00:00:00 -0400</pubDate>
       
       <guid>https://blog.nobugware.com/tags/devops/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Kubernetes</title>
+      <link>https://blog.nobugware.com/tags/kubernetes/</link>
+      <pubDate>Mon, 07 Oct 2019 00:00:00 -0400</pubDate>
+      
+      <guid>https://blog.nobugware.com/tags/kubernetes/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>traefik</title>
+      <link>https://blog.nobugware.com/tags/traefik/</link>
+      <pubDate>Mon, 07 Oct 2019 00:00:00 -0400</pubDate>
+      
+      <guid>https://blog.nobugware.com/tags/traefik/</guid>
       <description></description>
     </item>
     
@@ -53,24 +71,6 @@
       <pubDate>Mon, 30 Sep 2019 00:00:00 -0400</pubDate>
       
       <guid>https://blog.nobugware.com/tags/gke/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Kubernetes</title>
-      <link>https://blog.nobugware.com/tags/kubernetes/</link>
-      <pubDate>Mon, 30 Sep 2019 00:00:00 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/tags/kubernetes/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>traefik</title>
-      <link>https://blog.nobugware.com/tags/traefik/</link>
-      <pubDate>Tue, 17 Sep 2019 00:00:00 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/tags/traefik/</guid>
       <description></description>
     </item>
     

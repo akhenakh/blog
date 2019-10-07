@@ -163,7 +163,6 @@ metadata:
   namespace: default
 spec:
   entryPoints:
-    - web
     - websecure
   routes:
     - match: Host(`blog.nobugware.com`)
@@ -171,10 +170,25 @@ spec:
       services:
         - name: caddy-git
           port: 80
-      middlewares:
-        - name: https-only
   tls:
     certResolver: default
+ ---
+ apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: blog-ingress
+  namespace: default
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: Host(`blog.nobugware.com`)
+      middlewares:
+        - name: https-only
+      kind: Rule
+      services:
+        - name: caddy-git
+          port: 80
 </code></pre>
 
 <h2 id="conclusion">Conclusion</h2>

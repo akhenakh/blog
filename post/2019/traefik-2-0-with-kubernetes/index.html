@@ -118,7 +118,7 @@ With Kubernetes the providers is called <a href="https://docs.traefik.io/v2.0/pr
           permanent = true
 </code></pre>
 
-<p>In v2 we need to use a middleware, expressed like this for Kubernetes</p>
+<p>In v2 we need to create a middleware, expressed like this for Kubernetes</p>
 
 <pre><code>apiVersion: traefik.containo.us/v1alpha1
 kind: Middleware
@@ -129,7 +129,7 @@ spec:
     scheme: https
 </code></pre>
 
-<p>They can be chained using the <a href="https://docs.traefik.io/v2.0/middlewares/chain/">Chain middleware</a>!</p>
+<p>Note: Middlewares can be chained using the <a href="https://docs.traefik.io/v2.0/middlewares/chain/">Chain middleware</a>!</p>
 
 <h2 id="route">Route</h2>
 
@@ -195,6 +195,8 @@ spec:
 
 <p>There are way more to explore, like <a href="https://blog.containo.us/traefik-2-0-6531ec5196c2">traffic mirroring and canary updates</a>.<br />
 This is a really promising new beginning for Traefik !</p>
+
+<p>If you are are interested in advanced configuration example read <a href="https://blog.nobugware.com/post/2019/advanced-traefik-2-0-with-kubernetes/">my second post about Traefik 2</a>.</p>
 
 </article>
 <nav class="no-print post-nav">

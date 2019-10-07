@@ -6,11 +6,10 @@
 		<meta name="generator" content="Hugo 0.58.1" />
 		<title>Advanced Traefik 2.0 with Kubernetes - Fabrice Aneche</title>
 
-		<meta name="description" content="Following my earlier post about Traefik 2 and Kubernetes, here are some advanced configuration examples:
+		<meta name="description" content="Following my earlier post about Traefik 2 and Kubernetes, here are some advanced configuration examples and a full yaml example at the end of this post:
 Protecting a route with a password Create an htpasswd file named users for a user admin
  htpasswd -c users admin  Use kubectl to create the secret (easier for multi lines file).
-kubectl create secret generic admin-authsecret --from-file=users  Create a middleware for authentication:
-apiVersion: traefik.containo.us/v1alpha1 kind: Middleware metadata: name: admin-auth spec: basicAuth: secret: admin-authsecret  Then apply this admin-auth middleware to each IngressRoute you want to protect.">
+kubectl create secret generic admin-authsecret --from-file=users  Create a middleware for authentication:">
 
 
 		
@@ -67,7 +66,7 @@ apiVersion: traefik.containo.us/v1alpha1 kind: Middleware metadata: name: admin-
 </header>
 	
 
-<p>Following my <a href="https://blog.nobugware.com/post/2019/traefik-2-0-with-kubernetes/">earlier post about Traefik 2 and Kubernetes</a>, here are some advanced configuration examples:</p>
+<p>Following my <a href="https://blog.nobugware.com/post/2019/traefik-2-0-with-kubernetes/">earlier post about Traefik 2 and Kubernetes</a>, here are some advanced configuration examples and a full yaml example at the end of this post:</p>
 
 <h2 id="protecting-a-route-with-a-password">Protecting a route with a password</h2>
 

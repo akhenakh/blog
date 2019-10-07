@@ -8,7 +8,7 @@
 
 		<meta name="description" content="Following my earlier post about Traefik 2 and Kubernetes, here are some advanced configuration examples:
 Protecting a route with a password Create an htpasswd file named users for a user admin
- htpasswd -c htpass admin  Use kubectl to create the secret (easier for multiline file).
+ htpasswd -c htpass admin  Use kubectl to create the secret (easier for multi lines file).
 kubectl create secret generic admin-authsecret --from-file=users  Create a middleware for authentication:
 apiVersion: traefik.containo.us/v1alpha1 kind: Middleware metadata: name: admin-auth spec: basicAuth: secret: admin-authsecret  Then apply this middleware to each IngressRoute you want to protect.">
 
@@ -76,7 +76,7 @@ apiVersion: traefik.containo.us/v1alpha1 kind: Middleware metadata: name: admin-
 <pre><code> htpasswd -c   htpass admin
 </code></pre>
 
-<p>Use kubectl to create the secret (easier for multiline file).</p>
+<p>Use kubectl to create the secret (easier for multi lines file).</p>
 
 <pre><code>kubectl create secret generic admin-authsecret --from-file=users
 </code></pre>
@@ -98,7 +98,7 @@ spec:
 
 <p>To enable Traefik prometheus metrics, add these args options to the template spec args:</p>
 
-<pre><code>			# create a dedicated entrypoints for metrics
+<pre><code>            # create a dedicated entrypoints for metrics
             - --entrypoints.metrics.address=:8888
             - --metrics.prometheus=true
             - --metrics.prometheus.entryPoint=metrics
@@ -115,7 +115,7 @@ spec:
 
 <h2 id="jaeger">Jaeger</h2>
 
-<p>To enable tracing with Jaege, add these args options to the template spec args:</p>
+<p>To enable tracing with Jaeger add these args options to the template spec args:</p>
 
 <pre><code>        - --tracing=true
         - --tracing.jaeger=true
@@ -162,6 +162,7 @@ spec:
     - match: Host(`traefik.mydomain.tld`)
       middlewares:
         - name: admin-auth
+        - name: compress
       kind: Rule
       services:
         - name: traefik-admin

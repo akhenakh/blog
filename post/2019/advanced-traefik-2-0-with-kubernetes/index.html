@@ -96,7 +96,7 @@ spec:
 
 <h2 id="prometheus">Prometheus</h2>
 
-<p>To enable Traefik prometheus metrics, add these args options to the template spec args:</p>
+<p>To enable Traefik Prometheus metrics, add these args options to the template spec args:</p>
 
 <pre><code>            # create a dedicated entrypoints for metrics
             - --entrypoints.metrics.address=:8888
@@ -111,7 +111,7 @@ spec:
         prometheus.io/port: '8888'
 </code></pre>
 
-<p>Note: The older Traefik Grafana template are incompatible with Traefik 2.0 since several metrics have been renamed.</p>
+<p>Note: The older Traefik Grafana templates are incompatible with Traefik 2.0 since several metrics have been renamed.</p>
 
 <h2 id="jaeger">Jaeger</h2>
 
@@ -125,13 +125,16 @@ spec:
         - --tracing.jaeger.propagation=b3
 </code></pre>
 
-<p>Do not use this in production since it will trace every requests, but use a probabilistic one.</p>
+<p>Do not use this configuration in production since it will trace every requests, but use a probabilistic one.</p>
 
 <p>Note: do not use double quote around <code>localAgentHostPort</code> value &hellip;</p>
 
 <h2 id="traefik-dashboard">Traefik Dashboard</h2>
 
 <p>To expose the Traefik dashboard:</p>
+
+<pre><code>        - --api.dashboard=true
+</code></pre>
 
 <p>Be sure to have a <code>traefik-admin</code> service:</p>
 
@@ -198,9 +201,9 @@ spec:
     certResolver: default
 </code></pre>
 
-<h2 id="let-s-encrypt">Let&rsquo;s encrypt</h2>
+<h2 id="let-s-encrypt">Let&rsquo;s Encrypt</h2>
 
-<p>You&rsquo;ll need a storage for the SSL certificates, it&rsquo;s important because each time you&rsquo;ll restart Traefik it will regenerate them, if you don&rsquo;t, possibly hitting let&rsquo;s encrypt rate limits.</p>
+<p>You&rsquo;ll need a storage for the SSL certificates, it&rsquo;s important because each time you&rsquo;ll restart Traefik it will regenerate them,possibly hitting let&rsquo;s encrypt rate limits if you don&rsquo;t.</p>
 
 <pre><code>apiVersion: v1
 kind: PersistentVolumeClaim
@@ -254,6 +257,10 @@ Look for your <a href="https://go-acme.github.io/lego/dns/">DNS provider setting
                   name: gandi-secret
                   key: secret
 </code></pre>
+
+<h2 id="overall">Overall</h2>
+
+<p>```</p>
 
 </article>
 <nav class="no-print post-nav">

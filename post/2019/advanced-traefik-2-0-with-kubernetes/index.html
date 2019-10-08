@@ -121,7 +121,6 @@ spec:
         - --tracing.jaeger.localAgentHostPort=jaeger-agent:6831
         - --tracing.jaeger.samplingParam=1
         - --tracing.jaeger.samplingType=const
-        - --tracing.jaeger.propagation=b3
 </code></pre>
 
 <p>Do not use this configuration in production since it will trace every requests, but use a probabilistic one.</p>

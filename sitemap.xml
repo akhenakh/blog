@@ -8,12 +8,12 @@
   </url>
   
   <url>
-    <loc>https://blog.nobugware.com/categories/devops/</loc>
+    <loc>https://blog.nobugware.com/tags/devops/</loc>
     <lastmod>2019-11-12T03:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://blog.nobugware.com/tags/devops/</loc>
+    <loc>https://blog.nobugware.com/categories/devops/</loc>
     <lastmod>2019-11-12T03:00:00+00:00</lastmod>
   </url>
   
@@ -34,11 +34,6 @@
   
   <url>
     <loc>https://blog.nobugware.com/tags/kubernetes/</loc>
-    <lastmod>2019-11-12T03:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://blog.nobugware.com/tags/load-balancing/</loc>
     <lastmod>2019-11-12T03:00:00+00:00</lastmod>
   </url>
   

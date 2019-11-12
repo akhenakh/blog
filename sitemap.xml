@@ -3,42 +3,57 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://blog.nobugware.com/post/2019/advanced-traefik-2-0-with-kubernetes/</loc>
-    <lastmod>2019-10-07T00:00:00-04:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://blog.nobugware.com/categories/</loc>
-    <lastmod>2019-10-07T00:00:00-04:00</lastmod>
+    <lastmod>2019-11-12T03:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://blog.nobugware.com/categories/devops/</loc>
-    <lastmod>2019-10-07T00:00:00-04:00</lastmod>
+    <lastmod>2019-11-12T03:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://blog.nobugware.com/tags/devops/</loc>
-    <lastmod>2019-10-07T00:00:00-04:00</lastmod>
+    <lastmod>2019-11-12T03:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://blog.nobugware.com/</loc>
-    <lastmod>2019-10-07T00:00:00-04:00</lastmod>
+    <lastmod>2019-11-12T03:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.nobugware.com/tags/golang/</loc>
+    <lastmod>2019-11-12T03:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://blog.nobugware.com/tags/kubernetes/</loc>
-    <lastmod>2019-10-07T00:00:00-04:00</lastmod>
+    <lastmod>2019-11-12T03:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.nobugware.com/tags/nomad/</loc>
+    <lastmod>2019-11-12T03:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.nobugware.com/post/2019/nomad_an_alternative_to_kubernetes/</loc>
+    <lastmod>2019-11-12T03:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://blog.nobugware.com/post/</loc>
-    <lastmod>2019-10-07T00:00:00-04:00</lastmod>
+    <lastmod>2019-11-12T03:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://blog.nobugware.com/tags/</loc>
+    <lastmod>2019-11-12T03:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.nobugware.com/post/2019/advanced-traefik-2-0-with-kubernetes/</loc>
     <lastmod>2019-10-07T00:00:00-04:00</lastmod>
   </url>
   
@@ -89,11 +104,6 @@
   
   <url>
     <loc>https://blog.nobugware.com/tags/github/</loc>
-    <lastmod>2019-09-11T00:00:00-04:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://blog.nobugware.com/tags/golang/</loc>
     <lastmod>2019-09-11T00:00:00-04:00</lastmod>
   </url>
   
@@ -258,12 +268,12 @@
   </url>
   
   <url>
-    <loc>https://blog.nobugware.com/categories/bsd/</loc>
+    <loc>https://blog.nobugware.com/tags/bsd/</loc>
     <lastmod>2017-10-08T09:57:56-05:00</lastmod>
   </url>
   
   <url>
-    <loc>https://blog.nobugware.com/tags/bsd/</loc>
+    <loc>https://blog.nobugware.com/categories/bsd/</loc>
     <lastmod>2017-10-08T09:57:56-05:00</lastmod>
   </url>
   

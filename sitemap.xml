@@ -8,12 +8,12 @@
   </url>
   
   <url>
-    <loc>https://blog.nobugware.com/tags/devops/</loc>
+    <loc>https://blog.nobugware.com/categories/devops/</loc>
     <lastmod>2019-11-12T03:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://blog.nobugware.com/categories/devops/</loc>
+    <loc>https://blog.nobugware.com/tags/devops/</loc>
     <lastmod>2019-11-12T03:00:00+00:00</lastmod>
   </url>
   
@@ -23,7 +23,7 @@
   </url>
   
   <url>
-    <loc>https://blog.nobugware.com/tags/golang/</loc>
+    <loc>https://blog.nobugware.com/tags/go/</loc>
     <lastmod>2019-11-12T03:00:00+00:00</lastmod>
   </url>
   
@@ -68,17 +68,12 @@
   </url>
   
   <url>
-    <loc>https://blog.nobugware.com/categories/geo/</loc>
-    <lastmod>2019-10-04T13:00:00-04:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://blog.nobugware.com/tags/geo/</loc>
     <lastmod>2019-10-04T13:00:00-04:00</lastmod>
   </url>
   
   <url>
-    <loc>https://blog.nobugware.com/tags/go/</loc>
+    <loc>https://blog.nobugware.com/categories/geo/</loc>
     <lastmod>2019-10-04T13:00:00-04:00</lastmod>
   </url>
   
@@ -109,6 +104,11 @@
   
   <url>
     <loc>https://blog.nobugware.com/tags/github/</loc>
+    <lastmod>2019-09-11T00:00:00-04:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.nobugware.com/tags/golang/</loc>
     <lastmod>2019-09-11T00:00:00-04:00</lastmod>
   </url>
   
@@ -268,12 +268,12 @@
   </url>
   
   <url>
-    <loc>https://blog.nobugware.com/categories/bsd/</loc>
+    <loc>https://blog.nobugware.com/tags/bsd/</loc>
     <lastmod>2017-10-08T09:57:56-05:00</lastmod>
   </url>
   
   <url>
-    <loc>https://blog.nobugware.com/tags/bsd/</loc>
+    <loc>https://blog.nobugware.com/categories/bsd/</loc>
     <lastmod>2017-10-08T09:57:56-05:00</lastmod>
   </url>
   

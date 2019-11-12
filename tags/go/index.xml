@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>go on Fabrice Aneche</title>
+    <title>Go on Fabrice Aneche</title>
     <link>https://blog.nobugware.com/tags/go/</link>
-    <description>Recent content in go on Fabrice Aneche</description>
+    <description>Recent content in Go on Fabrice Aneche</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <lastBuildDate>Fri, 04 Oct 2019 13:00:00 -0400</lastBuildDate>
@@ -61,7 +61,7 @@ The answer is heavily connected to the network stack used by Kubernetes, but wit
     <item>
       <title>Traefik gRPC Load Balancing and Traces Propagation</title>
       <link>https://blog.nobugware.com/post/2019/traefik_load_balancing_grpc_services_trace_propagation/</link>
-      <pubDate>Mon, 04 Mar 2019 00:32:43 -0400</pubDate>
+      <pubDate>Mon, 04 Mar 2019 04:32:43 +0000</pubDate>
       
       <guid>https://blog.nobugware.com/post/2019/traefik_load_balancing_grpc_services_trace_propagation/</guid>
       <description>Following my recent blog post on setting up a dev environment in Kubernetes, here are some tips to use Traefik as a gRPC load balancer.

@@ -121,7 +121,7 @@ EOH
 <p>Nomad offers a way to <a href="https://www.nomadproject.io/docs/job-specification/template.html#change_mode">notify your program for templates changes via a signal</a>, but it&rsquo;s not always optimal, you should probably go with client load balancing when possible:</p>
 
 <p>I&rsquo;ve already blogged about <a href="https://blog.nobugware.com/post/2019/kubernetes_mesh_network_load_balancing_grpc_services">client load balancing inside Kubernetes with gRPC</a>, the same applies with Nomad using a <a href="http://github.com/mbobakov/grpc-consul-resolver">Consul gRPC resolver</a>.<br />
-The code modifications needed for this to work with Consul was just one line, the package import&hellip;</p>
+The code modifications needed for this to work with Consul has been just one line, import the package.</p>
 
 <h2 id="dns">DNS</h2>
 

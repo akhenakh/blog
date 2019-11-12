@@ -100,7 +100,7 @@ I find the Nomad deployment files (<a href="https://github.com/hashicorp/hcl#syn
 <p>One big difference with Kubernetes: the services are not load balanced behind an IP address, by default Docker instances run on the existing node network stack using different ports to avoid conflicts.<br />
 So for a container to reach another service, you have to know the address in advance which is not always possible, hardcode a listening port which is also not always possible, or use Consul services resolution, via templates, via DNS or the Consul API.</p>
 
-<p>Not all the apps know about Consul especially containers you don&rsquo;t own, Redis for example.<br />
+<p>Not all the apps know about Consul, especially containers you don&rsquo;t own, like Redis.<br />
 For those Nomad is providing a template language (build around <a href="https://github.com/hashicorp/consul-template">Consul-template</a>) which allow you to change files or environment according to Consul:</p>
 
 <pre><code>      template {
@@ -121,7 +121,7 @@ EOH
 <p>Nomad offers a way to <a href="https://www.nomadproject.io/docs/job-specification/template.html#change_mode">notify your program for templates changes via a signal</a>, but it&rsquo;s not always optimal, you should probably go with client load balancing when possible:</p>
 
 <p>I&rsquo;ve already blogged about <a href="https://blog.nobugware.com/post/2019/kubernetes_mesh_network_load_balancing_grpc_services">client load balancing inside Kubernetes with gRPC</a>, the same applies with Nomad using a <a href="http://github.com/mbobakov/grpc-consul-resolver">Consul gRPC resolver</a>.<br />
-The code modifications needed for this to work with Consul has been just one line, import the package.</p>
+The code modifications needed for this to work with Consul has been just one line, importing the package.</p>
 
 <h2 id="dns">DNS</h2>
 
@@ -179,8 +179,8 @@ constraints = [&quot;tag==service&quot;]
 <h2 id="consumption">Consumption</h2>
 
 <p>When deployed in Kubernetes this project was running on GCP/GKE but also on <a href="https://blog.nobugware.com/post/2019/bare-metal-kubernetes-quick-installations-on-arch/">a ARM64 Kubernetes cluster</a>.<br />
-My ARM64 cluster made of 50$ servers was really unstable which is a good way to test for failures, since Nomad I&rsquo;m suffering way less reboots.<br />
-I was really surprised for the same workload the overall Nomad cluster was way less resource consuming, surely Kubernetes is capable of more but we are comparing the same project deployments here.<br />
+My ARM64 cluster made of 50$ servers was really unstable, this is a good way to test for failures, since Nomad I&rsquo;m suffering way less reboots.<br />
+I was really surprised that, for the same workload, the overall Nomad cluster was way less resource consuming, surely Kubernetes is capable of more but we are comparing the same project deployments here.<br />
 Even on x86 GCP with 3 medium servers you&rsquo;ll hit resources issues very fast, for some reasons Nomad is resources friendly.</p>
 
 <h2 id="documentation-help">Documentation &amp; Help</h2>
@@ -204,7 +204,8 @@ There is no good documentation for service resolution inside Nomad since it&rsqu
 <h2 id="overall">Overall</h2>
 
 <p>As always, there is no such thing as a tool to rule them all.<br />
-Kubernetes is getting all the visibility for good reasons, but it&rsquo;s probably not suitable for small to medium companies, you don&rsquo;t need to deploy Google infrastructure when you are not Google.<br />
+Kubernetes is getting all the visibility for good reasons, but it&rsquo;s probably not suitable for small to medium companies.<br />
+You don&rsquo;t need to deploy Google infrastructure when you are not Google.<br />
 Nomad is a clear alternative and a fresh challenger with great ideas.<br />
 I&rsquo;ll definitely keep Nomad for this project, not going back to k8s.<br />
 There are giant Consul deployments out there, not sure about Nomad but will follow the project actively.</p>

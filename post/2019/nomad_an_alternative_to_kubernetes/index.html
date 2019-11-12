@@ -110,7 +110,6 @@ EOH
         destination = &quot;secrets/file.env&quot;
         env = true
       }
-
 </code></pre>
 
 <p>This will create a file in <code>/secrets/file.env</code> (<code>/local</code> &amp; <code>/secret</code> are volumes automatically mounted into your containers), with all addresses &amp; ports entered in Consul as <code>nats-client</code> service, so on every starts your container will know about other services.</p>
@@ -137,7 +136,6 @@ server=/consul/127.0.0.1#8600
 
 # Accept DNS queries only from hosts whose address is on a local subnet.
 local-service
-
 </code></pre>
 
 <p>If systemd resolver is running you&rsquo;ll hit an issue since it&rsquo;s already binding 127.0.0.1:53.<br />
@@ -146,7 +144,7 @@ Add this to <code>/etc/systemd/resolved.conf</code></p>
 <pre><code>DNSStubListener=no
 </code></pre>
 
-<p>Then use the <a href="https://www.nomadproject.io/docs/drivers/docker.html#dns_servers"><code>dns_servers</code></a> directive to point your containers to dnsmasq.</p>
+<p>Then use the <code>[dns_servers](https://www.nomadproject.io/docs/drivers/docker.html#dns_servers)</code> directive to point your containers to dnsmasq.</p>
 
 <h2 id="network">Network</h2>
 
@@ -206,7 +204,7 @@ There is no good documentation for service resolution inside Nomad since it&rsqu
 <p>As always, there is no such thing as a tool to rule them all.<br />
 Kubernetes is getting all the visibility for good reasons, but it&rsquo;s probably not suitable for small to medium companies, you don&rsquo;t need to deploy Google infrastructure when you are not Google.<br />
 Nomad is a clear alternative and a fresh challenger with great ideas.<br />
-I&rsquo;ll definitely keep Nomad for this project and not going back to k8s.<br />
+I&rsquo;ll definitely keep Nomad for this project, not going back to k8s.<br />
 There are giant Consul deployments out there, not sure about Nomad but will follow the project actively.</p>
 
 </article>

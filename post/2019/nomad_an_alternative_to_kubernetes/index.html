@@ -168,7 +168,7 @@ prefix = &quot;traefik&quot;
 constraints = [&quot;tag==service&quot;]
 </code></pre>
 
-<p>Than tag your Nomad service to automatically create an endpoint load balanced to all the Nomad instances:</p>
+<p>Than tag your Nomad service to automatically create an endpoint load balanced to all the Nomad allocations:</p>
 
 <pre><code>        tags = [
           &quot;traefik.tags=service&quot;,

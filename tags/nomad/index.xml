@@ -21,7 +21,7 @@
 But there are others solutions one is Nomad.
 It&amp;rsquo;s made by Hashicorp, creators of Vault, Consul, Terraform&amp;hellip;
 In general Hashicorp is synonym with quality.
-Nomad is a task scheduler, a task could be execute a command, run a Docker container or a QEMU vms&amp;hellip;</description>
+Nomad is a task scheduler, a task could be execute a command, run a Docker container or a QEMU vm&amp;hellip;</description>
     </item>
     
   </channel>

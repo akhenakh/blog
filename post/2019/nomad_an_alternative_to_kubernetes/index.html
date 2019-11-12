@@ -150,10 +150,10 @@ Add this to <code>/etc/systemd/resolved.conf</code></p>
 
 <h2 id="network">Network</h2>
 
-<p>Since there is no automatic level 4 load balancing, no network manager ala Flannel, in base Nomad, you are on your own on the network management of your cluster which is probably a good thing, dealing with k8s sometimes unnecessary network complexity is not always fun.</p>
+<p>Since there is no automatic level 4 load balancing, no network manager ala Flannel, in base Nomad, you are on your own on the network management of your cluster which is probably a good thing, dealing with k8s sometimes unnecessary network complexity is no fun.</p>
 
-<p>Beginning with Nomad 0.10.0 there is a mesh sidecar using Envoy, called Connect.<br />
-Again I&rsquo;m not convinced about the whole Mesh is the solution for everything, especially using Envoy which still suffers big issues with gRPC.</p>
+<p>Beginning with Nomad 0.10.x there is a mesh solution using a sidecared Envoy called Connect, very similar to Istio.<br />
+Again I&rsquo;m not convinced about the whole &ldquo;Mesh is the solution for everything&rdquo;, especially using Envoy which still suffers big issues with gRPC.</p>
 
 <h2 id="load-balancing">Load Balancing</h2>
 

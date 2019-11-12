@@ -6,10 +6,23 @@
     <description>Recent content in grpc on Fabrice Aneche</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 11 Mar 2019 00:32:43 -0500</lastBuildDate>
+    <lastBuildDate>Tue, 12 Nov 2019 03:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://blog.nobugware.com/tags/grpc/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Nomad an alternative to Kubernetes</title>
+      <link>https://blog.nobugware.com/post/2019/nomad_an_alternative_to_kubernetes/</link>
+      <pubDate>Tue, 12 Nov 2019 03:00:00 +0000</pubDate>
+      
+      <guid>https://blog.nobugware.com/post/2019/nomad_an_alternative_to_kubernetes/</guid>
+      <description>If you are familiar with this blog you know I really appreciate Kubernetes: as a former ops I strongly believe Kubernetes is one way to bundle &amp;ldquo;the sum of 20y ops good practices&amp;rdquo;.
+But there are others solutions one is Nomad.
+It&amp;rsquo;s made by Hashicorp, creators of Vault, Consul, Terraform&amp;hellip;
+In general Hashicorp is synonym with quality.
+Nomad is a task scheduler, a task could be execute a command, run a Docker container or a QEMU vms&amp;hellip;</description>
+    </item>
     
     <item>
       <title>gRPC Load Balancing inside Kubernetes</title>

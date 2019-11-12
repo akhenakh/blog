@@ -84,21 +84,21 @@ Here are some key points:</p>
 <p>If you are self hosted before using Kubernetes or Nomad, you first need to deploy them.<br />
 Nomad is one binary, but the truth is Nomad is almost useless without <a href="https://www.consul.io/docs/index.html">Consul</a> (also one binary).<br />
 First deploy a Consul cluster, then deploy Nomad, both are so integrated Nomad will automatically create and join a cluster on top of an existing Consul instance running on the same host.<br />
-Deploying a working Nomad is easy vs painful kubernertes but it&rsquo;s unfair to compare since some parts are missing in Nomad, see below.</p>
+Deploying a working Nomad cluster is easy vs painful Kubernetes but it&rsquo;s unfair to compare since some parts are missing in Nomad, see below.</p>
 
 <h2 id="migration">Migration</h2>
 
 <p>This project consists of several gRPC micro services, Redis, PostgreSQL, <a href="https://docs.traefik.io/">Traefik</a> and <a href="https://nats.io/">NATS</a>.<br />
 I was afraid the rewrite needed to work on a different target than Kuberneres would be time consuming.<br />
 But with containers and following good practices, no matter how or on what you deploy it&rsquo;s almost the same.<br />
-I find the Nomad deployment files (<a href="https://github.com/hashicorp/hcl#syntax">HCL</a>) a lot easier to look at and understand than Kubernetes YAML which I&rsquo;m reading for 4 years !@#</p>
+I find the Nomad deployment files (<a href="https://github.com/hashicorp/hcl#syntax">HCL</a>) a lot easier to look at and understand than Kubernetes YAML which I&rsquo;ve read for 4 years !@#</p>
 
 <p><a href="https://gist.github.com/akhenakh/9769c41fa1912dd4ff4026f94e37a007">Here is one of my Nomad deployment file</a> as an example, I find every lines to be self-explanatory.</p>
 
 <h2 id="service-discovery">Service Discovery</h2>
 
-<p>One big differences with Kubernetes: the services are not load balanced behind an IP address, by default Docker instances run on the existing node network stack using different ports to avoid conflicts.<br />
-So for other services to reach a server, you have to know the address in advance which is not always possible, hardcode a listening port which is also not always possible, or use Consul services resolution, via templates, via DNS or the Consul API.</p>
+<p>One big difference with Kubernetes: the services are not load balanced behind an IP address, by default Docker instances run on the existing node network stack using different ports to avoid conflicts.<br />
+So for a container to reach another service, you have to know the address in advance which is not always possible, hardcode a listening port which is also not always possible, or use Consul services resolution, via templates, via DNS or the Consul API.</p>
 
 <p>Not all the apps know about Consul especially containers you don&rsquo;t own, Redis for example.<br />
 For those Nomad is providing a template language (build around <a href="https://github.com/hashicorp/consul-template">Consul-template</a>) which allow you to change files or environment according to Consul:</p>

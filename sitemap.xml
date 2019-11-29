@@ -3,13 +3,43 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://blog.nobugware.com/categories/</loc>
-    <lastmod>2019-11-12T03:00:00+00:00</lastmod>
+    <loc>https://blog.nobugware.com/post/2019/an_application_for__mapping_storing_your_iot_devices_data/</loc>
+    <lastmod>2019-11-29T06:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>https://blog.nobugware.com/categories/devops/</loc>
-    <lastmod>2019-11-12T03:00:00+00:00</lastmod>
+    <loc>https://blog.nobugware.com/categories/</loc>
+    <lastmod>2019-11-29T06:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.nobugware.com/</loc>
+    <lastmod>2019-11-29T06:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.nobugware.com/categories/geo/</loc>
+    <lastmod>2019-11-29T06:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.nobugware.com/tags/geo/</loc>
+    <lastmod>2019-11-29T06:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.nobugware.com/tags/go/</loc>
+    <lastmod>2019-11-29T06:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.nobugware.com/post/</loc>
+    <lastmod>2019-11-29T06:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.nobugware.com/tags/</loc>
+    <lastmod>2019-11-29T06:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -18,12 +48,7 @@
   </url>
   
   <url>
-    <loc>https://blog.nobugware.com/</loc>
-    <lastmod>2019-11-12T03:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://blog.nobugware.com/tags/go/</loc>
+    <loc>https://blog.nobugware.com/categories/devops/</loc>
     <lastmod>2019-11-12T03:00:00+00:00</lastmod>
   </url>
   
@@ -48,16 +73,6 @@
   </url>
   
   <url>
-    <loc>https://blog.nobugware.com/post/</loc>
-    <lastmod>2019-11-12T03:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://blog.nobugware.com/tags/</loc>
-    <lastmod>2019-11-12T03:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>https://blog.nobugware.com/post/2019/advanced-traefik-2-0-with-kubernetes/</loc>
     <lastmod>2019-10-07T00:00:00-04:00</lastmod>
   </url>
@@ -65,16 +80,6 @@
   <url>
     <loc>https://blog.nobugware.com/tags/traefik/</loc>
     <lastmod>2019-10-07T00:00:00-04:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://blog.nobugware.com/categories/geo/</loc>
-    <lastmod>2019-10-04T13:00:00-04:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://blog.nobugware.com/tags/geo/</loc>
-    <lastmod>2019-10-04T13:00:00-04:00</lastmod>
   </url>
   
   <url>

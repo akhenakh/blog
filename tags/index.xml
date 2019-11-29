@@ -6,10 +6,28 @@
     <description>Recent content in Tags on Fabrice Aneche</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 12 Nov 2019 03:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 29 Nov 2019 06:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://blog.nobugware.com/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Geo</title>
+      <link>https://blog.nobugware.com/tags/geo/</link>
+      <pubDate>Fri, 29 Nov 2019 06:00:00 +0000</pubDate>
+      
+      <guid>https://blog.nobugware.com/tags/geo/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Go</title>
+      <link>https://blog.nobugware.com/tags/go/</link>
+      <pubDate>Fri, 29 Nov 2019 06:00:00 +0000</pubDate>
+      
+      <guid>https://blog.nobugware.com/tags/go/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>devops</title>
@@ -17,15 +35,6 @@
       <pubDate>Tue, 12 Nov 2019 03:00:00 +0000</pubDate>
       
       <guid>https://blog.nobugware.com/tags/devops/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Go</title>
-      <link>https://blog.nobugware.com/tags/go/</link>
-      <pubDate>Tue, 12 Nov 2019 03:00:00 +0000</pubDate>
-      
-      <guid>https://blog.nobugware.com/tags/go/</guid>
       <description></description>
     </item>
     
@@ -62,15 +71,6 @@
       <pubDate>Mon, 07 Oct 2019 00:00:00 -0400</pubDate>
       
       <guid>https://blog.nobugware.com/tags/traefik/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Geo</title>
-      <link>https://blog.nobugware.com/tags/geo/</link>
-      <pubDate>Fri, 04 Oct 2019 13:00:00 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/tags/geo/</guid>
       <description></description>
     </item>
     
@@ -642,7 +642,7 @@
     </item>
     
     <item>
-      <title>solaris,</title>
+      <title>solaris</title>
       <link>https://blog.nobugware.com/tags/solaris/</link>
       <pubDate>Tue, 28 Jul 2009 19:22:12 -0400</pubDate>
       

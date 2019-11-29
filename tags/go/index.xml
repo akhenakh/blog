@@ -17,7 +17,7 @@
       <pubDate>Fri, 29 Nov 2019 06:00:00 +0000</pubDate>
       
       <guid>https://blog.nobugware.com/post/2019/an_application_for__mapping_storing_your_iot_devices_data/</guid>
-      <description>This post will introduce you to LoRaWAN and how to install your own IOT mapping application using open source tools and a new project I&amp;rsquo;m working on written in Go.
+      <description>This post will introduce you to LoRaWAN and how to install your own IoT mapping application using open source tools and a new project I&amp;rsquo;m working on written in Go.
 Radio Network LoRaWAN is a network layer protocol for managing communication between LoRa devices and gateways.
 The Things Network is an open and free to use LoRaWAN network.
 Anyone can contribute to the coverage by installing a gateway (a small radio devices) connected to the internet.</description>

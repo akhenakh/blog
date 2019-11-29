@@ -7,7 +7,7 @@
 		<title>An application to map and store your IoT devices data - Fabrice Aneche</title>
 
 		<meta name="description" content="Here in Quebec, winter is so cold it can drain your phone battery very fast.
-I wanted a solution for my hikes, so I can be followed on a map.
+I wanted a private and secure solution for my hikes, so I can be followed on a map.
 This post will introduce you to LoRaWAN and how to install your own IoT mapping application using open source tools and a new project I&rsquo;m working on written in Go.
 Radio Network LoRaWAN is a network layer protocol for managing communication between LoRa devices and gateways.">
 
@@ -65,7 +65,7 @@ Radio Network LoRaWAN is a network layer protocol for managing communication bet
 	
 
 <p>Here in Quebec, winter is so cold it can drain your phone battery very fast.<br />
-I wanted a solution for my hikes, so I can be followed on a map.</p>
+I wanted a private and secure solution for my hikes, so I can be followed on a map.</p>
 
 <p>This post will introduce you to LoRaWAN and how to install your own IoT mapping application using open source tools and a <a href="https://github.com/akhenakh/geottn">new project I&rsquo;m working on</a> written in Go.</p>
 
@@ -78,6 +78,8 @@ I wanted a solution for my hikes, so I can be followed on a map.</p>
 <p>Anyone can <a href="https://www.thethingsnetwork.org/community">contribute to the coverage</a> by installing a gateway (a small radio devices) connected to the internet.</p>
 
 <p>This network is for IoT and only allows a few bytes to be transmitted every several minutes per devices, do not expect browsing the Internet through LoRaWAN.</p>
+
+<p>All transmissions are ciphered using AES and only you and The Things Network can then read the data.</p>
 
 <h2 id="gateways">Gateways</h2>
 

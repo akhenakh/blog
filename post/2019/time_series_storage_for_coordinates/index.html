@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="generator" content="Hugo 0.58.1" />
+		<title>A Time Series Storage for Coordinates - Fabrice Aneche</title>
+
+		<meta name="description" content="TL;DR; Knowing your data helps compress them better than common algorithms.
+Problem For one of my side projects, an IoT database, I wanted a specialized time series to store timestamps coupled with coordinates.
+I needed a simple solution which allows live and cold compressed storage with gaps in it: IoT devices can be off for days then reappear.
+But couldn&rsquo;t find anything fitting my needs, the Gorilla Paper from Facebook is really nice but expects a 4 hours maximum gap between time events.">
+
+
+		
+	
+		
+
+
+
+
+<link rel="stylesheet" href="https://blog.nobugware.com/css/ui.css">
+
+	
+		
+
+		<link  rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway">
+
+		
+	</head>
+
+<body>
+<header class="container no-print">
+	<div class="u-header">
+		<nav class="bar">
+	<ul><li>
+			<a href="https://blog.nobugware.com/">
+				<img class="icon-text" src="https://blog.nobugware.com/img/prev.svg"/>
+			</a>
+		</li><li><a href="https://blog.nobugware.com/about">About</a></li><li><a href="https://blog.nobugware.com/post/">Post</a></li></ul>
+</nav>
+
+	</div>
+</header>
+<main class="container">
+
+<article>
+	<header><hgroup id="brand">
+	<h1>A Time Series Storage for Coordinates</h1>
+	<h5>
+		
+		<time datetime="2019-12-11 11:00:00 &#43;0000 UTC">Dec 11, 2019</time>
+		<span class="no-print">
+			-
+				
+				<a href="https://blog.nobugware.com/tags/go">go</a>
+				
+				<a href="https://blog.nobugware.com/tags/geo">geo</a>
+				<span>
+	</h5>
+	
+</hgroup>
+<hr class="sep" />
+</header>
+	
+
+<p><strong>TL;DR;</strong> Knowing your data helps compress them better than common algorithms.</p>
+
+<h2 id="problem">Problem</h2>
+
+<p>For one of <a href="https://github.com/akhenakh/geottn">my side projects, an IoT database</a>, I wanted a specialized time series to store timestamps coupled with coordinates.<br />
+I needed a simple solution which allows live and cold compressed storage with gaps in it: IoT devices can be off for days then reappear.<br />
+But couldn&rsquo;t find anything fitting my needs, <a href="https://blog.acolyer.org/2016/05/03/gorilla-a-fast-scalable-in-memory-time-series-database/">the Gorilla Paper from Facebook</a> is really nice but expects a 4 hours maximum gap between time events.</p>
+
+<h2 id="solution">Solution</h2>
+
+<p>Time series for geospacial data have particular properties:</p>
+
+<ul>
+<li>events are occurring often regularly</li>
+<li>object is not moving at all or</li>
+<li>object is often moving at a constant speed</li>
+</ul>
+
+<p>It means we could store deltas between events to reduce the space needed.</p>
+
+<h2 id="storage">Storage</h2>
+
+<ul>
+<li>One <code>uint32</code> is needed to encode an uncompressed time using <a href="https://en.wikipedia.org/wiki/Unix_time">Unix ts</a></li>
+<li>Two <code>float32</code> are needed to encode an uncompressed latitude/longitude<br />
+(stored as uint32: float32 * 10e5, 0.00001 degree represents ~1 meter)</li>
+</ul>
+
+<p>By storing the delta between two events, we need less space:<br />
+<code>1201986030</code> then 10 seconds later <code>1201986040</code>, the delta is <code>10</code>, which can be stored in an <code>uint8</code>, or in an <code>uint16</code> for a bigger delta value but still reducing the original needed <code>uint32</code>.</p>
+
+<p>The next event will probably occur 10 seconds later at <code>1201986050</code>, by storing deltas of deltas (so we need a signed integer), we can store <code>0</code> (zero is nice since it takes zero space) or the delta +/- !<br />
+Many time series, <a href="https://dbdb.io/db/prometheus">Prometheus</a> included, are using this trick.</p>
+
+<p>Same applies to the coordinates, a moving car or a not moving car, can be compressed by this technic.</p>
+
+<p>Because we may have large gap between times or between coordinates, larger than a <code>uint16</code>, we may have to store a fully uncompressed value.</p>
+
+<p>We still have to store something for every events indicating if it&rsquo;s a zero, <code>uint8</code>, <code>uint16</code> delta or a full value.</p>
+
+<pre><code class="language-go">	Delta0  DeltaEncoding = 0b00
+	Delta8  DeltaEncoding = 0b01
+	Delta16 DeltaEncoding = 0b10
+	Full32  DeltaEncoding = 0b11
+</code></pre>
+
+<p>Using two bits we can tell the timestamp encoding, same goes for latitude and longitude, reading it back with <code>&amp;</code> mask.</p>
+
+<pre><code class="language-go">func (d DeltaEncoding) TSDelta() DeltaEncoding {
+	return d &amp; 0b000011
+}
+
+func (d DeltaEncoding) LatDelta() DeltaEncoding {
+	return d &amp; 0b001100 &gt;&gt; 2
+}
+
+func (d DeltaEncoding) LngDelta() DeltaEncoding {
+	return d &amp; 0b110000 &gt;&gt; 4
+}
+</code></pre>
+
+<h2 id="compression">Compression</h2>
+
+<p>Let&rsquo;s recap with an example:</p>
+
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>timestamp</th>
+<th>lat</th>
+<th>lng</th>
+<th>encoded</th>
+</tr>
+</thead>
+
+<tbody>
+<tr>
+<td>1</td>
+<td><code>1201986030</code></td>
+<td><code>48.22222</code></td>
+<td><code>2.33333</code></td>
+<td><code>47a4d9ee004994ce00038f75</code></td>
+</tr>
+
+<tr>
+<td>2</td>
+<td><code>1201986040</code></td>
+<td><code>48.22222</code></td>
+<td><code>2.33333</code></td>
+<td><code>010a</code></td>
+</tr>
+
+<tr>
+<td>3</td>
+<td><code>1201986050</code></td>
+<td><code>48.22222</code></td>
+<td><code>2.33333</code></td>
+<td><code>00</code></td>
+</tr>
+
+<tr>
+<td>4</td>
+<td><code>1201986060</code></td>
+<td><code>48.22221</code></td>
+<td><code>2.33334</code></td>
+<td><code>14ff01</code></td>
+</tr>
+
+<tr>
+<td>5</td>
+<td><code>1201986070</code></td>
+<td><code>48.22220</code></td>
+<td><code>2.33335</code></td>
+<td><code>00</code></td>
+</tr>
+
+<tr>
+<td>6</td>
+<td><code>1201986080</code></td>
+<td><code>48.22219</code></td>
+<td><code>2.33336</code></td>
+<td><code>00</code></td>
+</tr>
+</tbody>
+</table>
+
+<p>From #1 to #3, you can see a not moving device, with a constant timestamp will end consume only 1 byte.</p>
+
+<p>From #4 to #6, a moving device with a constant speed will take 1 byte per coordinate, then end consume and share the exact same 1 control byte.</p>
+
+<p>By using these simple solutions <a href="https://www.microsoft.com/en-us/research/publication/t-drive-trajectory-data-sample/?from=http%3A%2F%2Fresearch.microsoft.com%2Fapps%2Fpubs%2F%3Fid%3D152883">on real data</a>, it&rsquo;s compressing better than common compressors, being very easy on CPU consumption:</p>
+
+<p>Let&rsquo;s compare the compressed size to other algorithms:</p>
+
+<pre><code>Size: 64776     Snappy 61007    LZ4 57225       TSD 23948
+Size: 18864     Snappy 18870    LZ4 18267       TSD 9883
+Size: 15768     Snappy 12721    LZ4 11860       TSD 4775
+</code></pre>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>There is nothing revolutionary here and it can be improved a lot (6 bits used on the control byte, XORing values, RLE&hellip;) but it demonstrates a simple specialized piece of software could perform better than someone else compression library.</p>
+
+<p>The code for <a href="https://github.com/akhenakh/tsd/">tsd is up on Github</a> !</p>
+
+<h2 id="hiring">Hiring</h2>
+
+<p>Looking for a remote full time employee or contractor, contact me.</p>
+
+</article>
+<nav class="no-print post-nav">
+
+	<a class="prev-post" href="https://blog.nobugware.com/post/2019/an_application_for__mapping_storing_your_iot_devices_data/">
+		<img class="icon-text" src="https://blog.nobugware.com/img/prev.svg"/>An application to map and store your IoT devices data</a>
+
+
+</nav>
+
+
+<section id="related">
+  <h4>See Also</h4>
+  <ul>
+    
+  	<li><a href="https://blog.nobugware.com/post/2019/an_application_for__mapping_storing_your_iot_devices_data/">An application to map and store your IoT devices data</a></li>
+  	
+  	<li><a href="https://blog.nobugware.com/post/2019/self_hosted_world_maps/">Self Hosted World Maps</a></li>
+  	
+  	<li><a href="https://blog.nobugware.com/post/2018/wasm_go_s2_javascript/">Wasm with Go to build an S2 cover map viewer</a></li>
+  	
+  </ul>
+</section>
+
+
+
+
+			<hr class="sep" />
+		</main>
+		<footer class="container no-print">
+			<div class="u-footer">
+				
+
+<a href="https://github.com/akhenakh/"><img class="icon-social" src="https://blog.nobugware.com/img/github.svg" alt="Github"/></a>
+
+
+<a href="https://twitter.com/akhenakh"><img class="icon-social" src="https://blog.nobugware.com/img/twitter.svg" alt="Twitter"/></a>
+
+<a href="https://blog.nobugware.com/index.xml" target="_blank"><img class="icon-social" src="https://blog.nobugware.com/img/feed.svg" alt="Feed"></a>
+
+				<p>
+					
+					Theme used: <a href="https://github.com/yursan9/manis-hugo-theme">Manis</a><br>
+					
+					
+					
+				</p>
+				
+				<a href="#brand">
+					<img class="icon-text" src="https://blog.nobugware.com/img/toup.svg" alt="To Up"/>
+					<span>Back to Up</span>
+				</a>
+				
+			</div>
+		</footer>
+                
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-1245966-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+
+		
+	</body>
+</html>
+

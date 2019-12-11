@@ -6,10 +6,22 @@
     <description>Recent content in Geo on Fabrice Aneche</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 29 Nov 2019 06:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 11 Dec 2019 11:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://blog.nobugware.com/categories/geo/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>A Time Series Storage for Coordinates</title>
+      <link>https://blog.nobugware.com/post/2019/time_series_storage_for_coordinates/</link>
+      <pubDate>Wed, 11 Dec 2019 11:00:00 +0000</pubDate>
+      
+      <guid>https://blog.nobugware.com/post/2019/time_series_storage_for_coordinates/</guid>
+      <description>TL;DR; Knowing your data helps compress them better than common algorithms.
+Problem For one of my side projects, an IoT database, I wanted a specialized time series to store timestamps coupled with coordinates.
+I needed a simple solution which allows live and cold compressed storage with gaps in it: IoT devices can be off for days then reappear.
+But couldn&amp;rsquo;t find anything fitting my needs, the Gorilla Paper from Facebook is really nice but expects a 4 hours maximum gap between time events.</description>
+    </item>
     
     <item>
       <title>An application to map and store your IoT devices data</title>

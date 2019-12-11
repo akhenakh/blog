@@ -3,42 +3,47 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
-    <loc>https://blog.nobugware.com/post/2019/an_application_for__mapping_storing_your_iot_devices_data/</loc>
-    <lastmod>2019-11-29T06:00:00+00:00</lastmod>
+    <loc>https://blog.nobugware.com/post/2019/time_series_storage_for_coordinates/</loc>
+    <lastmod>2019-12-11T11:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://blog.nobugware.com/categories/</loc>
-    <lastmod>2019-11-29T06:00:00+00:00</lastmod>
+    <lastmod>2019-12-11T11:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://blog.nobugware.com/</loc>
-    <lastmod>2019-11-29T06:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://blog.nobugware.com/categories/geo/</loc>
-    <lastmod>2019-11-29T06:00:00+00:00</lastmod>
+    <lastmod>2019-12-11T11:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://blog.nobugware.com/tags/geo/</loc>
-    <lastmod>2019-11-29T06:00:00+00:00</lastmod>
+    <lastmod>2019-12-11T11:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.nobugware.com/categories/geo/</loc>
+    <lastmod>2019-12-11T11:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://blog.nobugware.com/tags/go/</loc>
-    <lastmod>2019-11-29T06:00:00+00:00</lastmod>
+    <lastmod>2019-12-11T11:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://blog.nobugware.com/post/</loc>
-    <lastmod>2019-11-29T06:00:00+00:00</lastmod>
+    <lastmod>2019-12-11T11:00:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>https://blog.nobugware.com/tags/</loc>
+    <lastmod>2019-12-11T11:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://blog.nobugware.com/post/2019/an_application_for__mapping_storing_your_iot_devices_data/</loc>
     <lastmod>2019-11-29T06:00:00+00:00</lastmod>
   </url>
   

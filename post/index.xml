@@ -6,10 +6,25 @@
     <description>Recent content in Posts on Fabrice Aneche</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 11 Dec 2019 11:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 18 Dec 2019 18:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://blog.nobugware.com/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>k3s, containterd &amp; ZFS</title>
+      <link>https://blog.nobugware.com/post/2019/k3s-containterd-zfs/</link>
+      <pubDate>Wed, 18 Dec 2019 18:00:00 +0000</pubDate>
+      
+      <guid>https://blog.nobugware.com/post/2019/k3s-containterd-zfs/</guid>
+      <description>To simplify distribution k3s does not ship with zfs support.
+But can work with by relying on an existing containerd enabled zfs, here is how:
+Requierements Install cni-plugins and crictl
+Ensure your containerd includes the zfs plugins:
+ctr plugins ls ... io.containerd.snapshotter.v1 zfs linux/amd64 ok  Configuration Create the default containerd config file
+mkdir -p /etc/containerd/ containerd config default &amp;gt; /etc/containerd/config.toml  Change the snapshotter to &amp;quot;zfs&amp;quot;
+ [plugins.&amp;quot;io.containerd.grpc.v1.cri&amp;quot;.containerd] snapshotter = &amp;quot;zfs&amp;quot;  And in my special Arch case also change the path to the cni binaries:</description>
+    </item>
     
     <item>
       <title>A Time Series Storage for Coordinates</title>

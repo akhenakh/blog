@@ -6,10 +6,55 @@
     <description>Recent content in Tags on Fabrice Aneche</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 11 Dec 2019 11:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 18 Dec 2019 18:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://blog.nobugware.com/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>containerd</title>
+      <link>https://blog.nobugware.com/tags/containerd/</link>
+      <pubDate>Wed, 18 Dec 2019 18:00:00 +0000</pubDate>
+      
+      <guid>https://blog.nobugware.com/tags/containerd/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>devops</title>
+      <link>https://blog.nobugware.com/tags/devops/</link>
+      <pubDate>Wed, 18 Dec 2019 18:00:00 +0000</pubDate>
+      
+      <guid>https://blog.nobugware.com/tags/devops/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>k3s</title>
+      <link>https://blog.nobugware.com/tags/k3s/</link>
+      <pubDate>Wed, 18 Dec 2019 18:00:00 +0000</pubDate>
+      
+      <guid>https://blog.nobugware.com/tags/k3s/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Kubernetes</title>
+      <link>https://blog.nobugware.com/tags/kubernetes/</link>
+      <pubDate>Wed, 18 Dec 2019 18:00:00 +0000</pubDate>
+      
+      <guid>https://blog.nobugware.com/tags/kubernetes/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>zfs</title>
+      <link>https://blog.nobugware.com/tags/zfs/</link>
+      <pubDate>Wed, 18 Dec 2019 18:00:00 +0000</pubDate>
+      
+      <guid>https://blog.nobugware.com/tags/zfs/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>Geo</title>
@@ -30,29 +75,11 @@
     </item>
     
     <item>
-      <title>devops</title>
-      <link>https://blog.nobugware.com/tags/devops/</link>
-      <pubDate>Tue, 12 Nov 2019 03:00:00 +0000</pubDate>
-      
-      <guid>https://blog.nobugware.com/tags/devops/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>gRPC</title>
+      <title>grpc</title>
       <link>https://blog.nobugware.com/tags/grpc/</link>
       <pubDate>Tue, 12 Nov 2019 03:00:00 +0000</pubDate>
       
       <guid>https://blog.nobugware.com/tags/grpc/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Kubernetes</title>
-      <link>https://blog.nobugware.com/tags/kubernetes/</link>
-      <pubDate>Tue, 12 Nov 2019 03:00:00 +0000</pubDate>
-      
-      <guid>https://blog.nobugware.com/tags/kubernetes/</guid>
       <description></description>
     </item>
     
@@ -134,15 +161,6 @@
       <pubDate>Wed, 19 Jun 2019 06:00:00 -0400</pubDate>
       
       <guid>https://blog.nobugware.com/tags/arm64/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>k3s</title>
-      <link>https://blog.nobugware.com/tags/k3s/</link>
-      <pubDate>Wed, 19 Jun 2019 06:00:00 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/tags/k3s/</guid>
       <description></description>
     </item>
     
@@ -458,15 +476,6 @@
       <pubDate>Tue, 28 Feb 2012 15:32:47 -0400</pubDate>
       
       <guid>https://blog.nobugware.com/tags/vnet/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>zfs</title>
-      <link>https://blog.nobugware.com/tags/zfs/</link>
-      <pubDate>Tue, 28 Feb 2012 15:32:47 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/tags/zfs/</guid>
       <description></description>
     </item>
     

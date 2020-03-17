@@ -8,7 +8,7 @@
 
 		<meta name="description" content="TL;DR; simply run docker pull akhenakh/kvtiles:planet-9-latest for a self hosted free performant world map (more maps and levels available see kvtiles docker tags).
 I&rsquo;ve blogged in the past to describe how to generate and serves your own map tiles server, but I wanted an easier solution.
-KVTiles kvtiles is a map tiles self hosted solution written in Go, it&rsquo;s using Mapbox vector format but rather than using the regular sqlite3 database it&rsquo;s using a KV storage.">
+KVTiles kvtiles is a map tiles self hosted solution written in Go, it&rsquo;s using Mapbox vector format but rather than using the regular sqlite3 database it&rsquo;s using a key-value storage.">
 
 
 		
@@ -69,9 +69,9 @@ KVTiles kvtiles is a map tiles self hosted solution written in Go, it&rsquo;s us
 
 <h2 id="kvtiles">KVTiles</h2>
 
-<p><a href="https://github.com/akhenakh/kvtiles">kvtiles</a> is a map tiles self hosted solution written in Go, it&rsquo;s using <a href="https://docs.mapbox.com/vector-tiles/specification/">Mapbox vector format</a> but rather than using the regular sqlite3 database it&rsquo;s using a KV storage.</p>
+<p><a href="https://github.com/akhenakh/kvtiles">kvtiles</a> is a map tiles self hosted solution written in Go, it&rsquo;s using <a href="https://docs.mapbox.com/vector-tiles/specification/">Mapbox vector format</a> but rather than using the regular sqlite3 database it&rsquo;s using a key-value storage.</p>
 
-<h3 id="kv">KV</h3>
+<h3 id="key-value">Key-value</h3>
 
 <p>The sqlite3 Go client is not native and require compiling using CGO.<br />
 By not using it we can use a lighter Docker image like <a href="https://github.com/GoogleContainerTools/distroless">distroless</a>.<br />

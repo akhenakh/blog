@@ -19,7 +19,7 @@
       <guid>https://blog.nobugware.com/post/2020/free-maps-for-all/</guid>
       <description>TL;DR; simply run docker pull akhenakh/kvtiles:planet-9-latest for a self hosted free performant world map (more maps and levels available see kvtiles docker tags).
 I&amp;rsquo;ve blogged in the past to describe how to generate and serves your own map tiles server, but I wanted an easier solution.
-KVTiles kvtiles is a map tiles self hosted solution written in Go, it&amp;rsquo;s using Mapbox vector format but rather than using the regular sqlite3 database it&amp;rsquo;s using a KV storage.</description>
+KVTiles kvtiles is a map tiles self hosted solution written in Go, it&amp;rsquo;s using Mapbox vector format but rather than using the regular sqlite3 database it&amp;rsquo;s using a key-value storage.</description>
     </item>
     
     <item>

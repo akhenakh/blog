@@ -6,7 +6,7 @@
 		<meta name="generator" content="Hugo 0.58.1" />
 		<title>Free Maps For All - Fabrice Aneche</title>
 
-		<meta name="description" content="TL;DR; simply run docker pull akhenakh/kvtiles:planet-9-latest for a self hosted free performant world map (more maps and levels available see kvtiles docker tags ).
+		<meta name="description" content="TL;DR; simply run docker pull akhenakh/kvtiles:planet-9-latest for a self hosted free performant world map (more maps and levels available see kvtiles docker tags).
 I&rsquo;ve blogged in the past to describe how to generate and serves your own map tiles server, but I wanted an easier solution.
 KVTiles kvtiles is a map tiles self hosted solution written in Go, it&rsquo;s using Mapbox vector format but rather than using the regular sqlite3 database it&rsquo;s using a KV storage.">
 
@@ -63,8 +63,7 @@ KVTiles kvtiles is a map tiles self hosted solution written in Go, it&rsquo;s us
 </header>
 	
 
-<p><em>TL;DR;</em> simply run <code>docker pull akhenakh/kvtiles:planet-9-latest</code> for a self hosted free performant world map (more maps and levels available see <a href="https://hub.docker.com/r/akhenakh/kvtiles/tags">kvtiles docker tags</a>
-).</p>
+<p><em>TL;DR;</em> simply run <code>docker pull akhenakh/kvtiles:planet-9-latest</code> for a self hosted free performant world map (more maps and levels available see <a href="https://hub.docker.com/r/akhenakh/kvtiles/tags">kvtiles docker tags</a>).</p>
 
 <p>I&rsquo;ve blogged in the past to describe <a href="https://blog.nobugware.com/post/2019/self_hosted_world_maps/">how to generate and serves your own map tiles server</a>, but I wanted an easier solution.</p>
 
@@ -74,13 +73,17 @@ KVTiles kvtiles is a map tiles self hosted solution written in Go, it&rsquo;s us
 
 <h3 id="kv">KV</h3>
 
-<p>One advantage of doing without sqlite3: not using CGO, it helps to reduce images size by using <a href="https://github.com/GoogleContainerTools/distroless">distroless</a>.<br />
-Also on this specific load and environment (reads only) Key Value storage are more efficient, for kvtiles I&rsquo;m using <a href="https://github.com/etcd-io/bbolt">bbolt</a>.<br />
-I&rsquo;ve been testing several engines, you can see some results in <a href="https://github.com/akhenakh/insideout#kv-engines">another geo related project insideout</a>.</p>
+<p>The sqlite3 Go client is not native and require compiling using CGO.<br />
+By not using it we can use a lighter Docker image like <a href="https://github.com/GoogleContainerTools/distroless">distroless</a>.<br />
+Also on this specific workload and environment, where we do reads only queries against the database, a key-value storage is more efficient.<br />
+kvtiles is using <a href="https://github.com/etcd-io/bbolt">bbolt</a>.<br />
+I’ve been testing several key-value engines for this type of workloads and you can see some results in <a href="https://github.com/akhenakh/insideout#kv-engines">another geo related project insideout</a>.</p>
 
 <h2 id="docker-kubernetes">Docker &amp; Kubernetes</h2>
 
-<p>Main goal of kvtiles is to be run in Docker/Kubernetes, the maps are pregenerated then stored in a key value database then embedded in a Docker image with the proper tags.</p>
+<p>The main target of kvtiles is to be run in Docker/Kubernetes.<br />
+During the build, the maps are pregenerated then stored in a key value database.<br />
+The database is then embedded in a Docker image with the proper tags.</p>
 
 <p>You can browse all the different regions and levels on docker hub via <a href="https://hub.docker.com/r/akhenakh/kvtiles/tags">kvtiles docker tags</a></p>
 
@@ -110,7 +113,7 @@ Since kvtiles is capable of serving thousands of requests per seconds you won&rs
 
 <h2 id="free">Free</h2>
 
-<p>I was thinking about a creating a paid service to offer supports and maps updates but regarding the situation with Covid-19, having a free self hosted map could maybe help some organizations works in the field.</p>
+<p>I was thinking about creating a paid service to offer supports and maps updates but regarding the situation with Covid-19, having a free self hosted map could maybe help some organizations works in the field.</p>
 
 </article>
 <nav class="no-print post-nav">

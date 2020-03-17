@@ -89,7 +89,7 @@ kubectl create secret generic admin-authsecret --from-file=users  Create a middl
     <item>
       <title>Self Hosted World Maps</title>
       <link>https://blog.nobugware.com/post/2019/self_hosted_world_maps/</link>
-      <pubDate>Fri, 04 Oct 2019 13:00:00 -0400</pubDate>
+      <pubDate>Fri, 04 Oct 2019 17:00:00 +0000</pubDate>
       
       <guid>https://blog.nobugware.com/post/2019/self_hosted_world_maps/</guid>
       <description>Maps are fun, self hosted maps are awesome !

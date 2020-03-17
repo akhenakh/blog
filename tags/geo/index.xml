@@ -6,10 +6,21 @@
     <description>Recent content in Geo on Fabrice Aneche</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 11 Dec 2019 11:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 17 Mar 2020 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://blog.nobugware.com/tags/geo/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Free Maps For All</title>
+      <link>https://blog.nobugware.com/post/2020/free-maps-for-all/</link>
+      <pubDate>Tue, 17 Mar 2020 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.nobugware.com/post/2020/free-maps-for-all/</guid>
+      <description>TL;DR; simply run docker pull akhenakh/kvtiles:planet-9-latest for a self hosted free performant world map (more maps and levels available see below).
+I&amp;rsquo;ve blogged in the past to describe how to generate and serves your own map tiles server, but I wanted an easier solution.
+KVTiles kvtiles is a map tiles self hosted solution written in Go, it&amp;rsquo;s using Mapbox vector format but rather than using the regular sqlite3 database it&amp;rsquo;s using a KV storage.</description>
+    </item>
     
     <item>
       <title>A Time Series Storage for Coordinates</title>

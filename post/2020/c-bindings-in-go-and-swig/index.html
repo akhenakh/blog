@@ -10,7 +10,7 @@
 Unfortunately the swig for Go is very limited, so as the Swig &amp; Go documentation.
 Here are some notes taken while writing a binding from c&#43;&#43; to Go:
 To bind standard types into Golang Let&rsquo;s look at this c&#43;&#43; function:
-int64_t Ticks() const;  Simply import sdtint into swig
+int64_t Ticks() const;  Simply include sdtint into swig
 %include &quot;stdint.">
 
 
@@ -81,7 +81,7 @@ int64_t Ticks() const;  Simply import sdtint into swig
 <pre><code class="language-c++">int64_t Ticks() const;
 </code></pre>
 
-<p>Simply import <code>sdtint</code> into swig</p>
+<p>Simply include <code>sdtint</code> into swig</p>
 
 <pre><code class="language-swig">%include &quot;stdint.i&quot;
 </code></pre>

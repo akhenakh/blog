@@ -21,7 +21,7 @@
 Unfortunately the swig for Go is very limited, so as the Swig &amp;amp; Go documentation.
 Here are some notes taken while writing a binding from c++ to Go:
 To bind standard types into Golang Let&amp;rsquo;s look at this c++ function:
-int64_t Ticks() const;  Simply import sdtint into swig
+int64_t Ticks() const;  Simply include sdtint into swig
 %include &amp;quot;stdint.</description>
     </item>
     

@@ -133,6 +133,8 @@ for i := 0; i &lt; int(cdetails.Capacity()); i++ {
 
 <h2 id="transforming-c-exceptions-into-go-errors">Transforming c++ exceptions into Go errors</h2>
 
+<p>Tell swig about it:</p>
+
 <pre><code class="language-swig">%include &quot;exception.i&quot;
 %exception {
     try {

@@ -95,25 +95,24 @@ int64_t Ticks() const;   Simply import sdtint
 <pre><code class="language-swig">%include &quot;std_string.i&quot;
 </code></pre></li>
 
-<li><p>Using <code>std::list</code> &amp; <code>std::vector</code></p></li>
-</ul>
+<li><p>Using <code>std::list</code> &amp; <code>std::vector</code>
+This example function returns a vector of structs.</p>
 
-<p>This example function returns a vector of structs.</p>
-
-<pre><code class="language-c++">  std::vector&lt;struct PassDetails&gt; GeneratePassList(
-                                               const double lat,
-                                               const double lng);
+<pre><code class="language-c++">std::vector&lt;struct PassDetails&gt; GeneratePassList(
+                                           const double lat,
+                                           const double lng);
 </code></pre>
 
 <p>Help swig with these imports</p>
 
-<pre><code class="language-swig">  %include &lt;typemaps.i&gt;
-  %include &quot;std_vector.i&quot;
+<pre><code class="language-swig">%include &lt;typemaps.i&gt;
+%include &quot;std_vector.i&quot;
 
-  namespace std {
-     %template(PassDetailsVector) vector&lt;PassDetails&gt;;
-  }
-</code></pre>
+namespace std {
+ %template(PassDetailsVector) vector&lt;PassDetails&gt;;
+}
+</code></pre></li>
+</ul>
 
 <p>Translates into Go</p>
 
@@ -140,15 +139,15 @@ int64_t Ticks() const;   Simply import sdtint
       _swig_gopanic(e.what());
   }
 }
-</code></pre></li>
-</ul>
+</code></pre>
 
 <p>Here is a c++ class which can raise exceptions</p>
 
-<pre><code class="language-c++">  class Tle {
-  public:
-      Tle(const std::string&amp; line_one, const std::string&amp; line_two);
-</code></pre>
+<pre><code class="language-c++">class Tle {
+public:
+  Tle(const std::string&amp; line_one, const std::string&amp; line_two);
+</code></pre></li>
+</ul>
 
 <p>Wrap the real function into yours, catch the panic and transform into error</p>
 

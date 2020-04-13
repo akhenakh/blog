@@ -6,7 +6,7 @@
     <description>Recent content in Posts on Fabrice Aneche</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 12 Apr 2020 04:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 11 Apr 2020 04:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://blog.nobugware.com/post/index.xml" rel="self" type="application/rss+xml" />
     
@@ -14,15 +14,16 @@
     <item>
       <title>C&#43;&#43; bindings in Go and Swig</title>
       <link>https://blog.nobugware.com/post/2020/c-bindings-in-go-and-swig/</link>
-      <pubDate>Sun, 12 Apr 2020 04:00:00 +0000</pubDate>
+      <pubDate>Sat, 11 Apr 2020 04:00:00 +0000</pubDate>
       
       <guid>https://blog.nobugware.com/post/2020/c-bindings-in-go-and-swig/</guid>
       <description>Swig is a tool to generate bindings for c/c++, it can produce bindings for Python, Java, Go and more.
 Unfortunately the swig for Go is very limited, so as the Swig &amp;amp; Go documentation.
 Here are some notes taken while writing a binding from c++ to Go:
  To tranform standard types to Golang
-int64_t Ticks() const;  %include &amp;quot;stdint.i&amp;quot;   It will translate to Go
- func Ticks() int64   std::string as Go string</description>
+int64_t Ticks() const;  Simply import sdtint
+%include &amp;quot;stdint.i&amp;quot;  It will translate to Go
+func Ticks() int64  std::string as Go string</description>
     </item>
     
     <item>

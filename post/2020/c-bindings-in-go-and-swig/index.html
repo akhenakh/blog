@@ -10,8 +10,9 @@
 Unfortunately the swig for Go is very limited, so as the Swig &amp; Go documentation.
 Here are some notes taken while writing a binding from c&#43;&#43; to Go:
  To tranform standard types to Golang
-int64_t Ticks() const;  %include &quot;stdint.i&quot;   It will translate to Go
- func Ticks() int64   std::string as Go string">
+int64_t Ticks() const;  Simply import sdtint
+%include &quot;stdint.i&quot;  It will translate to Go
+func Ticks() int64  std::string as Go string">
 
 
 		
@@ -51,7 +52,7 @@ int64_t Ticks() const;  %include &quot;stdint.i&quot;   It will translate to Go
 	<h1>C&#43;&#43; bindings in Go and Swig</h1>
 	<h5>
 		
-		<time datetime="2020-04-12 04:00:00 &#43;0000 UTC">Apr 12, 2020</time>
+		<time datetime="2020-04-11 04:00:00 &#43;0000 UTC">Apr 11, 2020</time>
 		<span class="no-print">
 			-
 				
@@ -78,40 +79,57 @@ int64_t Ticks() const;  %include &quot;stdint.i&quot;   It will translate to Go
 <pre><code class="language-c++">int64_t Ticks() const;
 </code></pre>
 
+<p>Simply import <code>sdtint</code></p>
+
 <pre><code class="language-swig">%include &quot;stdint.i&quot;
-</code></pre></li>
-</ul>
+</code></pre>
 
 <p>It will translate to Go</p>
 
-<pre><code>  func Ticks() int64
-</code></pre>
+<pre><code>func Ticks() int64
+</code></pre></li>
 
-<ul>
 <li><p><code>std::string</code> as Go <code>string</code></p>
 
 <pre><code class="language-swig">%include &quot;std_string.i&quot;
 </code></pre></li>
 
-<li><p>Using <code>std::list</code> <code>std::vector</code></p>
+<li><p>Using <code>std::list</code> &amp; <code>std::vector</code></p></li>
+</ul>
 
-<pre><code class="language-c++">std::vector&lt;struct PassDetails&gt; GeneratePassList(
-                                           const double lat,
-                                           const double lng);
+<p>This example function returns a vector of structs.</p>
+
+<pre><code class="language-c++">  std::vector&lt;struct PassDetails&gt; GeneratePassList(
+                                               const double lat,
+                                               const double lng);
 </code></pre>
 
-<pre><code class="language-swig">%include &lt;typemaps.i&gt;
-%include &quot;std_vector.i&quot;
+<p>Help swig with these imports</p>
 
-namespace std {
- %template(PassDetailsVector) vector&lt;PassDetails&gt;;
-}
+<pre><code class="language-swig">  %include &lt;typemaps.i&gt;
+  %include &quot;std_vector.i&quot;
+
+  namespace std {
+     %template(PassDetailsVector) vector&lt;PassDetails&gt;;
+  }
 </code></pre>
 
-<pre><code class="language-go">func GeneratePassList(arg1 float64, arg2 float64) (_swig_ret PassDetailsVector) 
-</code></pre></li>
+<p>Translates into Go</p>
 
-<li><p>Transforming c++ exceptions into Go error</p>
+<pre><code class="language-go">  func GeneratePassList(arg1 float64, arg2 float64) (_swig_ret PassDetailsVector) 
+</code></pre>
+
+<p>Use generated helpers to access the elements</p>
+
+<pre><code class="language-go">  cdetails := cppsgp4.GeneratePassList(lat, lng)
+  for i := 0; i &lt; int(cdetails.Capacity()); i++ {
+    cpd := cdetails.Get(i)
+    ...
+  }
+</code></pre>
+
+<ul>
+<li><p>Transforming c++ exceptions into Go errors</p>
 
 <pre><code class="language-swig">%include &quot;exception.i&quot;
 %exception {

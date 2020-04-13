@@ -20,9 +20,9 @@
       <description>Swig is a tool to generate bindings for c/c++, it can produce bindings for Python, Java, Go and more.
 Unfortunately the swig for Go is very limited, so as the Swig &amp;amp; Go documentation.
 Here are some notes taken while writing a binding from c++ to Go:
-To tranform standard types to Golang int64_t Ticks() const;  Simply import sdtint
-%include &amp;quot;stdint.i&amp;quot;  It will translate into Go
-func Ticks() int64  std::string as Go string %include &amp;quot;std_string.</description>
+To tranform standard types to Golang Let&amp;rsquo;s look at this c++ function:
+int64_t Ticks() const;  Simply import sdtint into swig
+%include &amp;quot;stdint.</description>
     </item>
     
   </channel>

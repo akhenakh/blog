@@ -9,9 +9,9 @@
 		<meta name="description" content="Swig is a tool to generate bindings for c/c&#43;&#43;, it can produce bindings for Python, Java, Go and more.
 Unfortunately the swig for Go is very limited, so as the Swig &amp; Go documentation.
 Here are some notes taken while writing a binding from c&#43;&#43; to Go:
- To tranform standard types to Golang
-int64_t Ticks() const;   Simply import sdtint
-%include &quot;stdint.i&quot;  It will translate into Go">
+To tranform standard types to Golang int64_t Ticks() const;  Simply import sdtint
+%include &quot;stdint.i&quot;  It will translate into Go
+func Ticks() int64  std::string as Go string %include &quot;std_string.">
 
 
 		
@@ -66,41 +66,41 @@ int64_t Ticks() const;   Simply import sdtint
 </hgroup>
 <hr class="sep" />
 </header>
-	<p><a href="http://swig.org/">Swig</a> is a tool to generate bindings for c/c++, it can produce bindings for Python, Java, Go and more.</p>
+	
+
+<p><a href="http://swig.org/">Swig</a> is a tool to generate bindings for c/c++, it can produce bindings for Python, Java, Go and more.</p>
 
 <p>Unfortunately the swig for Go is very limited, so as the <a href="http://www.swig.org/Doc4.0/Go.html">Swig &amp; Go documentation</a>.</p>
 
 <p>Here are some notes taken while writing a binding from c++ to Go:</p>
 
-<ul>
-<li><p>To tranform standard types to Golang</p>
+<h2 id="to-tranform-standard-types-to-golang">To tranform standard types to Golang</h2>
 
 <pre><code class="language-c++">int64_t Ticks() const;
-</code></pre></li>
-</ul>
+</code></pre>
 
 <p>Simply import <code>sdtint</code></p>
 
-<pre><code class="language-swig">  %include &quot;stdint.i&quot;
+<pre><code class="language-swig">%include &quot;stdint.i&quot;
 </code></pre>
 
 <p>It will translate into Go</p>
 
-<pre><code>  func Ticks() int64
+<pre><code>func Ticks() int64
 </code></pre>
 
-<ul>
-<li><p><code>std::string</code> as Go <code>string</code></p>
+<h2 id="std-string-as-go-string"><code>std::string</code> as Go <code>string</code></h2>
 
 <pre><code class="language-swig">%include &quot;std_string.i&quot;
-</code></pre></li>
+</code></pre>
 
-<li><p>Using <code>std::list</code> &amp; <code>std::vector</code>
-This example function returns a vector of structs.</p>
+<h2 id="using-std-list-std-vector">Using <code>std::list</code> &amp; <code>std::vector</code></h2>
+
+<p>This example function returns a vector of structs.</p>
 
 <pre><code class="language-c++">std::vector&lt;struct PassDetails&gt; GeneratePassList(
-                                           const double lat,
-                                           const double lng);
+                                               const double lat,
+                                               const double lng);
 </code></pre>
 
 <p>Help swig with these imports</p>
@@ -109,35 +109,33 @@ This example function returns a vector of structs.</p>
 %include &quot;std_vector.i&quot;
 
 namespace std {
- %template(PassDetailsVector) vector&lt;PassDetails&gt;;
+   %template(PassDetailsVector) vector&lt;PassDetails&gt;;
 }
-</code></pre></li>
-</ul>
+</code></pre>
 
 <p>Translates into Go</p>
 
-<pre><code class="language-go">  func GeneratePassList(arg1 float64, arg2 float64) (_swig_ret PassDetailsVector) 
+<pre><code class="language-go">func GeneratePassList(arg1 float64, arg2 float64) (_swig_ret PassDetailsVector) 
 </code></pre>
 
 <p>Use generated helpers to access the elements</p>
 
-<pre><code class="language-go">  cdetails := cppsgp4.GeneratePassList(lat, lng)
-  for i := 0; i &lt; int(cdetails.Capacity()); i++ {
-    cpd := cdetails.Get(i)
-    ...
-  }
+<pre><code class="language-go">cdetails := cppsgp4.GeneratePassList(lat, lng)
+for i := 0; i &lt; int(cdetails.Capacity()); i++ {
+  cpd := cdetails.Get(i)
+  ...
+}
 </code></pre>
 
-<ul>
-<li><p>Transforming c++ exceptions into Go errors</p>
+<h2 id="transforming-c-exceptions-into-go-errors">Transforming c++ exceptions into Go errors</h2>
 
 <pre><code class="language-swig">%include &quot;exception.i&quot;
 %exception {
-  try {
-      $action;
-  } catch (std::runtime_error &amp;e) {
-      _swig_gopanic(e.what());
-  }
+    try {
+        $action;
+    } catch (std::runtime_error &amp;e) {
+        _swig_gopanic(e.what());
+    }
 }
 </code></pre>
 
@@ -145,23 +143,22 @@ namespace std {
 
 <pre><code class="language-c++">class Tle {
 public:
-  Tle(const std::string&amp; line_one, const std::string&amp; line_two);
-</code></pre></li>
-</ul>
+    Tle(const std::string&amp; line_one, const std::string&amp; line_two);
+</code></pre>
 
 <p>Wrap the real function into yours, catch the panic and transform into error</p>
 
-<pre><code class="language-go">  type TLE struct {
-      ctle cppsgp4.Tle
-  }
+<pre><code class="language-go">type TLE struct {
+    ctle cppsgp4.Tle
+}
 
-  func NewTLE(tle1, tle2 string) (tle *TLE, err error) {
-      defer catch(&amp;err)
-      ctle := cppsgp4.NewTle(tle1, tle2)
+func NewTLE(tle1, tle2 string) (tle *TLE, err error) {
+    defer catch(&amp;err)
+    ctle := cppsgp4.NewTle(tle1, tle2)
 
-      tle = &amp;TLE{ctle: ctle}
-      return tle, nil
-  }
+    tle = &amp;TLE{ctle: ctle}
+    return tle, nil
+}
 </code></pre>
 
 </article>

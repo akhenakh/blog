@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="generator" content="Hugo 0.58.1" />
+		<title>C&#43;&#43; bindings in Go and Swig - Fabrice Aneche</title>
+
+		<meta name="description" content="Swig is a tool to generate bindings for c/c&#43;&#43;, it can produce bindings for Python, Java, Go and more.
+Unfortunately the swig for Go is very limited, so as the Swig &amp; Go documentation.
+Here are some notes taken while writing a binding from c&#43;&#43; to Go:
+ To tranform standard types to Golang
+int64_t Ticks() const;  %include &quot;stdint.i&quot;   It will translate to Go
+ func Ticks() int64   std::string as Go string">
+
+
+		
+	
+		
+
+
+
+
+<link rel="stylesheet" href="https://blog.nobugware.com/css/ui.css">
+
+	
+		
+
+		<link  rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway">
+
+		
+	</head>
+
+<body>
+<header class="container no-print">
+	<div class="u-header">
+		<nav class="bar">
+	<ul><li>
+			<a href="https://blog.nobugware.com/">
+				<img class="icon-text" src="https://blog.nobugware.com/img/prev.svg"/>
+			</a>
+		</li><li><a href="https://blog.nobugware.com/about">About</a></li><li><a href="https://blog.nobugware.com/post/">Post</a></li></ul>
+</nav>
+
+	</div>
+</header>
+<main class="container">
+
+<article>
+	<header><hgroup id="brand">
+	<h1>C&#43;&#43; bindings in Go and Swig</h1>
+	<h5>
+		
+		<time datetime="2020-04-12 04:00:00 &#43;0000 UTC">Apr 12, 2020</time>
+		<span class="no-print">
+			-
+				
+				<a href="https://blog.nobugware.com/tags/go">go</a>
+				
+				<a href="https://blog.nobugware.com/tags/c&#43;&#43;">c&#43;&#43;</a>
+				
+				<a href="https://blog.nobugware.com/tags/swig">swig</a>
+				<span>
+	</h5>
+	
+</hgroup>
+<hr class="sep" />
+</header>
+	<p><a href="http://swig.org/">Swig</a> is a tool to generate bindings for c/c++, it can produce bindings for Python, Java, Go and more.</p>
+
+<p>Unfortunately the swig for Go is very limited, so as the <a href="http://www.swig.org/Doc4.0/Go.html">Swig &amp; Go documentation</a>.</p>
+
+<p>Here are some notes taken while writing a binding from c++ to Go:</p>
+
+<ul>
+<li><p>To tranform standard types to Golang</p>
+
+<pre><code class="language-c++">int64_t Ticks() const;
+</code></pre>
+
+<pre><code class="language-swig">%include &quot;stdint.i&quot;
+</code></pre></li>
+</ul>
+
+<p>It will translate to Go</p>
+
+<pre><code>  func Ticks() int64
+</code></pre>
+
+<ul>
+<li><p><code>std::string</code> as Go <code>string</code></p>
+
+<pre><code class="language-swig">%include &quot;std_string.i&quot;
+</code></pre></li>
+
+<li><p>Using <code>std::list</code> <code>std::vector</code></p>
+
+<pre><code class="language-c++">std::vector&lt;struct PassDetails&gt; GeneratePassList(
+                                           const double lat,
+                                           const double lng);
+</code></pre>
+
+<pre><code class="language-swig">%include &lt;typemaps.i&gt;
+%include &quot;std_vector.i&quot;
+
+namespace std {
+ %template(PassDetailsVector) vector&lt;PassDetails&gt;;
+}
+</code></pre>
+
+<pre><code class="language-go">func GeneratePassList(arg1 float64, arg2 float64) (_swig_ret PassDetailsVector) 
+</code></pre></li>
+
+<li><p>Transforming c++ exceptions into Go error</p>
+
+<pre><code class="language-swig">%include &quot;exception.i&quot;
+%exception {
+  try {
+      $action;
+  } catch (std::runtime_error &amp;e) {
+      _swig_gopanic(e.what());
+  }
+}
+</code></pre>
+
+<p>Here is a c++ class which can raise exceptions</p>
+
+<pre><code class="language-c++">class Tle {
+public:
+  Tle(const std::string&amp; line_one, const std::string&amp; line_two);
+</code></pre></li>
+</ul>
+
+<p>Wrap the real function into yours, catch the panic and transform into error</p>
+
+<pre><code class="language-go">  type TLE struct {
+      ctle cppsgp4.Tle
+  }
+
+  func NewTLE(tle1, tle2 string) (tle *TLE, err error) {
+      defer catch(&amp;err)
+      ctle := cppsgp4.NewTle(tle1, tle2)
+
+      tle = &amp;TLE{ctle: ctle}
+      return tle, nil
+  }
+</code></pre>
+
+</article>
+<nav class="no-print post-nav">
+
+	<a class="prev-post" href="https://blog.nobugware.com/post/2020/free-maps-for-all/">
+		<img class="icon-text" src="https://blog.nobugware.com/img/prev.svg"/>Free Maps For All</a>
+
+
+</nav>
+
+
+<section id="related">
+  <h4>See Also</h4>
+  <ul>
+    
+  	<li><a href="https://blog.nobugware.com/post/2020/free-maps-for-all/">Free Maps For All</a></li>
+  	
+  	<li><a href="https://blog.nobugware.com/post/2019/time_series_storage_for_coordinates/">A Time Series Storage for Coordinates</a></li>
+  	
+  	<li><a href="https://blog.nobugware.com/post/2019/an_application_for__mapping_storing_your_iot_devices_data/">An application to map and store your IoT devices data</a></li>
+  	
+  </ul>
+</section>
+
+
+
+
+			<hr class="sep" />
+		</main>
+		<footer class="container no-print">
+			<div class="u-footer">
+				
+
+<a href="https://github.com/akhenakh/"><img class="icon-social" src="https://blog.nobugware.com/img/github.svg" alt="Github"/></a>
+
+
+<a href="https://twitter.com/akhenakh"><img class="icon-social" src="https://blog.nobugware.com/img/twitter.svg" alt="Twitter"/></a>
+
+<a href="https://blog.nobugware.com/index.xml" target="_blank"><img class="icon-social" src="https://blog.nobugware.com/img/feed.svg" alt="Feed"></a>
+
+				<p>
+					
+					Theme used: <a href="https://github.com/yursan9/manis-hugo-theme">Manis</a><br>
+					
+					
+					
+				</p>
+				
+				<a href="#brand">
+					<img class="icon-text" src="https://blog.nobugware.com/img/toup.svg" alt="To Up"/>
+					<span>Back to Up</span>
+				</a>
+				
+			</div>
+		</footer>
+                
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-1245966-1', 'auto');
+ga('send', 'pageview');
+
+</script>
+
+		
+	</body>
+</html>
+

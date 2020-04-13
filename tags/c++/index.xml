@@ -21,9 +21,8 @@
 Unfortunately the swig for Go is very limited, so as the Swig &amp;amp; Go documentation.
 Here are some notes taken while writing a binding from c++ to Go:
  To tranform standard types to Golang
-int64_t Ticks() const;  Simply import sdtint
-%include &amp;quot;stdint.i&amp;quot;  It will translate to Go
-func Ticks() int64  std::string as Go string</description>
+int64_t Ticks() const;   Simply import sdtint
+%include &amp;quot;stdint.i&amp;quot;  It will translate into Go</description>
     </item>
     
   </channel>

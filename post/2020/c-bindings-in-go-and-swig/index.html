@@ -10,9 +10,8 @@
 Unfortunately the swig for Go is very limited, so as the Swig &amp; Go documentation.
 Here are some notes taken while writing a binding from c&#43;&#43; to Go:
  To tranform standard types to Golang
-int64_t Ticks() const;  Simply import sdtint
-%include &quot;stdint.i&quot;  It will translate to Go
-func Ticks() int64  std::string as Go string">
+int64_t Ticks() const;   Simply import sdtint
+%include &quot;stdint.i&quot;  It will translate into Go">
 
 
 		
@@ -77,18 +76,20 @@ func Ticks() int64  std::string as Go string">
 <li><p>To tranform standard types to Golang</p>
 
 <pre><code class="language-c++">int64_t Ticks() const;
-</code></pre>
+</code></pre></li>
+</ul>
 
 <p>Simply import <code>sdtint</code></p>
 
-<pre><code class="language-swig">%include &quot;stdint.i&quot;
+<pre><code class="language-swig">  %include &quot;stdint.i&quot;
 </code></pre>
 
-<p>It will translate to Go</p>
+<p>It will translate into Go</p>
 
-<pre><code>func Ticks() int64
-</code></pre></li>
+<pre><code>  func Ticks() int64
+</code></pre>
 
+<ul>
 <li><p><code>std::string</code> as Go <code>string</code></p>
 
 <pre><code class="language-swig">%include &quot;std_string.i&quot;
@@ -139,15 +140,15 @@ func Ticks() int64  std::string as Go string">
       _swig_gopanic(e.what());
   }
 }
-</code></pre>
+</code></pre></li>
+</ul>
 
 <p>Here is a c++ class which can raise exceptions</p>
 
-<pre><code class="language-c++">class Tle {
-public:
-  Tle(const std::string&amp; line_one, const std::string&amp; line_two);
-</code></pre></li>
-</ul>
+<pre><code class="language-c++">  class Tle {
+  public:
+      Tle(const std::string&amp; line_one, const std::string&amp; line_two);
+</code></pre>
 
 <p>Wrap the real function into yours, catch the panic and transform into error</p>
 

@@ -1,151 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta charset="utf-8"/>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<meta name="generator" content="Hugo 0.58.1" />
-		<title>FreeBSD on Google Compute Engine - Fabrice Aneche</title>
-
-		<meta name="description" content="First you need to create a VirtualBox FreeBSD install using a 10G qcow format, use an SCSI controller for the install as the disk will be visible as da0 inside GCE.
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=generator content="Hugo 0.74.2"><title>FreeBSD on Google Compute Engine - Fabrice Aneche</title><meta name=description content="First you need to create a VirtualBox FreeBSD install using a 10G qcow format, use an SCSI controller for the install as the disk will be visible as da0 inside GCE.
 On FreeBSD 10.1 I had to load virtio manually, so set this in /boot/loader.conf
-`virtio_load=&quot;YES&quot; virtio_pci_load=&quot;YES&quot; virtio_blk_load=&quot;YES&quot; if_vtnet_load=&quot;YES&quot;`  Copy your ssh key in your home user .ssh/authorized_keys, be sure to be in the wheel group.
-On a Mac you need to install GNU tar (brew install gnu-tar), shutdown your VirtualBox vm and upload your image to GCE">
-
-
-		
-	
-		
-
-
-
-
-<link rel="stylesheet" href="https://blog.nobugware.com/css/ui.css">
-
-	
-		
-
-		<link  rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway">
-
-		
-	</head>
-
-<body>
-<header class="container no-print">
-	<div class="u-header">
-		<nav class="bar">
-	<ul><li>
-			<a href="https://blog.nobugware.com/">
-				<img class="icon-text" src="https://blog.nobugware.com/img/prev.svg"/>
-			</a>
-		</li><li><a href="https://blog.nobugware.com/about">About</a></li><li><a href="https://blog.nobugware.com/post/">Post</a></li></ul>
-</nav>
-
-	</div>
-</header>
-<main class="container">
-
-<article>
-	<header><hgroup id="brand">
-	<h1>FreeBSD on Google Compute Engine</h1>
-	<h5>
-		
-		<time datetime="2014-11-28 20:29:34.98646 -0400 -0400">Nov 28, 2014</time>
-		<span class="no-print">
-			-
-				
-				<a href="https://blog.nobugware.com/tags/freebsd%20gce">freebsd gce</a>
-				<span>
-	</h5>
-	
-</hgroup>
-<hr class="sep" />
-</header>
-	<p>First you need to create a VirtualBox FreeBSD install using a 10G qcow format,
+`virtio_load=&#34;YES&#34; virtio_pci_load=&#34;YES&#34; virtio_blk_load=&#34;YES&#34; if_vtnet_load=&#34;YES&#34;` Copy your ssh key in your home user .ssh/authorized_keys, be sure to be in the wheel group.
+On a Mac you need to install GNU tar (brew install gnu-tar), shutdown your VirtualBox vm and upload your image to GCE"><link rel=stylesheet href=https://blog.nobugware.com/css/ui.css><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway"></head><body><header class="container no-print"><div class=u-header><nav class=bar><ul><li><a href=https://blog.nobugware.com/><img class=icon-text src=https://blog.nobugware.com/img/prev.svg></a></li><li><a href=https://blog.nobugware.com/about>About</a></li><li><a href=https://blog.nobugware.com/post/>Post</a></li></ul></nav></div></header><main class=container><article><header><hgroup id=brand><h1>FreeBSD on Google Compute Engine</h1><h5><time datetime="2014-11-28 20:29:34.98646 -0400 -0400">Nov 28, 2014</time>
+<span class=no-print>-
+<a href=https://blog.nobugware.com/tags/freebsd%20gce>freebsd gce</a>
+<span></h5></hgroup><hr class=sep></header><p>First you need to create a VirtualBox FreeBSD install using a 10G qcow format,
 use an SCSI controller for the install as the disk will be visible as da0
-inside GCE.</p>
-
-<p>On FreeBSD 10.1 I had to load virtio manually, so set this in
-/boot/loader.conf</p>
-
-<pre><code>`virtio_load=&quot;YES&quot;
+inside GCE.</p><p>On FreeBSD 10.1 I had to load virtio manually, so set this in
+/boot/loader.conf</p><pre><code>`virtio_load=&quot;YES&quot;
 virtio_pci_load=&quot;YES&quot;
 virtio_blk_load=&quot;YES&quot;
 if_vtnet_load=&quot;YES&quot;`
-</code></pre>
-
-<p>Copy your ssh key in your home user .ssh/authorized_keys, be sure to be in the
-wheel group.</p>
-
-<p>On a Mac you need to install GNU tar (brew install gnu-tar), shutdown your
-VirtualBox vm and upload your image to GCE</p>
-
-<pre><code>`VBoxManage clonehd -format RAW ../VirtualBox\ VMs/FreeBSDGCE/BSDGCE.qcow
+</code></pre><p>Copy your ssh key in your home user .ssh/authorized_keys, be sure to be in the
+wheel group.</p><p>On a Mac you need to install GNU tar (brew install gnu-tar), shutdown your
+VirtualBox vm and upload your image to GCE</p><pre><code>`VBoxManage clonehd -format RAW ../VirtualBox\ VMs/FreeBSDGCE/BSDGCE.qcow
 ~/Downloads/disk.raw
 gtar -Szcf freebsd.tar.gz disk.raw
 gsutil mb gs://bsdimage
 gsutil cp freebsd.tar.gz gs://bsdimage/gce-bsd.tar.gz
 gcutil addimage freebsd  gs://bsdimage/gce-bsd.tar.gz`
-</code></pre>
-
-<p>You should now see &ldquo;freebsd&rdquo; as available install image in your console</p>
-
-</article>
-<nav class="no-print post-nav">
-
-	<a class="prev-post" href="https://blog.nobugware.com/post/2014/07/28/simple-aprs/">
-		<img class="icon-text" src="https://blog.nobugware.com/img/prev.svg"/>Simple APRS KK6NXK</a>
-
-
-	<a class="next-post" href="https://blog.nobugware.com/post/2014/12/13/airspy-on-linux/">Airspy on Linux<img class="icon-text" src="https://blog.nobugware.com/img/next.svg"/>
-	</a>
-
-</nav>
-
-
-
-
-
-			<hr class="sep" />
-		</main>
-		<footer class="container no-print">
-			<div class="u-footer">
-				
-
-<a href="https://github.com/akhenakh/"><img class="icon-social" src="https://blog.nobugware.com/img/github.svg" alt="Github"/></a>
-
-
-<a href="https://twitter.com/akhenakh"><img class="icon-social" src="https://blog.nobugware.com/img/twitter.svg" alt="Twitter"/></a>
-
-<a href="https://blog.nobugware.com/index.xml" target="_blank"><img class="icon-social" src="https://blog.nobugware.com/img/feed.svg" alt="Feed"></a>
-
-				<p>
-					
-					Theme used: <a href="https://github.com/yursan9/manis-hugo-theme">Manis</a><br>
-					
-					
-					
-				</p>
-				
-				<a href="#brand">
-					<img class="icon-text" src="https://blog.nobugware.com/img/toup.svg" alt="To Up"/>
-					<span>Back to Up</span>
-				</a>
-				
-			</div>
-		</footer>
-                
-<script>
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-ga('create', 'UA-1245966-1', 'auto');
-ga('send', 'pageview');
-
-</script>
-
-		
-	</body>
-</html>
-
+</code></pre><p>You should now see &ldquo;freebsd&rdquo; as available install image in your console</p></article><nav class="no-print post-nav"><a class=prev-post href=https://blog.nobugware.com/post/2014/07/28/simple-aprs/><img class=icon-text src=https://blog.nobugware.com/img/prev.svg>Simple APRS KK6NXK</a>
+<a class=next-post href=https://blog.nobugware.com/post/2014/12/13/airspy-on-linux/>Airspy on Linux<img class=icon-text src=https://blog.nobugware.com/img/next.svg></a></nav><hr class=sep></main><footer class="container no-print"><div class=u-footer><a href=https://github.com/akhenakh/><img class=icon-social src=https://blog.nobugware.com/img/github.svg alt=Github></a>
+<a href=https://twitter.com/akhenakh><img class=icon-social src=https://blog.nobugware.com/img/twitter.svg alt=Twitter></a>
+<a href=https://blog.nobugware.com/index.xml target=_blank><img class=icon-social src=https://blog.nobugware.com/img/feed.svg alt=Feed></a><p>Theme used: <a href=https://github.com/yursan9/manis-hugo-theme>Manis</a><br></p><a href=#brand><img class=icon-text src=https://blog.nobugware.com/img/toup.svg alt="To Up">
+<span>Back to Up</span></a></div></footer><script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-1245966-1','auto');ga('send','pageview');</script></body></html>

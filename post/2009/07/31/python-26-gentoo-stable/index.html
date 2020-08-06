@@ -1,168 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta charset="utf-8"/>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<meta name="generator" content="Hugo 0.58.1" />
-		<title>Python 2.6 in Gentoo stable - Fabrice Aneche</title>
-
-		<meta name="description" content="It was so long but python 2.6 is now in Gentoo stable, here is how to upgrade.
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=generator content="Hugo 0.74.2"><title>Python 2.6 in Gentoo stable - Fabrice Aneche</title><meta name=description content="It was so long but python 2.6 is now in Gentoo stable, here is how to upgrade.
 First emerge &ndash;sync your ports tree (as of 31st July 2009).
 Then update your ports _emerge -upvD world _remove -p when ready.
 When emerging python-2.6.2 it will become the main python, as you can see with eselect python list.
-So you only have to rebuild every ports that rely on python, simple ? Yes with python-update">
-
-
-		
-	
-		
-
-
-
-
-<link rel="stylesheet" href="https://blog.nobugware.com/css/ui.css">
-
-	
-		
-
-		<link  rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway">
-
-		
-	</head>
-
-<body>
-<header class="container no-print">
-	<div class="u-header">
-		<nav class="bar">
-	<ul><li>
-			<a href="https://blog.nobugware.com/">
-				<img class="icon-text" src="https://blog.nobugware.com/img/prev.svg"/>
-			</a>
-		</li><li><a href="https://blog.nobugware.com/about">About</a></li><li><a href="https://blog.nobugware.com/post/">Post</a></li></ul>
-</nav>
-
-	</div>
-</header>
-<main class="container">
-
-<article>
-	<header><hgroup id="brand">
-	<h1>Python 2.6 in Gentoo stable</h1>
-	<h5>
-		
-		<time datetime="2009-07-31 10:37:34 -0400 -0400">Jul 31, 2009</time>
-		<span class="no-print">
-			-
-				
-				<a href="https://blog.nobugware.com/tags/python">python</a>
-				
-				<a href="https://blog.nobugware.com/tags/gentoo">gentoo</a>
-				<span>
-	</h5>
-	
-</hgroup>
-<hr class="sep" />
-</header>
-	<p>It was so long but python 2.6 is now in Gentoo stable, here is how to upgrade.</p>
-
-<p>First <em>emerge &ndash;sync</em> your ports tree (as of 31st July 2009).</p>
-
-<p>Then update your ports _emerge -upvD world _remove -p when ready.</p>
-
-<p>When emerging python-2.6.2 it will become the main python, as you can see with
-<em>eselect python list.</em></p>
-
-<p><em>So you only have to rebuild every ports that rely on python, simple ? Yes
-with python-update</em></p>
-
-<p><em>Just run python-update It will run all the needed emerge for you (40 ports on
-my server)</em></p>
-
-<p>_Remove the old python version(s) with emerge &ndash;prune python _(Note that
-removal is not mandatory, old python interpreter could coexists).</p>
-
-<p>_Run revdep-rebuild _to be sure there is no remaining tools that depends on
+So you only have to rebuild every ports that rely on python, simple ? Yes with python-update"><link rel=stylesheet href=https://blog.nobugware.com/css/ui.css><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway"></head><body><header class="container no-print"><div class=u-header><nav class=bar><ul><li><a href=https://blog.nobugware.com/><img class=icon-text src=https://blog.nobugware.com/img/prev.svg></a></li><li><a href=https://blog.nobugware.com/about>About</a></li><li><a href=https://blog.nobugware.com/post/>Post</a></li></ul></nav></div></header><main class=container><article><header><hgroup id=brand><h1>Python 2.6 in Gentoo stable</h1><h5><time datetime="2009-07-31 10:37:34 -0400 -0400">Jul 31, 2009</time>
+<span class=no-print>-
+<a href=https://blog.nobugware.com/tags/python>python</a>
+<a href=https://blog.nobugware.com/tags/gentoo>gentoo</a>
+<span></h5></hgroup><hr class=sep></header><p>It was so long but python 2.6 is now in Gentoo stable, here is how to upgrade.</p><p>First <em>emerge &ndash;sync</em> your ports tree (as of 31st July 2009).</p><p>Then update your ports _emerge -upvD world _remove -p when ready.</p><p>When emerging python-2.6.2 it will become the main python, as you can see with
+<em>eselect python list.</em></p><p><em>So you only have to rebuild every ports that rely on python, simple ? Yes
+with python-update</em></p><p><em>Just run python-update It will run all the needed emerge for you (40 ports on
+my server)</em></p><p>_Remove the old python version(s) with emerge &ndash;prune python _(Note that
+removal is not mandatory, old python interpreter could coexists).</p><p>_Run revdep-rebuild _to be sure there is no remaining tools that depends on
 libpython2.5, then you are done, restart your apache, daemons, whatever is in
-Python.</p>
-
-<p>Happy Python.</p>
-
-<p>PS: if you are using postgresql-8.3 as stable, you will have some problems
-with egenix-mx-base: a package needed by postgresql-server</p>
-
-<p>dev-db/postgresql-server-8.3.7 (python? dev-python/egenix-mx-base)</p>
-
-<p>There is a &ldquo;with&rdquo; parameter in a function, in 2.6 witch is a reserved keyword
-solution was to update to &gt;=dev-python/egenix-mx-base-3.1.1.</p>
-
-</article>
-<nav class="no-print post-nav">
-
-	<a class="prev-post" href="https://blog.nobugware.com/post/2009/07/28/ultimate-solaris-10-jumpstart-profile/">
-		<img class="icon-text" src="https://blog.nobugware.com/img/prev.svg"/>An ultimate solaris 10 jumpstart profile</a>
-
-
-	<a class="next-post" href="https://blog.nobugware.com/post/2009/08/04/iphone-and-ipod-blog/">iPhone and iPod blog<img class="icon-text" src="https://blog.nobugware.com/img/next.svg"/>
-	</a>
-
-</nav>
-
-
-<section id="related">
-  <h4>See Also</h4>
-  <ul>
-    
-  	<li><a href="https://blog.nobugware.com/post/2008/12/04/python-30-out/">Python 3.0 is out</a></li>
-  	
-  	<li><a href="https://blog.nobugware.com/post/2008/12/03/gentoo-bref-recap-des-commandes-de-gestion-de-paquets/">Gentoo bref récap des commandes de gestion de paquets</a></li>
-  	
-  </ul>
-</section>
-
-
-
-
-			<hr class="sep" />
-		</main>
-		<footer class="container no-print">
-			<div class="u-footer">
-				
-
-<a href="https://github.com/akhenakh/"><img class="icon-social" src="https://blog.nobugware.com/img/github.svg" alt="Github"/></a>
-
-
-<a href="https://twitter.com/akhenakh"><img class="icon-social" src="https://blog.nobugware.com/img/twitter.svg" alt="Twitter"/></a>
-
-<a href="https://blog.nobugware.com/index.xml" target="_blank"><img class="icon-social" src="https://blog.nobugware.com/img/feed.svg" alt="Feed"></a>
-
-				<p>
-					
-					Theme used: <a href="https://github.com/yursan9/manis-hugo-theme">Manis</a><br>
-					
-					
-					
-				</p>
-				
-				<a href="#brand">
-					<img class="icon-text" src="https://blog.nobugware.com/img/toup.svg" alt="To Up"/>
-					<span>Back to Up</span>
-				</a>
-				
-			</div>
-		</footer>
-                
-<script>
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-ga('create', 'UA-1245966-1', 'auto');
-ga('send', 'pageview');
-
-</script>
-
-		
-	</body>
-</html>
-
+Python.</p><p>Happy Python.</p><p>PS: if you are using postgresql-8.3 as stable, you will have some problems
+with egenix-mx-base: a package needed by postgresql-server</p><p>dev-db/postgresql-server-8.3.7 (python? dev-python/egenix-mx-base)</p><p>There is a &ldquo;with&rdquo; parameter in a function, in 2.6 witch is a reserved keyword
+solution was to update to >=dev-python/egenix-mx-base-3.1.1.</p></article><nav class="no-print post-nav"><a class=prev-post href=https://blog.nobugware.com/post/2009/07/28/ultimate-solaris-10-jumpstart-profile/><img class=icon-text src=https://blog.nobugware.com/img/prev.svg>An ultimate solaris 10 jumpstart profile</a>
+<a class=next-post href=https://blog.nobugware.com/post/2009/08/04/iphone-and-ipod-blog/>iPhone and iPod blog<img class=icon-text src=https://blog.nobugware.com/img/next.svg></a></nav><section id=related><h4>See Also</h4><ul><li><a href=https://blog.nobugware.com/post/2008/12/04/python-30-out/>Python 3.0 is out</a></li><li><a href=https://blog.nobugware.com/post/2008/12/03/gentoo-bref-recap-des-commandes-de-gestion-de-paquets/>Gentoo bref récap des commandes de gestion de paquets</a></li></ul></section><hr class=sep></main><footer class="container no-print"><div class=u-footer><a href=https://github.com/akhenakh/><img class=icon-social src=https://blog.nobugware.com/img/github.svg alt=Github></a>
+<a href=https://twitter.com/akhenakh><img class=icon-social src=https://blog.nobugware.com/img/twitter.svg alt=Twitter></a>
+<a href=https://blog.nobugware.com/index.xml target=_blank><img class=icon-social src=https://blog.nobugware.com/img/feed.svg alt=Feed></a><p>Theme used: <a href=https://github.com/yursan9/manis-hugo-theme>Manis</a><br></p><a href=#brand><img class=icon-text src=https://blog.nobugware.com/img/toup.svg alt="To Up">
+<span>Back to Up</span></a></div></footer><script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-1245966-1','auto');ga('send','pageview');</script></body></html>

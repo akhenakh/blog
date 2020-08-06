@@ -1,80 +1,12 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>HamRadio on Fabrice Aneche</title>
-    <link>https://blog.nobugware.com/categories/hamradio/</link>
-    <description>Recent content in HamRadio on Fabrice Aneche</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <lastBuildDate>Fri, 22 Jul 2016 19:11:47 -0400</lastBuildDate>
-    
-	<atom:link href="https://blog.nobugware.com/categories/hamradio/index.xml" rel="self" type="application/rss+xml" />
-    
-    
-    <item>
-      <title>Streaming using a Raspberry Pi Camera to Twitch in Full HD while injecting audio from rtl sdr</title>
-      <link>https://blog.nobugware.com/post/2016/streaming_raspberry_twitch_audio_rtl_sdr/</link>
-      <pubDate>Fri, 22 Jul 2016 19:11:47 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2016/streaming_raspberry_twitch_audio_rtl_sdr/</guid>
-      <description>I have found the right setup to stream in 1080p from a Raspberry Pi using the camera to TwitchTV while injecting audio on the fly!
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>HamRadio on Fabrice Aneche</title><link>https://blog.nobugware.com/categories/hamradio/</link><description>Recent content in HamRadio on Fabrice Aneche</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Fri, 22 Jul 2016 19:11:47 -0400</lastBuildDate><atom:link href="https://blog.nobugware.com/categories/hamradio/index.xml" rel="self" type="application/rss+xml"/><item><title>Streaming using a Raspberry Pi Camera to Twitch in Full HD while injecting audio from rtl sdr</title><link>https://blog.nobugware.com/post/2016/streaming_raspberry_twitch_audio_rtl_sdr/</link><pubDate>Fri, 22 Jul 2016 19:11:47 -0400</pubDate><guid>https://blog.nobugware.com/post/2016/streaming_raspberry_twitch_audio_rtl_sdr/</guid><description>I have found the right setup to stream in 1080p from a Raspberry Pi using the camera to TwitchTV while injecting audio on the fly!
 Create an account on Twitch and grab you stream key in the Dashboard.
-This stream.sh script will create a FIFO start rtl_fm at freq 162.550M to listen to Canada weather bulletin (use your local NOAA channel) and inject and encode the audio to the existing h264 stream from the camera then stream it to twitch using rtmp.</description>
-    </item>
-    
-    <item>
-      <title>MyAPRS APRS for iPhone</title>
-      <link>https://blog.nobugware.com/post/2016/myaprs_aprs_on_iphone/</link>
-      <pubDate>Mon, 11 Jan 2016 09:33:36 -0500</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2016/myaprs_aprs_on_iphone/</guid>
-      <description>I&amp;rsquo;m happy to announce a new side project: MyAPRS, a modern iOS APRS application, for radio amateur enthusiasts.
+This stream.sh script will create a FIFO start rtl_fm at freq 162.550M to listen to Canada weather bulletin (use your local NOAA channel) and inject and encode the audio to the existing h264 stream from the camera then stream it to twitch using rtmp.</description></item><item><title>MyAPRS APRS for iPhone</title><link>https://blog.nobugware.com/post/2016/myaprs_aprs_on_iphone/</link><pubDate>Mon, 11 Jan 2016 09:33:36 -0500</pubDate><guid>https://blog.nobugware.com/post/2016/myaprs_aprs_on_iphone/</guid><description>I&amp;rsquo;m happy to announce a new side project: MyAPRS, a modern iOS APRS application, for radio amateur enthusiasts.
 I&amp;rsquo;ve already mentioned APRS on this blog, it will mainly be useful for radio amateurs but can be interesting to RTL-SDR listeners too.
-The application is built around LevelDB and geo hashing as mentioned in this post blog, it&amp;rsquo;s a lot faster than using SQLite especially on iOS, SatSat is still using the SQLite cities lookup and you can compare it&amp;rsquo;s terribly slow.</description>
-    </item>
-    
-    <item>
-      <title>Listening to satellites for 30 dollars</title>
-      <link>https://blog.nobugware.com/post/2015/listening_to_satellites_for_30_dollars/</link>
-      <pubDate>Mon, 09 Nov 2015 18:51:43 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2015/listening_to_satellites_for_30_dollars/</guid>
-      <description>I&amp;rsquo;ve ever dreamed of space &amp;amp; satellites, it turms out you can received pictures from them.
+The application is built around LevelDB and geo hashing as mentioned in this post blog, it&amp;rsquo;s a lot faster than using SQLite especially on iOS, SatSat is still using the SQLite cities lookup and you can compare it&amp;rsquo;s terribly slow.</description></item><item><title>Listening to satellites for 30 dollars</title><link>https://blog.nobugware.com/post/2015/listening_to_satellites_for_30_dollars/</link><pubDate>Mon, 09 Nov 2015 18:51:43 -0400</pubDate><guid>https://blog.nobugware.com/post/2015/listening_to_satellites_for_30_dollars/</guid><description>I&amp;rsquo;ve ever dreamed of space &amp;amp; satellites, it turms out you can received pictures from them.
 After getting my radio amateur license in the US, I&amp;rsquo;ve discovered there was some satellites dedicated to radio amateurs but also some weather satellites from the late 90s still working and capable of sending pictures from the space like this one NOOA-15.
-SDR You don&amp;rsquo;t need expensive hardware anymore thanks to the SDR movement Software defined radio and some great developers, a simple 20$ USB key and some pratices are good enough to make it work.</description>
-    </item>
-    
-    <item>
-      <title>Airspy on Linux</title>
-      <link>https://blog.nobugware.com/post/2014/12/13/airspy-on-linux/</link>
-      <pubDate>Sat, 13 Dec 2014 07:55:48 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2014/12/13/airspy-on-linux/</guid>
-      <description>Airspy is an SDR with amazing specs, but drivers are slowly coming to your prefered os.
+SDR You don&amp;rsquo;t need expensive hardware anymore thanks to the SDR movement Software defined radio and some great developers, a simple 20$ USB key and some pratices are good enough to make it work.</description></item><item><title>Airspy on Linux</title><link>https://blog.nobugware.com/post/2014/12/13/airspy-on-linux/</link><pubDate>Sat, 13 Dec 2014 07:55:48 -0400</pubDate><guid>https://blog.nobugware.com/post/2014/12/13/airspy-on-linux/</guid><description>Airspy is an SDR with amazing specs, but drivers are slowly coming to your prefered os.
 This apply to Arch but should apply to any recent Linux.
-I&amp;rsquo;ve first compiled libairspy but always had the error AIRSPY_ERROR_NOT_FOUND and &amp;quot;usbfs: interface 0 claimed by airspy while &#39;airspy_info&#39; sets config #1&amp;quot;
-Since Linux 3.17 comes with an airspy v4l autoloaded driver making impossible to use it with libusb: no airspy_info and no gqrx.</description>
-    </item>
-    
-    <item>
-      <title>Simple APRS KK6NXK</title>
-      <link>https://blog.nobugware.com/post/2014/07/28/simple-aprs/</link>
-      <pubDate>Mon, 28 Jul 2014 17:36:59 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2014/07/28/simple-aprs/</guid>
-      <description>APRS is a tactical digital communications system used between amateurs radio, to exchange positions &amp;amp; messages, here I blog my experience decoding/encoding APRS with a small Arduino as it may help some of you too.
-Some transceivers are incorporating this functionalities but most of them don&amp;rsquo;t, a lot of new technicians start with cheap Baofeng radios (30$) which don&amp;rsquo;t provide advanced functionnalities but here is a way to solve that.</description>
-    </item>
-    
-    <item>
-      <title>Got my amateur radio license KK6NXK</title>
-      <link>https://blog.nobugware.com/post/2014/07/08/got-my-amateur-radio-license-kk6nxk/</link>
-      <pubDate>Tue, 08 Jul 2014 01:22:33 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2014/07/08/got-my-amateur-radio-license-kk6nxk/</guid>
-      <description>When I was a young child, I remember listening to an old radio receiver with my grandfather, looking for morse transmission.
-30 years later, I take the opportunity to get my radio amateur license in the US, it was not difficult (Technicial license is easy), especially cause US radio amateurs are using the metric system (almost all the time &amp;hellip;), the only difficulties were to learn some terms and simple formulas from french to english and to know some parts of regulation by heart (I have never been able to learn by heart).</description>
-    </item>
-    
-  </channel>
-</rss>
+I&amp;rsquo;ve first compiled libairspy but always had the error AIRSPY_ERROR_NOT_FOUND and &amp;quot;usbfs: interface 0 claimed by airspy while 'airspy_info' sets config #1&amp;quot;
+Since Linux 3.17 comes with an airspy v4l autoloaded driver making impossible to use it with libusb: no airspy_info and no gqrx.</description></item><item><title>Simple APRS KK6NXK</title><link>https://blog.nobugware.com/post/2014/07/28/simple-aprs/</link><pubDate>Mon, 28 Jul 2014 17:36:59 -0400</pubDate><guid>https://blog.nobugware.com/post/2014/07/28/simple-aprs/</guid><description>APRS is a tactical digital communications system used between amateurs radio, to exchange positions &amp;amp; messages, here I blog my experience decoding/encoding APRS with a small Arduino as it may help some of you too.
+Some transceivers are incorporating this functionalities but most of them don&amp;rsquo;t, a lot of new technicians start with cheap Baofeng radios (30$) which don&amp;rsquo;t provide advanced functionnalities but here is a way to solve that.</description></item><item><title>Got my amateur radio license KK6NXK</title><link>https://blog.nobugware.com/post/2014/07/08/got-my-amateur-radio-license-kk6nxk/</link><pubDate>Tue, 08 Jul 2014 01:22:33 -0400</pubDate><guid>https://blog.nobugware.com/post/2014/07/08/got-my-amateur-radio-license-kk6nxk/</guid><description>When I was a young child, I remember listening to an old radio receiver with my grandfather, looking for morse transmission.
+30 years later, I take the opportunity to get my radio amateur license in the US, it was not difficult (Technicial license is easy), especially cause US radio amateurs are using the metric system (almost all the time &amp;hellip;), the only difficulties were to learn some terms and simple formulas from french to english and to know some parts of regulation by heart (I have never been able to learn by heart).</description></item></channel></rss>

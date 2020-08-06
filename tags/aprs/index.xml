@@ -1,25 +1,2 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>aprs on Fabrice Aneche</title>
-    <link>https://blog.nobugware.com/tags/aprs/</link>
-    <description>Recent content in aprs on Fabrice Aneche</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <lastBuildDate>Mon, 28 Jul 2014 17:36:59 -0400</lastBuildDate>
-    
-	<atom:link href="https://blog.nobugware.com/tags/aprs/index.xml" rel="self" type="application/rss+xml" />
-    
-    
-    <item>
-      <title>Simple APRS KK6NXK</title>
-      <link>https://blog.nobugware.com/post/2014/07/28/simple-aprs/</link>
-      <pubDate>Mon, 28 Jul 2014 17:36:59 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2014/07/28/simple-aprs/</guid>
-      <description>APRS is a tactical digital communications system used between amateurs radio, to exchange positions &amp;amp; messages, here I blog my experience decoding/encoding APRS with a small Arduino as it may help some of you too.
-Some transceivers are incorporating this functionalities but most of them don&amp;rsquo;t, a lot of new technicians start with cheap Baofeng radios (30$) which don&amp;rsquo;t provide advanced functionnalities but here is a way to solve that.</description>
-    </item>
-    
-  </channel>
-</rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>aprs on Fabrice Aneche</title><link>https://blog.nobugware.com/tags/aprs/</link><description>Recent content in aprs on Fabrice Aneche</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Mon, 28 Jul 2014 17:36:59 -0400</lastBuildDate><atom:link href="https://blog.nobugware.com/tags/aprs/index.xml" rel="self" type="application/rss+xml"/><item><title>Simple APRS KK6NXK</title><link>https://blog.nobugware.com/post/2014/07/28/simple-aprs/</link><pubDate>Mon, 28 Jul 2014 17:36:59 -0400</pubDate><guid>https://blog.nobugware.com/post/2014/07/28/simple-aprs/</guid><description>APRS is a tactical digital communications system used between amateurs radio, to exchange positions &amp;amp; messages, here I blog my experience decoding/encoding APRS with a small Arduino as it may help some of you too.
+Some transceivers are incorporating this functionalities but most of them don&amp;rsquo;t, a lot of new technicians start with cheap Baofeng radios (30$) which don&amp;rsquo;t provide advanced functionnalities but here is a way to solve that.</description></item></channel></rss>

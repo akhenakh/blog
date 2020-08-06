@@ -1,53 +1,12 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>solaris, on Fabrice Aneche</title>
-    <link>https://blog.nobugware.com/tags/solaris/</link>
-    <description>Recent content in solaris, on Fabrice Aneche</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <lastBuildDate>Tue, 28 Jul 2009 19:22:12 -0400</lastBuildDate>
-    
-	<atom:link href="https://blog.nobugware.com/tags/solaris/index.xml" rel="self" type="application/rss+xml" />
-    
-    
-    <item>
-      <title>An ultimate solaris 10 jumpstart profile</title>
-      <link>https://blog.nobugware.com/post/2009/07/28/ultimate-solaris-10-jumpstart-profile/</link>
-      <pubDate>Tue, 28 Jul 2009 19:22:12 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2009/07/28/ultimate-solaris-10-jumpstart-profile/</guid>
-      <description>After years of pain playing with Solaris 10 Jumpstart&amp;rsquo;s package clusters, I took some time to build an ultimate install profile for Solaris 10.
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>solaris, on Fabrice Aneche</title><link>https://blog.nobugware.com/tags/solaris/</link><description>Recent content in solaris, on Fabrice Aneche</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 28 Jul 2009 19:22:12 -0400</lastBuildDate><atom:link href="https://blog.nobugware.com/tags/solaris/index.xml" rel="self" type="application/rss+xml"/><item><title>An ultimate solaris 10 jumpstart profile</title><link>https://blog.nobugware.com/post/2009/07/28/ultimate-solaris-10-jumpstart-profile/</link><pubDate>Tue, 28 Jul 2009 19:22:12 -0400</pubDate><guid>https://blog.nobugware.com/post/2009/07/28/ultimate-solaris-10-jumpstart-profile/</guid><description>After years of pain playing with Solaris 10 Jumpstart&amp;rsquo;s package clusters, I took some time to build an ultimate install profile for Solaris 10.
 The available packages clusters are :
- SUNWCrnet is Reduced Network Support Software Group. -&amp;gt; lack of everything, from bash to bzip SUNWCreq is Core System Support Software Group. -&amp;gt; lack of bash, manpages&amp;hellip; SUNWCuser is End User Solaris Software Group. -&amp;gt; include CDE Desktop, Mozilla, etc SUNWCprog is Developer Solaris Software Group.</description>
-    </item>
-    
-    <item>
-      <title>Understanding the ZFS tuning</title>
-      <link>https://blog.nobugware.com/post/2009/02/26/understanding-zfs-tuning/</link>
-      <pubDate>Thu, 26 Feb 2009 11:37:40 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2009/02/26/understanding-zfs-tuning/</guid>
-      <description>ZFS is all about performance (many levels of caching, pre-fetch, &amp;hellip;) and memory consumption :-)
-Here are my last links about ZFS internals, it&amp;rsquo;s worth a read if you plan to use ZFS on large productions :
- The slides of Adam Leventhal&amp;rsquo;s talk for the OpenSolaris Storage Summit : ZFS, Cache, and Flash
- c0t0d0s0.org : a very good explanation of the ARC cache : most recently used pages, most frequently used pages and their ghosts lists Some insight into the read cache of ZFS - or: The ARC and the [](http://www.</description>
-    </item>
-    
-    <item>
-      <title>Virtualbox NAT ssh to guest</title>
-      <link>https://blog.nobugware.com/post/2009/02/17/virtualbox-nat-ssh-guest/</link>
-      <pubDate>Tue, 17 Feb 2009 11:35:49 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2009/02/17/virtualbox-nat-ssh-guest/</guid>
-      <description>In NAT mode (the default one), virtualbox does not give you the possibility to directly connect to your guest os.
+SUNWCrnet is Reduced Network Support Software Group. -&amp;gt; lack of everything, from bash to bzip SUNWCreq is Core System Support Software Group. -&amp;gt; lack of bash, manpages&amp;hellip; SUNWCuser is End User Solaris Software Group. -&amp;gt; include CDE Desktop, Mozilla, etc SUNWCprog is Developer Solaris Software Group.</description></item><item><title>Understanding the ZFS tuning</title><link>https://blog.nobugware.com/post/2009/02/26/understanding-zfs-tuning/</link><pubDate>Thu, 26 Feb 2009 11:37:40 -0400</pubDate><guid>https://blog.nobugware.com/post/2009/02/26/understanding-zfs-tuning/</guid><description>ZFS is all about performance (many levels of caching, pre-fetch, &amp;hellip;) and memory consumption :-)
+Here are my last links about ZFS [internals](http://src.opensolaris.org/source/xref/onnv/onnv- gate/usr/src/cmd/mdb/common/modules/zfs/zfs.c#333), it&amp;rsquo;s worth a read if you plan to use ZFS on large productions :
+The slides of Adam Leventhal&amp;rsquo;s talk for the OpenSolaris Storage Summit : ZFS, Cache, and Flash
+c0t0d0s0.org : a very good explanation of the ARC cache : most recently used pages, most frequently used pages and their ghosts lists Some insight into the read cache of ZFS - or: The ARC and the writing side</description></item><item><title>Virtualbox NAT ssh to guest</title><link>https://blog.nobugware.com/post/2009/02/17/virtualbox-nat-ssh-guest/</link><pubDate>Tue, 17 Feb 2009 11:35:49 -0400</pubDate><guid>https://blog.nobugware.com/post/2009/02/17/virtualbox-nat-ssh-guest/</guid><description>In NAT mode (the default one), virtualbox does not give you the possibility to directly connect to your guest os.
 Here is how to configure your Virtualbox to simply ssh myguest
 For example my guest is called &amp;ldquo;Solaris10u6&amp;rdquo;, configured to used e1000 card, the default in solaris configuration, (The host os is a Mac).
 Type this command in terminal:
 `VBoxManage setextradata Solaris10u6 &amp;ldquo;VBoxInternal/Devices/e1000/0/LUN#0/Config/ssh/Protocol&amp;rdquo; TCP
 VBoxManage setextradata Solaris10u6 &amp;ldquo;VBoxInternal/Devices/e1000/0/LUN#0/Config/ssh/GuestPort&amp;rdquo; 22
-VBoxManage setextradata Solaris10u6 &amp;ldquo;VBoxInternal/Devices/e1000/0/LUN#0/Config/ssh/HostPort&amp;rdquo; 2222 `</description>
-    </item>
-    
-  </channel>
-</rss>
+VBoxManage setextradata Solaris10u6 &amp;ldquo;VBoxInternal/Devices/e1000/0/LUN#0/Config/ssh/HostPort&amp;rdquo; 2222 `</description></item></channel></rss>

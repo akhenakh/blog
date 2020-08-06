@@ -1,52 +1,11 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>traefik on Fabrice Aneche</title>
-    <link>https://blog.nobugware.com/tags/traefik/</link>
-    <description>Recent content in traefik on Fabrice Aneche</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <lastBuildDate>Mon, 07 Oct 2019 00:00:00 -0400</lastBuildDate>
-    
-	<atom:link href="https://blog.nobugware.com/tags/traefik/index.xml" rel="self" type="application/rss+xml" />
-    
-    
-    <item>
-      <title>Advanced Traefik 2.0 with Kubernetes</title>
-      <link>https://blog.nobugware.com/post/2019/advanced-traefik-2-0-with-kubernetes/</link>
-      <pubDate>Mon, 07 Oct 2019 00:00:00 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2019/advanced-traefik-2-0-with-kubernetes/</guid>
-      <description>Following my earlier post about Traefik 2 and Kubernetes, here are some advanced configuration examples and a full yaml example at the end of this post:
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>traefik on Fabrice Aneche</title><link>https://blog.nobugware.com/tags/traefik/</link><description>Recent content in traefik on Fabrice Aneche</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Mon, 07 Oct 2019 00:00:00 -0400</lastBuildDate><atom:link href="https://blog.nobugware.com/tags/traefik/index.xml" rel="self" type="application/rss+xml"/><item><title>Advanced Traefik 2.0 with Kubernetes</title><link>https://blog.nobugware.com/post/2019/advanced-traefik-2-0-with-kubernetes/</link><pubDate>Mon, 07 Oct 2019 00:00:00 -0400</pubDate><guid>https://blog.nobugware.com/post/2019/advanced-traefik-2-0-with-kubernetes/</guid><description>Following my earlier post about Traefik 2 and Kubernetes, here are some advanced configuration examples and a full yaml example at the end of this post:
 Protecting a route with a password Create an htpasswd file named users for a user admin
- htpasswd -c users admin  Use kubectl to create the secret (easier for multi lines file).
-kubectl create secret generic admin-authsecret --from-file=users  Create a middleware for authentication:</description>
-    </item>
-    
-    <item>
-      <title>Traefik 2.0 with Kubernetes</title>
-      <link>https://blog.nobugware.com/post/2019/traefik-2-0-with-kubernetes/</link>
-      <pubDate>Tue, 17 Sep 2019 00:00:00 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2019/traefik-2-0-with-kubernetes/</guid>
-      <description>Traefik 2.0 is here !
+htpasswd -c users admin Use kubectl to create the secret (easier for multi lines file).
+kubectl create secret generic admin-authsecret --from-file=users Create a middleware for authentication:</description></item><item><title>Traefik 2.0 with Kubernetes</title><link>https://blog.nobugware.com/post/2019/traefik-2-0-with-kubernetes/</link><pubDate>Tue, 17 Sep 2019 00:00:00 -0400</pubDate><guid>https://blog.nobugware.com/post/2019/traefik-2-0-with-kubernetes/</guid><description>Traefik 2.0 is here !
 Traefik is a reverse proxy load balancer (and more), it can learn the routes to respond to by discovering them in multiple providers, Docker, Kubernetes &amp;hellip;
 Traefik v1.x is very stable, v2.x is fresh new tech, with breaking changes and unfinished documentation, so test it first.
 From Traefik&amp;rsquo;s documentation:
- Providers discover the services that live on your infrastructure (their IP, health, &amp;hellip;) Entrypoints listen for incoming traffic (ports, &amp;hellip;) Routers analyze the requests (host, path, headers, SSL, &amp;hellip;) Services forward the request to your services (load balancing, &amp;hellip;) Middlewares may update the request or make decisions based on the request (authentication, rate limiting, headers, &amp;hellip;)  Kubernetes In Traefik v1, Kubernetes ingress were used to discover the routes:</description>
-    </item>
-    
-    <item>
-      <title>Access Kubernetes Web Interfaces from the Outside</title>
-      <link>https://blog.nobugware.com/post/2019/access-web-interface/</link>
-      <pubDate>Mon, 09 Sep 2019 13:00:00 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2019/access-web-interface/</guid>
-      <description>Here is a simple yet useful trick to access web interface within your cluster.
+Providers discover the services that live on your infrastructure (their IP, health, &amp;hellip;) Entrypoints listen for incoming traffic (ports, &amp;hellip;) Routers analyze the requests (host, path, headers, SSL, &amp;hellip;) Services forward the request to your services (load balancing, &amp;hellip;) Middlewares may update the request or make decisions based on the request (authentication, rate limiting, headers, &amp;hellip;) Kubernetes In Traefik v1, Kubernetes ingress were used to discover the routes:</description></item><item><title>Access Kubernetes Web Interfaces from the Outside</title><link>https://blog.nobugware.com/post/2019/access-web-interface/</link><pubDate>Mon, 09 Sep 2019 13:00:00 -0400</pubDate><guid>https://blog.nobugware.com/post/2019/access-web-interface/</guid><description>Here is a simple yet useful trick to access web interface within your cluster.
 As stated in the Kubernetes documentation you can use kubectl proxy.
 I&amp;rsquo;ve seen a lot of people using the proxy to access the dashboard but you can use it to access any web interfaces, without the need to create an ingress and protect it, especially useful in dev environment.
-http://kubernetes_master_address/api/v1/namespaces/namespace_name/services/service_name[:port_name]/proxy  For example here is how to access the Traefik dashboard described as follow:</description>
-    </item>
-    
-  </channel>
-</rss>
+http://kubernetes_master_address/api/v1/namespaces/namespace_name/services/service_name[:port_name]/proxy For example here is how to access the Traefik dashboard described as follow:</description></item></channel></rss>

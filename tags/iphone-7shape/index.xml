@@ -1,26 +1,3 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>iphone 7shape on Fabrice Aneche</title>
-    <link>https://blog.nobugware.com/tags/iphone-7shape/</link>
-    <description>Recent content in iphone 7shape on Fabrice Aneche</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <lastBuildDate>Sat, 15 Jun 2013 17:59:12 -0400</lastBuildDate>
-    
-	<atom:link href="https://blog.nobugware.com/tags/iphone-7shape/index.xml" rel="self" type="application/rss+xml" />
-    
-    
-    <item>
-      <title>7shape my first iphone application</title>
-      <link>https://blog.nobugware.com/post/2013/06/15/7shape-my-first-iphone-application/</link>
-      <pubDate>Sat, 15 Jun 2013 17:59:12 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2013/06/15/7shape-my-first-iphone-application/</guid>
-      <description>As an iphone developer contractor, I&amp;rsquo;ve released some applications on the Apple Store for my customers but not on my own.
-Here is my 1st personal (30 hours) toy project: 7shape a 7 minutes workout training application, based on an NYT blog post.
-I&amp;rsquo;ve spent 20 hours on website release, marketing, 3D for the human trainer and application design, and last 10 hours to create the app and release it to Apple &amp;hellip;</description>
-    </item>
-    
-  </channel>
-</rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>iphone 7shape on Fabrice Aneche</title><link>https://blog.nobugware.com/tags/iphone-7shape/</link><description>Recent content in iphone 7shape on Fabrice Aneche</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sat, 15 Jun 2013 17:59:12 -0400</lastBuildDate><atom:link href="https://blog.nobugware.com/tags/iphone-7shape/index.xml" rel="self" type="application/rss+xml"/><item><title>7shape my first iphone application</title><link>https://blog.nobugware.com/post/2013/06/15/7shape-my-first-iphone-application/</link><pubDate>Sat, 15 Jun 2013 17:59:12 -0400</pubDate><guid>https://blog.nobugware.com/post/2013/06/15/7shape-my-first-iphone-application/</guid><description>As an iphone developer contractor, I&amp;rsquo;ve released some applications on the Apple Store for my customers but not on my own.
+Here is my 1st personal (30 hours) toy project: 7shape a 7 minutes workout training application, based on an [NYT blog](http://well.blogs.nytimes.com/2013/05/09/the- scientific-7-minute-workout/) post.
+I&amp;rsquo;ve spent 20 hours on website release, marketing, 3D for the human trainer and application design, and last 10 hours to create the app and release it to Apple &amp;hellip;</description></item></channel></rss>

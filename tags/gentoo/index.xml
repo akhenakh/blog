@@ -1,56 +1,15 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>gentoo on Fabrice Aneche</title>
-    <link>https://blog.nobugware.com/tags/gentoo/</link>
-    <description>Recent content in gentoo on Fabrice Aneche</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <lastBuildDate>Wed, 02 Feb 2011 22:06:52 -0400</lastBuildDate>
-    
-	<atom:link href="https://blog.nobugware.com/tags/gentoo/index.xml" rel="self" type="application/rss+xml" />
-    
-    
-    <item>
-      <title>Gentoo lvm&#43;raid root</title>
-      <link>https://blog.nobugware.com/post/2011/02/02/gentoo-lvmraid-root/</link>
-      <pubDate>Wed, 02 Feb 2011 22:06:52 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2011/02/02/gentoo-lvmraid-root/</guid>
-      <description>Gentoo support for lvm root is still a pain in the ass, here is a working solution.
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>gentoo on Fabrice Aneche</title><link>https://blog.nobugware.com/tags/gentoo/</link><description>Recent content in gentoo on Fabrice Aneche</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Wed, 02 Feb 2011 22:06:52 -0400</lastBuildDate><atom:link href="https://blog.nobugware.com/tags/gentoo/index.xml" rel="self" type="application/rss+xml"/><item><title>Gentoo lvm+raid root</title><link>https://blog.nobugware.com/post/2011/02/02/gentoo-lvmraid-root/</link><pubDate>Wed, 02 Feb 2011 22:06:52 -0400</pubDate><guid>https://blog.nobugware.com/post/2011/02/02/gentoo-lvmraid-root/</guid><description>Gentoo support for lvm root is still a pain in the ass, here is a working solution.
 Assuming you have 2 disks same size to be mirrored.
 You want a mirrored /boot and a big lvm.
 Start a normal gentoo installation with this disks layout:
-fdisk -l /dev/sda Device Boot Start End Blocks Id System /dev/sda1 * 1 31 248976 fd Linux raid autodetect /dev/sda2 32 242246 1945591987+ fd Linux raid autodetect fdisk -l /dev/sdb Device Boot Start End Blocks Id System /dev/sdb1 * 1 31 248976 fd Linux raid autodetect /dev/sdb2 32 242246 1945591987+ 83 Linux raid autodetect  Set both disk the boot flags on the first partition and set all partitions to FD Linux raid autodetect.</description>
-    </item>
-    
-    <item>
-      <title>Python 2.6 in Gentoo stable</title>
-      <link>https://blog.nobugware.com/post/2009/07/31/python-26-gentoo-stable/</link>
-      <pubDate>Fri, 31 Jul 2009 10:37:34 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2009/07/31/python-26-gentoo-stable/</guid>
-      <description>It was so long but python 2.6 is now in Gentoo stable, here is how to upgrade.
+fdisk -l /dev/sda Device Boot Start End Blocks Id System /dev/sda1 * 1 31 248976 fd Linux raid autodetect /dev/sda2 32 242246 1945591987+ fd Linux raid autodetect fdisk -l /dev/sdb Device Boot Start End Blocks Id System /dev/sdb1 * 1 31 248976 fd Linux raid autodetect /dev/sdb2 32 242246 1945591987+ 83 Linux raid autodetect Set both disk the boot flags on the first partition and set all partitions to FD Linux raid autodetect.</description></item><item><title>Python 2.6 in Gentoo stable</title><link>https://blog.nobugware.com/post/2009/07/31/python-26-gentoo-stable/</link><pubDate>Fri, 31 Jul 2009 10:37:34 -0400</pubDate><guid>https://blog.nobugware.com/post/2009/07/31/python-26-gentoo-stable/</guid><description>It was so long but python 2.6 is now in Gentoo stable, here is how to upgrade.
 First emerge &amp;ndash;sync your ports tree (as of 31st July 2009).
 Then update your ports _emerge -upvD world _remove -p when ready.
 When emerging python-2.6.2 it will become the main python, as you can see with eselect python list.
-So you only have to rebuild every ports that rely on python, simple ? Yes with python-update</description>
-    </item>
-    
-    <item>
-      <title>Gentoo bref récap des commandes de gestion de paquets</title>
-      <link>https://blog.nobugware.com/post/2008/12/03/gentoo-bref-recap-des-commandes-de-gestion-de-paquets/</link>
-      <pubDate>Wed, 03 Dec 2008 10:32:54 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2008/12/03/gentoo-bref-recap-des-commandes-de-gestion-de-paquets/</guid>
-      <description>Avant toute chose installer l&amp;rsquo;outil gentoolkit
+So you only have to rebuild every ports that rely on python, simple ? Yes with python-update</description></item><item><title>Gentoo bref récap des commandes de gestion de paquets</title><link>https://blog.nobugware.com/post/2008/12/03/gentoo-bref-recap-des-commandes-de-gestion-de-paquets/</link><pubDate>Wed, 03 Dec 2008 10:32:54 -0400</pubDate><guid>https://blog.nobugware.com/post/2008/12/03/gentoo-bref-recap-des-commandes-de-gestion-de-paquets/</guid><description>Avant toute chose installer l&amp;rsquo;outil gentoolkit
 emerge -av gentoolkit
 Ces nouvelles commandes vont vous permettre de:
 A quel port appartient un binaire:
- equery belongs cjpeg [ Searching for file(s) cjpeg in *... ] media-libs/jpeg-6b-r8 (/usr/bin/cjpeg)  Quels sont les dependances d&amp;rsquo;un port:
-equery depends gd [ Searching for packages depending on gd... ] dev-lang/php-5.2.6-r7 (gd-external? media-libs/gd)  Quels sont les fichiers installes par un package:
- equery files less [ Searching for packages matching less.</description>
-    </item>
-    
-  </channel>
-</rss>
+equery belongs cjpeg [ Searching for file(s) cjpeg in *... ] media-libs/jpeg-6b-r8 (/usr/bin/cjpeg) Quels sont les dependances d&amp;rsquo;un port:
+equery depends gd [ Searching for packages depending on gd... ] dev-lang/php-5.2.6-r7 (gd-external? media-libs/gd) Quels sont les fichiers installes par un package:
+equery files less [ Searching for packages matching less.</description></item></channel></rss>

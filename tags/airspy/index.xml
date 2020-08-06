@@ -1,27 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>airspy on Fabrice Aneche</title>
-    <link>https://blog.nobugware.com/tags/airspy/</link>
-    <description>Recent content in airspy on Fabrice Aneche</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <lastBuildDate>Sat, 13 Dec 2014 07:55:48 -0400</lastBuildDate>
-    
-	<atom:link href="https://blog.nobugware.com/tags/airspy/index.xml" rel="self" type="application/rss+xml" />
-    
-    
-    <item>
-      <title>Airspy on Linux</title>
-      <link>https://blog.nobugware.com/post/2014/12/13/airspy-on-linux/</link>
-      <pubDate>Sat, 13 Dec 2014 07:55:48 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2014/12/13/airspy-on-linux/</guid>
-      <description>Airspy is an SDR with amazing specs, but drivers are slowly coming to your prefered os.
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>airspy on Fabrice Aneche</title><link>https://blog.nobugware.com/tags/airspy/</link><description>Recent content in airspy on Fabrice Aneche</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sat, 13 Dec 2014 07:55:48 -0400</lastBuildDate><atom:link href="https://blog.nobugware.com/tags/airspy/index.xml" rel="self" type="application/rss+xml"/><item><title>Airspy on Linux</title><link>https://blog.nobugware.com/post/2014/12/13/airspy-on-linux/</link><pubDate>Sat, 13 Dec 2014 07:55:48 -0400</pubDate><guid>https://blog.nobugware.com/post/2014/12/13/airspy-on-linux/</guid><description>Airspy is an SDR with amazing specs, but drivers are slowly coming to your prefered os.
 This apply to Arch but should apply to any recent Linux.
-I&amp;rsquo;ve first compiled libairspy but always had the error AIRSPY_ERROR_NOT_FOUND and &amp;quot;usbfs: interface 0 claimed by airspy while &#39;airspy_info&#39; sets config #1&amp;quot;
-Since Linux 3.17 comes with an airspy v4l autoloaded driver making impossible to use it with libusb: no airspy_info and no gqrx.</description>
-    </item>
-    
-  </channel>
-</rss>
+I&amp;rsquo;ve first compiled libairspy but always had the error AIRSPY_ERROR_NOT_FOUND and &amp;quot;usbfs: interface 0 claimed by airspy while 'airspy_info' sets config #1&amp;quot;
+Since Linux 3.17 comes with an airspy v4l autoloaded driver making impossible to use it with libusb: no airspy_info and no gqrx.</description></item></channel></rss>

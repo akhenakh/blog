@@ -1,215 +1,45 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>Go on Fabrice Aneche</title>
-    <link>https://blog.nobugware.com/tags/go/</link>
-    <description>Recent content in Go on Fabrice Aneche</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <lastBuildDate>Sat, 11 Apr 2020 04:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="https://blog.nobugware.com/tags/go/index.xml" rel="self" type="application/rss+xml" />
-    
-    
-    <item>
-      <title>C&#43;&#43; bindings in Go and Swig</title>
-      <link>https://blog.nobugware.com/post/2020/c-bindings-in-go-and-swig/</link>
-      <pubDate>Sat, 11 Apr 2020 04:00:00 +0000</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2020/c-bindings-in-go-and-swig/</guid>
-      <description>Swig is a tool to generate bindings for c/c++, it can produce bindings for Python, Java, Go and more.
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Go on Fabrice Aneche</title><link>https://blog.nobugware.com/tags/go/</link><description>Recent content in Go on Fabrice Aneche</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sat, 11 Apr 2020 04:00:00 +0000</lastBuildDate><atom:link href="https://blog.nobugware.com/tags/go/index.xml" rel="self" type="application/rss+xml"/><item><title>C++ bindings in Go and Swig</title><link>https://blog.nobugware.com/post/2020/c-bindings-in-go-and-swig/</link><pubDate>Sat, 11 Apr 2020 04:00:00 +0000</pubDate><guid>https://blog.nobugware.com/post/2020/c-bindings-in-go-and-swig/</guid><description>Swig is a tool to generate bindings for c/c++, it can produce bindings for Python, Java, Go and more.
 Unfortunately Swig for Go is very limited, so as the Swig &amp;amp; Go documentation.
 Here are some notes taken while writing a binding from c++ to Go:
 To bind standard types into Golang Let&amp;rsquo;s look at this c++ function:
-int64_t Ticks() const;  Simply include sdtint into Swig
-%include &amp;quot;stdint.i&amp;quot;  It will translate into Go</description>
-    </item>
-    
-    <item>
-      <title>Free Maps For All</title>
-      <link>https://blog.nobugware.com/post/2020/free-maps-for-all/</link>
-      <pubDate>Tue, 17 Mar 2020 00:00:00 +0000</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2020/free-maps-for-all/</guid>
-      <description>TL;DR; simply run docker pull akhenakh/kvtiles:planet-9-latest for a self hosted free performant world map (more maps and levels available see kvtiles docker tags).
+int64_t Ticks() const; Simply include sdtint into Swig
+%include &amp;quot;stdint.i&amp;quot; It will translate into Go</description></item><item><title>Free Maps For All</title><link>https://blog.nobugware.com/post/2020/free-maps-for-all/</link><pubDate>Tue, 17 Mar 2020 00:00:00 +0000</pubDate><guid>https://blog.nobugware.com/post/2020/free-maps-for-all/</guid><description>TL;DR; simply run docker pull akhenakh/kvtiles:planet-9-latest for a self hosted free performant world map (more maps and levels available see kvtiles docker tags).
 I&amp;rsquo;ve blogged in the past to describe how to generate and serves your own map tiles server, but I wanted an easier solution.
-KVTiles kvtiles is a map tiles self hosted solution written in Go, it&amp;rsquo;s using Mapbox vector format but rather than using the regular sqlite3 database it&amp;rsquo;s using a key-value storage.</description>
-    </item>
-    
-    <item>
-      <title>A Time Series Storage for Coordinates</title>
-      <link>https://blog.nobugware.com/post/2019/time_series_storage_for_coordinates/</link>
-      <pubDate>Wed, 11 Dec 2019 11:00:00 +0000</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2019/time_series_storage_for_coordinates/</guid>
-      <description>TL;DR; Knowing your data helps compress them better than common algorithms.
+KVTiles kvtiles is a map tiles self hosted solution written in Go, it&amp;rsquo;s using Mapbox vector format but rather than using the regular sqlite3 database it&amp;rsquo;s using a key-value storage.</description></item><item><title>A Time Series Storage for Coordinates</title><link>https://blog.nobugware.com/post/2019/time_series_storage_for_coordinates/</link><pubDate>Wed, 11 Dec 2019 11:00:00 +0000</pubDate><guid>https://blog.nobugware.com/post/2019/time_series_storage_for_coordinates/</guid><description>TL;DR; Knowing your data helps compress them better than common algorithms.
 Problem For one of my side projects, an IoT database, I wanted a specialized time series to store timestamps coupled with coordinates.
 I needed a simple solution which allows live and cold compressed storage with gaps in it: IoT devices can be off for days then reappear.
-But couldn&amp;rsquo;t find anything fitting my needs, the Gorilla Paper from Facebook is really nice but expects a 4 hours maximum gap between time events.</description>
-    </item>
-    
-    <item>
-      <title>An application to map and store your IoT devices data</title>
-      <link>https://blog.nobugware.com/post/2019/an_application_for__mapping_storing_your_iot_devices_data/</link>
-      <pubDate>Fri, 29 Nov 2019 06:00:00 +0000</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2019/an_application_for__mapping_storing_your_iot_devices_data/</guid>
-      <description>Here in Quebec, winter is so cold it can drain your phone battery very fast.
-I wanted a private and secure solution for my hikes, so I can be followed on a map.
+But couldn&amp;rsquo;t find anything fitting my needs, the Gorilla Paper from Facebook is really nice but expects a 4 hours maximum gap between time events.</description></item><item><title>An application to map and store your IoT devices data</title><link>https://blog.nobugware.com/post/2019/an_application_for__mapping_storing_your_iot_devices_data/</link><pubDate>Fri, 29 Nov 2019 06:00:00 +0000</pubDate><guid>https://blog.nobugware.com/post/2019/an_application_for__mapping_storing_your_iot_devices_data/</guid><description>Here in Quebec, winter is so cold it can drain your phone battery very fast. I wanted a private and secure solution for my hikes, so I can be followed on a map.
 This post will introduce you to LoRaWAN and how to install your own IoT mapping application using open source tools and a new project I&amp;rsquo;m working on written in Go.
-Radio Network LoRaWAN is a network layer protocol for managing communication between LoRa devices and gateways.</description>
-    </item>
-    
-    <item>
-      <title>Nomad an alternative to Kubernetes</title>
-      <link>https://blog.nobugware.com/post/2019/nomad_an_alternative_to_kubernetes/</link>
-      <pubDate>Tue, 12 Nov 2019 03:00:00 +0000</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2019/nomad_an_alternative_to_kubernetes/</guid>
-      <description>If you are familiar with this blog you know I really appreciate Kubernetes: as a former ops I strongly believe Kubernetes is one way to bundle &amp;ldquo;the sum of 20y ops good practices&amp;rdquo;.
+Radio Network LoRaWAN is a network layer protocol for managing communication between LoRa devices and gateways.</description></item><item><title>Nomad an alternative to Kubernetes</title><link>https://blog.nobugware.com/post/2019/nomad_an_alternative_to_kubernetes/</link><pubDate>Tue, 12 Nov 2019 03:00:00 +0000</pubDate><guid>https://blog.nobugware.com/post/2019/nomad_an_alternative_to_kubernetes/</guid><description>If you are familiar with this blog you know I really appreciate Kubernetes: as a former ops I strongly believe Kubernetes is one way to bundle &amp;ldquo;the sum of 20y ops good practices&amp;rdquo;.
 But there are others solutions one is Nomad.
 It&amp;rsquo;s made by Hashicorp, creators of Vault, Consul, Terraform&amp;hellip;
 In general Hashicorp is synonym with quality.
-Nomad is a task scheduler, a task could be execute a command, run a Docker container or a QEMU vm&amp;hellip;</description>
-    </item>
-    
-    <item>
-      <title>Self Hosted World Maps</title>
-      <link>https://blog.nobugware.com/post/2019/self_hosted_world_maps/</link>
-      <pubDate>Fri, 04 Oct 2019 17:00:00 +0000</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2019/self_hosted_world_maps/</guid>
-      <description>Maps are fun, self hosted maps are awesome !
+Nomad is a task scheduler, a task could be execute a command, run a Docker container or a QEMU vm&amp;hellip;</description></item><item><title>Self Hosted World Maps</title><link>https://blog.nobugware.com/post/2019/self_hosted_world_maps/</link><pubDate>Fri, 04 Oct 2019 17:00:00 +0000</pubDate><guid>https://blog.nobugware.com/post/2019/self_hosted_world_maps/</guid><description>Maps are fun, self hosted maps are awesome !
 Serving world maps was reserved to big companies like Google, thanks to the OpenStreetMap project, we now have access to an open world of data.
 Generating Tiles MapBox (and others) worked hard to create a vector format bundled in a SQLite file: mbtiles format.
 It&amp;rsquo;s vector based as opposed to older raster maps containing 256x256 PNG images.
-The Openmaptiles folks did a great job automating the map generation.</description>
-    </item>
-    
-    <item>
-      <title>Using Github Actions with Golangci-linter</title>
-      <link>https://blog.nobugware.com/post/2019/using-github-actions-with-golangci-linter/</link>
-      <pubDate>Wed, 11 Sep 2019 00:00:00 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2019/using-github-actions-with-golangci-linter/</guid>
-      <description>Github delivered a beta Github Actions, it&amp;rsquo;s a worflow that can run almost anything related to your code, like a CI/CD.
+The Openmaptiles folks did a great job automating the map generation.</description></item><item><title>Using Github Actions with Golangci-linter</title><link>https://blog.nobugware.com/post/2019/using-github-actions-with-golangci-linter/</link><pubDate>Wed, 11 Sep 2019 00:00:00 -0400</pubDate><guid>https://blog.nobugware.com/post/2019/using-github-actions-with-golangci-linter/</guid><description>Github delivered a beta Github Actions, it&amp;rsquo;s a worflow that can run almost anything related to your code, like a CI/CD.
 Here is a workflow for Go 1.13 module projects and golangci-lint.
-name: golangci-lint on: [push] jobs: build: name: Build runs-on: ubuntu-latest steps: - name: Set up Go 1.13 uses: actions/setup-go@v1 with: go-version: 1.13 id: go - name: Check out code into the Go module directory uses: actions/checkout@v1 - name: Install golangci-lint run: curl -sfL https://raw.</description>
-    </item>
-    
-    <item>
-      <title>Deploying a website with Caddy, Git and Kubernetes</title>
-      <link>https://blog.nobugware.com/post/2019/deploying-a-website-with-caddy-git-and-kubernetes/</link>
-      <pubDate>Sat, 27 Apr 2019 02:01:00 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2019/deploying-a-website-with-caddy-git-and-kubernetes/</guid>
-      <description>Caddy is the swiss army of the web server, and with the recent commercial license changes, it&amp;rsquo;s time to give it some love back.
+name: golangci-lint on: [push] jobs: build: name: Build runs-on: ubuntu-latest steps: - name: Set up Go 1.13 uses: actions/setup-go@v1 with: go-version: 1.13 id: go - name: Check out code into the Go module directory uses: actions/checkout@v1 - name: Install golangci-lint run: curl -sfL https://raw.</description></item><item><title>Deploying a website with Caddy, Git and Kubernetes</title><link>https://blog.nobugware.com/post/2019/deploying-a-website-with-caddy-git-and-kubernetes/</link><pubDate>Sat, 27 Apr 2019 02:01:00 -0400</pubDate><guid>https://blog.nobugware.com/post/2019/deploying-a-website-with-caddy-git-and-kubernetes/</guid><description>Caddy is the swiss army of the web server, and with the recent commercial license changes, it&amp;rsquo;s time to give it some love back.
 I have several static websites, some generated with Hugo, some are plain HTML.
 I wanted a small container, to run it inside a Kubernetes cluster, capable of pulling some git repos and serve them.
-Caddy-git Caddy is already capable of that with the help of caddy-git unfortunately it is only working with ssh keys.</description>
-    </item>
-    
-    <item>
-      <title>gRPC Load Balancing inside Kubernetes</title>
-      <link>https://blog.nobugware.com/post/2019/kubernetes_mesh_network_load_balancing_grpc_services/</link>
-      <pubDate>Mon, 11 Mar 2019 00:32:43 -0500</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2019/kubernetes_mesh_network_load_balancing_grpc_services/</guid>
-      <description>Context I wanted to blog about this for years: how to connect to a Kubernete&amp;rsquo;s loadbalanced service?
+Caddy-git Caddy is already capable of that with the help of caddy-git unfortunately it is only working with ssh keys.</description></item><item><title>gRPC Load Balancing inside Kubernetes</title><link>https://blog.nobugware.com/post/2019/kubernetes_mesh_network_load_balancing_grpc_services/</link><pubDate>Mon, 11 Mar 2019 00:32:43 -0500</pubDate><guid>https://blog.nobugware.com/post/2019/kubernetes_mesh_network_load_balancing_grpc_services/</guid><description>Context I wanted to blog about this for years: how to connect to a Kubernete&amp;rsquo;s loadbalanced service?
 How to deal with disconnections/re-connections, maintenance? What about gRPC specifically?
-The answer is heavily connected to the network stack used by Kubernetes, but with the &amp;ldquo;Mesh Network&amp;rdquo; revolution, It&amp;rsquo;s not always clear how it works anymore and what the options are. How it works First I recommend you to watch this great yet simple video: Container Networking From Scratch, then the Services clusterIP documentation.</description>
-    </item>
-    
-    <item>
-      <title>Traefik gRPC Load Balancing and Traces Propagation</title>
-      <link>https://blog.nobugware.com/post/2019/traefik_load_balancing_grpc_services_trace_propagation/</link>
-      <pubDate>Mon, 04 Mar 2019 04:32:43 +0000</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2019/traefik_load_balancing_grpc_services_trace_propagation/</guid>
-      <description>Following my recent blog post on setting up a dev environment in Kubernetes, here are some tips to use Traefik as a gRPC load balancer.
+The answer is heavily connected to the network stack used by Kubernetes, but with the &amp;ldquo;Mesh Network&amp;rdquo; revolution, It&amp;rsquo;s not always clear how it works anymore and what the options are. How it works First I recommend you to watch this great yet simple video: Container Networking From Scratch, then the Services clusterIP documentation.</description></item><item><title>Traefik gRPC Load Balancing and Traces Propagation</title><link>https://blog.nobugware.com/post/2019/traefik_load_balancing_grpc_services_trace_propagation/</link><pubDate>Mon, 04 Mar 2019 04:32:43 +0000</pubDate><guid>https://blog.nobugware.com/post/2019/traefik_load_balancing_grpc_services_trace_propagation/</guid><description>Following my recent blog post on setting up a dev environment in Kubernetes, here are some tips to use Traefik as a gRPC load balancer.
 Traefik can be used on the edge and route incoming HTTP traffic to your Kubernetes cluster, but it&amp;rsquo;s also supporting gRPC.
-  
 gRPC Load Balancing with Traefik Here I have a gRPC service I want to expose on the edge.
-apiVersion: v1 kind: Service metadata: name: myapp labels: name: &amp;quot;myapp&amp;quot; type: &amp;quot;grpc&amp;quot; spec: ports: - port: 9200 name: &amp;quot;grpc&amp;quot; targetPort: grpc protocol: TCP selector: app: &amp;quot;myapp&amp;quot; clusterIP: None  Note the clusterIP: None, it&amp;rsquo;s a headless service.</description>
-    </item>
-    
-    <item>
-      <title>Kubernetes Quick Setup with Prometheus, Grafana &amp; Jaeger</title>
-      <link>https://blog.nobugware.com/post/2019/kubernetes_quick_development_setup_minikube_prometheus_grafana/</link>
-      <pubDate>Thu, 21 Feb 2019 00:19:57 -0200</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2019/kubernetes_quick_development_setup_minikube_prometheus_grafana/</guid>
-      <description>Introduction When starting on a new project or prototyping on a new idea, I find myself doing the same tasks again and again.
-Thanks to Kubernetes it&amp;rsquo;s possible to setup a new env from scratch really fast.
+apiVersion: v1 kind: Service metadata: name: myapp labels: name: &amp;#34;myapp&amp;#34; type: &amp;#34;grpc&amp;#34; spec: ports: - port: 9200 name: &amp;#34;grpc&amp;#34; targetPort: grpc protocol: TCP selector: app: &amp;#34;myapp&amp;#34; clusterIP: None Note the clusterIP: None, it&amp;rsquo;s a headless service.</description></item><item><title>Kubernetes Quick Setup with Prometheus, Grafana &amp; Jaeger</title><link>https://blog.nobugware.com/post/2019/kubernetes_quick_development_setup_minikube_prometheus_grafana/</link><pubDate>Thu, 21 Feb 2019 00:19:57 -0200</pubDate><guid>https://blog.nobugware.com/post/2019/kubernetes_quick_development_setup_minikube_prometheus_grafana/</guid><description>Introduction When starting on a new project or prototyping on a new idea, I find myself doing the same tasks again and again. Thanks to Kubernetes it&amp;rsquo;s possible to setup a new env from scratch really fast.
 Here is a quick setup (mostly notes) to create a dev environment using Minikube and the workflow I&amp;rsquo;m using with it.
-Not knowing in advance where this future project will be hosted, I try to stay platform agnostic.</description>
-    </item>
-    
-    <item>
-      <title>Wasm with Go to build an S2 cover map viewer</title>
-      <link>https://blog.nobugware.com/post/2018/wasm_go_s2_javascript/</link>
-      <pubDate>Mon, 27 Aug 2018 00:19:57 -0200</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2018/wasm_go_s2_javascript/</guid>
-      <description>I needed a reason to use the new Go 1.11 Wasm port for &amp;ldquo;real&amp;rdquo;.
+Not knowing in advance where this future project will be hosted, I try to stay platform agnostic.</description></item><item><title>Wasm with Go to build an S2 cover map viewer</title><link>https://blog.nobugware.com/post/2018/wasm_go_s2_javascript/</link><pubDate>Mon, 27 Aug 2018 00:19:57 -0200</pubDate><guid>https://blog.nobugware.com/post/2018/wasm_go_s2_javascript/</guid><description>I needed a reason to use the new Go 1.11 Wasm port for &amp;ldquo;real&amp;rdquo;.
 To make it short, it compiles Go code to Wasm binary format for a virtual machine running in web browsers.
 I&amp;rsquo;ve always needed a debug tool to display S2 Cells on a map for different shapes, some online tools already exist:
- s2map.com unfortunately the backend is often/currently dead. regioncoverer which doesn&amp;rsquo;t allow polygons.  I&amp;rsquo;ve planned for a Qt Go app or a QGIS plugin with C++ bindings to Python but to ship those modules would be a nightmare.</description>
-    </item>
-    
-    <item>
-      <title>My Own Car System, Rear Camera, Offline Maps &amp; Routing, Map Matching with Go on Raspberry Pi part II</title>
-      <link>https://blog.nobugware.com/post/2018/my_own_car_system_raspberry_pi_offline_mapping_map_matching_places_part2/</link>
-      <pubDate>Wed, 01 Aug 2018 00:19:57 -0200</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2018/my_own_car_system_raspberry_pi_offline_mapping_map_matching_places_part2/</guid>
-      <description>This is my journey building an open source car system with Go &amp;amp; Qt, rear camera, live OpenGL map &amp;hellip;
+s2map.com unfortunately the backend is often/currently dead. regioncoverer which doesn&amp;rsquo;t allow polygons. I&amp;rsquo;ve planned for a Qt Go app or a QGIS plugin with C++ bindings to Python but to ship those modules would be a nightmare.</description></item><item><title>My Own Car System, Rear Camera, Offline Maps &amp; Routing, Map Matching with Go on Raspberry Pi part II</title><link>https://blog.nobugware.com/post/2018/my_own_car_system_raspberry_pi_offline_mapping_map_matching_places_part2/</link><pubDate>Wed, 01 Aug 2018 00:19:57 -0200</pubDate><guid>https://blog.nobugware.com/post/2018/my_own_car_system_raspberry_pi_offline_mapping_map_matching_places_part2/</guid><description>This is my journey building an open source car system with Go &amp;amp; Qt, rear camera, live OpenGL map &amp;hellip;
 Cross compilation In Part I, I had to patch qtmultimedia for the camera to work, but Qt compilation is resource hungry, same goes for the osrm compilation, the memory of the Raspberry Pi is too small.
-I had to to set up a cross compilation system in my case for armv7h.</description>
-    </item>
-    
-    <item>
-      <title>My Own Car System, Rear Camera, Offline Maps &amp; Routing on Raspberry Pi part I</title>
-      <link>https://blog.nobugware.com/post/2018/my_own_car_system_raspberry_pi_offline_mapping/</link>
-      <pubDate>Sun, 10 Jun 2018 09:19:57 -0500</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2018/my_own_car_system_raspberry_pi_offline_mapping/</guid>
-      <description>At first I needed a car rear camera, one thing led to another&amp;hellip;
+I had to to set up a cross compilation system in my case for armv7h.</description></item><item><title>My Own Car System, Rear Camera, Offline Maps &amp; Routing on Raspberry Pi part I</title><link>https://blog.nobugware.com/post/2018/my_own_car_system_raspberry_pi_offline_mapping/</link><pubDate>Sun, 10 Jun 2018 09:19:57 -0500</pubDate><guid>https://blog.nobugware.com/post/2018/my_own_car_system_raspberry_pi_offline_mapping/</guid><description>At first I needed a car rear camera, one thing led to another&amp;hellip;
 My Car, from 2011, only has an LCD display and no rear camera, so I bought a PAL rear camera, we passed some cables from the rear window to the front then everything begun.
 Here is my journey to transform my car into a modern system running on RPi3 (a never ending project).
-Hardware I&amp;rsquo;m using an Rpi3 (old model).</description>
-    </item>
-    
-    <item>
-      <title>Hacking Temperature Radio Sensors and Graphing with Prometheus</title>
-      <link>https://blog.nobugware.com/post/2017/hacking_temperature_radio_sensors_and_graphing_with_prometheus/</link>
-      <pubDate>Sun, 08 Oct 2017 14:28:46 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2017/hacking_temperature_radio_sensors_and_graphing_with_prometheus/</guid>
-      <description>One year ago I&amp;rsquo;ve started to collect temperature from my house using Acurite sensors.
+Hardware I&amp;rsquo;m using an Rpi3 (old model).</description></item><item><title>Hacking Temperature Radio Sensors and Graphing with Prometheus</title><link>https://blog.nobugware.com/post/2017/hacking_temperature_radio_sensors_and_graphing_with_prometheus/</link><pubDate>Sun, 08 Oct 2017 14:28:46 -0400</pubDate><guid>https://blog.nobugware.com/post/2017/hacking_temperature_radio_sensors_and_graphing_with_prometheus/</guid><description>One year ago I&amp;rsquo;ve started to collect temperature from my house using Acurite sensors.
 These sensors are not too expensive and good quality but the &amp;ldquo;base&amp;rdquo; aka the radio receiver connected to internet is costly and totally closed, it&amp;rsquo;s sending your data to the Cloud™, it&amp;rsquo;s not just Acurite, all those &amp;ldquo;IOT&amp;rdquo; devices are generally poor on the software side.
-Receiving radio data Most of these sensors have their protocols already reverse engineered you only need the radio receiver part.</description>
-    </item>
-    
-    <item>
-      <title>gRPC Envoy Nghttp2 and Load Balancing</title>
-      <link>https://blog.nobugware.com/post/2016/grpc_envoy_nghttp2_load_balancing/</link>
-      <pubDate>Tue, 20 Sep 2016 17:40:04 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2016/grpc_envoy_nghttp2_load_balancing/</guid>
-      <description>I&amp;rsquo;ve been using gRPC at work and in several personal projects for months and happy with it, but when it comes to load balancing gRPC does not come with batteries included.
-For a long time the only document was the Load Balancing draft in the gRPC repo, the clients should implement a Picker interface to know about the servers, so the pooling and controling the load were handled by the clients.</description>
-    </item>
-    
-    <item>
-      <title>Enhance your Go</title>
-      <link>https://blog.nobugware.com/post/2013/04/24/enhance-your-go/</link>
-      <pubDate>Wed, 24 Apr 2013 18:51:20 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2013/04/24/enhance-your-go/</guid>
-      <description>After my Enhance your Python post, which is my Python bible reference, I wanted the same for Golang:
- Effective Go, write effective Go Go by examples, simple but useful examples in Go The Go memory model, Goroutines lock or not ? Things I Wish Someone Had Told Me About Go Go Object Oriented Design The sources for the standard packages are gold mine for best practices Race detector documentation, (&amp;gt;= 1.</description>
-    </item>
-    
-  </channel>
-</rss>
+Receiving radio data Most of these sensors have their protocols already reverse engineered you only need the radio receiver part.</description></item><item><title>gRPC Envoy Nghttp2 and Load Balancing</title><link>https://blog.nobugware.com/post/2016/grpc_envoy_nghttp2_load_balancing/</link><pubDate>Tue, 20 Sep 2016 17:40:04 -0400</pubDate><guid>https://blog.nobugware.com/post/2016/grpc_envoy_nghttp2_load_balancing/</guid><description>I&amp;rsquo;ve been using gRPC at work and in several personal projects for months and happy with it, but when it comes to load balancing gRPC does not come with batteries included.
+For a long time the only document was the Load Balancing draft in the gRPC repo, the clients should implement a Picker interface to know about the servers, so the pooling and controling the load were handled by the clients.</description></item><item><title>Enhance your Go</title><link>https://blog.nobugware.com/post/2013/04/24/enhance-your-go/</link><pubDate>Wed, 24 Apr 2013 18:51:20 -0400</pubDate><guid>https://blog.nobugware.com/post/2013/04/24/enhance-your-go/</guid><description>After my [Enhance your Python](http://blog.nobugware.com/post/2011/08/16 /enhance-your-python) post, which is my Python bible reference, I wanted the same for Golang:
+Effective Go, write effective Go Go by examples, simple but useful examples in Go The Go memory model, Goroutines lock or not ? Things I Wish Someone Had Told Me About Go Go Object Oriented Design The sources for the standard packages are gold mine for best practices Race detector documentation, (&amp;gt;= 1.</description></item></channel></rss>

@@ -1,97 +1,20 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>freebsd on Fabrice Aneche</title>
-    <link>https://blog.nobugware.com/tags/freebsd/</link>
-    <description>Recent content in freebsd on Fabrice Aneche</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <lastBuildDate>Sun, 10 Jan 2016 11:32:19 -0500</lastBuildDate>
-    
-	<atom:link href="https://blog.nobugware.com/tags/freebsd/index.xml" rel="self" type="application/rss+xml" />
-    
-    
-    <item>
-      <title>Freebsd on Raspberry Pi 2 and Golang</title>
-      <link>https://blog.nobugware.com/post/2016/freebsd_raspberry_pi2/</link>
-      <pubDate>Sun, 10 Jan 2016 11:32:19 -0500</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2016/freebsd_raspberry_pi2/</guid>
-      <description>FreeBSD is now fully supported on the Raspberry Pi2, makes it a fun small computer to experiment with BSD.
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>freebsd on Fabrice Aneche</title><link>https://blog.nobugware.com/tags/freebsd/</link><description>Recent content in freebsd on Fabrice Aneche</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sun, 10 Jan 2016 11:32:19 -0500</lastBuildDate><atom:link href="https://blog.nobugware.com/tags/freebsd/index.xml" rel="self" type="application/rss+xml"/><item><title>Freebsd on Raspberry Pi 2 and Golang</title><link>https://blog.nobugware.com/post/2016/freebsd_raspberry_pi2/</link><pubDate>Sun, 10 Jan 2016 11:32:19 -0500</pubDate><guid>https://blog.nobugware.com/post/2016/freebsd_raspberry_pi2/</guid><description>FreeBSD is now fully supported on the Raspberry Pi2, makes it a fun small computer to experiment with BSD.
 If you have a Raspberry Pi 1, you can simply install 10.2-RELEASE image.
 For Raspberry Pi 2, you need 11.0-CURRENT which is the development branch, images can be found here.
-dd the image as usual to a SD card, it will be auto resized at first boot. (See growfs_enable=&amp;quot;YES&amp;quot;) in rc.</description>
-    </item>
-    
-    <item>
-      <title>FreeBSD on RaspBerry Pi</title>
-      <link>https://blog.nobugware.com/post/2014/01/30/freebsd-on-raspberry-pi/</link>
-      <pubDate>Thu, 30 Jan 2014 17:37:20 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2014/01/30/freebsd-on-raspberry-pi/</guid>
-      <description>FreeBSD images for arm are now built from the FreeBSD Foundation ! So it&amp;rsquo;s an easy process to get it on your Pi.
+dd the image as usual to a SD card, it will be auto resized at first boot. (See growfs_enable=&amp;quot;YES&amp;quot;) in rc.conf.</description></item><item><title>FreeBSD on RaspBerry Pi</title><link>https://blog.nobugware.com/post/2014/01/30/freebsd-on-raspberry-pi/</link><pubDate>Thu, 30 Jan 2014 17:37:20 -0400</pubDate><guid>https://blog.nobugware.com/post/2014/01/30/freebsd-on-raspberry-pi/</guid><description>FreeBSD images for arm are now built from the FreeBSD Foundation ! So it&amp;rsquo;s an easy process to get it on your Pi.
 Download your image from the ftp repository
 Insert a 4Gb or more SD card in your PC and copy the FreeBSD image into it, here are the commands for a Mac:
-sudo diskutil list​ sudo diskutil unmountDisk /dev/disk1​ sudo dd if=/Users/akh/Downloads/FreeBSD-10.0-STABLE-arm- armv6-RPI-B-20140127-r261200.img of=/dev/rdisk1 bs=1m​ sudo diskutil eject /dev/disk1​  Boot your pi with the card and welcome to FreeBSD !</description>
-    </item>
-    
-    <item>
-      <title>FreeBSD vimage jails</title>
-      <link>https://blog.nobugware.com/post/2012/02/28/freebsd-vimage-jails/</link>
-      <pubDate>Tue, 28 Feb 2012 15:32:47 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2012/02/28/freebsd-vimage-jails/</guid>
-      <description>I tried to use VIMAGE for jails, can be summarized as: independant network stack, firewalling, nat, a real loopback &amp;hellip; for your jails
+sudo diskutil list​ sudo diskutil unmountDisk /dev/disk1​ sudo dd if=/Users/akh/Downloads/FreeBSD-10.0-STABLE-arm- armv6-RPI-B-20140127-r261200.img of=/dev/rdisk1 bs=1m​ sudo diskutil eject /dev/disk1​ Boot your pi with the card and welcome to FreeBSD !</description></item><item><title>FreeBSD vimage jails</title><link>https://blog.nobugware.com/post/2012/02/28/freebsd-vimage-jails/</link><pubDate>Tue, 28 Feb 2012 15:32:47 -0400</pubDate><guid>https://blog.nobugware.com/post/2012/02/28/freebsd-vimage-jails/</guid><description>I tried to use VIMAGE for jails, can be summarized as: independant network stack, firewalling, nat, a real loopback &amp;hellip; for your jails
 First I had pf in my kernel, it does not work with VIMAGE, it will kernel panic, (as module too), so remove it (I hope it will be solved soon).
 I used the package from DruidBSD: vimage boot, and used the following config:
-vimage_enable=&amp;quot;YES&amp;quot; vimage_list=&amp;quot;testjail&amp;quot; vimage_testjail_rootdir=&amp;quot;/usr/jails/testjail&amp;quot; # root directory vimage_testjail_hostname=&amp;quot;testjail&amp;quot; # hostname vimage_testjail_devfs_enable=&amp;quot;YES&amp;quot; # mount devfs vimage_testjail_vnets=&amp;quot;vtnet1&amp;quot; # network interfaces  vtnet1 is a dedicated hard interface (from KVM) and will appears only in the jail after you start /etc/rc.</description>
-    </item>
-    
-    <item>
-      <title>FreeBSD 9.0 ZFS root on OVH</title>
-      <link>https://blog.nobugware.com/post/2012/02/07/freebsd-90-zfs-root-ovh/</link>
-      <pubDate>Tue, 07 Feb 2012 15:05:48 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2012/02/07/freebsd-90-zfs-root-ovh/</guid>
-      <description>I had so much pain to make it work so here is how to have a ZFS root with a raidz pool on 5 disks, specially with OVH without any console or kvm to debug the boot process.
+vimage_enable=&amp;quot;YES&amp;quot; vimage_list=&amp;quot;testjail&amp;quot; vimage_testjail_rootdir=&amp;quot;/usr/jails/testjail&amp;quot; # root directory vimage_testjail_hostname=&amp;quot;testjail&amp;quot; # hostname vimage_testjail_devfs_enable=&amp;quot;YES&amp;quot; # mount devfs vimage_testjail_vnets=&amp;quot;vtnet1&amp;quot; # network interfaces vtnet1 is a dedicated hard interface (from KVM) and will appears only in the jail after you start /etc/rc.</description></item><item><title>FreeBSD 9.0 ZFS root on OVH</title><link>https://blog.nobugware.com/post/2012/02/07/freebsd-90-zfs-root-ovh/</link><pubDate>Tue, 07 Feb 2012 15:05:48 -0400</pubDate><guid>https://blog.nobugware.com/post/2012/02/07/freebsd-90-zfs-root-ovh/</guid><description>I had so much pain to make it work so here is how to have a ZFS root with a raidz pool on 5 disks, specially with OVH without any console or kvm to debug the boot process.
 The server has 5 disks that I put in raidz and boot on it, but this should apply to most installation.
-gpart destroy -F ada0 gpart destroy -F ada1 gpart destroy -F ada2 gpart destroy -F ada3 gpart destroy -F ada4 gpart create -s gpt ada0 gpart create -s gpt ada1 gpart create -s gpt ada2 gpart create -s gpt ada3 gpart create -s gpt ada4 gpart add -b 34 -s 64k -t freebsd-boot ada0 gpart add -b 34 -s 64k -t freebsd-boot ada1 gpart add -b 34 -s 64k -t freebsd-boot ada2 gpart add -b 34 -s 64k -t freebsd-boot ada3 gpart add -b 34 -s 64k -t freebsd-boot ada4 # if you are very low on ram use a real partition for swap otherwise don&#39;t gpart add -s 4G -t freebsd-swap -l swap0 ada0 gpart add -s 4G -t freebsd-swap -l swap1 ada1 gpart add -s 4G -t freebsd-swap -l swap2 ada2 gpart add -s 4G -t freebsd-swap -l swap3 ada3 gpart add -s 4G -t freebsd-swap -l swap4 ada4 gpart add -t freebsd-zfs -l disk0 ada0 gpart add -t freebsd-zfs -l disk1 ada1 gpart add -t freebsd-zfs -l disk2 ada2 gpart add -t freebsd-zfs -l disk3 ada3 gpart add -t freebsd-zfs -l disk4 ada4 gpart bootcode -b /boot/pmbr -p /boot/gptzfsboot -i 1 ada0 gpart bootcode -b /boot/pmbr -p /boot/gptzfsboot -i 1 ada1 gpart bootcode -b /boot/pmbr -p /boot/gptzfsboot -i 1 ada2 gpart bootcode -b /boot/pmbr -p /boot/gptzfsboot -i 1 ada3 gpart bootcode -b /boot/pmbr -p /boot/gptzfsboot -i 1 ada4 zpool create -o cachefile=/boot/zfs/zpool.</description>
-    </item>
-    
-    <item>
-      <title>FreeBSD 9.0 guest with virtio support in KVM</title>
-      <link>https://blog.nobugware.com/post/2011/10/14/freebsd-90-guest-virtio-support-in-kvm/</link>
-      <pubDate>Fri, 14 Oct 2011 13:57:13 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2011/10/14/freebsd-90-guest-virtio-support-in-kvm/</guid>
-      <description>Performance are really bad for FreeBSD in KVM, one solution is to use paravirtualized driver, virIO.
+gpart destroy -F ada0 gpart destroy -F ada1 gpart destroy -F ada2 gpart destroy -F ada3 gpart destroy -F ada4 gpart create -s gpt ada0 gpart create -s gpt ada1 gpart create -s gpt ada2 gpart create -s gpt ada3 gpart create -s gpt ada4 gpart add -b 34 -s 64k -t freebsd-boot ada0 gpart add -b 34 -s 64k -t freebsd-boot ada1 gpart add -b 34 -s 64k -t freebsd-boot ada2 gpart add -b 34 -s 64k -t freebsd-boot ada3 gpart add -b 34 -s 64k -t freebsd-boot ada4 # if you are very low on ram use a real partition for swap otherwise don't gpart add -s 4G -t freebsd-swap -l swap0 ada0 gpart add -s 4G -t freebsd-swap -l swap1 ada1 gpart add -s 4G -t freebsd-swap -l swap2 ada2 gpart add -s 4G -t freebsd-swap -l swap3 ada3 gpart add -s 4G -t freebsd-swap -l swap4 ada4 gpart add -t freebsd-zfs -l disk0 ada0 gpart add -t freebsd-zfs -l disk1 ada1 gpart add -t freebsd-zfs -l disk2 ada2 gpart add -t freebsd-zfs -l disk3 ada3 gpart add -t freebsd-zfs -l disk4 ada4 gpart bootcode -b /boot/pmbr -p /boot/gptzfsboot -i 1 ada0 gpart bootcode -b /boot/pmbr -p /boot/gptzfsboot -i 1 ada1 gpart bootcode -b /boot/pmbr -p /boot/gptzfsboot -i 1 ada2 gpart bootcode -b /boot/pmbr -p /boot/gptzfsboot -i 1 ada3 gpart bootcode -b /boot/pmbr -p /boot/gptzfsboot -i 1 ada4 zpool create -o cachefile=/boot/zfs/zpool.</description></item><item><title>FreeBSD 9.0 guest with virtio support in KVM</title><link>https://blog.nobugware.com/post/2011/10/14/freebsd-90-guest-virtio-support-in-kvm/</link><pubDate>Fri, 14 Oct 2011 13:57:13 -0400</pubDate><guid>https://blog.nobugware.com/post/2011/10/14/freebsd-90-guest-virtio-support-in-kvm/</guid><description>Performance are really bad for FreeBSD in KVM, one solution is to use paravirtualized driver, virIO.
 At the time of writing FreeBSD 9.0 is beta 3 and the last commit in the virtio project is 225710
-cd /usr/src/sys/dev svn co http://svn.freebsd.org/base/projects/virtio/sys/dev/virtio cd /usr/src/sys/modules svn co http://svn.freebsd.org/base/projects/virtio/sys/modules/virtio cd /usr/src/sys/modules/virtio make install  add this to /boot/loader.conf
-virtio_load=&amp;quot;YES&amp;quot; virtio_pci_load=&amp;quot;YES&amp;quot; virtio_blk_load=&amp;quot;YES&amp;quot; if_vtnet_load=&amp;quot;YES&amp;quot; virtio_balloon_load=&amp;quot;YES&amp;quot; # dmesg | grep -i virtio vtnet0: on virtio_pci0 virtio_pci1: port 0xc060-0xc07f irq 11 at device 4.</description>
-    </item>
-    
-    <item>
-      <title>Install FreeBSD 9.0 with ZFS root</title>
-      <link>https://blog.nobugware.com/post/2011/10/14/install-freebsd-90-zfs-root/</link>
-      <pubDate>Fri, 14 Oct 2011 11:00:22 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2011/10/14/install-freebsd-90-zfs-root/</guid>
-      <description>The &amp;ldquo;new&amp;rdquo; FreeBSD installer does not give you the options to simply install ZFS as root, so sad, here is how to do it.
+cd /usr/src/sys/dev svn co http://svn.freebsd.org/base/projects/virtio/sys/dev/virtio cd /usr/src/sys/modules svn co http://svn.freebsd.org/base/projects/virtio/sys/modules/virtio cd /usr/src/sys/modules/virtio make install add this to /boot/loader.conf
+virtio_load=&amp;quot;YES&amp;quot; virtio_pci_load=&amp;quot;YES&amp;quot; virtio_blk_load=&amp;quot;YES&amp;quot; if_vtnet_load=&amp;quot;YES&amp;quot; virtio_balloon_load=&amp;quot;YES&amp;quot; # dmesg | grep -i virtio vtnet0: on virtio_pci0 virtio_pci1: port 0xc060-0xc07f irq 11 at device 4.</description></item><item><title>Install FreeBSD 9.0 with ZFS root</title><link>https://blog.nobugware.com/post/2011/10/14/install-freebsd-90-zfs-root/</link><pubDate>Fri, 14 Oct 2011 11:00:22 -0400</pubDate><guid>https://blog.nobugware.com/post/2011/10/14/install-freebsd-90-zfs-root/</guid><description>The &amp;ldquo;new&amp;rdquo; FreeBSD installer does not give you the options to simply install ZFS as root, so sad, here is how to do it.
 Most installation recommand to install / in the zpool root, which is not always clean, for example a recursive snapshot will snapshot your swap &amp;hellip;
-#Boot cd and choose shell: umount /dev/md1 mdmfs -s 1024M md1 /tmp gpart destroy -F ada0 gpart create -s gpt ada0 gpart add -b 34 -s 64k -t freebsd-boot ada0 #gpart add -s 4G -t freebsd-swap -l swap0 ada0 gpart add -t freebsd-zfs -l disk0 ada0 gpart bootcode -b /boot/pmbr -p /boot/gptzfsboot -i 1 ada0 zpool destroy rpool # use -f if you already have a zpool zpool create -f rpool /dev/gpt/disk0 zfs set checksum=fletcher4 rpool zfs create rpool/root zfs set mountpoint=none rpool zfs set mountpoint=/mnt rpool/root zfs create -o canmount=off rpool/root/usr zfs create -o canmount=off rpool/root/var zfs create -o compression=on -o exec=on -o setuid=off rpool/root/tmp zfs create -o compression=gzip -o setuid=off rpool/root/usr/ports zfs create -o compression=off -o exec=off -o setuid=off rpool/root/usr/ports/distfiles zfs create -o compression=off -o exec=off -o setuid=off rpool/root/usr/ports/packages zfs create -o compression=gzip -o exec=off -o setuid=off rpool/root/usr/src zfs create -o compression=lzjb rpool/root/usr/obj zfs create -o compression=lzjb -o exec=off -o setuid=off rpool/root/var/crash zfs create -o compression=off -o exec=off -o setuid=off rpool/root/var/empty zfs create -o compression=lzjb -o exec=on -o setuid=off rpool/root/var/tmp zpool export rpool zpool import -o cachefile=/tmp/zpool.</description>
-    </item>
-    
-    <item>
-      <title>(Re)Discovering FreeBSD and ZFS</title>
-      <link>https://blog.nobugware.com/post/2011/03/31/freebsd-zfs/</link>
-      <pubDate>Thu, 31 Mar 2011 21:06:13 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2011/03/31/freebsd-zfs/</guid>
-      <description>Since Sun&amp;rsquo;s killers euh Oracle shutdown OpenSolaris, FreeBSD is becoming more and more attracting with ZFS port, you should really give it a try (We are back baby).
+#Boot cd and choose shell: umount /dev/md1 mdmfs -s 1024M md1 /tmp gpart destroy -F ada0 gpart create -s gpt ada0 gpart add -b 34 -s 64k -t freebsd-boot ada0 #gpart add -s 4G -t freebsd-swap -l swap0 ada0 gpart add -t freebsd-zfs -l disk0 ada0 gpart bootcode -b /boot/pmbr -p /boot/gptzfsboot -i 1 ada0 zpool destroy rpool # use -f if you already have a zpool zpool create -f rpool /dev/gpt/disk0 zfs set checksum=fletcher4 rpool zfs create rpool/root zfs set mountpoint=none rpool zfs set mountpoint=/mnt rpool/root zfs create -o canmount=off rpool/root/usr zfs create -o canmount=off rpool/root/var zfs create -o compression=on -o exec=on -o setuid=off rpool/root/tmp zfs create -o compression=gzip -o setuid=off rpool/root/usr/ports zfs create -o compression=off -o exec=off -o setuid=off rpool/root/usr/ports/distfiles zfs create -o compression=off -o exec=off -o setuid=off rpool/root/usr/ports/packages zfs create -o compression=gzip -o exec=off -o setuid=off rpool/root/usr/src zfs create -o compression=lzjb rpool/root/usr/obj zfs create -o compression=lzjb -o exec=off -o setuid=off rpool/root/var/crash zfs create -o compression=off -o exec=off -o setuid=off rpool/root/var/empty zfs create -o compression=lzjb -o exec=on -o setuid=off rpool/root/var/tmp zpool export rpool zpool import -o cachefile=/tmp/zpool.</description></item><item><title>(Re)Discovering FreeBSD and ZFS</title><link>https://blog.nobugware.com/post/2011/03/31/freebsd-zfs/</link><pubDate>Thu, 31 Mar 2011 21:06:13 -0400</pubDate><guid>https://blog.nobugware.com/post/2011/03/31/freebsd-zfs/</guid><description>Since Sun&amp;rsquo;s killers euh Oracle shutdown OpenSolaris, FreeBSD is becoming more and more attracting with ZFS port, you should really give it a try (We are back baby).
 Here is a fast installation of FreeBSD with a ZFS root.
 Download http://mfsbsd.vx.sk/, a special iso image that will give you a ZFS on root FreeBSD with no pain.
-Note that I&amp;rsquo;m using it over KVM on Gentoo: (kvm -hda /dev/vg0/freebsdvm_root -m 4096 -cdrom /opt/data/kvm/installer/mfsbsd-se-8.</description>
-    </item>
-    
-  </channel>
-</rss>
+Note that I&amp;rsquo;m using it over KVM on Gentoo: (kvm -hda /dev/vg0/freebsdvm_root -m 4096 -cdrom /opt/data/kvm/installer/mfsbsd-se-8.</description></item></channel></rss>

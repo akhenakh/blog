@@ -1,27 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>System on Fabrice Aneche</title>
-    <link>https://blog.nobugware.com/categories/system/</link>
-    <description>Recent content in System on Fabrice Aneche</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <lastBuildDate>Thu, 20 Oct 2016 08:58:10 -0400</lastBuildDate>
-    
-	<atom:link href="https://blog.nobugware.com/categories/system/index.xml" rel="self" type="application/rss+xml" />
-    
-    
-    <item>
-      <title>Telegraf &amp; Prometheus Swiss Army Knife for Metrics</title>
-      <link>https://blog.nobugware.com/post/2016/telegraf_prometheus_metrics_swiss_army_knife/</link>
-      <pubDate>Thu, 20 Oct 2016 08:58:10 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2016/telegraf_prometheus_metrics_swiss_army_knife/</guid>
-      <description>There are a lot of different solutions when it comes to collecting metrics, I found myself happy with this hybrid solution.
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>System on Fabrice Aneche</title><link>https://blog.nobugware.com/categories/system/</link><description>Recent content in System on Fabrice Aneche</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Thu, 20 Oct 2016 08:58:10 -0400</lastBuildDate><atom:link href="https://blog.nobugware.com/categories/system/index.xml" rel="self" type="application/rss+xml"/><item><title>Telegraf &amp; Prometheus Swiss Army Knife for Metrics</title><link>https://blog.nobugware.com/post/2016/telegraf_prometheus_metrics_swiss_army_knife/</link><pubDate>Thu, 20 Oct 2016 08:58:10 -0400</pubDate><guid>https://blog.nobugware.com/post/2016/telegraf_prometheus_metrics_swiss_army_knife/</guid><description>There are a lot of different solutions when it comes to collecting metrics, I found myself happy with this hybrid solution.
 Telegraf is an agent written in Go for collecting metrics from the system it&amp;rsquo;s running on.
 It&amp;rsquo;s developed by Influxdata the people behind InfluxDB, but Telegraf has a lot of outputs plugins and can be used without InfluxDB.
-Many different platform (FreeBSD, Linux, x86, Arm &amp;hellip;) are offered and only one single static binary (Thanks to Golang) is needed to deploy an agent.</description>
-    </item>
-    
-  </channel>
-</rss>
+Many different platform (FreeBSD, Linux, x86, Arm &amp;hellip;) are offered and only one single static binary (Thanks to Golang) is needed to deploy an agent.</description></item></channel></rss>

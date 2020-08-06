@@ -1,234 +1,82 @@
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta charset="utf-8"/>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<meta name="generator" content="Hugo 0.58.1" />
-		<title>A blazing fast geo database with LevelDB, Go and Geohashes - Fabrice Aneche</title>
-
-		<meta name="description" content="You probably have heard of LevelDB it’s a blazing fast key value store (as a library not a daemon), that uses Snappy compression.
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=generator content="Hugo 0.74.2"><title>A blazing fast geo database with LevelDB, Go and Geohashes - Fabrice Aneche</title><meta name=description content="You probably have heard of LevelDB it’s a blazing fast key value store (as a library not a daemon), that uses Snappy compression.
 There is plenty of usages for it, the API is very simple at least in Go (I will be using Goleveldb).
-The key is a []byte the value is a []byte so you can “get”, “put” &amp; “delete” that’s it.
-I needed a low memory low cpu system that could collect millions of geo data and query over them, Geohash has an interesting property you can encode longitude and latitude into a string : f2m616nn this hash represents the lat &amp; long 46.">
-
-
-		
-	
-		
-
-
-
-
-<link rel="stylesheet" href="https://blog.nobugware.com/css/ui.css">
-
-	
-		
-
-		<link  rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway">
-
-		
-	</head>
-
-<body>
-<header class="container no-print">
-	<div class="u-header">
-		<nav class="bar">
-	<ul><li>
-			<a href="https://blog.nobugware.com/">
-				<img class="icon-text" src="https://blog.nobugware.com/img/prev.svg"/>
-			</a>
-		</li><li><a href="https://blog.nobugware.com/about">About</a></li><li><a href="https://blog.nobugware.com/post/">Post</a></li></ul>
-</nav>
-
-	</div>
-</header>
-<main class="container">
-
-<article>
-	<header><hgroup id="brand">
-	<h1>A blazing fast geo database with LevelDB, Go and Geohashes</h1>
-	<h5>
-		
-		<time datetime="2015-08-30 18:25:02 -0400 -0400">Aug 30, 2015</time>
-		<span class="no-print">
-			<span>
-	</h5>
-	
-</hgroup>
-<hr class="sep" />
-</header>
-	<p>You probably have heard of <a href="https://github.com/google/leveldb">LevelDB</a> it’s a blazing fast key value store (as a library not a daemon), that uses Snappy compression.<br />
-There is plenty of usages for it, the API is very simple at least in Go (I will be using <a href="https://github.com/syndtr/goleveldb">Goleveldb</a>).</p>
-
-<p>The key is a <code>[]byte</code> the value is a <code>[]byte</code> so you can “get”, “put” &amp; “delete” that’s it.</p>
-
-<p>I needed a low memory low cpu system that could collect millions of geo data and query over them,  <a href="https://en.wikipedia.org/wiki/Geohash">Geohash</a> has an interesting property you can encode longitude and latitude into a string : <code>f2m616nn</code> this hash represents the lat &amp; long 46.770, -71.304 <a href="http://geohash.org/f2m616nn">f2m616nn</a>, if you shorten the string to <code>f2m61</code> it still refers to the same lat &amp; long but with less precisions <a href="http://geohash.org/f2m61">f2m61</a>.<br />
-A 4 digits hash leads to 19545 meters precision, to perfom a lookup around a position you simply query for the 8 adjacent blocks. <a href="http://github.com/TomiHiltunen/geohash-golang">A Geohash library for Go</a>.</p>
-
-<p>Here you would store all of your data points matching a geohash to the same set.<br />
-Problem there is no such thing as a set in LevelDB.</p>
-
-<p>But there is a cursor so you can seek to a position then iterate over the next or previous one (byte ordered).<br />
-So your data could be stored that way:  4 digits geohash + a uniq id.</p>
-
-<p>Then you can perform proximity lookup by searching for the 8 adjacents hashes from the position your are looking with a precision of 20km, good but not very flexible.</p>
-
-<p>We can have a more generic solution, first we need a key a simple int64 uniq id.</p>
-
-<pre><code class="language-go">// NewKey generates a new key using time prefixed by 'K'
-func NewKey() Key {
-	return NewKeyWithInt(time.Now().UnixNano())
+The key is a []byte the value is a []byte so you can “get”, “put” & “delete” that’s it.
+I needed a low memory low cpu system that could collect millions of geo data and query over them, Geohash has an interesting property you can encode longitude and latitude into a string : f2m616nn this hash represents the lat & long 46."><link rel=stylesheet href=https://blog.nobugware.com/css/ui.css><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway"></head><body><header class="container no-print"><div class=u-header><nav class=bar><ul><li><a href=https://blog.nobugware.com/><img class=icon-text src=https://blog.nobugware.com/img/prev.svg></a></li><li><a href=https://blog.nobugware.com/about>About</a></li><li><a href=https://blog.nobugware.com/post/>Post</a></li></ul></nav></div></header><main class=container><article><header><hgroup id=brand><h1>A blazing fast geo database with LevelDB, Go and Geohashes</h1><h5><time datetime="2015-08-30 18:25:02 -0400 -0400">Aug 30, 2015</time>
+<span class=no-print><span></h5></hgroup><hr class=sep></header><p>You probably have heard of <a href=https://github.com/google/leveldb>LevelDB</a> it’s a blazing fast key value store (as a library not a daemon), that uses Snappy compression.<br>There is plenty of usages for it, the API is very simple at least in Go (I will be using <a href=https://github.com/syndtr/goleveldb>Goleveldb</a>).</p><p>The key is a <code>[]byte</code> the value is a <code>[]byte</code> so you can “get”, “put” & “delete” that’s it.</p><p>I needed a low memory low cpu system that could collect millions of geo data and query over them, <a href=https://en.wikipedia.org/wiki/Geohash>Geohash</a> has an interesting property you can encode longitude and latitude into a string : <code>f2m616nn</code> this hash represents the lat & long 46.770, -71.304 <a href=http://geohash.org/f2m616nn>f2m616nn</a>, if you shorten the string to <code>f2m61</code> it still refers to the same lat & long but with less precisions <a href=http://geohash.org/f2m61>f2m61</a>.<br>A 4 digits hash leads to 19545 meters precision, to perfom a lookup around a position you simply query for the 8 adjacent blocks. <a href=http://github.com/TomiHiltunen/geohash-golang>A Geohash library for Go</a>.</p><p>Here you would store all of your data points matching a geohash to the same set.<br>Problem there is no such thing as a set in LevelDB.</p><p>But there is a cursor so you can seek to a position then iterate over the next or previous one (byte ordered).<br>So your data could be stored that way: 4 digits geohash + a uniq id.</p><p>Then you can perform proximity lookup by searching for the 8 adjacents hashes from the position your are looking with a precision of 20km, good but not very flexible.</p><p>We can have a more generic solution, first we need a key a simple int64 uniq id.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#75715e>// NewKey generates a new key using time prefixed by &#39;K&#39;
+</span><span style=color:#75715e></span><span style=color:#66d9ef>func</span> <span style=color:#a6e22e>NewKey</span>() <span style=color:#a6e22e>Key</span> {
+	<span style=color:#66d9ef>return</span> <span style=color:#a6e22e>NewKeyWithInt</span>(<span style=color:#a6e22e>time</span>.<span style=color:#a6e22e>Now</span>().<span style=color:#a6e22e>UnixNano</span>())
 }
 
-// NewKeyWithInt returns a key prefixed by 'K' with value i
-func NewKeyWithInt(id int64) Key {
-	key := bytes.NewBufferString(&quot;K&quot;)
-	binary.Write(key, binary.BigEndian, id)
-	return key.Bytes()
+<span style=color:#75715e>// NewKeyWithInt returns a key prefixed by &#39;K&#39; with value i
+</span><span style=color:#75715e></span><span style=color:#66d9ef>func</span> <span style=color:#a6e22e>NewKeyWithInt</span>(<span style=color:#a6e22e>id</span> <span style=color:#66d9ef>int64</span>) <span style=color:#a6e22e>Key</span> {
+	<span style=color:#a6e22e>key</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>bytes</span>.<span style=color:#a6e22e>NewBufferString</span>(<span style=color:#e6db74>&#34;K&#34;</span>)
+	<span style=color:#a6e22e>binary</span>.<span style=color:#a6e22e>Write</span>(<span style=color:#a6e22e>key</span>, <span style=color:#a6e22e>binary</span>.<span style=color:#a6e22e>BigEndian</span>, <span style=color:#a6e22e>id</span>)
+	<span style=color:#66d9ef>return</span> <span style=color:#a6e22e>key</span>.<span style=color:#a6e22e>Bytes</span>()
 }
-</code></pre>
+</code></pre></div><p>Here we can encode a key with a Unix timestamp so our key is not just a key it’s also an encoded time value, it will be uniq thanks to the nanosecond precision. We are using BigEndian so it can be byte compared: older will be before newer after.</p><p>Now about geo encoding our key will be of the form:<br><code>G201508282105dhv766K��Ϸ�Y�</code> (note the end of the key is binary encoded)
+You always need a prefix for your keys so you can seek and browse them without running over different keys types, here I have a <code>G</code> as Geo, then a string encoded date prefix, so we can search by date, but we don’t want extra precision here, it would add extra seek to LevelDB, (that’s why we have a modulo of 10 for minutes) then we add a precise geohash and finally our previous uniq id.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#75715e>// NewGeoKey generates a new key using a position &amp; a key
+</span><span style=color:#75715e></span><span style=color:#66d9ef>func</span> <span style=color:#a6e22e>NewGeoKey</span>(<span style=color:#a6e22e>latitude</span>, <span style=color:#a6e22e>longitude</span> <span style=color:#66d9ef>float64</span>) <span style=color:#a6e22e>GeoKey</span> {
+	<span style=color:#a6e22e>t</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>time</span>.<span style=color:#a6e22e>Now</span>().<span style=color:#a6e22e>UTC</span>()
+	<span style=color:#a6e22e>kint</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>t</span>.<span style=color:#a6e22e>UnixNano</span>()
+	<span style=color:#a6e22e>kid</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>NewKeyWithInt</span>(<span style=color:#a6e22e>kint</span>)
+	<span style=color:#75715e>// G + string date + geohash 6 + timestamped key 
+</span><span style=color:#75715e></span>	<span style=color:#75715e>// G201508282105dhv766K....
+</span><span style=color:#75715e></span>	<span style=color:#a6e22e>gk</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>geohash</span>.<span style=color:#a6e22e>EncodeWithPrecision</span>(<span style=color:#a6e22e>latitude</span>, <span style=color:#a6e22e>longitude</span>, <span style=color:#ae81ff>6</span>)
+	<span style=color:#a6e22e>ts</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>t</span>.<span style=color:#a6e22e>Format</span>(<span style=color:#e6db74>&#34;2006010215&#34;</span>)
 
-<p>Here we can encode a key with a Unix timestamp so our key is not just a key it’s also an encoded time value, it will be uniq thanks to the nanosecond precision. We are using BigEndian so it can be byte compared: older will be before newer after.</p>
-
-<p>Now about geo encoding our key will be of the form:<br />
-<code>G201508282105dhv766K��Ϸ�Y�</code>  (note the end of the key is binary encoded)
-You always need a prefix for your keys so you can seek and browse them without running over different keys types, here I have a <code>G</code> as Geo, then a string encoded date prefix, so we can search by date, but we don’t want extra precision here, it would add extra seek to LevelDB, (that’s why we have a modulo of 10 for minutes) then we add a precise geohash and finally our previous uniq id.</p>
-
-<pre><code class="language-go">// NewGeoKey generates a new key using a position &amp; a key
-func NewGeoKey(latitude, longitude float64) GeoKey {
-	t := time.Now().UTC()
-	kint := t.UnixNano()
-	kid := NewKeyWithInt(kint)
-	// G + string date + geohash 6 + timestamped key 
-	// G201508282105dhv766K....
-	gk := geohash.EncodeWithPrecision(latitude, longitude, 6)
-	ts := t.Format(&quot;2006010215&quot;)
-
-	// modulo 10 to store 10mn interval
-	m := t.Minute() - t.Minute()%10
-	zkey := []byte(&quot;G&quot; + ts + fmt.Sprintf(&quot;%02d&quot;, m) + gk)
-	zkey = append(zkey, kid...)
-	return zkey
+	<span style=color:#75715e>// modulo 10 to store 10mn interval
+</span><span style=color:#75715e></span>	<span style=color:#a6e22e>m</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>t</span>.<span style=color:#a6e22e>Minute</span>() <span style=color:#f92672>-</span> <span style=color:#a6e22e>t</span>.<span style=color:#a6e22e>Minute</span>()<span style=color:#f92672>%</span><span style=color:#ae81ff>10</span>
+	<span style=color:#a6e22e>zkey</span> <span style=color:#f92672>:=</span> []byte(<span style=color:#e6db74>&#34;G&#34;</span> <span style=color:#f92672>+</span> <span style=color:#a6e22e>ts</span> <span style=color:#f92672>+</span> <span style=color:#a6e22e>fmt</span>.<span style=color:#a6e22e>Sprintf</span>(<span style=color:#e6db74>&#34;%02d&#34;</span>, <span style=color:#a6e22e>m</span>) <span style=color:#f92672>+</span> <span style=color:#a6e22e>gk</span>)
+	<span style=color:#a6e22e>zkey</span> = append(<span style=color:#a6e22e>zkey</span>, <span style=color:#a6e22e>kid</span><span style=color:#f92672>...</span>)
+	<span style=color:#66d9ef>return</span> <span style=color:#a6e22e>zkey</span>
 }
-</code></pre>
-
-<p>We can now lookup by flexible date &amp; by flexible proximity like a Redis ZRANGE, you simply need to reverse the process.</p>
-
-<pre><code class="language-go">// GeoKeyPrefix return prefixes to lookup using a GeoKey and timerange
-func GeoKeyPrefix(start, stop time.Time) []string {
-	var res []string
-	d := 10 * time.Minute
-	var t time.Time
-	t = start
-	for {
-		if t.After(stop) {
-			break
+</code></pre></div><p>We can now lookup by flexible date & by flexible proximity like a Redis ZRANGE, you simply need to reverse the process.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#75715e>// GeoKeyPrefix return prefixes to lookup using a GeoKey and timerange
+</span><span style=color:#75715e></span><span style=color:#66d9ef>func</span> <span style=color:#a6e22e>GeoKeyPrefix</span>(<span style=color:#a6e22e>start</span>, <span style=color:#a6e22e>stop</span> <span style=color:#a6e22e>time</span>.<span style=color:#a6e22e>Time</span>) []<span style=color:#66d9ef>string</span> {
+	<span style=color:#66d9ef>var</span> <span style=color:#a6e22e>res</span> []<span style=color:#66d9ef>string</span>
+	<span style=color:#a6e22e>d</span> <span style=color:#f92672>:=</span> <span style=color:#ae81ff>10</span> <span style=color:#f92672>*</span> <span style=color:#a6e22e>time</span>.<span style=color:#a6e22e>Minute</span>
+	<span style=color:#66d9ef>var</span> <span style=color:#a6e22e>t</span> <span style=color:#a6e22e>time</span>.<span style=color:#a6e22e>Time</span>
+	<span style=color:#a6e22e>t</span> = <span style=color:#a6e22e>start</span>
+	<span style=color:#66d9ef>for</span> {
+		<span style=color:#66d9ef>if</span> <span style=color:#a6e22e>t</span>.<span style=color:#a6e22e>After</span>(<span style=color:#a6e22e>stop</span>) {
+			<span style=color:#66d9ef>break</span>
 		}
 
-		key := &quot;G&quot; + t.Format(&quot;2006010215&quot;) + fmt.Sprintf(&quot;%02d&quot;, t.Minute()-t.Minute()%10)
-		res = append(res, key)
-		t = t.Add(d)
+		<span style=color:#a6e22e>key</span> <span style=color:#f92672>:=</span> <span style=color:#e6db74>&#34;G&#34;</span> <span style=color:#f92672>+</span> <span style=color:#a6e22e>t</span>.<span style=color:#a6e22e>Format</span>(<span style=color:#e6db74>&#34;2006010215&#34;</span>) <span style=color:#f92672>+</span> <span style=color:#a6e22e>fmt</span>.<span style=color:#a6e22e>Sprintf</span>(<span style=color:#e6db74>&#34;%02d&#34;</span>, <span style=color:#a6e22e>t</span>.<span style=color:#a6e22e>Minute</span>()<span style=color:#f92672>-</span><span style=color:#a6e22e>t</span>.<span style=color:#a6e22e>Minute</span>()<span style=color:#f92672>%</span><span style=color:#ae81ff>10</span>)
+		<span style=color:#a6e22e>res</span> = append(<span style=color:#a6e22e>res</span>, <span style=color:#a6e22e>key</span>)
+		<span style=color:#a6e22e>t</span> = <span style=color:#a6e22e>t</span>.<span style=color:#a6e22e>Add</span>(<span style=color:#a6e22e>d</span>)
 	}
-	return res
+	<span style=color:#66d9ef>return</span> <span style=color:#a6e22e>res</span>
 }
-</code></pre>
+</code></pre></div><p>Lookup that way:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go>	<span style=color:#a6e22e>d</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>time</span>.<span style=color:#a6e22e>Duration</span>(<span style=color:#f92672>-</span><span style=color:#ae81ff>10</span>) <span style=color:#f92672>*</span> <span style=color:#a6e22e>time</span>.<span style=color:#a6e22e>Minute</span>
+	<span style=color:#a6e22e>geoPrefixs</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>GeoKeyPrefix</span>(<span style=color:#a6e22e>time</span>.<span style=color:#a6e22e>Now</span>().<span style=color:#a6e22e>UTC</span>().<span style=color:#a6e22e>Add</span>(<span style=color:#a6e22e>d</span>), <span style=color:#a6e22e>time</span>.<span style=color:#a6e22e>Now</span>().<span style=color:#a6e22e>UTC</span>())
 
-<p>Lookup that way:</p>
+	<span style=color:#75715e>// find adjacent hashes in m
+</span><span style=color:#75715e></span>	<span style=color:#75715e>// 1, 5003530
+</span><span style=color:#75715e></span>	<span style=color:#75715e>// 2, 625441
+</span><span style=color:#75715e></span>	<span style=color:#75715e>// 3, 123264
+</span><span style=color:#75715e></span>	<span style=color:#75715e>// 4, 19545
+</span><span style=color:#75715e></span>	<span style=color:#75715e>// 5, 3803
+</span><span style=color:#75715e></span>	<span style=color:#75715e>// 6, 610
+</span><span style=color:#75715e></span>	<span style=color:#a6e22e>gk</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>geohash</span>.<span style=color:#a6e22e>EncodeWithPrecision</span>(<span style=color:#a6e22e>lat</span>, <span style=color:#a6e22e>long</span>, <span style=color:#ae81ff>4</span>)
+	<span style=color:#a6e22e>adjs</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>geohash</span>.<span style=color:#a6e22e>CalculateAllAdjacent</span>(<span style=color:#a6e22e>gk</span>)
+	<span style=color:#a6e22e>adjs</span> = append(<span style=color:#a6e22e>adjs</span>, <span style=color:#a6e22e>gk</span>)
 
-<pre><code class="language-go">	d := time.Duration(-10) * time.Minute
-	geoPrefixs := GeoKeyPrefix(time.Now().UTC().Add(d), time.Now().UTC())
+	<span style=color:#75715e>// for each adjacent blocks
+</span><span style=color:#75715e></span>	<span style=color:#66d9ef>for</span> <span style=color:#a6e22e>_</span>, <span style=color:#a6e22e>gkl</span> <span style=color:#f92672>:=</span> <span style=color:#66d9ef>range</span> <span style=color:#a6e22e>adjs</span> {
 
-	// find adjacent hashes in m
-	// 1, 5003530
-	// 2, 625441
-	// 3, 123264
-	// 4, 19545
-	// 5, 3803
-	// 6, 610
-	gk := geohash.EncodeWithPrecision(lat, long, 4)
-	adjs := geohash.CalculateAllAdjacent(gk)
-	adjs = append(adjs, gk)
+		<span style=color:#75715e>// for each time range modulo 10
+</span><span style=color:#75715e></span>		<span style=color:#66d9ef>for</span> <span style=color:#a6e22e>_</span>, <span style=color:#a6e22e>geoPrefix</span> <span style=color:#f92672>:=</span> <span style=color:#66d9ef>range</span> <span style=color:#a6e22e>geoPrefixs</span> {
+			<span style=color:#a6e22e>startGeoKey</span> <span style=color:#f92672>:=</span> []byte(<span style=color:#a6e22e>geoPrefix</span> <span style=color:#f92672>+</span> <span style=color:#a6e22e>gkl</span>)
+			<span style=color:#a6e22e>iter</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>s</span>.<span style=color:#a6e22e>NewIterator</span>(<span style=color:#a6e22e>util</span>.<span style=color:#a6e22e>BytesPrefix</span>(<span style=color:#a6e22e>startGeoKey</span>), <span style=color:#66d9ef>nil</span>)
 
-	// for each adjacent blocks
-	for _, gkl := range adjs {
-
-		// for each time range modulo 10
-		for _, geoPrefix := range geoPrefixs {
-			startGeoKey := []byte(geoPrefix + gkl)
-			iter := s.NewIterator(util.BytesPrefix(startGeoKey), nil)
-
-			for iter.Next() {
-				log.Println(iter.Value())
+			<span style=color:#66d9ef>for</span> <span style=color:#a6e22e>iter</span>.<span style=color:#a6e22e>Next</span>() {
+				<span style=color:#a6e22e>log</span>.<span style=color:#a6e22e>Println</span>(<span style=color:#a6e22e>iter</span>.<span style=color:#a6e22e>Value</span>())
 			}
-			iter.Release()
+			<span style=color:#a6e22e>iter</span>.<span style=color:#a6e22e>Release</span>()
 		}
 	}
-</code></pre>
-
-<p>It can be optimized, reducing the size of the keys, but it performs extremely well storing around 3 millions geopoints per day, using less than 3% cpu and can received hundreds of queries per second.</p>
-
-<p>Oh did I forget to mention it&rsquo;s running on a Raspberry Pi? :)</p>
-
-<p>I could maybe turn it into a library but it&rsquo;s so simple it&rsquo;s probably useless.<br />
-Next blog post: what are those millions points used for?</p>
-
-</article>
-<nav class="no-print post-nav">
-
-	<a class="prev-post" href="https://blog.nobugware.com/post/2015/internet_access_power_outage_disaster_free/">
-		<img class="icon-text" src="https://blog.nobugware.com/img/prev.svg"/>Offering free internet well almost and survive disaster, power outage, Internet blackout</a>
-
-
-	<a class="next-post" href="https://blog.nobugware.com/post/2015/listening_to_satellites_for_30_dollars/">Listening to satellites for 30 dollars<img class="icon-text" src="https://blog.nobugware.com/img/next.svg"/>
-	</a>
-
-</nav>
-
-
-
-
-
-			<hr class="sep" />
-		</main>
-		<footer class="container no-print">
-			<div class="u-footer">
-				
-
-<a href="https://github.com/akhenakh/"><img class="icon-social" src="https://blog.nobugware.com/img/github.svg" alt="Github"/></a>
-
-
-<a href="https://twitter.com/akhenakh"><img class="icon-social" src="https://blog.nobugware.com/img/twitter.svg" alt="Twitter"/></a>
-
-<a href="https://blog.nobugware.com/index.xml" target="_blank"><img class="icon-social" src="https://blog.nobugware.com/img/feed.svg" alt="Feed"></a>
-
-				<p>
-					
-					Theme used: <a href="https://github.com/yursan9/manis-hugo-theme">Manis</a><br>
-					
-					
-					
-				</p>
-				
-				<a href="#brand">
-					<img class="icon-text" src="https://blog.nobugware.com/img/toup.svg" alt="To Up"/>
-					<span>Back to Up</span>
-				</a>
-				
-			</div>
-		</footer>
-                
-<script>
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-ga('create', 'UA-1245966-1', 'auto');
-ga('send', 'pageview');
-
-</script>
-
-		
-	</body>
-</html>
-
+</code></pre></div><p>It can be optimized, reducing the size of the keys, but it performs extremely well storing around 3 millions geopoints per day, using less than 3% cpu and can received hundreds of queries per second.</p><p>Oh did I forget to mention it&rsquo;s running on a Raspberry Pi? :)</p><p>I could maybe turn it into a library but it&rsquo;s so simple it&rsquo;s probably useless.<br>Next blog post: what are those millions points used for?</p></article><nav class="no-print post-nav"><a class=prev-post href=https://blog.nobugware.com/post/2015/internet_access_power_outage_disaster_free/><img class=icon-text src=https://blog.nobugware.com/img/prev.svg>Offering free internet well almost and survive disaster, power outage, Internet blackout</a>
+<a class=next-post href=https://blog.nobugware.com/post/2015/listening_to_satellites_for_30_dollars/>Listening to satellites for 30 dollars<img class=icon-text src=https://blog.nobugware.com/img/next.svg></a></nav><hr class=sep></main><footer class="container no-print"><div class=u-footer><a href=https://github.com/akhenakh/><img class=icon-social src=https://blog.nobugware.com/img/github.svg alt=Github></a>
+<a href=https://twitter.com/akhenakh><img class=icon-social src=https://blog.nobugware.com/img/twitter.svg alt=Twitter></a>
+<a href=https://blog.nobugware.com/index.xml target=_blank><img class=icon-social src=https://blog.nobugware.com/img/feed.svg alt=Feed></a><p>Theme used: <a href=https://github.com/yursan9/manis-hugo-theme>Manis</a><br></p><a href=#brand><img class=icon-text src=https://blog.nobugware.com/img/toup.svg alt="To Up">
+<span>Back to Up</span></a></div></footer><script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-1245966-1','auto');ga('send','pageview');</script></body></html>

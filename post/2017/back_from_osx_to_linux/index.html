@@ -1,101 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta charset="utf-8"/>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<meta name="generator" content="Hugo 0.58.1" />
-		<title>From OSX to Linux - Fabrice Aneche</title>
-
-		<meta name="description" content="I&rsquo;ve been a long time UNIX user, ditched Microsoft back in the 90s for FreeBSD, Solaris and Linux on the desktop, but when Apple released MacOS X, I&rsquo;ve used it as a workstation.
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=generator content="Hugo 0.74.2"><title>From OSX to Linux - Fabrice Aneche</title><meta name=description content="I&rsquo;ve been a long time UNIX user, ditched Microsoft back in the 90s for FreeBSD, Solaris and Linux on the desktop, but when Apple released MacOS X, I&rsquo;ve used it as a workstation.
 For the last years I&rsquo;ve used Linux desktops but not on my main computer, today here I am switching back to Linux.
 This post is not about the reasons I&rsquo;m switching, they are simple.
-My typical work day is mostly about parsing giant files, running VM and Dockers, coding in Go and not about developing for iOS anymore.">
-
-
-		
-	
-		
-
-
-
-
-<link rel="stylesheet" href="https://blog.nobugware.com/css/ui.css">
-
-	
-		
-
-		<link  rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway">
-
-		
-	</head>
-
-<body>
-<header class="container no-print">
-	<div class="u-header">
-		<nav class="bar">
-	<ul><li>
-			<a href="https://blog.nobugware.com/">
-				<img class="icon-text" src="https://blog.nobugware.com/img/prev.svg"/>
-			</a>
-		</li><li><a href="https://blog.nobugware.com/about">About</a></li><li><a href="https://blog.nobugware.com/post/">Post</a></li></ul>
-</nav>
-
-	</div>
-</header>
-<main class="container">
-
-<article>
-	<header><hgroup id="brand">
-	<h1>From OSX to Linux</h1>
-	<h5>
-		
-		<time datetime="2017-02-25 09:57:56 -0500 -0500">Feb 25, 2017</time>
-		<span class="no-print">
-			-
-				
-				<a href="https://blog.nobugware.com/tags/linux">linux</a>
-				
-				<a href="https://blog.nobugware.com/tags/osx">osx</a>
-				<span>
-	</h5>
-	
-</hgroup>
-<hr class="sep" />
-</header>
-	
-
-<p>I&rsquo;ve been a long time UNIX user, ditched Microsoft back in the 90s for FreeBSD, Solaris and Linux on the desktop, but when Apple released MacOS X, I&rsquo;ve used it as a workstation.</p>
-
-<p>For the last years I&rsquo;ve used Linux desktops but not on my main computer, today here I am switching back to Linux.</p>
-
-<p>This post is not about the reasons I&rsquo;m switching, they are simple.<br />
-My typical work day is mostly about parsing giant files, running VM and Dockers, coding in Go and not about developing for iOS anymore.</p>
-
-<p>I&rsquo;m using Arch Linux and KDE/Plasma but many items from this list apply to any Linux distributions.</p>
-
-<p>Put your user in the following groups <code>uucp audio input lp</code>.</p>
-
-<h2 id="bonjour-mdns-and-local">Bonjour, mDNS and .local</h2>
-
-<p>I was used to query the .local domain to ssh my laptop back.</p>
-
-<ul>
-<li>Install <code>nss-mdns</code>, add <code>mdns_minimal [NOTFOUND=return]</code> before <code>resolve</code> in <code>/etc/nsswith.conf</code><br /></li>
-<li>Install <code>avahi</code> and start <code>avahi-daemon.service</code>.<br /></li>
-<li>To make your ssh server visible to others, <code>cp /usr/share/doc/avahi/ssh.service /etc/avahi/services/</code></li>
-</ul>
-
-<p>Try pinging a Mac host on your LAN with <code>ping hostname.local</code></p>
-
-<h2 id="google-drive">Google drive</h2>
-
-<p>Install <code>kio-gdrive</code> then start Dolphin and go to Network then Google drive and set up your account or by running the shell command: <code>kioclient5 exec gdrive:/</code>.</p>
-
-<h2 id="emojis-in-color">Emojis in color 💻</h2>
-
-<p>Install <code>noto-fonts-emoji</code> and edit <code>.config/fontconfig/fonts.conf</code> as follow</p>
-
-<pre><code>&lt;?xml version='1.0'?&gt;
+My typical work day is mostly about parsing giant files, running VM and Dockers, coding in Go and not about developing for iOS anymore."><link rel=stylesheet href=https://blog.nobugware.com/css/ui.css><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway"></head><body><header class="container no-print"><div class=u-header><nav class=bar><ul><li><a href=https://blog.nobugware.com/><img class=icon-text src=https://blog.nobugware.com/img/prev.svg></a></li><li><a href=https://blog.nobugware.com/about>About</a></li><li><a href=https://blog.nobugware.com/post/>Post</a></li></ul></nav></div></header><main class=container><article><header><hgroup id=brand><h1>From OSX to Linux</h1><h5><time datetime="2017-02-25 09:57:56 -0500 -0500">Feb 25, 2017</time>
+<span class=no-print>-
+<a href=https://blog.nobugware.com/tags/linux>linux</a>
+<a href=https://blog.nobugware.com/tags/osx>osx</a>
+<span></h5></hgroup><hr class=sep></header><p>I&rsquo;ve been a long time UNIX user, ditched Microsoft back in the 90s for FreeBSD, Solaris and Linux on the desktop, but when Apple released MacOS X, I&rsquo;ve used it as a workstation.</p><p>For the last years I&rsquo;ve used Linux desktops but not on my main computer, today here I am switching back to Linux.</p><p>This post is not about the reasons I&rsquo;m switching, they are simple.<br>My typical work day is mostly about parsing giant files, running VM and Dockers, coding in Go and not about developing for iOS anymore.</p><p>I&rsquo;m using Arch Linux and KDE/Plasma but many items from this list apply to any Linux distributions.</p><p>Put your user in the following groups <code>uucp audio input lp</code>.</p><h2 id=bonjour-mdns-and-local>Bonjour, mDNS and .local</h2><p>I was used to query the .local domain to ssh my laptop back.</p><ul><li>Install <code>nss-mdns</code>, add <code>mdns_minimal [NOTFOUND=return]</code> before <code>resolve</code> in <code>/etc/nsswith.conf</code></li><li>Install <code>avahi</code> and start <code>avahi-daemon.service</code>.</li><li>To make your ssh server visible to others, <code>cp /usr/share/doc/avahi/ssh.service /etc/avahi/services/</code></li></ul><p>Try pinging a Mac host on your LAN with <code>ping hostname.local</code></p><h2 id=google-drive>Google drive</h2><p>Install <code>kio-gdrive</code> then start Dolphin and go to Network then Google drive and set up your account or by running the shell command: <code>kioclient5 exec gdrive:/</code>.</p><h2 id=emojis-in-color->Emojis in color 💻</h2><p>Install <code>noto-fonts-emoji</code> and edit <code>.config/fontconfig/fonts.conf</code> as follow</p><pre><code>&lt;?xml version='1.0'?&gt;
 &lt;!DOCTYPE fontconfig SYSTEM 'fonts.dtd'&gt;
 &lt;fontconfig&gt;
  &lt;alias&gt;
@@ -116,216 +26,22 @@ My typical work day is mostly about parsing giant files, running VM and Dockers,
  &lt;/alias&gt;
  &lt;dir&gt;~/.fonts&lt;/dir&gt;
 &lt;/fontconfig&gt;
-</code></pre>
-
-<p>This setup is working in most applications but can sometimes display weird results in terminals.</p>
-
-<h2 id="2-factor-usb-key-u2f">2 Factor USB key U2F</h2>
-
-<p>I have a cheap Fido U2F key but Chrome was unable to see it.
-Edit <code>/etc/udev/rules.d/50-fido-u2f.rules</code></p>
-
-<pre><code># this udev file should be used with udev 188 and newer
+</code></pre><p>This setup is working in most applications but can sometimes display weird results in terminals.</p><h2 id=2-factor-usb-key-u2f>2 Factor USB key U2F</h2><p>I have a cheap Fido U2F key but Chrome was unable to see it.
+Edit <code>/etc/udev/rules.d/50-fido-u2f.rules</code></p><pre><code># this udev file should be used with udev 188 and newer
 ACTION!=&quot;add|change&quot;, GOTO=&quot;u2f_end&quot;
 # Key-ID FIDO U2F
 KERNEL==&quot;hidraw*&quot;, SUBSYSTEM==&quot;hidraw&quot;, ATTRS{idVendor}==&quot;096e&quot;, ATTRS{idProduct}==&quot;0850|0880&quot;, TAG+=&quot;uaccess&quot;
 LABEL=&quot;u2f_end&quot;
-</code></pre>
-
-<h2 id="win-key-aka-cmd-key">Win key aka ⌘ cmd key</h2>
-
-<p>On a PC keyboard the left alt and the windows key are inverted in opposite to a Mac where alt is left of ⌘.<br />
-To avoid being lost when I switch back to my Macbook I&rsquo;ve physically inverted the keys and change the behavior in Plasma in &ldquo;Hardware | Input Devices&rdquo;.</p>
-
-<p><img src="https://blog.nobugware.com/img/keyaltwin.png" alt="⌘" /></p>
-
-<h2 id="compose-key">Compose key</h2>
-
-<p>To type special or accentuated characters you&rsquo;ll use the &ldquo;Compose&rdquo; key.<br />
-You can set the compose key in Plasma in &ldquo;Hardware | Input Devices&rdquo;.</p>
-
-<p><img src="https://blog.nobugware.com/img/keycompose.png" alt="Compose" /></p>
-
-<p>I&rsquo;m using the right alt, which is the right  ⌘ cmd on a Mac (and also a compose key).</p>
-
-<p>For a complete list of compose shortcuts <a href="http://fsymbols.com/keyboard/linux/compose/">see the bottom of this page</a></p>
-
-<h2 id="spotlight">Spotlight</h2>
-
-<p>The tool/window equivalent to running Spotlight is called &ldquo;Plasma Search&rdquo;, you can configure what it can search for.<br />
-The mapping for this key in &ldquo;System Settings | Global Shortcuts | Run Command&rdquo;.</p>
-
-<p><img src="https://blog.nobugware.com/img/shortcut.png" alt="System Settings | Global Shortcuts | Run Command" /></p>
-
-<p>It&rsquo;s also capable of indexing files content, in KDE/Plasma this service is provided by baloo, ignored directories can be set by calling &ldquo;Configure File Search&rdquo;.</p>
-
-<p>You can empty your baloo index by stopping by killing all your baloo processes and <code>rm -r .local/share/baloo</code> then restart for indexation <code>balooctl start</code></p>
-
-<h2 id="exposé-and-active-corners">Exposé and active corners</h2>
-
-<p>It&rsquo;s called &ldquo;Screen Edges&rdquo; and it&rsquo;s under &ldquo;Windows behavior&rdquo;.</p>
-
-<p><img src="https://blog.nobugware.com/img/edges.png" alt="edges" /></p>
-
-<h2 id="alternative-for-dash">Alternative for Dash</h2>
-
-<p><a href="https://kapeli.com/dash">Dash</a> was part of my workflow to get documentation, an alternative solution is to install <code>zeal</code> it&rsquo;s using the exact same docsets as Dash.<br />
-Also see <a href="http://devdocs.io/">DevDocs</a></p>
-
-<h2 id="samba-share">Samba share</h2>
-
-<p>Install <code>samba</code>, tweak <code>/etc/samba/smb.conf</code> and enable <code>nmbd.service</code>.<br />
-I personally prefer a different password than my shell account: <code>smpasswd -a yourusername</code>.</p>
-
-<h2 id="taking-screenshot">Taking Screenshot</h2>
-
-<p>Install <code>spectacle</code> and use the Ptr Sc key (this shortcut can be setup in Plasma).</p>
-
-<h2 id="webcam-hangout-and-skype">Webcam, Hangout and Skype</h2>
-
-<p>I have a Logitech C920, it worked without any configuration, inside Chrome so Hangout and even with Skype for Linux.</p>
-
-<h2 id="mounting-a-macos-disk">Mounting a macOS disk</h2>
-
-<p>That one is weird &hellip;<br />
-<code>mount -o ro,sizelimit=498876809216 /dev/sda2 /mnt/OSX</code></p>
-
-<p>If your existing partition was big, you need to find this magic number by <a href="http://superuser.com/questions/961401/mounting-hfs-partition-on-arch-linux#1088110">following this guide</a></p>
-
-<h2 id="steam">Steam</h2>
-
-<p>Steam needs x86 32 bits libraries, on Arch you have to enable <code>multilib</code> by editing <code>/etc/pacman.conf</code></p>
-
-<pre><code>[multilib]
+</code></pre><h2 id=win-key-aka--cmd-key>Win key aka ⌘ cmd key</h2><p>On a PC keyboard the left alt and the windows key are inverted in opposite to a Mac where alt is left of ⌘.<br>To avoid being lost when I switch back to my Macbook I&rsquo;ve physically inverted the keys and change the behavior in Plasma in &ldquo;Hardware | Input Devices&rdquo;.</p><p><img src=https://blog.nobugware.com/img/keyaltwin.png alt=⌘></p><h2 id=compose-key>Compose key</h2><p>To type special or accentuated characters you&rsquo;ll use the &ldquo;Compose&rdquo; key.<br>You can set the compose key in Plasma in &ldquo;Hardware | Input Devices&rdquo;.</p><p><img src=https://blog.nobugware.com/img/keycompose.png%22 alt=Compose></p><p>I&rsquo;m using the right alt, which is the right ⌘ cmd on a Mac (and also a compose key).</p><p>For a complete list of compose shortcuts <a href=http://fsymbols.com/keyboard/linux/compose/>see the bottom of this page</a></p><h2 id=spotlight>Spotlight</h2><p>The tool/window equivalent to running Spotlight is called &ldquo;Plasma Search&rdquo;, you can configure what it can search for.<br>The mapping for this key in &ldquo;System Settings | Global Shortcuts | Run Command&rdquo;.</p><p><img src=https://blog.nobugware.com/img/shortcut.png alt="System Settings | Global Shortcuts | Run Command"></p><p>It&rsquo;s also capable of indexing files content, in KDE/Plasma this service is provided by baloo, ignored directories can be set by calling &ldquo;Configure File Search&rdquo;.</p><p>You can empty your baloo index by stopping by killing all your baloo processes and <code>rm -r .local/share/baloo</code> then restart for indexation <code>balooctl start</code></p><h2 id=exposé-and-active-corners>Exposé and active corners</h2><p>It&rsquo;s called &ldquo;Screen Edges&rdquo; and it&rsquo;s under &ldquo;Windows behavior&rdquo;.</p><p><img src=https://blog.nobugware.com/img/edges.png alt=edges></p><h2 id=alternative-for-dash>Alternative for Dash</h2><p><a href=https://kapeli.com/dash>Dash</a> was part of my workflow to get documentation, an alternative solution is to install <code>zeal</code> it&rsquo;s using the exact same docsets as Dash.<br>Also see <a href=http://devdocs.io/>DevDocs</a></p><h2 id=samba-share>Samba share</h2><p>Install <code>samba</code>, tweak <code>/etc/samba/smb.conf</code> and enable <code>nmbd.service</code>.<br>I personally prefer a different password than my shell account: <code>smpasswd -a yourusername</code>.</p><h2 id=taking-screenshot>Taking Screenshot</h2><p>Install <code>spectacle</code> and use the Ptr Sc key (this shortcut can be setup in Plasma).</p><h2 id=webcam-hangout-and-skype>Webcam, Hangout and Skype</h2><p>I have a Logitech C920, it worked without any configuration, inside Chrome so Hangout and even with Skype for Linux.</p><h2 id=mounting-a-macos-disk>Mounting a macOS disk</h2><p>That one is weird &mldr;<br><code>mount -o ro,sizelimit=498876809216 /dev/sda2 /mnt/OSX</code></p><p>If your existing partition was big, you need to find this magic number by <a href=http://superuser.com/questions/961401/mounting-hfs-partition-on-arch-linux#1088110>following this guide</a></p><h2 id=steam>Steam</h2><p>Steam needs x86 32 bits libraries, on Arch you have to enable <code>multilib</code> by editing <code>/etc/pacman.conf</code></p><pre><code>[multilib]
 Include = /etc/pacman.d/mirrorlist
-</code></pre>
-
-<p>Then install the <code>steam</code> package.</p>
-
-<h2 id="virtualbox-qemu">Virtualbox / QEMU</h2>
-
-<p>I prefer QEMU/KVM &amp; libvirt-manager, when available, over Virtualbox, it&rsquo;s more integrated into the system, and it&rsquo;s capable of emulating other cpu architectures like aarch64&hellip;</p>
-
-<p>One more huge advantage for QEMU it&rsquo;s also capable of <a href="https://github.com/kholia/OSX-KVM">booting a virtual macOS X</a></p>
-
-<h2 id="printing">Printing</h2>
-
-<p>Install <code>cups</code> and <code>print-manager</code> then enable <code>org.cups.cupsd.service</code>, note that you need the .local resolution above for network printer resolution.<br />
-Also install <code>hplib</code> for HP printers.</p>
-
-<h2 id="share-your-session-aka-remote-desktop">Share your session aka remote desktop</h2>
-
-<p>Install <code>x11vnc</code> and run <code>x11vnc -usepw -once  -noxdamage  -ncache 10</code> from your X session.</p>
-
-<p>Note that this vnc server is not compatible with macOS X embedded vnc viewer (vnc://hostname), here is one for Chrome <a href="https://chrome.google.com/webstore/detail/vnc%C2%AE-viewer-for-google-ch/iabmpiboiopbgfabjmgeedhcmjenhbla">RealVNC</a></p>
-
-<p>Remember vnc protocol is not secure and you must use an SSH tunnel over it.</p>
-
-<h2 id="magic-trackpad">Magic Trackpad</h2>
-
-<p>I&rsquo;m using a magic trackpad 2, after enabling bluetooth and pairing the trackpad, one, two &amp; three fingers touches, vertical &amp; horizontal scroll worked via <code>hid_magicmouse</code> module.</p>
-
-<p>For gestures you need <code>libinput-gestures</code>, here is an example <code>/etc/libinput-gestures.conf</code> file:</p>
-
-<pre><code>gesture swipe left 3 xdotool key control+Right
+</code></pre><p>Then install the <code>steam</code> package.</p><h2 id=virtualbox--qemu>Virtualbox / QEMU</h2><p>I prefer QEMU/KVM & libvirt-manager, when available, over Virtualbox, it&rsquo;s more integrated into the system, and it&rsquo;s capable of emulating other cpu architectures like aarch64&mldr;</p><p>One more huge advantage for QEMU it&rsquo;s also capable of <a href=https://github.com/kholia/OSX-KVM>booting a virtual macOS X</a></p><h2 id=printing>Printing</h2><p>Install <code>cups</code> and <code>print-manager</code> then enable <code>org.cups.cupsd.service</code>, note that you need the .local resolution above for network printer resolution.<br>Also install <code>hplib</code> for HP printers.</p><h2 id=share-your-session-aka-remote-desktop>Share your session aka remote desktop</h2><p>Install <code>x11vnc</code> and run <code>x11vnc -usepw -once -noxdamage -ncache 10</code> from your X session.</p><p>Note that this vnc server is not compatible with macOS X embedded vnc viewer (vnc://hostname), here is one for Chrome <a href=https://chrome.google.com/webstore/detail/vnc%C2%AE-viewer-for-google-ch/iabmpiboiopbgfabjmgeedhcmjenhbla>RealVNC</a></p><p>Remember vnc protocol is not secure and you must use an SSH tunnel over it.</p><h2 id=magic-trackpad>Magic Trackpad</h2><p>I&rsquo;m using a magic trackpad 2, after enabling bluetooth and pairing the trackpad, one, two & three fingers touches, vertical & horizontal scroll worked via <code>hid_magicmouse</code> module.</p><p>For gestures you need <code>libinput-gestures</code>, here is an example <code>/etc/libinput-gestures.conf</code> file:</p><pre><code>gesture swipe left 3 xdotool key control+Right
 
 gesture swipe right 3 xdotool key control+Left
 
 gesture swipe up 3 xdotool key control+F9
 
-</code></pre>
-
-<h2 id="the-bad">The bad</h2>
-
-<ul>
-<li>Not as nice, not as well integrated, for example <a href="https://wiki.archlinux.org/index.php/HiDPI#Side_display">supporting HiDPI with only one retina screen</a> is weird with Xorg.<br /></li>
-<li>Key shorcuts are a giant mess under Linux, every applications have their own and it can&rsquo;t be configured centrally.</li>
-<li>I&rsquo;m still missing some applications like <a href="https://www.sketchapp.com/">Sketch</a>, but most of all <a href="https://www.git-tower.com/mac/">Tower</a> when dealing with a git merge issue.</li>
-</ul>
-
-<h2 id="the-good">The good</h2>
-
-<p>After 8 years of absence on Linux as main desktop, things have changed, it&rsquo;s not free from bugs but way more simpler to use now than before, and way more configurable than macOS X.</p>
-
-<p>It won&rsquo;t work for everybody but I&rsquo;m really happy with this setup, the gain compared to a Mac is big, first the machine itself a 4Ghz i7 with 64G of ram does not even exist at Apple (Hackintosh is not a good solution), ZFS, native Docker over ZFS, better OpenGL (faster fps in games), well maintained packages over Brew/Macports, well maintained drivers, my work is easier &hellip;</p>
-
-<h2 id="notes">Notes</h2>
-
-<ul>
-<li><a href="https://1password.com/">1Password</a> alternative is <code>keepassxc</code> &amp; <a href="https://itunes.apple.com/us/app/minikeepass-secure-password/id451661808?mt=8">minikeepass touch on iOS</a></li>
-<li>Equivalent to macOS <code>open</code> command, <code>alias open=&quot;xdg-open&quot;</code></li>
-</ul>
-
-</article>
-<nav class="no-print post-nav">
-
-	<a class="prev-post" href="https://blog.nobugware.com/post/2016/telegraf_prometheus_metrics_swiss_army_knife/">
-		<img class="icon-text" src="https://blog.nobugware.com/img/prev.svg"/>Telegraf &amp; Prometheus Swiss Army Knife for Metrics</a>
-
-
-	<a class="next-post" href="https://blog.nobugware.com/post/2017/asus_c301s_arch_linux_chromeos_write_protection/">Arch Linux on a Chromebook Asus C301SA<img class="icon-text" src="https://blog.nobugware.com/img/next.svg"/>
-	</a>
-
-</nav>
-
-
-<section id="related">
-  <h4>See Also</h4>
-  <ul>
-    
-  	<li><a href="https://blog.nobugware.com/post/2014/12/13/airspy-on-linux/">Airspy on Linux</a></li>
-  	
-  	<li><a href="https://blog.nobugware.com/post/2012/01/05/compile-and-run-xv6-mac-os-x-6828/">compile and run xv6 on Mac Os X 6.828</a></li>
-  	
-  	<li><a href="https://blog.nobugware.com/post/2011/08/31/gimp-273-osx/">Gimp 2.7.3 on OSX</a></li>
-  	
-  </ul>
-</section>
-
-
-
-
-			<hr class="sep" />
-		</main>
-		<footer class="container no-print">
-			<div class="u-footer">
-				
-
-<a href="https://github.com/akhenakh/"><img class="icon-social" src="https://blog.nobugware.com/img/github.svg" alt="Github"/></a>
-
-
-<a href="https://twitter.com/akhenakh"><img class="icon-social" src="https://blog.nobugware.com/img/twitter.svg" alt="Twitter"/></a>
-
-<a href="https://blog.nobugware.com/index.xml" target="_blank"><img class="icon-social" src="https://blog.nobugware.com/img/feed.svg" alt="Feed"></a>
-
-				<p>
-					
-					Theme used: <a href="https://github.com/yursan9/manis-hugo-theme">Manis</a><br>
-					
-					
-					
-				</p>
-				
-				<a href="#brand">
-					<img class="icon-text" src="https://blog.nobugware.com/img/toup.svg" alt="To Up"/>
-					<span>Back to Up</span>
-				</a>
-				
-			</div>
-		</footer>
-                
-<script>
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-ga('create', 'UA-1245966-1', 'auto');
-ga('send', 'pageview');
-
-</script>
-
-		
-	</body>
-</html>
-
+</code></pre><h2 id=the-bad>The bad</h2><ul><li>Not as nice, not as well integrated, for example <a href=https://wiki.archlinux.org/index.php/HiDPI#Side_display>supporting HiDPI with only one retina screen</a> is weird with Xorg.</li><li>Key shorcuts are a giant mess under Linux, every applications have their own and it can&rsquo;t be configured centrally.</li><li>I&rsquo;m still missing some applications like <a href=https://www.sketchapp.com/>Sketch</a>, but most of all <a href=https://www.git-tower.com/mac/>Tower</a> when dealing with a git merge issue.</li></ul><h2 id=the-good>The good</h2><p>After 8 years of absence on Linux as main desktop, things have changed, it&rsquo;s not free from bugs but way more simpler to use now than before, and way more configurable than macOS X.</p><p>It won&rsquo;t work for everybody but I&rsquo;m really happy with this setup, the gain compared to a Mac is big, first the machine itself a 4Ghz i7 with 64G of ram does not even exist at Apple (Hackintosh is not a good solution), ZFS, native Docker over ZFS, better OpenGL (faster fps in games), well maintained packages over Brew/Macports, well maintained drivers, my work is easier &mldr;</p><h2 id=notes>Notes</h2><ul><li><a href=https://1password.com/>1Password</a> alternative is <code>keepassxc</code> & <a href="https://itunes.apple.com/us/app/minikeepass-secure-password/id451661808?mt=8">minikeepass touch on iOS</a></li><li>Equivalent to macOS <code>open</code> command, <code>alias open="xdg-open"</code></li></ul></article><nav class="no-print post-nav"><a class=prev-post href=https://blog.nobugware.com/post/2016/telegraf_prometheus_metrics_swiss_army_knife/><img class=icon-text src=https://blog.nobugware.com/img/prev.svg>Telegraf & Prometheus Swiss Army Knife for Metrics</a>
+<a class=next-post href=https://blog.nobugware.com/post/2017/asus_c301s_arch_linux_chromeos_write_protection/>Arch Linux on a Chromebook Asus C301SA<img class=icon-text src=https://blog.nobugware.com/img/next.svg></a></nav><section id=related><h4>See Also</h4><ul><li><a href=https://blog.nobugware.com/post/2014/12/13/airspy-on-linux/>Airspy on Linux</a></li><li><a href=https://blog.nobugware.com/post/2012/01/05/compile-and-run-xv6-mac-os-x-6828/>compile and run xv6 on Mac Os X 6.828</a></li><li><a href=https://blog.nobugware.com/post/2011/08/31/gimp-273-osx/>Gimp 2.7.3 on OSX</a></li></ul></section><hr class=sep></main><footer class="container no-print"><div class=u-footer><a href=https://github.com/akhenakh/><img class=icon-social src=https://blog.nobugware.com/img/github.svg alt=Github></a>
+<a href=https://twitter.com/akhenakh><img class=icon-social src=https://blog.nobugware.com/img/twitter.svg alt=Twitter></a>
+<a href=https://blog.nobugware.com/index.xml target=_blank><img class=icon-social src=https://blog.nobugware.com/img/feed.svg alt=Feed></a><p>Theme used: <a href=https://github.com/yursan9/manis-hugo-theme>Manis</a><br></p><a href=#brand><img class=icon-text src=https://blog.nobugware.com/img/toup.svg alt="To Up">
+<span>Back to Up</span></a></div></footer><script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-1245966-1','auto');ga('send','pageview');</script></body></html>

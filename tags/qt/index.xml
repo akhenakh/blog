@@ -1,38 +1,6 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>Qt on Fabrice Aneche</title>
-    <link>https://blog.nobugware.com/tags/qt/</link>
-    <description>Recent content in Qt on Fabrice Aneche</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <lastBuildDate>Wed, 01 Aug 2018 00:19:57 -0200</lastBuildDate>
-    
-	<atom:link href="https://blog.nobugware.com/tags/qt/index.xml" rel="self" type="application/rss+xml" />
-    
-    
-    <item>
-      <title>My Own Car System, Rear Camera, Offline Maps &amp; Routing, Map Matching with Go on Raspberry Pi part II</title>
-      <link>https://blog.nobugware.com/post/2018/my_own_car_system_raspberry_pi_offline_mapping_map_matching_places_part2/</link>
-      <pubDate>Wed, 01 Aug 2018 00:19:57 -0200</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2018/my_own_car_system_raspberry_pi_offline_mapping_map_matching_places_part2/</guid>
-      <description>This is my journey building an open source car system with Go &amp;amp; Qt, rear camera, live OpenGL map &amp;hellip;
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Qt on Fabrice Aneche</title><link>https://blog.nobugware.com/tags/qt/</link><description>Recent content in Qt on Fabrice Aneche</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Wed, 01 Aug 2018 00:19:57 -0200</lastBuildDate><atom:link href="https://blog.nobugware.com/tags/qt/index.xml" rel="self" type="application/rss+xml"/><item><title>My Own Car System, Rear Camera, Offline Maps &amp; Routing, Map Matching with Go on Raspberry Pi part II</title><link>https://blog.nobugware.com/post/2018/my_own_car_system_raspberry_pi_offline_mapping_map_matching_places_part2/</link><pubDate>Wed, 01 Aug 2018 00:19:57 -0200</pubDate><guid>https://blog.nobugware.com/post/2018/my_own_car_system_raspberry_pi_offline_mapping_map_matching_places_part2/</guid><description>This is my journey building an open source car system with Go &amp;amp; Qt, rear camera, live OpenGL map &amp;hellip;
 Cross compilation In Part I, I had to patch qtmultimedia for the camera to work, but Qt compilation is resource hungry, same goes for the osrm compilation, the memory of the Raspberry Pi is too small.
-I had to to set up a cross compilation system in my case for armv7h.</description>
-    </item>
-    
-    <item>
-      <title>My Own Car System, Rear Camera, Offline Maps &amp; Routing on Raspberry Pi part I</title>
-      <link>https://blog.nobugware.com/post/2018/my_own_car_system_raspberry_pi_offline_mapping/</link>
-      <pubDate>Sun, 10 Jun 2018 09:19:57 -0500</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2018/my_own_car_system_raspberry_pi_offline_mapping/</guid>
-      <description>At first I needed a car rear camera, one thing led to another&amp;hellip;
+I had to to set up a cross compilation system in my case for armv7h.</description></item><item><title>My Own Car System, Rear Camera, Offline Maps &amp; Routing on Raspberry Pi part I</title><link>https://blog.nobugware.com/post/2018/my_own_car_system_raspberry_pi_offline_mapping/</link><pubDate>Sun, 10 Jun 2018 09:19:57 -0500</pubDate><guid>https://blog.nobugware.com/post/2018/my_own_car_system_raspberry_pi_offline_mapping/</guid><description>At first I needed a car rear camera, one thing led to another&amp;hellip;
 My Car, from 2011, only has an LCD display and no rear camera, so I bought a PAL rear camera, we passed some cables from the rear window to the front then everything begun.
 Here is my journey to transform my car into a modern system running on RPi3 (a never ending project).
-Hardware I&amp;rsquo;m using an Rpi3 (old model).</description>
-    </item>
-    
-  </channel>
-</rss>
+Hardware I&amp;rsquo;m using an Rpi3 (old model).</description></item></channel></rss>

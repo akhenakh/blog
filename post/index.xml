@@ -1,721 +1,172 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>Posts on Fabrice Aneche</title>
-    <link>https://blog.nobugware.com/post/</link>
-    <description>Recent content in Posts on Fabrice Aneche</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <lastBuildDate>Sat, 11 Apr 2020 04:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="https://blog.nobugware.com/post/index.xml" rel="self" type="application/rss+xml" />
-    
-    
-    <item>
-      <title>C&#43;&#43; bindings in Go and Swig</title>
-      <link>https://blog.nobugware.com/post/2020/c-bindings-in-go-and-swig/</link>
-      <pubDate>Sat, 11 Apr 2020 04:00:00 +0000</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2020/c-bindings-in-go-and-swig/</guid>
-      <description>Swig is a tool to generate bindings for c/c++, it can produce bindings for Python, Java, Go and more.
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Posts on Fabrice Aneche</title><link>https://blog.nobugware.com/post/</link><description>Recent content in Posts on Fabrice Aneche</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sat, 11 Apr 2020 04:00:00 +0000</lastBuildDate><atom:link href="https://blog.nobugware.com/post/index.xml" rel="self" type="application/rss+xml"/><item><title>C++ bindings in Go and Swig</title><link>https://blog.nobugware.com/post/2020/c-bindings-in-go-and-swig/</link><pubDate>Sat, 11 Apr 2020 04:00:00 +0000</pubDate><guid>https://blog.nobugware.com/post/2020/c-bindings-in-go-and-swig/</guid><description>Swig is a tool to generate bindings for c/c++, it can produce bindings for Python, Java, Go and more.
 Unfortunately Swig for Go is very limited, so as the Swig &amp;amp; Go documentation.
 Here are some notes taken while writing a binding from c++ to Go:
 To bind standard types into Golang Let&amp;rsquo;s look at this c++ function:
-int64_t Ticks() const;  Simply include sdtint into Swig
-%include &amp;quot;stdint.i&amp;quot;  It will translate into Go</description>
-    </item>
-    
-    <item>
-      <title>Free Maps For All</title>
-      <link>https://blog.nobugware.com/post/2020/free-maps-for-all/</link>
-      <pubDate>Tue, 17 Mar 2020 00:00:00 +0000</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2020/free-maps-for-all/</guid>
-      <description>TL;DR; simply run docker pull akhenakh/kvtiles:planet-9-latest for a self hosted free performant world map (more maps and levels available see kvtiles docker tags).
+int64_t Ticks() const; Simply include sdtint into Swig
+%include &amp;quot;stdint.i&amp;quot; It will translate into Go</description></item><item><title>Free Maps For All</title><link>https://blog.nobugware.com/post/2020/free-maps-for-all/</link><pubDate>Tue, 17 Mar 2020 00:00:00 +0000</pubDate><guid>https://blog.nobugware.com/post/2020/free-maps-for-all/</guid><description>TL;DR; simply run docker pull akhenakh/kvtiles:planet-9-latest for a self hosted free performant world map (more maps and levels available see kvtiles docker tags).
 I&amp;rsquo;ve blogged in the past to describe how to generate and serves your own map tiles server, but I wanted an easier solution.
-KVTiles kvtiles is a map tiles self hosted solution written in Go, it&amp;rsquo;s using Mapbox vector format but rather than using the regular sqlite3 database it&amp;rsquo;s using a key-value storage.</description>
-    </item>
-    
-    <item>
-      <title>k3s, containerd &amp; ZFS</title>
-      <link>https://blog.nobugware.com/post/2019/k3s-containterd-zfs/</link>
-      <pubDate>Wed, 18 Dec 2019 18:00:00 +0000</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2019/k3s-containterd-zfs/</guid>
-      <description>To simplify distribution k3s does not ship with zfs support.
+KVTiles kvtiles is a map tiles self hosted solution written in Go, it&amp;rsquo;s using Mapbox vector format but rather than using the regular sqlite3 database it&amp;rsquo;s using a key-value storage.</description></item><item><title>k3s, containerd &amp; ZFS</title><link>https://blog.nobugware.com/post/2019/k3s-containterd-zfs/</link><pubDate>Wed, 18 Dec 2019 18:00:00 +0000</pubDate><guid>https://blog.nobugware.com/post/2019/k3s-containterd-zfs/</guid><description>To simplify distribution k3s does not ship with zfs support.
 But can work with by relying on an existing containerd enabled zfs, here is how:
 Requierements Install cni-plugins and crictl
 Ensure your containerd includes the zfs plugins:
-ctr plugins ls ... io.containerd.snapshotter.v1 zfs linux/amd64 ok  Configuration Create the default containerd config file
-mkdir -p /etc/containerd/ containerd config default &amp;gt; /etc/containerd/config.toml  Change the snapshotter to &amp;quot;zfs&amp;quot;
- [plugins.&amp;quot;io.containerd.grpc.v1.cri&amp;quot;.containerd] snapshotter = &amp;quot;zfs&amp;quot;  And in my special Arch case also change the path to the cni binaries:</description>
-    </item>
-    
-    <item>
-      <title>A Time Series Storage for Coordinates</title>
-      <link>https://blog.nobugware.com/post/2019/time_series_storage_for_coordinates/</link>
-      <pubDate>Wed, 11 Dec 2019 11:00:00 +0000</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2019/time_series_storage_for_coordinates/</guid>
-      <description>TL;DR; Knowing your data helps compress them better than common algorithms.
+ctr plugins ls ... io.containerd.snapshotter.v1 zfs linux/amd64 ok Configuration Create the default containerd config file
+mkdir -p /etc/containerd/ containerd config default &amp;gt; /etc/containerd/config.toml Change the snapshotter to &amp;quot;zfs&amp;quot;
+[plugins.&amp;quot;io.containerd.grpc.v1.cri&amp;quot;.containerd] snapshotter = &amp;quot;zfs&amp;quot; And in my special Arch case also change the path to the cni binaries:</description></item><item><title>A Time Series Storage for Coordinates</title><link>https://blog.nobugware.com/post/2019/time_series_storage_for_coordinates/</link><pubDate>Wed, 11 Dec 2019 11:00:00 +0000</pubDate><guid>https://blog.nobugware.com/post/2019/time_series_storage_for_coordinates/</guid><description>TL;DR; Knowing your data helps compress them better than common algorithms.
 Problem For one of my side projects, an IoT database, I wanted a specialized time series to store timestamps coupled with coordinates.
 I needed a simple solution which allows live and cold compressed storage with gaps in it: IoT devices can be off for days then reappear.
-But couldn&amp;rsquo;t find anything fitting my needs, the Gorilla Paper from Facebook is really nice but expects a 4 hours maximum gap between time events.</description>
-    </item>
-    
-    <item>
-      <title>An application to map and store your IoT devices data</title>
-      <link>https://blog.nobugware.com/post/2019/an_application_for__mapping_storing_your_iot_devices_data/</link>
-      <pubDate>Fri, 29 Nov 2019 06:00:00 +0000</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2019/an_application_for__mapping_storing_your_iot_devices_data/</guid>
-      <description>Here in Quebec, winter is so cold it can drain your phone battery very fast.
-I wanted a private and secure solution for my hikes, so I can be followed on a map.
+But couldn&amp;rsquo;t find anything fitting my needs, the Gorilla Paper from Facebook is really nice but expects a 4 hours maximum gap between time events.</description></item><item><title>An application to map and store your IoT devices data</title><link>https://blog.nobugware.com/post/2019/an_application_for__mapping_storing_your_iot_devices_data/</link><pubDate>Fri, 29 Nov 2019 06:00:00 +0000</pubDate><guid>https://blog.nobugware.com/post/2019/an_application_for__mapping_storing_your_iot_devices_data/</guid><description>Here in Quebec, winter is so cold it can drain your phone battery very fast. I wanted a private and secure solution for my hikes, so I can be followed on a map.
 This post will introduce you to LoRaWAN and how to install your own IoT mapping application using open source tools and a new project I&amp;rsquo;m working on written in Go.
-Radio Network LoRaWAN is a network layer protocol for managing communication between LoRa devices and gateways.</description>
-    </item>
-    
-    <item>
-      <title>Nomad an alternative to Kubernetes</title>
-      <link>https://blog.nobugware.com/post/2019/nomad_an_alternative_to_kubernetes/</link>
-      <pubDate>Tue, 12 Nov 2019 03:00:00 +0000</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2019/nomad_an_alternative_to_kubernetes/</guid>
-      <description>If you are familiar with this blog you know I really appreciate Kubernetes: as a former ops I strongly believe Kubernetes is one way to bundle &amp;ldquo;the sum of 20y ops good practices&amp;rdquo;.
+Radio Network LoRaWAN is a network layer protocol for managing communication between LoRa devices and gateways.</description></item><item><title>Nomad an alternative to Kubernetes</title><link>https://blog.nobugware.com/post/2019/nomad_an_alternative_to_kubernetes/</link><pubDate>Tue, 12 Nov 2019 03:00:00 +0000</pubDate><guid>https://blog.nobugware.com/post/2019/nomad_an_alternative_to_kubernetes/</guid><description>If you are familiar with this blog you know I really appreciate Kubernetes: as a former ops I strongly believe Kubernetes is one way to bundle &amp;ldquo;the sum of 20y ops good practices&amp;rdquo;.
 But there are others solutions one is Nomad.
 It&amp;rsquo;s made by Hashicorp, creators of Vault, Consul, Terraform&amp;hellip;
 In general Hashicorp is synonym with quality.
-Nomad is a task scheduler, a task could be execute a command, run a Docker container or a QEMU vm&amp;hellip;</description>
-    </item>
-    
-    <item>
-      <title>Advanced Traefik 2.0 with Kubernetes</title>
-      <link>https://blog.nobugware.com/post/2019/advanced-traefik-2-0-with-kubernetes/</link>
-      <pubDate>Mon, 07 Oct 2019 00:00:00 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2019/advanced-traefik-2-0-with-kubernetes/</guid>
-      <description>Following my earlier post about Traefik 2 and Kubernetes, here are some advanced configuration examples and a full yaml example at the end of this post:
+Nomad is a task scheduler, a task could be execute a command, run a Docker container or a QEMU vm&amp;hellip;</description></item><item><title>Advanced Traefik 2.0 with Kubernetes</title><link>https://blog.nobugware.com/post/2019/advanced-traefik-2-0-with-kubernetes/</link><pubDate>Mon, 07 Oct 2019 00:00:00 -0400</pubDate><guid>https://blog.nobugware.com/post/2019/advanced-traefik-2-0-with-kubernetes/</guid><description>Following my earlier post about Traefik 2 and Kubernetes, here are some advanced configuration examples and a full yaml example at the end of this post:
 Protecting a route with a password Create an htpasswd file named users for a user admin
- htpasswd -c users admin  Use kubectl to create the secret (easier for multi lines file).
-kubectl create secret generic admin-authsecret --from-file=users  Create a middleware for authentication:</description>
-    </item>
-    
-    <item>
-      <title>Self Hosted World Maps</title>
-      <link>https://blog.nobugware.com/post/2019/self_hosted_world_maps/</link>
-      <pubDate>Fri, 04 Oct 2019 17:00:00 +0000</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2019/self_hosted_world_maps/</guid>
-      <description>Maps are fun, self hosted maps are awesome !
+htpasswd -c users admin Use kubectl to create the secret (easier for multi lines file).
+kubectl create secret generic admin-authsecret --from-file=users Create a middleware for authentication:</description></item><item><title>Self Hosted World Maps</title><link>https://blog.nobugware.com/post/2019/self_hosted_world_maps/</link><pubDate>Fri, 04 Oct 2019 17:00:00 +0000</pubDate><guid>https://blog.nobugware.com/post/2019/self_hosted_world_maps/</guid><description>Maps are fun, self hosted maps are awesome !
 Serving world maps was reserved to big companies like Google, thanks to the OpenStreetMap project, we now have access to an open world of data.
 Generating Tiles MapBox (and others) worked hard to create a vector format bundled in a SQLite file: mbtiles format.
 It&amp;rsquo;s vector based as opposed to older raster maps containing 256x256 PNG images.
-The Openmaptiles folks did a great job automating the map generation.</description>
-    </item>
-    
-    <item>
-      <title>Google Kubernetes Engine &amp; GCP</title>
-      <link>https://blog.nobugware.com/post/2019/google-kubernetes-engine-gcp/</link>
-      <pubDate>Mon, 30 Sep 2019 00:00:00 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2019/google-kubernetes-engine-gcp/</guid>
-      <description>I&amp;rsquo;ve been using Google Compute Platform (GCP) &amp;amp; Google Kubernetes Engine (GKE) for years.
+The Openmaptiles folks did a great job automating the map generation.</description></item><item><title>Google Kubernetes Engine &amp; GCP</title><link>https://blog.nobugware.com/post/2019/google-kubernetes-engine-gcp/</link><pubDate>Mon, 30 Sep 2019 00:00:00 -0400</pubDate><guid>https://blog.nobugware.com/post/2019/google-kubernetes-engine-gcp/</guid><description>I&amp;rsquo;ve been using Google Compute Platform (GCP) &amp;amp; Google Kubernetes Engine (GKE) for years.
 And I love it, I hated AWS since the first release to these days, naming is cumbersome, UX is terrible&amp;hellip;
 Here are a quick survey of the tools and how I&amp;rsquo;ve used them for small to medium projects:
-Cloud Build Cloud Build is super easy, it&amp;rsquo;s a scriptable CI/CD, very similar to Github Actions, there is a one hour free tier per day, the default machine is very slow, it can be tuned in the cloudbuild.</description>
-    </item>
-    
-    <item>
-      <title>Traefik 2.0 with Kubernetes</title>
-      <link>https://blog.nobugware.com/post/2019/traefik-2-0-with-kubernetes/</link>
-      <pubDate>Tue, 17 Sep 2019 00:00:00 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2019/traefik-2-0-with-kubernetes/</guid>
-      <description>Traefik 2.0 is here !
+Cloud Build Cloud Build is super easy, it&amp;rsquo;s a scriptable CI/CD, very similar to Github Actions, there is a one hour free tier per day, the default machine is very slow, it can be tuned in the cloudbuild.</description></item><item><title>Traefik 2.0 with Kubernetes</title><link>https://blog.nobugware.com/post/2019/traefik-2-0-with-kubernetes/</link><pubDate>Tue, 17 Sep 2019 00:00:00 -0400</pubDate><guid>https://blog.nobugware.com/post/2019/traefik-2-0-with-kubernetes/</guid><description>Traefik 2.0 is here !
 Traefik is a reverse proxy load balancer (and more), it can learn the routes to respond to by discovering them in multiple providers, Docker, Kubernetes &amp;hellip;
 Traefik v1.x is very stable, v2.x is fresh new tech, with breaking changes and unfinished documentation, so test it first.
 From Traefik&amp;rsquo;s documentation:
- Providers discover the services that live on your infrastructure (their IP, health, &amp;hellip;) Entrypoints listen for incoming traffic (ports, &amp;hellip;) Routers analyze the requests (host, path, headers, SSL, &amp;hellip;) Services forward the request to your services (load balancing, &amp;hellip;) Middlewares may update the request or make decisions based on the request (authentication, rate limiting, headers, &amp;hellip;)  Kubernetes In Traefik v1, Kubernetes ingress were used to discover the routes:</description>
-    </item>
-    
-    <item>
-      <title>Using Github Actions with Golangci-linter</title>
-      <link>https://blog.nobugware.com/post/2019/using-github-actions-with-golangci-linter/</link>
-      <pubDate>Wed, 11 Sep 2019 00:00:00 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2019/using-github-actions-with-golangci-linter/</guid>
-      <description>Github delivered a beta Github Actions, it&amp;rsquo;s a worflow that can run almost anything related to your code, like a CI/CD.
+Providers discover the services that live on your infrastructure (their IP, health, &amp;hellip;) Entrypoints listen for incoming traffic (ports, &amp;hellip;) Routers analyze the requests (host, path, headers, SSL, &amp;hellip;) Services forward the request to your services (load balancing, &amp;hellip;) Middlewares may update the request or make decisions based on the request (authentication, rate limiting, headers, &amp;hellip;) Kubernetes In Traefik v1, Kubernetes ingress were used to discover the routes:</description></item><item><title>Using Github Actions with Golangci-linter</title><link>https://blog.nobugware.com/post/2019/using-github-actions-with-golangci-linter/</link><pubDate>Wed, 11 Sep 2019 00:00:00 -0400</pubDate><guid>https://blog.nobugware.com/post/2019/using-github-actions-with-golangci-linter/</guid><description>Github delivered a beta Github Actions, it&amp;rsquo;s a worflow that can run almost anything related to your code, like a CI/CD.
 Here is a workflow for Go 1.13 module projects and golangci-lint.
-name: golangci-lint on: [push] jobs: build: name: Build runs-on: ubuntu-latest steps: - name: Set up Go 1.13 uses: actions/setup-go@v1 with: go-version: 1.13 id: go - name: Check out code into the Go module directory uses: actions/checkout@v1 - name: Install golangci-lint run: curl -sfL https://raw.</description>
-    </item>
-    
-    <item>
-      <title>Access Kubernetes Web Interfaces from the Outside</title>
-      <link>https://blog.nobugware.com/post/2019/access-web-interface/</link>
-      <pubDate>Mon, 09 Sep 2019 13:00:00 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2019/access-web-interface/</guid>
-      <description>Here is a simple yet useful trick to access web interface within your cluster.
+name: golangci-lint on: [push] jobs: build: name: Build runs-on: ubuntu-latest steps: - name: Set up Go 1.13 uses: actions/setup-go@v1 with: go-version: 1.13 id: go - name: Check out code into the Go module directory uses: actions/checkout@v1 - name: Install golangci-lint run: curl -sfL https://raw.</description></item><item><title>Access Kubernetes Web Interfaces from the Outside</title><link>https://blog.nobugware.com/post/2019/access-web-interface/</link><pubDate>Mon, 09 Sep 2019 13:00:00 -0400</pubDate><guid>https://blog.nobugware.com/post/2019/access-web-interface/</guid><description>Here is a simple yet useful trick to access web interface within your cluster.
 As stated in the Kubernetes documentation you can use kubectl proxy.
 I&amp;rsquo;ve seen a lot of people using the proxy to access the dashboard but you can use it to access any web interfaces, without the need to create an ingress and protect it, especially useful in dev environment.
-http://kubernetes_master_address/api/v1/namespaces/namespace_name/services/service_name[:port_name]/proxy  For example here is how to access the Traefik dashboard described as follow:</description>
-    </item>
-    
-    <item>
-      <title>Bare Metal Kubernetes Quick Installation Arm64 &amp; Arch</title>
-      <link>https://blog.nobugware.com/post/2019/bare-metal-kubernetes-quick-installations-on-arch/</link>
-      <pubDate>Mon, 09 Sep 2019 00:02:00 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2019/bare-metal-kubernetes-quick-installations-on-arch/</guid>
-      <description>I&amp;rsquo;m still playing with my 3 nodes arm64 cluster, having some stability issues with k3s, I turned into kubeadm to deploy a bare metal non HA one master two workers Kubernetes cluster.
+http://kubernetes_master_address/api/v1/namespaces/namespace_name/services/service_name[:port_name]/proxy For example here is how to access the Traefik dashboard described as follow:</description></item><item><title>Bare Metal Kubernetes Quick Installation Arm64 &amp; Arch</title><link>https://blog.nobugware.com/post/2019/bare-metal-kubernetes-quick-installations-on-arch/</link><pubDate>Mon, 09 Sep 2019 00:02:00 -0400</pubDate><guid>https://blog.nobugware.com/post/2019/bare-metal-kubernetes-quick-installations-on-arch/</guid><description>I&amp;rsquo;m still playing with my 3 nodes arm64 cluster, having some stability issues with k3s, I turned into kubeadm to deploy a bare metal non HA one master two workers Kubernetes cluster.
 My host is Arch which is theoretically not supported but still works.
-Required tasks sudo pacman -S ethtool ebtables socat cni-plugins  Install aur/kubelet-bin and aur/kubeadm-bin
-I needed a private registry to host my images, on master node:</description>
-    </item>
-    
-    <item>
-      <title>k3s on arm64</title>
-      <link>https://blog.nobugware.com/post/2019/k3s-on-arm64/</link>
-      <pubDate>Wed, 19 Jun 2019 06:00:00 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2019/k3s-on-arm64/</guid>
-      <description>I&amp;rsquo;m evaluating k3s a Lightweight Kubernetes on a 3 nodes arm64 cluster (RK3328 Quad arm64).
+Required tasks sudo pacman -S ethtool ebtables socat cni-plugins Install aur/kubelet-bin and aur/kubeadm-bin
+I needed a private registry to host my images, on master node:</description></item><item><title>k3s on arm64</title><link>https://blog.nobugware.com/post/2019/k3s-on-arm64/</link><pubDate>Wed, 19 Jun 2019 06:00:00 -0400</pubDate><guid>https://blog.nobugware.com/post/2019/k3s-on-arm64/</guid><description>I&amp;rsquo;m evaluating k3s a Lightweight Kubernetes on a 3 nodes arm64 cluster (RK3328 Quad arm64).
 At the time of writing the stable release is k3s v0.6.1.
 Here are my notes:
- If you haven&amp;rsquo;t installed k3s with the install.sh, you may need to load some modules: br_netfilter and overlay Docker is not needed since k3s is using containerd but it seems I had to start docker to initialized the whole cgroups, at least on Arch Remember to modify all the templates to use an arm64 image</description>
-    </item>
-    
-    <item>
-      <title>H96 Max&#43; Android box as a Linux server</title>
-      <link>https://blog.nobugware.com/post/2019/h96-max-android-box-as-a-linux-server/</link>
-      <pubDate>Mon, 27 May 2019 00:00:00 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2019/h96-max-android-box-as-a-linux-server/</guid>
-      <description>The H96 Max + is an Android 8.1 box with a Rockchip 3328, 4Gb RAM and 32G or 64G builtin eMMC, it&amp;rsquo;s the same chipset as the Rock64, it costs around 60 USD.
+If you haven&amp;rsquo;t installed k3s with the install.sh, you may need to load some modules: br_netfilter and overlay
+Docker is not needed since k3s is using containerd but it seems I had to start docker to initialized the whole cgroups, at least on Arch</description></item><item><title>H96 Max+ Android box as a Linux server</title><link>https://blog.nobugware.com/post/2019/h96-max-android-box-as-a-linux-server/</link><pubDate>Mon, 27 May 2019 04:00:00 +0000</pubDate><guid>https://blog.nobugware.com/post/2019/h96-max-android-box-as-a-linux-server/</guid><description>The H96 Max + is an Android 8.1 box with a Rockchip 3328, 4Gb RAM and 32G or 64G builtin eMMC, it&amp;rsquo;s the same chipset as the Rock64, it costs around 60 USD.
 The only downside of this board is the 100Mb network link, can be a non issue using a USB network adapter.
-Here are some notes how to install Arch Linux on the H96 to make it a small server appliance.</description>
-    </item>
-    
-    <item>
-      <title>Arch on Rock64 with USB boot</title>
-      <link>https://blog.nobugware.com/post/2019/arch-on-rock64-with-usb-boot/</link>
-      <pubDate>Wed, 22 May 2019 00:00:00 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2019/arch-on-rock64-with-usb-boot/</guid>
-      <description>Here are my notes to install Arch on a Rock64 and boot on USB first.
+July 2020 EDIT: Works with mainline, look at the bottom.
+Here are some notes how to install Arch Linux on the H96 to make it a small server appliance.</description></item><item><title>Arch on Rock64 with USB boot</title><link>https://blog.nobugware.com/post/2019/arch-on-rock64-with-usb-boot/</link><pubDate>Wed, 22 May 2019 00:00:00 -0400</pubDate><guid>https://blog.nobugware.com/post/2019/arch-on-rock64-with-usb-boot/</guid><description>Here are my notes to install Arch on a Rock64 and boot on USB first.
 Warning, you can brick your device (but can unbrick it), you are on your own.
- Follow Arch Instructions to Install on an SD Card Boot on it Insert your USB device and follow the exact same installation but this time to the /dev/sdadevice
+Follow Arch Instructions to Install on an SD Card
+Boot on it
+Insert your USB device and follow the exact same installation but this time to the /dev/sdadevice
 At the end
-Mount / into root again Run blkid to grab the UUID of your /</description>
-    </item>
-    
-    <item>
-      <title>Deploying a website with Caddy, Git and Kubernetes</title>
-      <link>https://blog.nobugware.com/post/2019/deploying-a-website-with-caddy-git-and-kubernetes/</link>
-      <pubDate>Sat, 27 Apr 2019 02:01:00 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2019/deploying-a-website-with-caddy-git-and-kubernetes/</guid>
-      <description>Caddy is the swiss army of the web server, and with the recent commercial license changes, it&amp;rsquo;s time to give it some love back.
+Mount / into root again Run blkid to grab the UUID of your /</description></item><item><title>Deploying a website with Caddy, Git and Kubernetes</title><link>https://blog.nobugware.com/post/2019/deploying-a-website-with-caddy-git-and-kubernetes/</link><pubDate>Sat, 27 Apr 2019 02:01:00 -0400</pubDate><guid>https://blog.nobugware.com/post/2019/deploying-a-website-with-caddy-git-and-kubernetes/</guid><description>Caddy is the swiss army of the web server, and with the recent commercial license changes, it&amp;rsquo;s time to give it some love back.
 I have several static websites, some generated with Hugo, some are plain HTML.
 I wanted a small container, to run it inside a Kubernetes cluster, capable of pulling some git repos and serve them.
-Caddy-git Caddy is already capable of that with the help of caddy-git unfortunately it is only working with ssh keys.</description>
-    </item>
-    
-    <item>
-      <title>gRPC Load Balancing inside Kubernetes</title>
-      <link>https://blog.nobugware.com/post/2019/kubernetes_mesh_network_load_balancing_grpc_services/</link>
-      <pubDate>Mon, 11 Mar 2019 00:32:43 -0500</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2019/kubernetes_mesh_network_load_balancing_grpc_services/</guid>
-      <description>Context I wanted to blog about this for years: how to connect to a Kubernete&amp;rsquo;s loadbalanced service?
+Caddy-git Caddy is already capable of that with the help of caddy-git unfortunately it is only working with ssh keys.</description></item><item><title>gRPC Load Balancing inside Kubernetes</title><link>https://blog.nobugware.com/post/2019/kubernetes_mesh_network_load_balancing_grpc_services/</link><pubDate>Mon, 11 Mar 2019 00:32:43 -0500</pubDate><guid>https://blog.nobugware.com/post/2019/kubernetes_mesh_network_load_balancing_grpc_services/</guid><description>Context I wanted to blog about this for years: how to connect to a Kubernete&amp;rsquo;s loadbalanced service?
 How to deal with disconnections/re-connections, maintenance? What about gRPC specifically?
-The answer is heavily connected to the network stack used by Kubernetes, but with the &amp;ldquo;Mesh Network&amp;rdquo; revolution, It&amp;rsquo;s not always clear how it works anymore and what the options are. How it works First I recommend you to watch this great yet simple video: Container Networking From Scratch, then the Services clusterIP documentation.</description>
-    </item>
-    
-    <item>
-      <title>Traefik gRPC Load Balancing and Traces Propagation</title>
-      <link>https://blog.nobugware.com/post/2019/traefik_load_balancing_grpc_services_trace_propagation/</link>
-      <pubDate>Mon, 04 Mar 2019 04:32:43 +0000</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2019/traefik_load_balancing_grpc_services_trace_propagation/</guid>
-      <description>Following my recent blog post on setting up a dev environment in Kubernetes, here are some tips to use Traefik as a gRPC load balancer.
+The answer is heavily connected to the network stack used by Kubernetes, but with the &amp;ldquo;Mesh Network&amp;rdquo; revolution, It&amp;rsquo;s not always clear how it works anymore and what the options are. How it works First I recommend you to watch this great yet simple video: Container Networking From Scratch, then the Services clusterIP documentation.</description></item><item><title>Traefik gRPC Load Balancing and Traces Propagation</title><link>https://blog.nobugware.com/post/2019/traefik_load_balancing_grpc_services_trace_propagation/</link><pubDate>Mon, 04 Mar 2019 04:32:43 +0000</pubDate><guid>https://blog.nobugware.com/post/2019/traefik_load_balancing_grpc_services_trace_propagation/</guid><description>Following my recent blog post on setting up a dev environment in Kubernetes, here are some tips to use Traefik as a gRPC load balancer.
 Traefik can be used on the edge and route incoming HTTP traffic to your Kubernetes cluster, but it&amp;rsquo;s also supporting gRPC.
-  
 gRPC Load Balancing with Traefik Here I have a gRPC service I want to expose on the edge.
-apiVersion: v1 kind: Service metadata: name: myapp labels: name: &amp;quot;myapp&amp;quot; type: &amp;quot;grpc&amp;quot; spec: ports: - port: 9200 name: &amp;quot;grpc&amp;quot; targetPort: grpc protocol: TCP selector: app: &amp;quot;myapp&amp;quot; clusterIP: None  Note the clusterIP: None, it&amp;rsquo;s a headless service.</description>
-    </item>
-    
-    <item>
-      <title>Kubernetes Quick Setup with Prometheus, Grafana &amp; Jaeger</title>
-      <link>https://blog.nobugware.com/post/2019/kubernetes_quick_development_setup_minikube_prometheus_grafana/</link>
-      <pubDate>Thu, 21 Feb 2019 00:19:57 -0200</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2019/kubernetes_quick_development_setup_minikube_prometheus_grafana/</guid>
-      <description>Introduction When starting on a new project or prototyping on a new idea, I find myself doing the same tasks again and again.
-Thanks to Kubernetes it&amp;rsquo;s possible to setup a new env from scratch really fast.
+apiVersion: v1 kind: Service metadata: name: myapp labels: name: &amp;#34;myapp&amp;#34; type: &amp;#34;grpc&amp;#34; spec: ports: - port: 9200 name: &amp;#34;grpc&amp;#34; targetPort: grpc protocol: TCP selector: app: &amp;#34;myapp&amp;#34; clusterIP: None Note the clusterIP: None, it&amp;rsquo;s a headless service.</description></item><item><title>Kubernetes Quick Setup with Prometheus, Grafana &amp; Jaeger</title><link>https://blog.nobugware.com/post/2019/kubernetes_quick_development_setup_minikube_prometheus_grafana/</link><pubDate>Thu, 21 Feb 2019 00:19:57 -0200</pubDate><guid>https://blog.nobugware.com/post/2019/kubernetes_quick_development_setup_minikube_prometheus_grafana/</guid><description>Introduction When starting on a new project or prototyping on a new idea, I find myself doing the same tasks again and again. Thanks to Kubernetes it&amp;rsquo;s possible to setup a new env from scratch really fast.
 Here is a quick setup (mostly notes) to create a dev environment using Minikube and the workflow I&amp;rsquo;m using with it.
-Not knowing in advance where this future project will be hosted, I try to stay platform agnostic.</description>
-    </item>
-    
-    <item>
-      <title>Wasm with Go to build an S2 cover map viewer</title>
-      <link>https://blog.nobugware.com/post/2018/wasm_go_s2_javascript/</link>
-      <pubDate>Mon, 27 Aug 2018 00:19:57 -0200</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2018/wasm_go_s2_javascript/</guid>
-      <description>I needed a reason to use the new Go 1.11 Wasm port for &amp;ldquo;real&amp;rdquo;.
+Not knowing in advance where this future project will be hosted, I try to stay platform agnostic.</description></item><item><title>Wasm with Go to build an S2 cover map viewer</title><link>https://blog.nobugware.com/post/2018/wasm_go_s2_javascript/</link><pubDate>Mon, 27 Aug 2018 00:19:57 -0200</pubDate><guid>https://blog.nobugware.com/post/2018/wasm_go_s2_javascript/</guid><description>I needed a reason to use the new Go 1.11 Wasm port for &amp;ldquo;real&amp;rdquo;.
 To make it short, it compiles Go code to Wasm binary format for a virtual machine running in web browsers.
 I&amp;rsquo;ve always needed a debug tool to display S2 Cells on a map for different shapes, some online tools already exist:
- s2map.com unfortunately the backend is often/currently dead. regioncoverer which doesn&amp;rsquo;t allow polygons.  I&amp;rsquo;ve planned for a Qt Go app or a QGIS plugin with C++ bindings to Python but to ship those modules would be a nightmare.</description>
-    </item>
-    
-    <item>
-      <title>My Own Car System, Rear Camera, Offline Maps &amp; Routing, Map Matching with Go on Raspberry Pi part II</title>
-      <link>https://blog.nobugware.com/post/2018/my_own_car_system_raspberry_pi_offline_mapping_map_matching_places_part2/</link>
-      <pubDate>Wed, 01 Aug 2018 00:19:57 -0200</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2018/my_own_car_system_raspberry_pi_offline_mapping_map_matching_places_part2/</guid>
-      <description>This is my journey building an open source car system with Go &amp;amp; Qt, rear camera, live OpenGL map &amp;hellip;
+s2map.com unfortunately the backend is often/currently dead. regioncoverer which doesn&amp;rsquo;t allow polygons. I&amp;rsquo;ve planned for a Qt Go app or a QGIS plugin with C++ bindings to Python but to ship those modules would be a nightmare.</description></item><item><title>My Own Car System, Rear Camera, Offline Maps &amp; Routing, Map Matching with Go on Raspberry Pi part II</title><link>https://blog.nobugware.com/post/2018/my_own_car_system_raspberry_pi_offline_mapping_map_matching_places_part2/</link><pubDate>Wed, 01 Aug 2018 00:19:57 -0200</pubDate><guid>https://blog.nobugware.com/post/2018/my_own_car_system_raspberry_pi_offline_mapping_map_matching_places_part2/</guid><description>This is my journey building an open source car system with Go &amp;amp; Qt, rear camera, live OpenGL map &amp;hellip;
 Cross compilation In Part I, I had to patch qtmultimedia for the camera to work, but Qt compilation is resource hungry, same goes for the osrm compilation, the memory of the Raspberry Pi is too small.
-I had to to set up a cross compilation system in my case for armv7h.</description>
-    </item>
-    
-    <item>
-      <title>My Own Car System, Rear Camera, Offline Maps &amp; Routing on Raspberry Pi part I</title>
-      <link>https://blog.nobugware.com/post/2018/my_own_car_system_raspberry_pi_offline_mapping/</link>
-      <pubDate>Sun, 10 Jun 2018 09:19:57 -0500</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2018/my_own_car_system_raspberry_pi_offline_mapping/</guid>
-      <description>At first I needed a car rear camera, one thing led to another&amp;hellip;
+I had to to set up a cross compilation system in my case for armv7h.</description></item><item><title>My Own Car System, Rear Camera, Offline Maps &amp; Routing on Raspberry Pi part I</title><link>https://blog.nobugware.com/post/2018/my_own_car_system_raspberry_pi_offline_mapping/</link><pubDate>Sun, 10 Jun 2018 09:19:57 -0500</pubDate><guid>https://blog.nobugware.com/post/2018/my_own_car_system_raspberry_pi_offline_mapping/</guid><description>At first I needed a car rear camera, one thing led to another&amp;hellip;
 My Car, from 2011, only has an LCD display and no rear camera, so I bought a PAL rear camera, we passed some cables from the rear window to the front then everything begun.
 Here is my journey to transform my car into a modern system running on RPi3 (a never ending project).
-Hardware I&amp;rsquo;m using an Rpi3 (old model).</description>
-    </item>
-    
-    <item>
-      <title>Bitlbee: Slack, Hangouts &amp; Facebook via IRC gateway</title>
-      <link>https://blog.nobugware.com/post/2018/bitlbee_slack_hangouts_facebook_irc_gateway/</link>
-      <pubDate>Mon, 23 Apr 2018 14:37:14 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2018/bitlbee_slack_hangouts_facebook_irc_gateway/</guid>
-      <description>Having multiple clients to handle multiple networks is a mess, especially the Slack client which is really heavy and annoying.
+Hardware I&amp;rsquo;m using an Rpi3 (old model).</description></item><item><title>Bitlbee: Slack, Hangouts &amp; Facebook via IRC gateway</title><link>https://blog.nobugware.com/post/2018/bitlbee_slack_hangouts_facebook_irc_gateway/</link><pubDate>Mon, 23 Apr 2018 14:37:14 -0400</pubDate><guid>https://blog.nobugware.com/post/2018/bitlbee_slack_hangouts_facebook_irc_gateway/</guid><description>Having multiple clients to handle multiple networks is a mess, especially the Slack client which is really heavy and annoying.
 Slack is deprecating its IRC gateway interface on May 15h 2018.
 Bitlbee is an IRC server working as a gateway to different IMs.
 Optionally Bitlbee can be compiled with LibPurple to support even more networks, like Slack and Hangouts.
-Here are some notes for Slack, Facebook and Hangouts to be enabled with Bitlbee.</description>
-    </item>
-    
-    <item>
-      <title>Google S2 with Python &amp; Jupyter</title>
-      <link>https://blog.nobugware.com/post/2018/google-s2-python-jupyter/</link>
-      <pubDate>Thu, 18 Jan 2018 08:20:15 -0500</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2018/google-s2-python-jupyter/</guid>
-      <description>Google is working again on S2 a spatial library !!!
+Here are some notes for Slack, Facebook and Hangouts to be enabled with Bitlbee.</description></item><item><title>Google S2 with Python &amp; Jupyter</title><link>https://blog.nobugware.com/post/2018/google-s2-python-jupyter/</link><pubDate>Thu, 18 Jan 2018 08:20:15 -0500</pubDate><guid>https://blog.nobugware.com/post/2018/google-s2-python-jupyter/</guid><description>Google is working again on S2 a spatial library !!!
 And they even have created a website to communicate about it s2geometry.
 The C++ port contains a Python Swig interface.
 I&amp;rsquo;ve been using an unofficial Python port with Jupyter for years now things are way more simpler.
 If you are on Arch I&amp;rsquo;ve create a package, simply install AUR s2geometry-git
 First we want a clean Jupyter install from scratch:
-virtualenv3 ~/dev/venv3 source ~/dev/venv3/bin/activate pip install jupyter pip install cython pip install numpy pip install matplotlib scikit-learn scipy Shapely folium geojson Cartopy cp /usr/lib/python3.</description>
-    </item>
-    
-    <item>
-      <title>Hacking Temperature Radio Sensors and Graphing with Prometheus</title>
-      <link>https://blog.nobugware.com/post/2017/hacking_temperature_radio_sensors_and_graphing_with_prometheus/</link>
-      <pubDate>Sun, 08 Oct 2017 14:28:46 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2017/hacking_temperature_radio_sensors_and_graphing_with_prometheus/</guid>
-      <description>One year ago I&amp;rsquo;ve started to collect temperature from my house using Acurite sensors.
+virtualenv3 ~/dev/venv3 source ~/dev/venv3/bin/activate pip install jupyter pip install cython pip install numpy pip install matplotlib scikit-learn scipy Shapely folium geojson Cartopy cp /usr/lib/python3.</description></item><item><title>Hacking Temperature Radio Sensors and Graphing with Prometheus</title><link>https://blog.nobugware.com/post/2017/hacking_temperature_radio_sensors_and_graphing_with_prometheus/</link><pubDate>Sun, 08 Oct 2017 14:28:46 -0400</pubDate><guid>https://blog.nobugware.com/post/2017/hacking_temperature_radio_sensors_and_graphing_with_prometheus/</guid><description>One year ago I&amp;rsquo;ve started to collect temperature from my house using Acurite sensors.
 These sensors are not too expensive and good quality but the &amp;ldquo;base&amp;rdquo; aka the radio receiver connected to internet is costly and totally closed, it&amp;rsquo;s sending your data to the Cloud™, it&amp;rsquo;s not just Acurite, all those &amp;ldquo;IOT&amp;rdquo; devices are generally poor on the software side.
-Receiving radio data Most of these sensors have their protocols already reverse engineered you only need the radio receiver part.</description>
-    </item>
-    
-    <item>
-      <title>Notes on PacBSD</title>
-      <link>https://blog.nobugware.com/post/2017/notes_on_pacbsd/</link>
-      <pubDate>Sun, 08 Oct 2017 09:57:56 -0500</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2017/notes_on_pacbsd/</guid>
-      <description>PacBSD is a FreeBSD kernel/world with a PacMan Arch package manager and an optionnal OpenRC init system.
+Receiving radio data Most of these sensors have their protocols already reverse engineered you only need the radio receiver part.</description></item><item><title>Notes on PacBSD</title><link>https://blog.nobugware.com/post/2017/notes_on_pacbsd/</link><pubDate>Sun, 08 Oct 2017 09:57:56 -0500</pubDate><guid>https://blog.nobugware.com/post/2017/notes_on_pacbsd/</guid><description>PacBSD is a FreeBSD kernel/world with a PacMan Arch package manager and an optionnal OpenRC init system.
 In short ZFS, DTrace and the FreeBSD kernel but the simplicity of Arch for packages management but the Gentoo init.
 It&amp;rsquo;s experimental, uncompleted, unfinished, lacks proper documentations but it works and could be/should be the solution we are waiting for :).
-Here is some notes on installation (in QEMU), note that it slightly diverges from the official install since it&amp;rsquo;s using a whole ZFS disk, so no GPT.</description>
-    </item>
-    
-    <item>
-      <title>Arch Linux on a Chromebook Asus C301SA</title>
-      <link>https://blog.nobugware.com/post/2017/asus_c301s_arch_linux_chromeos_write_protection/</link>
-      <pubDate>Sat, 22 Jul 2017 21:28:24 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2017/asus_c301s_arch_linux_chromeos_write_protection/</guid>
-      <description>I&amp;rsquo;ve got an Asus C301S at work, it&amp;rsquo;s a Chromebook with Chromeos.
+Here is some notes on installation (in QEMU), note that it slightly diverges from the official install since it&amp;rsquo;s using a whole ZFS disk, so no GPT.</description></item><item><title>Arch Linux on a Chromebook Asus C301SA</title><link>https://blog.nobugware.com/post/2017/asus_c301s_arch_linux_chromeos_write_protection/</link><pubDate>Sat, 22 Jul 2017 21:28:24 -0400</pubDate><guid>https://blog.nobugware.com/post/2017/asus_c301s_arch_linux_chromeos_write_protection/</guid><description>I&amp;rsquo;ve got an Asus C301S at work, it&amp;rsquo;s a Chromebook with Chromeos.
 I like those little laptops, for the price it&amp;rsquo;s actually a very good little machine.
 ChromeOS is responding very well, ssh and Chrome are working too.
 But I often need more, like X11 forwarding or offline coding &amp;hellip;
 You will see the C301SA is marked as a C300SA internally.
-Here are the steps to install Arch Linux on it, do it at your own risk, you can brick your computer, you will need an external USB keyboard.</description>
-    </item>
-    
-    <item>
-      <title>From OSX to Linux</title>
-      <link>https://blog.nobugware.com/post/2017/back_from_osx_to_linux/</link>
-      <pubDate>Sat, 25 Feb 2017 09:57:56 -0500</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2017/back_from_osx_to_linux/</guid>
-      <description>I&amp;rsquo;ve been a long time UNIX user, ditched Microsoft back in the 90s for FreeBSD, Solaris and Linux on the desktop, but when Apple released MacOS X, I&amp;rsquo;ve used it as a workstation.
+Here are the steps to install Arch Linux on it, do it at your own risk, you can brick your computer, you will need an external USB keyboard.</description></item><item><title>From OSX to Linux</title><link>https://blog.nobugware.com/post/2017/back_from_osx_to_linux/</link><pubDate>Sat, 25 Feb 2017 09:57:56 -0500</pubDate><guid>https://blog.nobugware.com/post/2017/back_from_osx_to_linux/</guid><description>I&amp;rsquo;ve been a long time UNIX user, ditched Microsoft back in the 90s for FreeBSD, Solaris and Linux on the desktop, but when Apple released MacOS X, I&amp;rsquo;ve used it as a workstation.
 For the last years I&amp;rsquo;ve used Linux desktops but not on my main computer, today here I am switching back to Linux.
 This post is not about the reasons I&amp;rsquo;m switching, they are simple.
-My typical work day is mostly about parsing giant files, running VM and Dockers, coding in Go and not about developing for iOS anymore.</description>
-    </item>
-    
-    <item>
-      <title>Telegraf &amp; Prometheus Swiss Army Knife for Metrics</title>
-      <link>https://blog.nobugware.com/post/2016/telegraf_prometheus_metrics_swiss_army_knife/</link>
-      <pubDate>Thu, 20 Oct 2016 08:58:10 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2016/telegraf_prometheus_metrics_swiss_army_knife/</guid>
-      <description>There are a lot of different solutions when it comes to collecting metrics, I found myself happy with this hybrid solution.
+My typical work day is mostly about parsing giant files, running VM and Dockers, coding in Go and not about developing for iOS anymore.</description></item><item><title>Telegraf &amp; Prometheus Swiss Army Knife for Metrics</title><link>https://blog.nobugware.com/post/2016/telegraf_prometheus_metrics_swiss_army_knife/</link><pubDate>Thu, 20 Oct 2016 08:58:10 -0400</pubDate><guid>https://blog.nobugware.com/post/2016/telegraf_prometheus_metrics_swiss_army_knife/</guid><description>There are a lot of different solutions when it comes to collecting metrics, I found myself happy with this hybrid solution.
 Telegraf is an agent written in Go for collecting metrics from the system it&amp;rsquo;s running on.
 It&amp;rsquo;s developed by Influxdata the people behind InfluxDB, but Telegraf has a lot of outputs plugins and can be used without InfluxDB.
-Many different platform (FreeBSD, Linux, x86, Arm &amp;hellip;) are offered and only one single static binary (Thanks to Golang) is needed to deploy an agent.</description>
-    </item>
-    
-    <item>
-      <title>gRPC wrong types context and Go 1.7</title>
-      <link>https://blog.nobugware.com/post/2016/grpc_context_go_1.7/</link>
-      <pubDate>Wed, 28 Sep 2016 13:15:53 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2016/grpc_context_go_1.7/</guid>
-      <description>If you are following Go development you probably know that:
+Many different platform (FreeBSD, Linux, x86, Arm &amp;hellip;) are offered and only one single static binary (Thanks to Golang) is needed to deploy an agent.</description></item><item><title>gRPC wrong types context and Go 1.7</title><link>https://blog.nobugware.com/post/2016/grpc_context_go_1.7/</link><pubDate>Wed, 28 Sep 2016 13:15:53 -0400</pubDate><guid>https://blog.nobugware.com/post/2016/grpc_context_go_1.7/</guid><description>If you are following Go development you probably know that:
 Go 1.7 moves the golang.org/x/net/context package into the standard library as context, Yeah !
 Unfortunately it won&amp;rsquo;t work for everything, I&amp;rsquo;ve spent some time understanding this one.
 For example if you are using gRPC you can hit this problem, here is an interface generated by gRPC:
-type APRSServer interface { GetPastMessages(context.Context, *Point) (*ARPSMessages, error) }  But when compiling:
-/main.go:153: cannot use &amp;amp;s (type *Server) as type protorpc.</description>
-    </item>
-    
-    <item>
-      <title>Using Go mobile on iOS for real</title>
-      <link>https://blog.nobugware.com/post/2016/go_mobile_ios_real_usage/</link>
-      <pubDate>Thu, 22 Sep 2016 15:39:32 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2016/go_mobile_ios_real_usage/</guid>
-      <description>Go Mobile can generate native framework for iOS and Android using Go code, I was curious what could be achieved with it.
+type APRSServer interface { GetPastMessages(context.Context, *Point) (*ARPSMessages, error) } But when compiling:
+/main.go:153: cannot use &amp;amp;s (type *Server) as type protorpc.</description></item><item><title>Using Go mobile on iOS for real</title><link>https://blog.nobugware.com/post/2016/go_mobile_ios_real_usage/</link><pubDate>Thu, 22 Sep 2016 15:39:32 -0400</pubDate><guid>https://blog.nobugware.com/post/2016/go_mobile_ios_real_usage/</guid><description>Go Mobile can generate native framework for iOS and Android using Go code, I was curious what could be achieved with it.
 Most tutorials are Hello world and I wanted to test it with real code.
 You can use it to generate a full app only using Go code, but I&amp;rsquo;m only interested by the bindings part (SDK applications), using a native ObjC/Swift app calling Go code.
-I&amp;rsquo;m using some existing Go code regionagogo, (a geofence database), moderately complex since it uses BoltDB and Google S2 library.</description>
-    </item>
-    
-    <item>
-      <title>gRPC Envoy Nghttp2 and Load Balancing</title>
-      <link>https://blog.nobugware.com/post/2016/grpc_envoy_nghttp2_load_balancing/</link>
-      <pubDate>Tue, 20 Sep 2016 17:40:04 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2016/grpc_envoy_nghttp2_load_balancing/</guid>
-      <description>I&amp;rsquo;ve been using gRPC at work and in several personal projects for months and happy with it, but when it comes to load balancing gRPC does not come with batteries included.
-For a long time the only document was the Load Balancing draft in the gRPC repo, the clients should implement a Picker interface to know about the servers, so the pooling and controling the load were handled by the clients.</description>
-    </item>
-    
-    <item>
-      <title>Streaming using a Raspberry Pi Camera to Twitch in Full HD while injecting audio from rtl sdr</title>
-      <link>https://blog.nobugware.com/post/2016/streaming_raspberry_twitch_audio_rtl_sdr/</link>
-      <pubDate>Fri, 22 Jul 2016 19:11:47 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2016/streaming_raspberry_twitch_audio_rtl_sdr/</guid>
-      <description>I have found the right setup to stream in 1080p from a Raspberry Pi using the camera to TwitchTV while injecting audio on the fly!
+I&amp;rsquo;m using some existing Go code regionagogo, (a geofence database), moderately complex since it uses BoltDB and Google S2 library.</description></item><item><title>gRPC Envoy Nghttp2 and Load Balancing</title><link>https://blog.nobugware.com/post/2016/grpc_envoy_nghttp2_load_balancing/</link><pubDate>Tue, 20 Sep 2016 17:40:04 -0400</pubDate><guid>https://blog.nobugware.com/post/2016/grpc_envoy_nghttp2_load_balancing/</guid><description>I&amp;rsquo;ve been using gRPC at work and in several personal projects for months and happy with it, but when it comes to load balancing gRPC does not come with batteries included.
+For a long time the only document was the Load Balancing draft in the gRPC repo, the clients should implement a Picker interface to know about the servers, so the pooling and controling the load were handled by the clients.</description></item><item><title>Streaming using a Raspberry Pi Camera to Twitch in Full HD while injecting audio from rtl sdr</title><link>https://blog.nobugware.com/post/2016/streaming_raspberry_twitch_audio_rtl_sdr/</link><pubDate>Fri, 22 Jul 2016 19:11:47 -0400</pubDate><guid>https://blog.nobugware.com/post/2016/streaming_raspberry_twitch_audio_rtl_sdr/</guid><description>I have found the right setup to stream in 1080p from a Raspberry Pi using the camera to TwitchTV while injecting audio on the fly!
 Create an account on Twitch and grab you stream key in the Dashboard.
-This stream.sh script will create a FIFO start rtl_fm at freq 162.550M to listen to Canada weather bulletin (use your local NOAA channel) and inject and encode the audio to the existing h264 stream from the camera then stream it to twitch using rtmp.</description>
-    </item>
-    
-    <item>
-      <title>Enabling Gometalinter with Jetbrains Editors</title>
-      <link>https://blog.nobugware.com/post/2016/gometalinter_jetbrains_idea/</link>
-      <pubDate>Sun, 03 Jul 2016 08:15:43 +0200</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2016/gometalinter_jetbrains_idea/</guid>
-      <description>I&amp;rsquo;ve been using Jetbrains editor (the free Idea community edition) or Pycharm with the Go plugins and very happy with this setup, the editor is providing some realtime linting but I was missing gometalinter.
+This stream.sh script will create a FIFO start rtl_fm at freq 162.550M to listen to Canada weather bulletin (use your local NOAA channel) and inject and encode the audio to the existing h264 stream from the camera then stream it to twitch using rtmp.</description></item><item><title>Enabling Gometalinter with Jetbrains Editors</title><link>https://blog.nobugware.com/post/2016/gometalinter_jetbrains_idea/</link><pubDate>Sun, 03 Jul 2016 08:15:43 +0200</pubDate><guid>https://blog.nobugware.com/post/2016/gometalinter_jetbrains_idea/</guid><description>I&amp;rsquo;ve been using Jetbrains editor (the free Idea community edition) or Pycharm with the Go plugins and very happy with this setup, the editor is providing some realtime linting but I was missing gometalinter.
 First install gometalinter
-go get -u github.com/alecthomas/gometalinter gometalinter --install --update  To add support inside Jetbrains editors use the External tools feature.
+go get -u github.com/alecthomas/gometalinter gometalinter --install --update To add support inside Jetbrains editors use the External tools feature.
 In Preferences &amp;gt; Tools &amp;gt; External Tools, add a configuration.
-Set the Program path to your $GOPATH/bin/gometalinter</description>
-    </item>
-    
-    <item>
-      <title>A geo database for polygons, optimization</title>
-      <link>https://blog.nobugware.com/post/2016/geo_db_s2_region_polygon_optmization/</link>
-      <pubDate>Tue, 08 Mar 2016 11:23:42 -0500</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2016/geo_db_s2_region_polygon_optmization/</guid>
-      <description>If you read this blog, you know I&amp;rsquo;ve recently released a project called regionagogo, a geo shape lookup database, described in this blogpost.
+Set the Program path to your $GOPATH/bin/gometalinter</description></item><item><title>A geo database for polygons, optimization</title><link>https://blog.nobugware.com/post/2016/geo_db_s2_region_polygon_optmization/</link><pubDate>Tue, 08 Mar 2016 11:23:42 -0500</pubDate><guid>https://blog.nobugware.com/post/2016/geo_db_s2_region_polygon_optmization/</guid><description>If you read this blog, you know I&amp;rsquo;ve recently released a project called regionagogo, a geo shape lookup database, described in this blogpost.
 It uses the current Go S2 implementation, which is not yet as complete as the C++ implementation, for example the region coverer of a shape does not really compute cell around the shape but around the bounding box instead.
-Using the shape of the polygon makes the covered cells more precise and smaller, resulting at the end to less PIP tests which are costly.</description>
-    </item>
-    
-    <item>
-      <title>A geo database for polygons, foundations</title>
-      <link>https://blog.nobugware.com/post/2016/geo_db_s2_region_polygon/</link>
-      <pubDate>Thu, 18 Feb 2016 17:16:55 -0500</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2016/geo_db_s2_region_polygon/</guid>
-      <description>On a previous post, I&amp;rsquo;ve described how to use the S2 geo library to create a fast geo database, but it was to store locations (points) and only to perform range queries, a complete geo database would have regions/polygons queries.
+Using the shape of the polygon makes the covered cells more precise and smaller, resulting at the end to less PIP tests which are costly.</description></item><item><title>A geo database for polygons, foundations</title><link>https://blog.nobugware.com/post/2016/geo_db_s2_region_polygon/</link><pubDate>Thu, 18 Feb 2016 17:16:55 -0500</pubDate><guid>https://blog.nobugware.com/post/2016/geo_db_s2_region_polygon/</guid><description>On a previous post, I&amp;rsquo;ve described how to use the S2 geo library to create a fast geo database, but it was to store locations (points) and only to perform range queries, a complete geo database would have regions/polygons queries.
 Looking for a solution I had this need: querying for the countries or subregions of hundreds of coordinates per second, without relying on an external service.
-One solution, using my previous technique, could have been to store every cities in the world and then perform a proximity query around my point to get the closest cities, but it works only in populated area and it&amp;rsquo;s only an approximation.</description>
-    </item>
-    
-    <item>
-      <title>A fast geo database with Google S2 take #2</title>
-      <link>https://blog.nobugware.com/post/2016/geo_db_s2_geohash_database/</link>
-      <pubDate>Tue, 26 Jan 2016 14:01:52 -0500</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2016/geo_db_s2_geohash_database/</guid>
-      <description>Six months ago, I wrote on this blog about Geohashes and LevelDB with Go, to create a fast geo database.
+One solution, using my previous technique, could have been to store every cities in the world and then perform a proximity query around my point to get the closest cities, but it works only in populated area and it&amp;rsquo;s only an approximation.</description></item><item><title>A fast geo database with Google S2 take #2</title><link>https://blog.nobugware.com/post/2016/geo_db_s2_geohash_database/</link><pubDate>Tue, 26 Jan 2016 14:01:52 -0500</pubDate><guid>https://blog.nobugware.com/post/2016/geo_db_s2_geohash_database/</guid><description>Six months ago, I wrote on this blog about Geohashes and LevelDB with Go, to create a fast geo database.
 This post is very similar as it works the same way but replacing GeoHashes with Google S2 library for better performances.
 There is an S2 Golang implementation maintened by Google not as complete as the C++ one but close.
-For the storage this post will stay agnostic to avoid any troll, but it applies to any Key Value storages: LevelDB/RocksDB, LMDB, Redis&amp;hellip;</description>
-    </item>
-    
-    <item>
-      <title>MyAPRS APRS for iPhone</title>
-      <link>https://blog.nobugware.com/post/2016/myaprs_aprs_on_iphone/</link>
-      <pubDate>Mon, 11 Jan 2016 09:33:36 -0500</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2016/myaprs_aprs_on_iphone/</guid>
-      <description>I&amp;rsquo;m happy to announce a new side project: MyAPRS, a modern iOS APRS application, for radio amateur enthusiasts.
+For the storage this post will stay agnostic to avoid any troll, but it applies to any Key Value storages: LevelDB/RocksDB, LMDB, Redis&amp;hellip;</description></item><item><title>MyAPRS APRS for iPhone</title><link>https://blog.nobugware.com/post/2016/myaprs_aprs_on_iphone/</link><pubDate>Mon, 11 Jan 2016 09:33:36 -0500</pubDate><guid>https://blog.nobugware.com/post/2016/myaprs_aprs_on_iphone/</guid><description>I&amp;rsquo;m happy to announce a new side project: MyAPRS, a modern iOS APRS application, for radio amateur enthusiasts.
 I&amp;rsquo;ve already mentioned APRS on this blog, it will mainly be useful for radio amateurs but can be interesting to RTL-SDR listeners too.
-The application is built around LevelDB and geo hashing as mentioned in this post blog, it&amp;rsquo;s a lot faster than using SQLite especially on iOS, SatSat is still using the SQLite cities lookup and you can compare it&amp;rsquo;s terribly slow.</description>
-    </item>
-    
-    <item>
-      <title>Freebsd on Raspberry Pi 2 and Golang</title>
-      <link>https://blog.nobugware.com/post/2016/freebsd_raspberry_pi2/</link>
-      <pubDate>Sun, 10 Jan 2016 11:32:19 -0500</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2016/freebsd_raspberry_pi2/</guid>
-      <description>FreeBSD is now fully supported on the Raspberry Pi2, makes it a fun small computer to experiment with BSD.
+The application is built around LevelDB and geo hashing as mentioned in this post blog, it&amp;rsquo;s a lot faster than using SQLite especially on iOS, SatSat is still using the SQLite cities lookup and you can compare it&amp;rsquo;s terribly slow.</description></item><item><title>Freebsd on Raspberry Pi 2 and Golang</title><link>https://blog.nobugware.com/post/2016/freebsd_raspberry_pi2/</link><pubDate>Sun, 10 Jan 2016 11:32:19 -0500</pubDate><guid>https://blog.nobugware.com/post/2016/freebsd_raspberry_pi2/</guid><description>FreeBSD is now fully supported on the Raspberry Pi2, makes it a fun small computer to experiment with BSD.
 If you have a Raspberry Pi 1, you can simply install 10.2-RELEASE image.
 For Raspberry Pi 2, you need 11.0-CURRENT which is the development branch, images can be found here.
-dd the image as usual to a SD card, it will be auto resized at first boot. (See growfs_enable=&amp;quot;YES&amp;quot;) in rc.</description>
-    </item>
-    
-    <item>
-      <title>Listening to satellites for 30 dollars</title>
-      <link>https://blog.nobugware.com/post/2015/listening_to_satellites_for_30_dollars/</link>
-      <pubDate>Mon, 09 Nov 2015 18:51:43 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2015/listening_to_satellites_for_30_dollars/</guid>
-      <description>I&amp;rsquo;ve ever dreamed of space &amp;amp; satellites, it turms out you can received pictures from them.
+dd the image as usual to a SD card, it will be auto resized at first boot. (See growfs_enable=&amp;quot;YES&amp;quot;) in rc.conf.</description></item><item><title>Listening to satellites for 30 dollars</title><link>https://blog.nobugware.com/post/2015/listening_to_satellites_for_30_dollars/</link><pubDate>Mon, 09 Nov 2015 18:51:43 -0400</pubDate><guid>https://blog.nobugware.com/post/2015/listening_to_satellites_for_30_dollars/</guid><description>I&amp;rsquo;ve ever dreamed of space &amp;amp; satellites, it turms out you can received pictures from them.
 After getting my radio amateur license in the US, I&amp;rsquo;ve discovered there was some satellites dedicated to radio amateurs but also some weather satellites from the late 90s still working and capable of sending pictures from the space like this one NOOA-15.
-SDR You don&amp;rsquo;t need expensive hardware anymore thanks to the SDR movement Software defined radio and some great developers, a simple 20$ USB key and some pratices are good enough to make it work.</description>
-    </item>
-    
-    <item>
-      <title>A blazing fast geo database with LevelDB, Go and Geohashes</title>
-      <link>https://blog.nobugware.com/post/2015/leveldb_geohash_golang/</link>
-      <pubDate>Sun, 30 Aug 2015 18:25:02 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2015/leveldb_geohash_golang/</guid>
-      <description>You probably have heard of LevelDB it’s a blazing fast key value store (as a library not a daemon), that uses Snappy compression.
+SDR You don&amp;rsquo;t need expensive hardware anymore thanks to the SDR movement Software defined radio and some great developers, a simple 20$ USB key and some pratices are good enough to make it work.</description></item><item><title>A blazing fast geo database with LevelDB, Go and Geohashes</title><link>https://blog.nobugware.com/post/2015/leveldb_geohash_golang/</link><pubDate>Sun, 30 Aug 2015 18:25:02 -0400</pubDate><guid>https://blog.nobugware.com/post/2015/leveldb_geohash_golang/</guid><description>You probably have heard of LevelDB it’s a blazing fast key value store (as a library not a daemon), that uses Snappy compression.
 There is plenty of usages for it, the API is very simple at least in Go (I will be using Goleveldb).
 The key is a []byte the value is a []byte so you can “get”, “put” &amp;amp; “delete” that’s it.
-I needed a low memory low cpu system that could collect millions of geo data and query over them, Geohash has an interesting property you can encode longitude and latitude into a string : f2m616nn this hash represents the lat &amp;amp; long 46.</description>
-    </item>
-    
-    <item>
-      <title>Offering free internet well almost and survive disaster, power outage, Internet blackout</title>
-      <link>https://blog.nobugware.com/post/2015/internet_access_power_outage_disaster_free/</link>
-      <pubDate>Sun, 02 Aug 2015 16:26:38 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2015/internet_access_power_outage_disaster_free/</guid>
-      <description>In my neighborhood, I&amp;rsquo;m experimenting to give free access to some services, not the full internet but a full access to Wikipedia, maps&amp;hellip;
+I needed a low memory low cpu system that could collect millions of geo data and query over them, Geohash has an interesting property you can encode longitude and latitude into a string : f2m616nn this hash represents the lat &amp;amp; long 46.</description></item><item><title>Offering free internet well almost and survive disaster, power outage, Internet blackout</title><link>https://blog.nobugware.com/post/2015/internet_access_power_outage_disaster_free/</link><pubDate>Sun, 02 Aug 2015 16:26:38 -0400</pubDate><guid>https://blog.nobugware.com/post/2015/internet_access_power_outage_disaster_free/</guid><description>In my neighborhood, I&amp;rsquo;m experimenting to give free access to some services, not the full internet but a full access to Wikipedia, maps&amp;hellip;
 Here are some tips do to the same.
 Getting access to the internet may be crucial for our lives, but the commercial providers are here to make money out of it. They don&amp;rsquo;t event provide disasters nor minimum safety access.
-Sometimes even in normal condition, while traveling your roaming will cost you hundreds just to get access to a map or Wikipedia.</description>
-    </item>
-    
-    <item>
-      <title>Access OS metrics from Golang</title>
-      <link>https://blog.nobugware.com/post/2015/metrics_golang_operating_system/</link>
-      <pubDate>Sun, 02 Aug 2015 13:10:38 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2015/metrics_golang_operating_system/</guid>
-      <description>I&amp;rsquo;ve recently published StatGo, it gives you access to your operating system metrics like free memory, used disk spaces &amp;hellip;
+Sometimes even in normal condition, while traveling your roaming will cost you hundreds just to get access to a map or Wikipedia.</description></item><item><title>Access OS metrics from Golang</title><link>https://blog.nobugware.com/post/2015/metrics_golang_operating_system/</link><pubDate>Sun, 02 Aug 2015 13:10:38 -0400</pubDate><guid>https://blog.nobugware.com/post/2015/metrics_golang_operating_system/</guid><description>I&amp;rsquo;ve recently published StatGo, it gives you access to your operating system metrics like free memory, used disk spaces &amp;hellip;
 It&amp;rsquo;s a binding to the C library libstatgrab, a proven stable piece of code that works on many different systems, FreeBSD, Linux, OSX &amp;hellip;
 It&amp;rsquo;s very simple to use:
-s := NewStat() c := s.CPUStats() fmt.Prinln(c.Idle) 98.2  Feel free to contribute, it may need some improvement but it&amp;rsquo;s working I&amp;rsquo;m using it in a small metrics web server to monitor small network of servers.</description>
-    </item>
-    
-    <item>
-      <title>Host your blog on Github with autodeploy</title>
-      <link>https://blog.nobugware.com/post/hugo_blog_github/</link>
-      <pubDate>Sun, 02 Aug 2015 00:32:43 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/hugo_blog_github/</guid>
-      <description>I&amp;rsquo;ve always developed my own blog system, that&amp;rsquo;s a good way to learn a new langage.
+s := NewStat() c := s.CPUStats() fmt.Prinln(c.Idle) 98.2 Feel free to contribute, it may need some improvement but it&amp;rsquo;s working I&amp;rsquo;m using it in a small metrics web server to monitor small network of servers.</description></item><item><title>Host your blog on Github with autodeploy</title><link>https://blog.nobugware.com/post/hugo_blog_github/</link><pubDate>Sun, 02 Aug 2015 00:32:43 -0400</pubDate><guid>https://blog.nobugware.com/post/hugo_blog_github/</guid><description>I&amp;rsquo;ve always developed my own blog system, that&amp;rsquo;s a good way to learn a new langage.
 But having to maintain a working server or hosting is no fun, there are some solutions like Jekyll or Hugo they generate static web pages based on some Markdown files you wrote.
-As it&amp;rsquo;s just basic html files, they can be served by Github gh-pages.
-It opens the door to blogging from anywhere without internet connection or your own laptop, just write some Markdown then publish to github later or event edit your new blog post from the Github editor.</description>
-    </item>
-    
-    <item>
-      <title>Migrate to Hugo</title>
-      <link>https://blog.nobugware.com/post/migrate_to_hugo/</link>
-      <pubDate>Sat, 01 Aug 2015 22:36:51 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/migrate_to_hugo/</guid>
-      <description>This blog is running Hugo with an auto deploy via Wercker and hosted on Github Page. Take #2
+As it&amp;rsquo;s just basic html files, they can be served by Github gh-pages. It opens the door to blogging from anywhere without internet connection or your own laptop, just write some Markdown then publish to github later or event edit your new blog post from the Github editor.</description></item><item><title>Migrate to Hugo</title><link>https://blog.nobugware.com/post/migrate_to_hugo/</link><pubDate>Sat, 01 Aug 2015 22:36:51 -0400</pubDate><guid>https://blog.nobugware.com/post/migrate_to_hugo/</guid><description>This blog is running Hugo with an auto deploy via Wercker and hosted on Github Page. Take #2
 Previous blog was hosted on Google App Engine with a Python blog system, to get the previous articles, I had to run in a small data migration.
-Make a backup from GAE admin web interface: Go to Datastore admin and backup your entity mine was Post and then backup to blobstore, go to Blob Viewer and download your file named around datastore_backup_datastore_backup_2015_08_02_Post-157413521680733022360302ADC43E4-output-1-attempt-1</description>
-    </item>
-    
-    <item>
-      <title>A 10 minutes walk into Grafana &amp; Influxdb</title>
-      <link>https://blog.nobugware.com/post/2015/04/grafana_influxdb/</link>
-      <pubDate>Thu, 02 Apr 2015 12:49:04 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2015/04/grafana_influxdb/</guid>
-      <description>This is a 10 minute tutorial to set up an InfluxDB + Grafana with Go on your Mac, but should work with minor modifcations on your favorite Unix too, it assumes you already have a working Go compiler.
-InfluxDB is a database specialized into time series, think store everything associated with a time, makes it perfect for monitoring and graphing values. Grafana is a js frontend capable of reading the data from InfluxDB and graphing it.</description>
-    </item>
-    
-    <item>
-      <title>Run a full Wikipedia copy from any computers</title>
-      <link>https://blog.nobugware.com/post/2015/01/02/run-a-full-wikipedia-copy-from-any-computers/</link>
-      <pubDate>Fri, 02 Jan 2015 17:50:45 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2015/01/02/run-a-full-wikipedia-copy-from-any-computers/</guid>
-      <description>Today I&amp;rsquo;m releasing Gozim a side project written in Go.
+Make a backup from GAE admin web interface: Go to Datastore admin and backup your entity mine was Post and then backup to blobstore, go to Blob Viewer and download your file named around datastore_backup_datastore_backup_2015_08_02_Post-157413521680733022360302ADC43E4-output-1-attempt-1</description></item><item><title>A 10 minutes walk into Grafana &amp; Influxdb</title><link>https://blog.nobugware.com/post/2015/04/grafana_influxdb/</link><pubDate>Thu, 02 Apr 2015 12:49:04 -0400</pubDate><guid>https://blog.nobugware.com/post/2015/04/grafana_influxdb/</guid><description>This is a 10 minute tutorial to set up an InfluxDB + Grafana with Go on your Mac, but should work with minor modifcations on your favorite Unix too, it assumes you already have a working Go compiler.
+InfluxDB is a database specialized into time series, think store everything associated with a time, makes it perfect for monitoring and graphing values. Grafana is a js frontend capable of reading the data from InfluxDB and graphing it.</description></item><item><title>Run a full Wikipedia copy from any computers</title><link>https://blog.nobugware.com/post/2015/01/02/run-a-full-wikipedia-copy-from-any-computers/</link><pubDate>Fri, 02 Jan 2015 17:50:45 -0400</pubDate><guid>https://blog.nobugware.com/post/2015/01/02/run-a-full-wikipedia-copy-from-any-computers/</guid><description>Today I&amp;rsquo;m releasing Gozim a side project written in Go.
 It&amp;rsquo;s a set of tools to serve ZIM files, (compressed copy of Wiki articles), use it to run your full copy of Wikipedia off the grid.
 It runs great on a small computer as the Raspberry Pi or your own laptop.
-It could be a solution to give access to knowledge in countries without stable internet connections.</description>
-    </item>
-    
-    <item>
-      <title>Airspy on Linux</title>
-      <link>https://blog.nobugware.com/post/2014/12/13/airspy-on-linux/</link>
-      <pubDate>Sat, 13 Dec 2014 07:55:48 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2014/12/13/airspy-on-linux/</guid>
-      <description>Airspy is an SDR with amazing specs, but drivers are slowly coming to your prefered os.
+It could be a solution to give access to knowledge in countries without stable internet connections.</description></item><item><title>Airspy on Linux</title><link>https://blog.nobugware.com/post/2014/12/13/airspy-on-linux/</link><pubDate>Sat, 13 Dec 2014 07:55:48 -0400</pubDate><guid>https://blog.nobugware.com/post/2014/12/13/airspy-on-linux/</guid><description>Airspy is an SDR with amazing specs, but drivers are slowly coming to your prefered os.
 This apply to Arch but should apply to any recent Linux.
-I&amp;rsquo;ve first compiled libairspy but always had the error AIRSPY_ERROR_NOT_FOUND and &amp;quot;usbfs: interface 0 claimed by airspy while &#39;airspy_info&#39; sets config #1&amp;quot;
-Since Linux 3.17 comes with an airspy v4l autoloaded driver making impossible to use it with libusb: no airspy_info and no gqrx.</description>
-    </item>
-    
-    <item>
-      <title>FreeBSD on Google Compute Engine</title>
-      <link>https://blog.nobugware.com/post/2014/11/28/freebsd-on-google-compute-engine/</link>
-      <pubDate>Fri, 28 Nov 2014 20:29:34 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2014/11/28/freebsd-on-google-compute-engine/</guid>
-      <description>First you need to create a VirtualBox FreeBSD install using a 10G qcow format, use an SCSI controller for the install as the disk will be visible as da0 inside GCE.
+I&amp;rsquo;ve first compiled libairspy but always had the error AIRSPY_ERROR_NOT_FOUND and &amp;quot;usbfs: interface 0 claimed by airspy while 'airspy_info' sets config #1&amp;quot;
+Since Linux 3.17 comes with an airspy v4l autoloaded driver making impossible to use it with libusb: no airspy_info and no gqrx.</description></item><item><title>FreeBSD on Google Compute Engine</title><link>https://blog.nobugware.com/post/2014/11/28/freebsd-on-google-compute-engine/</link><pubDate>Fri, 28 Nov 2014 20:29:34 -0400</pubDate><guid>https://blog.nobugware.com/post/2014/11/28/freebsd-on-google-compute-engine/</guid><description>First you need to create a VirtualBox FreeBSD install using a 10G qcow format, use an SCSI controller for the install as the disk will be visible as da0 inside GCE.
 On FreeBSD 10.1 I had to load virtio manually, so set this in /boot/loader.conf
-`virtio_load=&amp;quot;YES&amp;quot; virtio_pci_load=&amp;quot;YES&amp;quot; virtio_blk_load=&amp;quot;YES&amp;quot; if_vtnet_load=&amp;quot;YES&amp;quot;`  Copy your ssh key in your home user .ssh/authorized_keys, be sure to be in the wheel group.
-On a Mac you need to install GNU tar (brew install gnu-tar), shutdown your VirtualBox vm and upload your image to GCE</description>
-    </item>
-    
-    <item>
-      <title>Simple APRS KK6NXK</title>
-      <link>https://blog.nobugware.com/post/2014/07/28/simple-aprs/</link>
-      <pubDate>Mon, 28 Jul 2014 17:36:59 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2014/07/28/simple-aprs/</guid>
-      <description>APRS is a tactical digital communications system used between amateurs radio, to exchange positions &amp;amp; messages, here I blog my experience decoding/encoding APRS with a small Arduino as it may help some of you too.
-Some transceivers are incorporating this functionalities but most of them don&amp;rsquo;t, a lot of new technicians start with cheap Baofeng radios (30$) which don&amp;rsquo;t provide advanced functionnalities but here is a way to solve that.</description>
-    </item>
-    
-    <item>
-      <title>Got my amateur radio license KK6NXK</title>
-      <link>https://blog.nobugware.com/post/2014/07/08/got-my-amateur-radio-license-kk6nxk/</link>
-      <pubDate>Tue, 08 Jul 2014 01:22:33 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2014/07/08/got-my-amateur-radio-license-kk6nxk/</guid>
-      <description>When I was a young child, I remember listening to an old radio receiver with my grandfather, looking for morse transmission.
-30 years later, I take the opportunity to get my radio amateur license in the US, it was not difficult (Technicial license is easy), especially cause US radio amateurs are using the metric system (almost all the time &amp;hellip;), the only difficulties were to learn some terms and simple formulas from french to english and to know some parts of regulation by heart (I have never been able to learn by heart).</description>
-    </item>
-    
-    <item>
-      <title>FreeBSD 10 on Dedibox SC gen 2 or any remote server with a rescue shell</title>
-      <link>https://blog.nobugware.com/post/2014/02/19/freebsd-10-on-dedibox-sc-gen-2-or-any-remote-server-with-a-rescue-shell/</link>
-      <pubDate>Wed, 19 Feb 2014 05:05:20 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2014/02/19/freebsd-10-on-dedibox-sc-gen-2-or-any-remote-server-with-a-rescue-shell/</guid>
-      <description>FreeBSD 10 is out and it&amp;rsquo;s time to replace your Linux boxes SC gen 2 is a VIA U2250 with 2Gb memory.
+`virtio_load=&amp;quot;YES&amp;quot; virtio_pci_load=&amp;quot;YES&amp;quot; virtio_blk_load=&amp;quot;YES&amp;quot; if_vtnet_load=&amp;quot;YES&amp;quot;` Copy your ssh key in your home user .ssh/authorized_keys, be sure to be in the wheel group.
+On a Mac you need to install GNU tar (brew install gnu-tar), shutdown your VirtualBox vm and upload your image to GCE</description></item><item><title>Simple APRS KK6NXK</title><link>https://blog.nobugware.com/post/2014/07/28/simple-aprs/</link><pubDate>Mon, 28 Jul 2014 17:36:59 -0400</pubDate><guid>https://blog.nobugware.com/post/2014/07/28/simple-aprs/</guid><description>APRS is a tactical digital communications system used between amateurs radio, to exchange positions &amp;amp; messages, here I blog my experience decoding/encoding APRS with a small Arduino as it may help some of you too.
+Some transceivers are incorporating this functionalities but most of them don&amp;rsquo;t, a lot of new technicians start with cheap Baofeng radios (30$) which don&amp;rsquo;t provide advanced functionnalities but here is a way to solve that.</description></item><item><title>Got my amateur radio license KK6NXK</title><link>https://blog.nobugware.com/post/2014/07/08/got-my-amateur-radio-license-kk6nxk/</link><pubDate>Tue, 08 Jul 2014 01:22:33 -0400</pubDate><guid>https://blog.nobugware.com/post/2014/07/08/got-my-amateur-radio-license-kk6nxk/</guid><description>When I was a young child, I remember listening to an old radio receiver with my grandfather, looking for morse transmission.
+30 years later, I take the opportunity to get my radio amateur license in the US, it was not difficult (Technicial license is easy), especially cause US radio amateurs are using the metric system (almost all the time &amp;hellip;), the only difficulties were to learn some terms and simple formulas from french to english and to know some parts of regulation by heart (I have never been able to learn by heart).</description></item><item><title>FreeBSD 10 on Dedibox SC gen 2 or any remote server with a rescue shell</title><link>https://blog.nobugware.com/post/2014/02/19/freebsd-10-on-dedibox-sc-gen-2-or-any-remote-server-with-a-rescue-shell/</link><pubDate>Wed, 19 Feb 2014 05:05:20 -0400</pubDate><guid>https://blog.nobugware.com/post/2014/02/19/freebsd-10-on-dedibox-sc-gen-2-or-any-remote-server-with-a-rescue-shell/</guid><description>FreeBSD 10 is out and it&amp;rsquo;s time to replace your Linux boxes ![cheeky](http://k dl.nobugware.com/static/ckeditor/plugins/smiley/images/tongue_smile.gif)
+SC gen 2 is a VIA U2250 with 2Gb memory.
 Start the rescue shell in amd64 12.04 Ubuntu, connect to the box via SSH with the temporary password
-sudo -s cd /tmp wget http://ftp1.fr.freebsd.org/pub/FreeBSD/snapshots/ISO- IMAGES/10.0/FreeBSD-10.0-STABLE-amd64-20140216-r261948-disc1.iso apt-get update apt-get install qemu-kvm sudo qemu-system-x86_64 -no-kvm -hda /dev/sda -cdrom ./FreeBSD-10.0-STABLE- amd64-20140216-r261948-disc1.iso -net nic,model=e1000 -vnc :1,yourpassword -boot d  This install qemu and run the FreeBSD installer from the downloaded CD.</description>
-    </item>
-    
-    <item>
-      <title>FreeBSD on RaspBerry Pi</title>
-      <link>https://blog.nobugware.com/post/2014/01/30/freebsd-on-raspberry-pi/</link>
-      <pubDate>Thu, 30 Jan 2014 17:37:20 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2014/01/30/freebsd-on-raspberry-pi/</guid>
-      <description>FreeBSD images for arm are now built from the FreeBSD Foundation ! So it&amp;rsquo;s an easy process to get it on your Pi.
+sudo -s cd /tmp wget http://ftp1.fr.freebsd.org/pub/FreeBSD/snapshots/ISO- IMAGES/10.0/FreeBSD-10.0-STABLE-amd64-20140216-r261948-disc1.iso apt-get update apt-get install qemu-kvm sudo qemu-system-x86_64 -no-kvm -hda /dev/sda -cdrom ./FreeBSD-10.0-STABLE- amd64-20140216-r261948-disc1.iso -net nic,model=e1000 -vnc :1,yourpassword -boot d This install qemu and run the FreeBSD installer from the downloaded CD.</description></item><item><title>FreeBSD on RaspBerry Pi</title><link>https://blog.nobugware.com/post/2014/01/30/freebsd-on-raspberry-pi/</link><pubDate>Thu, 30 Jan 2014 17:37:20 -0400</pubDate><guid>https://blog.nobugware.com/post/2014/01/30/freebsd-on-raspberry-pi/</guid><description>FreeBSD images for arm are now built from the FreeBSD Foundation ! So it&amp;rsquo;s an easy process to get it on your Pi.
 Download your image from the ftp repository
 Insert a 4Gb or more SD card in your PC and copy the FreeBSD image into it, here are the commands for a Mac:
-sudo diskutil list​ sudo diskutil unmountDisk /dev/disk1​ sudo dd if=/Users/akh/Downloads/FreeBSD-10.0-STABLE-arm- armv6-RPI-B-20140127-r261200.img of=/dev/rdisk1 bs=1m​ sudo diskutil eject /dev/disk1​  Boot your pi with the card and welcome to FreeBSD !</description>
-    </item>
-    
-    <item>
-      <title>7shape my first iphone application</title>
-      <link>https://blog.nobugware.com/post/2013/06/15/7shape-my-first-iphone-application/</link>
-      <pubDate>Sat, 15 Jun 2013 17:59:12 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2013/06/15/7shape-my-first-iphone-application/</guid>
-      <description>As an iphone developer contractor, I&amp;rsquo;ve released some applications on the Apple Store for my customers but not on my own.
-Here is my 1st personal (30 hours) toy project: 7shape a 7 minutes workout training application, based on an NYT blog post.
-I&amp;rsquo;ve spent 20 hours on website release, marketing, 3D for the human trainer and application design, and last 10 hours to create the app and release it to Apple &amp;hellip;</description>
-    </item>
-    
-    <item>
-      <title>Enhance your Go</title>
-      <link>https://blog.nobugware.com/post/2013/04/24/enhance-your-go/</link>
-      <pubDate>Wed, 24 Apr 2013 18:51:20 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2013/04/24/enhance-your-go/</guid>
-      <description>After my Enhance your Python post, which is my Python bible reference, I wanted the same for Golang:
- Effective Go, write effective Go Go by examples, simple but useful examples in Go The Go memory model, Goroutines lock or not ? Things I Wish Someone Had Told Me About Go Go Object Oriented Design The sources for the standard packages are gold mine for best practices Race detector documentation, (&amp;gt;= 1.</description>
-    </item>
-    
-    <item>
-      <title>Remove keys from a list of dicts in Python</title>
-      <link>https://blog.nobugware.com/post/2013/02/19/remove-keys-from-a-list-of-dicts-in-python/</link>
-      <pubDate>Tue, 19 Feb 2013 16:53:12 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2013/02/19/remove-keys-from-a-list-of-dicts-in-python/</guid>
-      <description>I often have this need to remove some keys from a list of dict, like cleaning it before passing it.
-Comment on Gist</description>
-    </item>
-    
-    <item>
-      <title>My developer tools (Mobile)</title>
-      <link>https://blog.nobugware.com/post/2013/02/14/my-developer-tools/</link>
-      <pubDate>Thu, 14 Feb 2013 19:20:35 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2013/02/14/my-developer-tools/</guid>
-      <description>As a day to day Python and iOS developer, I&amp;rsquo;m using a lot of tools on my Mac, here is a list that could help you too.
- Textmate 2, Free, it&amp;rsquo;s funny to see that most people don&amp;rsquo;t know Textmate 2 is open source and totally free, this is a wonderful editor with completion and support for most languages. SublimeText 2, free/pay, I&amp;rsquo;ve switched to Sublime mostly for the Golang support with Gosublime and not regreting it.</description>
-    </item>
-    
-    <item>
-      <title>This blog is now running on Google App Engine</title>
-      <link>https://blog.nobugware.com/post/2013/02/12/this-blog-is-now-running-on-google-app-engine/</link>
-      <pubDate>Tue, 12 Feb 2013 20:59:31 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2013/02/12/this-blog-is-now-running-on-google-app-engine/</guid>
-      <description>After 6 years of existence, where this blog was self hosted, it&amp;rsquo;s now running on Google App Engine with webapp2 Python framework.
+sudo diskutil list​ sudo diskutil unmountDisk /dev/disk1​ sudo dd if=/Users/akh/Downloads/FreeBSD-10.0-STABLE-arm- armv6-RPI-B-20140127-r261200.img of=/dev/rdisk1 bs=1m​ sudo diskutil eject /dev/disk1​ Boot your pi with the card and welcome to FreeBSD !</description></item><item><title>7shape my first iphone application</title><link>https://blog.nobugware.com/post/2013/06/15/7shape-my-first-iphone-application/</link><pubDate>Sat, 15 Jun 2013 17:59:12 -0400</pubDate><guid>https://blog.nobugware.com/post/2013/06/15/7shape-my-first-iphone-application/</guid><description>As an iphone developer contractor, I&amp;rsquo;ve released some applications on the Apple Store for my customers but not on my own.
+Here is my 1st personal (30 hours) toy project: 7shape a 7 minutes workout training application, based on an [NYT blog](http://well.blogs.nytimes.com/2013/05/09/the- scientific-7-minute-workout/) post.
+I&amp;rsquo;ve spent 20 hours on website release, marketing, 3D for the human trainer and application design, and last 10 hours to create the app and release it to Apple &amp;hellip;</description></item><item><title>Enhance your Go</title><link>https://blog.nobugware.com/post/2013/04/24/enhance-your-go/</link><pubDate>Wed, 24 Apr 2013 18:51:20 -0400</pubDate><guid>https://blog.nobugware.com/post/2013/04/24/enhance-your-go/</guid><description>After my [Enhance your Python](http://blog.nobugware.com/post/2011/08/16 /enhance-your-python) post, which is my Python bible reference, I wanted the same for Golang:
+Effective Go, write effective Go Go by examples, simple but useful examples in Go The Go memory model, Goroutines lock or not ? Things I Wish Someone Had Told Me About Go Go Object Oriented Design The sources for the standard packages are gold mine for best practices Race detector documentation, (&amp;gt;= 1.</description></item><item><title>Remove keys from a list of dicts in Python</title><link>https://blog.nobugware.com/post/2013/02/19/remove-keys-from-a-list-of-dicts-in-python/</link><pubDate>Tue, 19 Feb 2013 16:53:12 -0400</pubDate><guid>https://blog.nobugware.com/post/2013/02/19/remove-keys-from-a-list-of-dicts-in-python/</guid><description>I often have this need to remove some keys from a list of dict, like cleaning it before passing it.
+Comment on Gist</description></item><item><title>My developer tools (Mobile)</title><link>https://blog.nobugware.com/post/2013/02/14/my-developer-tools/</link><pubDate>Thu, 14 Feb 2013 19:20:35 -0400</pubDate><guid>https://blog.nobugware.com/post/2013/02/14/my-developer-tools/</guid><description>As a day to day Python and iOS developer, I&amp;rsquo;m using a lot of tools on my Mac, here is a list that could help you too.
+Textmate 2, Free, it&amp;rsquo;s funny to see that most people don&amp;rsquo;t know Textmate 2 is open source and totally free, this is a wonderful editor with completion and support for most languages. SublimeText 2, free/pay, I&amp;rsquo;ve switched to Sublime mostly for the Golang support with Gosublime and not regreting it.</description></item><item><title>This blog is now running on Google App Engine</title><link>https://blog.nobugware.com/post/2013/02/12/this-blog-is-now-running-on-google-app-engine/</link><pubDate>Tue, 12 Feb 2013 20:59:31 -0400</pubDate><guid>https://blog.nobugware.com/post/2013/02/12/this-blog-is-now-running-on-google-app-engine/</guid><description>After 6 years of existence, where this blog was self hosted, it&amp;rsquo;s now running on Google App Engine with webapp2 Python framework.
 It was previously a Django application, but no code has been reused, it&amp;rsquo;s a total rewrite (approx 5 hours).
-The Google App Engine ecosystem is very good, all the tools are efficient and except a middle quality documentation, it was a pleasure to rewrite and transfer this blog.</description>
-    </item>
-    
-    <item>
-      <title>Appcode shortcuts</title>
-      <link>https://blog.nobugware.com/post/2012/10/16/appcode-shortcuts/</link>
-      <pubDate>Tue, 16 Oct 2012 09:56:41 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2012/10/16/appcode-shortcuts/</guid>
-      <description>^ up and ^ down : navigate methods
+The Google App Engine ecosystem is very good, all the tools are efficient and except a middle quality documentation, it was a pleasure to rewrite and transfer this blog.</description></item><item><title>Appcode shortcuts</title><link>https://blog.nobugware.com/post/2012/10/16/appcode-shortcuts/</link><pubDate>Tue, 16 Oct 2012 09:56:41 -0400</pubDate><guid>https://blog.nobugware.com/post/2012/10/16/appcode-shortcuts/</guid><description>^ up and ^ down : navigate methods
 ⇧ ⌘ up and ⇧ ⌘ down : switch from .h to .m
 ⇧ ⌘ ⌫ : go to last edit
 ⇧ esc : hide console/bottom view
@@ -723,464 +174,129 @@ The Google App Engine ecosystem is very good, all the tools are efficient and ex
 ^ r : Run (⌘ + r in xcode)
 ^ tab : navigate files
 ⌘ o : open class
-⌘ ⇧ o : open files</description>
-    </item>
-    
-    <item>
-      <title>Python Requests hooks</title>
-      <link>https://blog.nobugware.com/post/2012/03/29/python-requests-hooks/</link>
-      <pubDate>Thu, 29 Mar 2012 08:23:50 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2012/03/29/python-requests-hooks/</guid>
-      <description>Python requests is the de facto HTTP package for Python, nice API, wonderful documentation.
-I had the need to sign my requests and to change the header after the request was built, here is hooks, simply call a function pre_request and your are done:
-def auth_sign(req): user_id = &#39;4f47a5f21aebcedff3001234&#39; secret_key = &#39;C21LHQ5R4RVO2U2UMTEZ&#39; timestamp = str(int(time.mktime(time.gmtime()))) string_to_sign = req.method + &#39;\n&#39; + user_id + &#39;\n&#39; + timestamp + &#39;\n&#39; + req.path_url + &#39;\n&#39; + req.</description>
-    </item>
-    
-    <item>
-      <title>FreeBSD vimage jails</title>
-      <link>https://blog.nobugware.com/post/2012/02/28/freebsd-vimage-jails/</link>
-      <pubDate>Tue, 28 Feb 2012 15:32:47 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2012/02/28/freebsd-vimage-jails/</guid>
-      <description>I tried to use VIMAGE for jails, can be summarized as: independant network stack, firewalling, nat, a real loopback &amp;hellip; for your jails
+⌘ ⇧ o : open files</description></item><item><title>Python Requests hooks</title><link>https://blog.nobugware.com/post/2012/03/29/python-requests-hooks/</link><pubDate>Thu, 29 Mar 2012 08:23:50 -0400</pubDate><guid>https://blog.nobugware.com/post/2012/03/29/python-requests-hooks/</guid><description>Python requests is the de facto HTTP package for Python, nice API, wonderful documentation.
+I had the need to sign my requests and to change the header after the request was built, [here is hooks](http://docs.python- requests.org/en/v0.10.7/user/advanced/#event-hooks), simply call a function pre_request and your are done:
+def auth_sign(req): user_id = '4f47a5f21aebcedff3001234' secret_key = 'C21LHQ5R4RVO2U2UMTEZ' timestamp = str(int(time.mktime(time.gmtime()))) string_to_sign = req.method + '\n' + user_id + '\n' + timestamp + '\n' + req.</description></item><item><title>FreeBSD vimage jails</title><link>https://blog.nobugware.com/post/2012/02/28/freebsd-vimage-jails/</link><pubDate>Tue, 28 Feb 2012 15:32:47 -0400</pubDate><guid>https://blog.nobugware.com/post/2012/02/28/freebsd-vimage-jails/</guid><description>I tried to use VIMAGE for jails, can be summarized as: independant network stack, firewalling, nat, a real loopback &amp;hellip; for your jails
 First I had pf in my kernel, it does not work with VIMAGE, it will kernel panic, (as module too), so remove it (I hope it will be solved soon).
 I used the package from DruidBSD: vimage boot, and used the following config:
-vimage_enable=&amp;quot;YES&amp;quot; vimage_list=&amp;quot;testjail&amp;quot; vimage_testjail_rootdir=&amp;quot;/usr/jails/testjail&amp;quot; # root directory vimage_testjail_hostname=&amp;quot;testjail&amp;quot; # hostname vimage_testjail_devfs_enable=&amp;quot;YES&amp;quot; # mount devfs vimage_testjail_vnets=&amp;quot;vtnet1&amp;quot; # network interfaces  vtnet1 is a dedicated hard interface (from KVM) and will appears only in the jail after you start /etc/rc.</description>
-    </item>
-    
-    <item>
-      <title>FreeBSD 9.0 ZFS root on OVH</title>
-      <link>https://blog.nobugware.com/post/2012/02/07/freebsd-90-zfs-root-ovh/</link>
-      <pubDate>Tue, 07 Feb 2012 15:05:48 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2012/02/07/freebsd-90-zfs-root-ovh/</guid>
-      <description>I had so much pain to make it work so here is how to have a ZFS root with a raidz pool on 5 disks, specially with OVH without any console or kvm to debug the boot process.
+vimage_enable=&amp;quot;YES&amp;quot; vimage_list=&amp;quot;testjail&amp;quot; vimage_testjail_rootdir=&amp;quot;/usr/jails/testjail&amp;quot; # root directory vimage_testjail_hostname=&amp;quot;testjail&amp;quot; # hostname vimage_testjail_devfs_enable=&amp;quot;YES&amp;quot; # mount devfs vimage_testjail_vnets=&amp;quot;vtnet1&amp;quot; # network interfaces vtnet1 is a dedicated hard interface (from KVM) and will appears only in the jail after you start /etc/rc.</description></item><item><title>FreeBSD 9.0 ZFS root on OVH</title><link>https://blog.nobugware.com/post/2012/02/07/freebsd-90-zfs-root-ovh/</link><pubDate>Tue, 07 Feb 2012 15:05:48 -0400</pubDate><guid>https://blog.nobugware.com/post/2012/02/07/freebsd-90-zfs-root-ovh/</guid><description>I had so much pain to make it work so here is how to have a ZFS root with a raidz pool on 5 disks, specially with OVH without any console or kvm to debug the boot process.
 The server has 5 disks that I put in raidz and boot on it, but this should apply to most installation.
-gpart destroy -F ada0 gpart destroy -F ada1 gpart destroy -F ada2 gpart destroy -F ada3 gpart destroy -F ada4 gpart create -s gpt ada0 gpart create -s gpt ada1 gpart create -s gpt ada2 gpart create -s gpt ada3 gpart create -s gpt ada4 gpart add -b 34 -s 64k -t freebsd-boot ada0 gpart add -b 34 -s 64k -t freebsd-boot ada1 gpart add -b 34 -s 64k -t freebsd-boot ada2 gpart add -b 34 -s 64k -t freebsd-boot ada3 gpart add -b 34 -s 64k -t freebsd-boot ada4 # if you are very low on ram use a real partition for swap otherwise don&#39;t gpart add -s 4G -t freebsd-swap -l swap0 ada0 gpart add -s 4G -t freebsd-swap -l swap1 ada1 gpart add -s 4G -t freebsd-swap -l swap2 ada2 gpart add -s 4G -t freebsd-swap -l swap3 ada3 gpart add -s 4G -t freebsd-swap -l swap4 ada4 gpart add -t freebsd-zfs -l disk0 ada0 gpart add -t freebsd-zfs -l disk1 ada1 gpart add -t freebsd-zfs -l disk2 ada2 gpart add -t freebsd-zfs -l disk3 ada3 gpart add -t freebsd-zfs -l disk4 ada4 gpart bootcode -b /boot/pmbr -p /boot/gptzfsboot -i 1 ada0 gpart bootcode -b /boot/pmbr -p /boot/gptzfsboot -i 1 ada1 gpart bootcode -b /boot/pmbr -p /boot/gptzfsboot -i 1 ada2 gpart bootcode -b /boot/pmbr -p /boot/gptzfsboot -i 1 ada3 gpart bootcode -b /boot/pmbr -p /boot/gptzfsboot -i 1 ada4 zpool create -o cachefile=/boot/zfs/zpool.</description>
-    </item>
-    
-    <item>
-      <title>compile and run xv6 on Mac Os X 6.828</title>
-      <link>https://blog.nobugware.com/post/2012/01/05/compile-and-run-xv6-mac-os-x-6828/</link>
-      <pubDate>Thu, 05 Jan 2012 23:59:14 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2012/01/05/compile-and-run-xv6-mac-os-x-6828/</guid>
-      <description>The MIT has created xv6: an operating system for learning purpose
+gpart destroy -F ada0 gpart destroy -F ada1 gpart destroy -F ada2 gpart destroy -F ada3 gpart destroy -F ada4 gpart create -s gpt ada0 gpart create -s gpt ada1 gpart create -s gpt ada2 gpart create -s gpt ada3 gpart create -s gpt ada4 gpart add -b 34 -s 64k -t freebsd-boot ada0 gpart add -b 34 -s 64k -t freebsd-boot ada1 gpart add -b 34 -s 64k -t freebsd-boot ada2 gpart add -b 34 -s 64k -t freebsd-boot ada3 gpart add -b 34 -s 64k -t freebsd-boot ada4 # if you are very low on ram use a real partition for swap otherwise don't gpart add -s 4G -t freebsd-swap -l swap0 ada0 gpart add -s 4G -t freebsd-swap -l swap1 ada1 gpart add -s 4G -t freebsd-swap -l swap2 ada2 gpart add -s 4G -t freebsd-swap -l swap3 ada3 gpart add -s 4G -t freebsd-swap -l swap4 ada4 gpart add -t freebsd-zfs -l disk0 ada0 gpart add -t freebsd-zfs -l disk1 ada1 gpart add -t freebsd-zfs -l disk2 ada2 gpart add -t freebsd-zfs -l disk3 ada3 gpart add -t freebsd-zfs -l disk4 ada4 gpart bootcode -b /boot/pmbr -p /boot/gptzfsboot -i 1 ada0 gpart bootcode -b /boot/pmbr -p /boot/gptzfsboot -i 1 ada1 gpart bootcode -b /boot/pmbr -p /boot/gptzfsboot -i 1 ada2 gpart bootcode -b /boot/pmbr -p /boot/gptzfsboot -i 1 ada3 gpart bootcode -b /boot/pmbr -p /boot/gptzfsboot -i 1 ada4 zpool create -o cachefile=/boot/zfs/zpool.</description></item><item><title>compile and run xv6 on Mac Os X 6.828</title><link>https://blog.nobugware.com/post/2012/01/05/compile-and-run-xv6-mac-os-x-6828/</link><pubDate>Thu, 05 Jan 2012 23:59:14 -0400</pubDate><guid>https://blog.nobugware.com/post/2012/01/05/compile-and-run-xv6-mac-os-x-6828/</guid><description>The MIT has created xv6: an operating system for learning purpose
 This works better and takes less time to create a working environnement for xv6 on Mac Os X, than the recommandations proposed onTools used in 6.828 simply run this
-port install i386-elf-gcc port install qemu  And change the Makefile like this:
--#TOOLPREFIX = i386-jos-elf- +TOOLPREFIX = i386-elf- -#QEMU = +QEMU = /opt/local/bin/qemu-system-i386 -CC = $(TOOLPREFIX)gcc +CC = $(TOOLPREFIX)gcc-4.3.2  Here is a working gdb binary simply bunzip2 it then invoke it from the xv6 directory souce tree, (tested on osx Lion).</description>
-    </item>
-    
-    <item>
-      <title>compile gevent on OSX or FreeBSD with pip</title>
-      <link>https://blog.nobugware.com/post/2011/11/15/compile-gevent-osx-or-freebsd-pip/</link>
-      <pubDate>Tue, 15 Nov 2011 11:53:46 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2011/11/15/compile-gevent-osx-or-freebsd-pip/</guid>
-      <description>It&amp;rsquo;s more a reminder to myself, gevent depends on libevent2 but the setup.py doesn&amp;rsquo;t correcty look for it, a simple solution:
-export CFLAGS=-I/usr/local/include export LDFLAGS=-L/usr/local/lib pip install gevent  change it for /opt/local/&amp;hellip; if you are on OSX or you will get a bunch of errors
- /Developer/usr/bin/llvm-gcc-4.2 -fno-strict-aliasing -fno-common -dynamic -pipe -O2 -DNDEBUG -g -fwrapv -O3 -Wall -Wstrict-prototypes -I/opt/local/Library/Frameworks/Python.framework/Versions/2.7/include/python2.7 -c gevent/core.c -o build/temp.macosx-10.7-x86_64-2.7/gevent/core.o In file included from gevent/core.c:225: gevent/libevent.h:9:19: error: event.</description>
-    </item>
-    
-    <item>
-      <title>FreeBSD 9.0 guest with virtio support in KVM</title>
-      <link>https://blog.nobugware.com/post/2011/10/14/freebsd-90-guest-virtio-support-in-kvm/</link>
-      <pubDate>Fri, 14 Oct 2011 13:57:13 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2011/10/14/freebsd-90-guest-virtio-support-in-kvm/</guid>
-      <description>Performance are really bad for FreeBSD in KVM, one solution is to use paravirtualized driver, virIO.
+port install i386-elf-gcc port install qemu And change the Makefile like this:
+-#TOOLPREFIX = i386-jos-elf- +TOOLPREFIX = i386-elf- -#QEMU = +QEMU = /opt/local/bin/qemu-system-i386 -CC = $(TOOLPREFIX)gcc +CC = $(TOOLPREFIX)gcc-4.3.2 [Here is a working gdb binary](http://dl.</description></item><item><title>compile gevent on OSX or FreeBSD with pip</title><link>https://blog.nobugware.com/post/2011/11/15/compile-gevent-osx-or-freebsd-pip/</link><pubDate>Tue, 15 Nov 2011 11:53:46 -0400</pubDate><guid>https://blog.nobugware.com/post/2011/11/15/compile-gevent-osx-or-freebsd-pip/</guid><description>It&amp;rsquo;s more a reminder to myself, gevent depends on libevent2 but the setup.py doesn&amp;rsquo;t correcty look for it, a simple solution:
+export CFLAGS=-I/usr/local/include export LDFLAGS=-L/usr/local/lib pip install gevent change it for /opt/local/&amp;hellip; if you are on OSX or you will get a bunch of errors
+/Developer/usr/bin/llvm-gcc-4.2 -fno-strict-aliasing -fno-common -dynamic -pipe -O2 -DNDEBUG -g -fwrapv -O3 -Wall -Wstrict-prototypes -I/opt/local/Library/Frameworks/Python.framework/Versions/2.7/include/python2.7 -c gevent/core.c -o build/temp.macosx-10.7-x86_64-2.7/gevent/core.o In file included from gevent/core.c:225: gevent/libevent.h:9:19: error: event.</description></item><item><title>FreeBSD 9.0 guest with virtio support in KVM</title><link>https://blog.nobugware.com/post/2011/10/14/freebsd-90-guest-virtio-support-in-kvm/</link><pubDate>Fri, 14 Oct 2011 13:57:13 -0400</pubDate><guid>https://blog.nobugware.com/post/2011/10/14/freebsd-90-guest-virtio-support-in-kvm/</guid><description>Performance are really bad for FreeBSD in KVM, one solution is to use paravirtualized driver, virIO.
 At the time of writing FreeBSD 9.0 is beta 3 and the last commit in the virtio project is 225710
-cd /usr/src/sys/dev svn co http://svn.freebsd.org/base/projects/virtio/sys/dev/virtio cd /usr/src/sys/modules svn co http://svn.freebsd.org/base/projects/virtio/sys/modules/virtio cd /usr/src/sys/modules/virtio make install  add this to /boot/loader.conf
-virtio_load=&amp;quot;YES&amp;quot; virtio_pci_load=&amp;quot;YES&amp;quot; virtio_blk_load=&amp;quot;YES&amp;quot; if_vtnet_load=&amp;quot;YES&amp;quot; virtio_balloon_load=&amp;quot;YES&amp;quot; # dmesg | grep -i virtio vtnet0: on virtio_pci0 virtio_pci1: port 0xc060-0xc07f irq 11 at device 4.</description>
-    </item>
-    
-    <item>
-      <title>Install FreeBSD 9.0 with ZFS root</title>
-      <link>https://blog.nobugware.com/post/2011/10/14/install-freebsd-90-zfs-root/</link>
-      <pubDate>Fri, 14 Oct 2011 11:00:22 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2011/10/14/install-freebsd-90-zfs-root/</guid>
-      <description>The &amp;ldquo;new&amp;rdquo; FreeBSD installer does not give you the options to simply install ZFS as root, so sad, here is how to do it.
+cd /usr/src/sys/dev svn co http://svn.freebsd.org/base/projects/virtio/sys/dev/virtio cd /usr/src/sys/modules svn co http://svn.freebsd.org/base/projects/virtio/sys/modules/virtio cd /usr/src/sys/modules/virtio make install add this to /boot/loader.conf
+virtio_load=&amp;quot;YES&amp;quot; virtio_pci_load=&amp;quot;YES&amp;quot; virtio_blk_load=&amp;quot;YES&amp;quot; if_vtnet_load=&amp;quot;YES&amp;quot; virtio_balloon_load=&amp;quot;YES&amp;quot; # dmesg | grep -i virtio vtnet0: on virtio_pci0 virtio_pci1: port 0xc060-0xc07f irq 11 at device 4.</description></item><item><title>Install FreeBSD 9.0 with ZFS root</title><link>https://blog.nobugware.com/post/2011/10/14/install-freebsd-90-zfs-root/</link><pubDate>Fri, 14 Oct 2011 11:00:22 -0400</pubDate><guid>https://blog.nobugware.com/post/2011/10/14/install-freebsd-90-zfs-root/</guid><description>The &amp;ldquo;new&amp;rdquo; FreeBSD installer does not give you the options to simply install ZFS as root, so sad, here is how to do it.
 Most installation recommand to install / in the zpool root, which is not always clean, for example a recursive snapshot will snapshot your swap &amp;hellip;
-#Boot cd and choose shell: umount /dev/md1 mdmfs -s 1024M md1 /tmp gpart destroy -F ada0 gpart create -s gpt ada0 gpart add -b 34 -s 64k -t freebsd-boot ada0 #gpart add -s 4G -t freebsd-swap -l swap0 ada0 gpart add -t freebsd-zfs -l disk0 ada0 gpart bootcode -b /boot/pmbr -p /boot/gptzfsboot -i 1 ada0 zpool destroy rpool # use -f if you already have a zpool zpool create -f rpool /dev/gpt/disk0 zfs set checksum=fletcher4 rpool zfs create rpool/root zfs set mountpoint=none rpool zfs set mountpoint=/mnt rpool/root zfs create -o canmount=off rpool/root/usr zfs create -o canmount=off rpool/root/var zfs create -o compression=on -o exec=on -o setuid=off rpool/root/tmp zfs create -o compression=gzip -o setuid=off rpool/root/usr/ports zfs create -o compression=off -o exec=off -o setuid=off rpool/root/usr/ports/distfiles zfs create -o compression=off -o exec=off -o setuid=off rpool/root/usr/ports/packages zfs create -o compression=gzip -o exec=off -o setuid=off rpool/root/usr/src zfs create -o compression=lzjb rpool/root/usr/obj zfs create -o compression=lzjb -o exec=off -o setuid=off rpool/root/var/crash zfs create -o compression=off -o exec=off -o setuid=off rpool/root/var/empty zfs create -o compression=lzjb -o exec=on -o setuid=off rpool/root/var/tmp zpool export rpool zpool import -o cachefile=/tmp/zpool.</description>
-    </item>
-    
-    <item>
-      <title>Gimp 2.7.3 on OSX</title>
-      <link>https://blog.nobugware.com/post/2011/08/31/gimp-273-osx/</link>
-      <pubDate>Wed, 31 Aug 2011 15:40:52 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2011/08/31/gimp-273-osx/</guid>
-      <description>Gimp 2.7.3 has been released but no one ports it to OSX already here is an ugly working way.
+#Boot cd and choose shell: umount /dev/md1 mdmfs -s 1024M md1 /tmp gpart destroy -F ada0 gpart create -s gpt ada0 gpart add -b 34 -s 64k -t freebsd-boot ada0 #gpart add -s 4G -t freebsd-swap -l swap0 ada0 gpart add -t freebsd-zfs -l disk0 ada0 gpart bootcode -b /boot/pmbr -p /boot/gptzfsboot -i 1 ada0 zpool destroy rpool # use -f if you already have a zpool zpool create -f rpool /dev/gpt/disk0 zfs set checksum=fletcher4 rpool zfs create rpool/root zfs set mountpoint=none rpool zfs set mountpoint=/mnt rpool/root zfs create -o canmount=off rpool/root/usr zfs create -o canmount=off rpool/root/var zfs create -o compression=on -o exec=on -o setuid=off rpool/root/tmp zfs create -o compression=gzip -o setuid=off rpool/root/usr/ports zfs create -o compression=off -o exec=off -o setuid=off rpool/root/usr/ports/distfiles zfs create -o compression=off -o exec=off -o setuid=off rpool/root/usr/ports/packages zfs create -o compression=gzip -o exec=off -o setuid=off rpool/root/usr/src zfs create -o compression=lzjb rpool/root/usr/obj zfs create -o compression=lzjb -o exec=off -o setuid=off rpool/root/var/crash zfs create -o compression=off -o exec=off -o setuid=off rpool/root/var/empty zfs create -o compression=lzjb -o exec=on -o setuid=off rpool/root/var/tmp zpool export rpool zpool import -o cachefile=/tmp/zpool.</description></item><item><title>Gimp 2.7.3 on OSX</title><link>https://blog.nobugware.com/post/2011/08/31/gimp-273-osx/</link><pubDate>Wed, 31 Aug 2011 15:40:52 -0400</pubDate><guid>https://blog.nobugware.com/post/2011/08/31/gimp-273-osx/</guid><description>Gimp 2.7.3 has been released but no one ports it to OSX already here is an ugly working way.
 EDIT: The macport is now up to date so no need to do this anymore !
 It needs a lot of dependencies, get it via macports:
 run port sync
 Edit /opt/local/var/macports/sources/rsync.macports.org/release/ports/graphics /gegl/Portfile
 Change version to 0.1.6 and master_sites
- version 0.1.6
- master_sites ftp://ftp.gimp.org/pub/gegl/0.1/
+version 0.1.6
+master_sites ftp://ftp.gimp.org/pub/gegl/0.1/
 remove the path line about atch-gegl-buffer-gegl-buffer.c
-Edit /opt/local/var/macports/sources/rsync.</description>
-    </item>
-    
-    <item>
-      <title>Enhance your Python</title>
-      <link>https://blog.nobugware.com/post/2011/08/16/enhance-your-python/</link>
-      <pubDate>Tue, 16 Aug 2011 12:00:59 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2011/08/16/enhance-your-python/</guid>
-      <description>Nohting new here but a list of what you should read to be a better Python developer, for intermediate and advanced Pythoners, in no particular order.
- Building skills in Python a very complete language description Code like a Pythonista useful quick list of good practice. I&amp;rsquo;m reading it again and again to get it automatically The hidden features of Python question on Stackoverflow, a must read What is a metaclass Generator Tricks for Systems Programmers, A curious Course Coroutines and Concurrency and the Python yield keyword explained on Stackoverflow, all about yield Advanced Python: (or understanding Python) Video from Google Understanding Python decorators, then use it with Python Decorator Library Python progression path - From apprentice to guru, good advises to mastering Python PEP8 reading, and pylint usage Dive into Python 3 somes parts are boring but somes are greats Idioms and Anti-Idioms in Python, Python best practices Python Attributes and Methods The Hitchhiker&amp;rsquo;s Guide to Python   A special mention for the Tornado web framework, the lack of documentation makes reading the source code a lot and it&amp;rsquo;s very didactic, Understanding the code inside Tornado is a very great blog post about asynchronous programming, the Pythonasyncore module and An Introduction to Asynchronous Programming</description>
-    </item>
-    
-    <item>
-      <title>(Re)Discovering FreeBSD and ZFS</title>
-      <link>https://blog.nobugware.com/post/2011/03/31/freebsd-zfs/</link>
-      <pubDate>Thu, 31 Mar 2011 21:06:13 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2011/03/31/freebsd-zfs/</guid>
-      <description>Since Sun&amp;rsquo;s killers euh Oracle shutdown OpenSolaris, FreeBSD is becoming more and more attracting with ZFS port, you should really give it a try (We are back baby).
+Edit /opt/local/var/macports/sources/rsync.</description></item><item><title>Enhance your Python</title><link>https://blog.nobugware.com/post/2011/08/16/enhance-your-python/</link><pubDate>Tue, 16 Aug 2011 12:00:59 -0400</pubDate><guid>https://blog.nobugware.com/post/2011/08/16/enhance-your-python/</guid><description>Nohting new here but a list of what you should read to be a better Python developer, for intermediate and advanced Pythoners, in no particular order.
+Building skills in Python a very complete language description Code like a Pythonista useful quick list of good practice. I&amp;rsquo;m reading it again and again to get it automatically The hidden features of Python question on Stackoverflow, a must read What is a metaclass Generator Tricks for Systems Programmers, A curious Course Coroutines and Concurrency and the Python yield keyword explained on Stackoverflow, all about yield Advanced Python: (or understanding Python) Video from Google Understanding Python decorators, then use it with Python Decorator Library Python progression path - From apprentice to guru, good advises to mastering Python PEP8 reading, and pylint usage Dive into Python 3 somes parts are boring but somes are greats Idioms and Anti-Idioms in Python, Python best practices Python Attributes and Methods The Hitchhiker&amp;rsquo;s Guide to Python A special mention for the Tornado web framework, the lack of documentation makes reading the source code a lot and it&amp;rsquo;s very didactic, Understanding the code inside Tornado is a very great blog post about asynchronous programming, the Pythonasyncore module and [An Introduction to Asynchronous Programming](http://krondo.</description></item><item><title>(Re)Discovering FreeBSD and ZFS</title><link>https://blog.nobugware.com/post/2011/03/31/freebsd-zfs/</link><pubDate>Thu, 31 Mar 2011 21:06:13 -0400</pubDate><guid>https://blog.nobugware.com/post/2011/03/31/freebsd-zfs/</guid><description>Since Sun&amp;rsquo;s killers euh Oracle shutdown OpenSolaris, FreeBSD is becoming more and more attracting with ZFS port, you should really give it a try (We are back baby).
 Here is a fast installation of FreeBSD with a ZFS root.
 Download http://mfsbsd.vx.sk/, a special iso image that will give you a ZFS on root FreeBSD with no pain.
-Note that I&amp;rsquo;m using it over KVM on Gentoo: (kvm -hda /dev/vg0/freebsdvm_root -m 4096 -cdrom /opt/data/kvm/installer/mfsbsd-se-8.</description>
-    </item>
-    
-    <item>
-      <title>Gentoo lvm&#43;raid root</title>
-      <link>https://blog.nobugware.com/post/2011/02/02/gentoo-lvmraid-root/</link>
-      <pubDate>Wed, 02 Feb 2011 22:06:52 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2011/02/02/gentoo-lvmraid-root/</guid>
-      <description>Gentoo support for lvm root is still a pain in the ass, here is a working solution.
+Note that I&amp;rsquo;m using it over KVM on Gentoo: (kvm -hda /dev/vg0/freebsdvm_root -m 4096 -cdrom /opt/data/kvm/installer/mfsbsd-se-8.</description></item><item><title>Gentoo lvm+raid root</title><link>https://blog.nobugware.com/post/2011/02/02/gentoo-lvmraid-root/</link><pubDate>Wed, 02 Feb 2011 22:06:52 -0400</pubDate><guid>https://blog.nobugware.com/post/2011/02/02/gentoo-lvmraid-root/</guid><description>Gentoo support for lvm root is still a pain in the ass, here is a working solution.
 Assuming you have 2 disks same size to be mirrored.
 You want a mirrored /boot and a big lvm.
 Start a normal gentoo installation with this disks layout:
-fdisk -l /dev/sda Device Boot Start End Blocks Id System /dev/sda1 * 1 31 248976 fd Linux raid autodetect /dev/sda2 32 242246 1945591987+ fd Linux raid autodetect fdisk -l /dev/sdb Device Boot Start End Blocks Id System /dev/sdb1 * 1 31 248976 fd Linux raid autodetect /dev/sdb2 32 242246 1945591987+ 83 Linux raid autodetect  Set both disk the boot flags on the first partition and set all partitions to FD Linux raid autodetect.</description>
-    </item>
-    
-    <item>
-      <title>An amazing piece of electonic</title>
-      <link>https://blog.nobugware.com/post/2011/01/28/amazing-piece-electonic/</link>
-      <pubDate>Fri, 28 Jan 2011 11:52:12 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2011/01/28/amazing-piece-electonic/</guid>
-      <description>Sparkfun and others sell a 434Mhz transmitter and a receiver for €2.88 and €3.61.
+fdisk -l /dev/sda Device Boot Start End Blocks Id System /dev/sda1 * 1 31 248976 fd Linux raid autodetect /dev/sda2 32 242246 1945591987+ fd Linux raid autodetect fdisk -l /dev/sdb Device Boot Start End Blocks Id System /dev/sdb1 * 1 31 248976 fd Linux raid autodetect /dev/sdb2 32 242246 1945591987+ 83 Linux raid autodetect Set both disk the boot flags on the first partition and set all partitions to FD Linux raid autodetect.</description></item><item><title>An amazing piece of electonic</title><link>https://blog.nobugware.com/post/2011/01/28/amazing-piece-electonic/</link><pubDate>Fri, 28 Jan 2011 11:52:12 -0400</pubDate><guid>https://blog.nobugware.com/post/2011/01/28/amazing-piece-electonic/</guid><description>Sparkfun and others sell a 434Mhz transmitter and a receiver for €2.88 and €3.61.
 This version receives at 2400bauds but there is a 4800 bauds version.
 Simply connect the transmitter to an arduino pin then your are done (almost).
 My first try was to follow the example from sparkfun, which simply read a value from the receiver:
-// read in values, debug to computer if (Serial.available() &amp;gt; 0) { incomingByte = Serial.</description>
-    </item>
-    
-    <item>
-      <title>All my digital life</title>
-      <link>https://blog.nobugware.com/post/2011/01/19/all-my-digital-life/</link>
-      <pubDate>Wed, 19 Jan 2011 16:50:56 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2011/01/19/all-my-digital-life/</guid>
-      <description>In a tag cloud !
-
+// read in values, debug to computer if (Serial.available() &amp;gt; 0) { incomingByte = Serial.</description></item><item><title>All my digital life</title><link>https://blog.nobugware.com/post/2011/01/19/all-my-digital-life/</link><pubDate>Wed, 19 Jan 2011 16:50:56 -0400</pubDate><guid>https://blog.nobugware.com/post/2011/01/19/all-my-digital-life/</guid><description>In a tag cloud !
 This tag cloud has been generated with Wordle, the words are extracted from title&amp;rsquo;s posts for this services.
- My facebook My twitter My Flickr My shared Google Reader articles My Tumbler My Picasa and this blog  Parsed and sorted with Python via the friendfeed json API.
+My facebook My twitter My Flickr My shared Google Reader articles My Tumbler My Picasa and this blog Parsed and sorted with Python via the friendfeed json API.
 Data since 2008-11-19, commons french or english words removed, iphone word divide by 2 ;)
-Thanks to Friendfeed service to aggregate my data, and no thanks to Facebook for killing it.</description>
-    </item>
-    
-    <item>
-      <title>JMX query in Python (CPython)</title>
-      <link>https://blog.nobugware.com/post/2010/11/08/jmx-query-python-cpython/</link>
-      <pubDate>Mon, 08 Nov 2010 17:30:03 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2010/11/08/jmx-query-python-cpython/</guid>
-      <description>JMX had good intentions but the API is only implemented in Java, a Java product for Java, with no access to the outside world.
+Thanks to Friendfeed service to aggregate my data, and no thanks to Facebook for killing it.</description></item><item><title>JMX query in Python (CPython)</title><link>https://blog.nobugware.com/post/2010/11/08/jmx-query-python-cpython/</link><pubDate>Mon, 08 Nov 2010 17:30:03 -0400</pubDate><guid>https://blog.nobugware.com/post/2010/11/08/jmx-query-python-cpython/</guid><description>JMX had good intentions but the API is only implemented in Java, a Java product for Java, with no access to the outside world.
 Jython was one of the solution but many times I had needed to call JMX from a CPython.
 Jpype solved this problem and works extremely well.
 Just install Jpype then try something like this:
-The execution is really really fast, faster than a jvm run ?? and memory usage is really really slow !</description>
-    </item>
-    
-    <item>
-      <title>ZFS on linux</title>
-      <link>https://blog.nobugware.com/post/2010/08/09/zfs-linux/</link>
-      <pubDate>Mon, 09 Aug 2010 14:41:47 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2010/08/09/zfs-linux/</guid>
-      <description>For license reasons (god damn GPL), ZFS can&amp;rsquo;t be integrated into the Linux kernel, but there is a userland fuse version called ZFS-FUSE, so I tried to measure the fuse overhead vs others filesystems presents on my server.
+The execution is really really fast, faster than a jvm run ?? and memory usage is really really slow !</description></item><item><title>ZFS on linux</title><link>https://blog.nobugware.com/post/2010/08/09/zfs-linux/</link><pubDate>Mon, 09 Aug 2010 14:41:47 -0400</pubDate><guid>https://blog.nobugware.com/post/2010/08/09/zfs-linux/</guid><description>For license reasons (god damn GPL), ZFS can&amp;rsquo;t be integrated into the Linux kernel, but there is a userland fuse version called [ZFS-FUSE](http://zfs- fuse.net/), so I tried to measure the fuse overhead vs others filesystems presents on my server.
 This tests are not benchmarks, but just show that ZFS-FUSE is fast enough and seems to be stable (at least for my personal server)
- ZFS with lzjb compression
-dd if=/dev/zero of=/testzfs/toto bs=2048 count=200000 409600000 bytes (410 MB) copied, 9.</description>
-    </item>
-    
-    <item>
-      <title>Using Oracle with Django</title>
-      <link>https://blog.nobugware.com/post/2010/08/09/using-oracle-django/</link>
-      <pubDate>Mon, 09 Aug 2010 13:44:52 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2010/08/09/using-oracle-django/</guid>
-      <description>In a production environment you could hit this one: DatabaseError: Invalid handle!
+ZFS with lzjb compression dd if=/dev/zero of=/testzfs/toto bs=2048 count=200000 409600000 bytes (410 MB) copied, 9.</description></item><item><title>Using Oracle with Django</title><link>https://blog.nobugware.com/post/2010/08/09/using-oracle-django/</link><pubDate>Mon, 09 Aug 2010 13:44:52 -0400</pubDate><guid>https://blog.nobugware.com/post/2010/08/09/using-oracle-django/</guid><description>In a production environment you could hit this one: DatabaseError: Invalid handle!
 It seems to happen when Oracle is called with OCI interface (cx_Oracle) by multiple threads.
 Yes using apache with MPM worker or mod_wsgi, will create threads in the same process, by default cx_Oracle is configured to be used without threads cause it will add a mutex and a performance hit.
-The solution is to pass the threaded parameters to the connection string, so in Django settings just add:</description>
-    </item>
-    
-    <item>
-      <title>Nginx SSL &#43; Tomcat (for Confluence)</title>
-      <link>https://blog.nobugware.com/post/2010/02/12/nginx-ssl-tomcat-confluence/</link>
-      <pubDate>Fri, 12 Feb 2010 14:02:03 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2010/02/12/nginx-ssl-tomcat-confluence/</guid>
-      <description>I have an Nginx frontend to serv everything but confluence which was not happy with my SSLized conf, here is the solution !
+The solution is to pass the threaded parameters to the connection string, so in Django settings just add:</description></item><item><title>Nginx SSL + Tomcat (for Confluence)</title><link>https://blog.nobugware.com/post/2010/02/12/nginx-ssl-tomcat-confluence/</link><pubDate>Fri, 12 Feb 2010 14:02:03 -0400</pubDate><guid>https://blog.nobugware.com/post/2010/02/12/nginx-ssl-tomcat-confluence/</guid><description>I have an Nginx frontend to serv everything but confluence which was not happy with my SSLized conf, here is the solution !
 This doc is related to confluence but will works with any java apps in a tomcat
 First don&amp;rsquo;t use the standalone version of confluence (which is a Tomcat 5.5), use the EAR/WAR tar gz archive.
-We need Tomcat 6 cause we will use a &amp;ldquo;Valve&amp;rdquo; RemoteIPValve that will check for a header (X-Forwarded-Proto) to see if the source request was secured by SSL.</description>
-    </item>
-    
-    <item>
-      <title>Pourquoi Android ne peut pas gagner la guerre des smartphones ?</title>
-      <link>https://blog.nobugware.com/post/2009/11/15/pourquoi-android-ne-peut-pas-gagner-la-guerre-des-smartphones/</link>
-      <pubDate>Sun, 15 Nov 2009 19:30:55 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2009/11/15/pourquoi-android-ne-peut-pas-gagner-la-guerre-des-smartphones/</guid>
-      <description>Parce qu&amp;rsquo;Android est une plateforme avant d&amp;rsquo;etre un os pousse par un constructeur:
+We need Tomcat 6 cause we will use a &amp;ldquo;Valve&amp;rdquo; [RemoteIPValve](http://tomcat.apa che.org/tomcat-6.0-doc/api/org/apache/catalina/valves/RemoteIpValve.html) that will check for a header (X-Forwarded-Proto) to see if the source request was secured by SSL.</description></item><item><title>Pourquoi Android ne peut pas gagner la guerre des smartphones ?</title><link>https://blog.nobugware.com/post/2009/11/15/pourquoi-android-ne-peut-pas-gagner-la-guerre-des-smartphones/</link><pubDate>Sun, 15 Nov 2009 19:30:55 -0400</pubDate><guid>https://blog.nobugware.com/post/2009/11/15/pourquoi-android-ne-peut-pas-gagner-la-guerre-des-smartphones/</guid><description>Parce qu&amp;rsquo;Android est une plateforme avant d&amp;rsquo;etre un os pousse par un constructeur:
 En chine il sort des modeles de smartphone, supportant Android, de tres bonne qualite, qui vont inonder les marches occidentaux dans les mois a venir.
-Ces smartphones sont bien moins chers et le seul differenciateur grace a Android, ne sera plus que la finition, un detail dans un marche qui vise de plus en plus le grand public.</description>
-    </item>
-    
-    <item>
-      <title>Quand je ne bosse pas je vole</title>
-      <link>https://blog.nobugware.com/post/2009/08/05/quand-je-ne-bosse-pas-je-vole/</link>
-      <pubDate>Wed, 05 Aug 2009 22:17:35 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2009/08/05/quand-je-ne-bosse-pas-je-vole/</guid>
-      <description> Saitek Pro Flight Yoke et Saitek Pro Flight Rudder Pedals </description>
-    </item>
-    
-    <item>
-      <title>iPhone and iPod blog</title>
-      <link>https://blog.nobugware.com/post/2009/08/04/iphone-and-ipod-blog/</link>
-      <pubDate>Tue, 04 Aug 2009 11:09:06 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2009/08/04/iphone-and-ipod-blog/</guid>
-      <description>Some informations for iphone developers, and iphone owners. We have created a new iphone &amp;amp; ipod blog in french, with a dedicated developer category: tout sur l&amp;rsquo;iphone (everything about the iPhone).
-I will continue to write iphone development related posts here, mostly traducted from tout sur l&amp;rsquo;iphone, but if you are a french speaker I recommend you to read the blog first and his developer part which will be bigger.</description>
-    </item>
-    
-    <item>
-      <title>Python 2.6 in Gentoo stable</title>
-      <link>https://blog.nobugware.com/post/2009/07/31/python-26-gentoo-stable/</link>
-      <pubDate>Fri, 31 Jul 2009 10:37:34 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2009/07/31/python-26-gentoo-stable/</guid>
-      <description>It was so long but python 2.6 is now in Gentoo stable, here is how to upgrade.
+Ces smartphones sont bien moins chers et le seul differenciateur grace a Android, ne sera plus que la finition, un detail dans un marche qui vise de plus en plus le grand public.</description></item><item><title>Quand je ne bosse pas je vole</title><link>https://blog.nobugware.com/post/2009/08/05/quand-je-ne-bosse-pas-je-vole/</link><pubDate>Wed, 05 Aug 2009 22:17:35 -0400</pubDate><guid>https://blog.nobugware.com/post/2009/08/05/quand-je-ne-bosse-pas-je-vole/</guid><description>Saitek Pro Flight Yoke et Saitek Pro Flight Rudder Pedals</description></item><item><title>iPhone and iPod blog</title><link>https://blog.nobugware.com/post/2009/08/04/iphone-and-ipod-blog/</link><pubDate>Tue, 04 Aug 2009 11:09:06 -0400</pubDate><guid>https://blog.nobugware.com/post/2009/08/04/iphone-and-ipod-blog/</guid><description>Some informations for iphone developers, and iphone owners. We have created a new iphone &amp;amp; ipod blog in french, with a dedicated developer category: tout sur l&amp;rsquo;iphone (everything about the iPhone).
+I will continue to write iphone development related posts here, mostly traducted from tout sur l&amp;rsquo;iphone, but if you are a french speaker I recommend you to read the blog first and his developer part which will be bigger.</description></item><item><title>Python 2.6 in Gentoo stable</title><link>https://blog.nobugware.com/post/2009/07/31/python-26-gentoo-stable/</link><pubDate>Fri, 31 Jul 2009 10:37:34 -0400</pubDate><guid>https://blog.nobugware.com/post/2009/07/31/python-26-gentoo-stable/</guid><description>It was so long but python 2.6 is now in Gentoo stable, here is how to upgrade.
 First emerge &amp;ndash;sync your ports tree (as of 31st July 2009).
 Then update your ports _emerge -upvD world _remove -p when ready.
 When emerging python-2.6.2 it will become the main python, as you can see with eselect python list.
-So you only have to rebuild every ports that rely on python, simple ? Yes with python-update</description>
-    </item>
-    
-    <item>
-      <title>An ultimate solaris 10 jumpstart profile</title>
-      <link>https://blog.nobugware.com/post/2009/07/28/ultimate-solaris-10-jumpstart-profile/</link>
-      <pubDate>Tue, 28 Jul 2009 19:22:12 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2009/07/28/ultimate-solaris-10-jumpstart-profile/</guid>
-      <description>After years of pain playing with Solaris 10 Jumpstart&amp;rsquo;s package clusters, I took some time to build an ultimate install profile for Solaris 10.
+So you only have to rebuild every ports that rely on python, simple ? Yes with python-update</description></item><item><title>An ultimate solaris 10 jumpstart profile</title><link>https://blog.nobugware.com/post/2009/07/28/ultimate-solaris-10-jumpstart-profile/</link><pubDate>Tue, 28 Jul 2009 19:22:12 -0400</pubDate><guid>https://blog.nobugware.com/post/2009/07/28/ultimate-solaris-10-jumpstart-profile/</guid><description>After years of pain playing with Solaris 10 Jumpstart&amp;rsquo;s package clusters, I took some time to build an ultimate install profile for Solaris 10.
 The available packages clusters are :
- SUNWCrnet is Reduced Network Support Software Group. -&amp;gt; lack of everything, from bash to bzip SUNWCreq is Core System Support Software Group. -&amp;gt; lack of bash, manpages&amp;hellip; SUNWCuser is End User Solaris Software Group. -&amp;gt; include CDE Desktop, Mozilla, etc SUNWCprog is Developer Solaris Software Group.</description>
-    </item>
-    
-    <item>
-      <title>Use Trac source browser with Jira</title>
-      <link>https://blog.nobugware.com/post/2009/06/28/use-trac-browser-jira/</link>
-      <pubDate>Sun, 28 Jun 2009 12:46:35 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2009/06/28/use-trac-browser-jira/</guid>
-      <description>Jira is a nice product for issue tracking linked to a SCM repository, yes it&amp;rsquo;s not free software but they provide a 5$ starter license for 5 users.
+SUNWCrnet is Reduced Network Support Software Group. -&amp;gt; lack of everything, from bash to bzip SUNWCreq is Core System Support Software Group. -&amp;gt; lack of bash, manpages&amp;hellip; SUNWCuser is End User Solaris Software Group. -&amp;gt; include CDE Desktop, Mozilla, etc SUNWCprog is Developer Solaris Software Group.</description></item><item><title>Use Trac source browser with Jira</title><link>https://blog.nobugware.com/post/2009/06/28/use-trac-browser-jira/</link><pubDate>Sun, 28 Jun 2009 12:46:35 -0400</pubDate><guid>https://blog.nobugware.com/post/2009/06/28/use-trac-browser-jira/</guid><description>Jira is a nice product for issue tracking linked to a SCM repository, yes it&amp;rsquo;s not free software but they provide a 5$ starter license for 5 users.
 But Jira lacks of a part that trac is doing very well, source browser, in facts Atlassian provides one: Fisheye but it&amp;rsquo;s really expensive
-Simply go to your Jira Administration, on the left click on Subversion Repositories (this menu appears after the installation of the subversion&amp;rsquo;s plugin).</description>
-    </item>
-    
-    <item>
-      <title>mercurial usefull stuff</title>
-      <link>https://blog.nobugware.com/post/2009/05/01/mercurial-usefull-stuff/</link>
-      <pubDate>Fri, 01 May 2009 23:31:25 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2009/05/01/mercurial-usefull-stuff/</guid>
-      <description>Using mercurial for the beginner may sounds scarry here are fast tips
- Edit ~/.hgrc
-## This is a Mercurial configuration file. [ui] username = Your Name
+Simply go to your Jira Administration, on the left click on Subversion Repositories (this menu appears after the installation of the subversion&amp;rsquo;s plugin).</description></item><item><title>mercurial usefull stuff</title><link>https://blog.nobugware.com/post/2009/05/01/mercurial-usefull-stuff/</link><pubDate>Fri, 01 May 2009 23:31:25 -0400</pubDate><guid>https://blog.nobugware.com/post/2009/05/01/mercurial-usefull-stuff/</guid><description>Using mercurial for the beginner may sounds scarry here are fast tips
+Edit ~/.hgrc
+This is a Mercurial configuration file. [ui] username = Your Name
 #enable ssh compression ssh = ssh -C
 [extensions]
 enable hg convert to import you old svn repository hgext.convert=
 #enable hg glog command hgext.graphlog =
 enable color diff, need mercurial &amp;gt;=1.1 color=
-enable visual filemerge on OsX [merge-tools] filemerge.executable=opendiff filemerge.args=$other $local -ancestor $base -merge $output filemerge.</description>
-    </item>
-    
-    <item>
-      <title>A better NSLog</title>
-      <link>https://blog.nobugware.com/post/2009/03/11/better-nslog/</link>
-      <pubDate>Wed, 11 Mar 2009 22:44:11 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2009/03/11/better-nslog/</guid>
-      <description>When debugging, I often found that NSLog is really boring, here is an attempt to make it nicer:
+enable visual filemerge on OsX [merge-tools] filemerge.executable=opendiff filemerge.args=$other $local -ancestor $base -merge $output filemerge.</description></item><item><title>A better NSLog</title><link>https://blog.nobugware.com/post/2009/03/11/better-nslog/</link><pubDate>Wed, 11 Mar 2009 22:44:11 -0400</pubDate><guid>https://blog.nobugware.com/post/2009/03/11/better-nslog/</guid><description>When debugging, I often found that NSLog is really boring, here is an attempt to make it nicer:
 `
-NSLog(@&amp;quot;mycar: %@&amp;quot;,myCar); NSLog(@&amp;quot; I&#39;M HERE &amp;quot;);  `
+NSLog(@&amp;quot;mycar: %@&amp;quot;,myCar); NSLog(@&amp;quot; I'M HERE &amp;quot;); `
 NSLog doesn&amp;rsquo;t tell you where the call was made (which file or which method), so you end with a lot of:
- 2009-03-11 22:30:53.789 ObjCTest[1565:10b] mycar: Porsche
+2009-03-11 22:30:53.789 ObjCTest[1565:10b] mycar: Porsche
 2009-03-11 22:30:53.791 ObjCTest[1565:10b] I&amp;rsquo;M HERE
- A better NSLog could tell us:
- 2009-03-11 22:32:25.823 ObjCTest[1581:10b] Car.</description>
-    </item>
-    
-    <item>
-      <title>Understanding the ZFS tuning</title>
-      <link>https://blog.nobugware.com/post/2009/02/26/understanding-zfs-tuning/</link>
-      <pubDate>Thu, 26 Feb 2009 11:37:40 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2009/02/26/understanding-zfs-tuning/</guid>
-      <description>ZFS is all about performance (many levels of caching, pre-fetch, &amp;hellip;) and memory consumption :-)
-Here are my last links about ZFS internals, it&amp;rsquo;s worth a read if you plan to use ZFS on large productions :
- The slides of Adam Leventhal&amp;rsquo;s talk for the OpenSolaris Storage Summit : ZFS, Cache, and Flash
- c0t0d0s0.org : a very good explanation of the ARC cache : most recently used pages, most frequently used pages and their ghosts lists Some insight into the read cache of ZFS - or: The ARC and the [](http://www.</description>
-    </item>
-    
-    <item>
-      <title>Virtualbox NAT ssh to guest</title>
-      <link>https://blog.nobugware.com/post/2009/02/17/virtualbox-nat-ssh-guest/</link>
-      <pubDate>Tue, 17 Feb 2009 11:35:49 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2009/02/17/virtualbox-nat-ssh-guest/</guid>
-      <description>In NAT mode (the default one), virtualbox does not give you the possibility to directly connect to your guest os.
+A better NSLog could tell us:</description></item><item><title>Understanding the ZFS tuning</title><link>https://blog.nobugware.com/post/2009/02/26/understanding-zfs-tuning/</link><pubDate>Thu, 26 Feb 2009 11:37:40 -0400</pubDate><guid>https://blog.nobugware.com/post/2009/02/26/understanding-zfs-tuning/</guid><description>ZFS is all about performance (many levels of caching, pre-fetch, &amp;hellip;) and memory consumption :-)
+Here are my last links about ZFS [internals](http://src.opensolaris.org/source/xref/onnv/onnv- gate/usr/src/cmd/mdb/common/modules/zfs/zfs.c#333), it&amp;rsquo;s worth a read if you plan to use ZFS on large productions :
+The slides of Adam Leventhal&amp;rsquo;s talk for the OpenSolaris Storage Summit : ZFS, Cache, and Flash
+c0t0d0s0.org : a very good explanation of the ARC cache : most recently used pages, most frequently used pages and their ghosts lists Some insight into the read cache of ZFS - or: The ARC and the writing side</description></item><item><title>Virtualbox NAT ssh to guest</title><link>https://blog.nobugware.com/post/2009/02/17/virtualbox-nat-ssh-guest/</link><pubDate>Tue, 17 Feb 2009 11:35:49 -0400</pubDate><guid>https://blog.nobugware.com/post/2009/02/17/virtualbox-nat-ssh-guest/</guid><description>In NAT mode (the default one), virtualbox does not give you the possibility to directly connect to your guest os.
 Here is how to configure your Virtualbox to simply ssh myguest
 For example my guest is called &amp;ldquo;Solaris10u6&amp;rdquo;, configured to used e1000 card, the default in solaris configuration, (The host os is a Mac).
 Type this command in terminal:
 `VBoxManage setextradata Solaris10u6 &amp;ldquo;VBoxInternal/Devices/e1000/0/LUN#0/Config/ssh/Protocol&amp;rdquo; TCP
 VBoxManage setextradata Solaris10u6 &amp;ldquo;VBoxInternal/Devices/e1000/0/LUN#0/Config/ssh/GuestPort&amp;rdquo; 22
-VBoxManage setextradata Solaris10u6 &amp;ldquo;VBoxInternal/Devices/e1000/0/LUN#0/Config/ssh/HostPort&amp;rdquo; 2222 `</description>
-    </item>
-    
-    <item>
-      <title>LATE : un nouveau scheduler MapReduce</title>
-      <link>https://blog.nobugware.com/post/2009/02/09/late-un-nouveau-scheduler-mapreduce/</link>
-      <pubDate>Mon, 09 Feb 2009 14:51:46 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2009/02/09/late-un-nouveau-scheduler-mapreduce/</guid>
-      <description>Improving MapReduce Performance in Heterogeneous Environments
- &amp;rdquo; MapReduce is emerging as an important programming model for large-scale data-parallel applications such as web indexing, data mining, and scientific simulation. Hadoop is an open-source implementation of MapReduce enjoying wide adoption and is often used for short jobs where low response time is critical. Hadoop&amp;rsquo;s performance is closely tied to its task scheduler, which implicitly assumes that cluster nodes are homogeneous and tasks make progress linearly, and uses these assumptions to decide when to speculatively re-execute tasks that appear to be stragglers.</description>
-    </item>
-    
-    <item>
-      <title>Xcode raccourcis important</title>
-      <link>https://blog.nobugware.com/post/2009/01/27/xcode-raccourcis-important/</link>
-      <pubDate>Tue, 27 Jan 2009 20:34:27 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2009/01/27/xcode-raccourcis-important/</guid>
-      <description>Pour changer le nom MyCompanyName dans votre source code: defaults write com.apple.Xcode PBXCustomTemplateMacroDefinitions &#39;{ORGANIZATIONNAME = &amp;quot;Nobugware&amp;quot;; }&#39;
- ⌘[ et ⌘] pour indenter a droite ou a gauche
- ⌃/ pour passer d&amp;rsquo;un champ a l&amp;rsquo;autre quand xcode vous propose la completion d&amp;rsquo;une methode avec plusieurs arguments (⌃⇧/ clavier fr)
- ⌥⌘↑ (alt shift curseur haut) passe du fichier .m au .h
- ⌘⇧D Open Quickly, permet d&amp;rsquo;ouvrir un popup de rechercher pour ouvrir rapidement un fichier</description>
-    </item>
-    
-    <item>
-      <title>Happy new year</title>
-      <link>https://blog.nobugware.com/post/2009/01/05/happy-new-year/</link>
-      <pubDate>Mon, 05 Jan 2009 10:04:59 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2009/01/05/happy-new-year/</guid>
-      <description>新年快乐 كل عام وأنتم بخير שנה טובה
-Un moyen comme un autre de tester l&amp;rsquo;utf8 ;)</description>
-    </item>
-    
-    <item>
-      <title>NSThread iPhone Template</title>
-      <link>https://blog.nobugware.com/post/2008/12/22/nsthread-iphone-template/</link>
-      <pubDate>Mon, 22 Dec 2008 14:42:12 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2008/12/22/nsthread-iphone-template/</guid>
-      <description>This is firstly a reminder for myself, here is a great example how to fire up a thread to perform long operation on iphone, without blocking reactivity.
+VBoxManage setextradata Solaris10u6 &amp;ldquo;VBoxInternal/Devices/e1000/0/LUN#0/Config/ssh/HostPort&amp;rdquo; 2222 `</description></item><item><title>LATE : un nouveau scheduler MapReduce</title><link>https://blog.nobugware.com/post/2009/02/09/late-un-nouveau-scheduler-mapreduce/</link><pubDate>Mon, 09 Feb 2009 14:51:46 -0400</pubDate><guid>https://blog.nobugware.com/post/2009/02/09/late-un-nouveau-scheduler-mapreduce/</guid><description>[Improving MapReduce Performance in Heterogeneous Environments](http://www.use nix.com/events/osdi08/tech/full_papers/zaharia/zaharia_html/index.html)
+&amp;quot; MapReduce is emerging as an important programming model for large-scale data-parallel applications such as web indexing, data mining, and scientific simulation. Hadoop is an open-source implementation of MapReduce enjoying wide adoption and is often used for short jobs where low response time is critical. Hadoop&amp;rsquo;s performance is closely tied to its task scheduler, which implicitly assumes that cluster nodes are homogeneous and tasks make progress linearly, and uses these assumptions to decide when to speculatively re-execute tasks that appear to be stragglers.</description></item><item><title>Xcode raccourcis important</title><link>https://blog.nobugware.com/post/2009/01/27/xcode-raccourcis-important/</link><pubDate>Tue, 27 Jan 2009 20:34:27 -0400</pubDate><guid>https://blog.nobugware.com/post/2009/01/27/xcode-raccourcis-important/</guid><description>Pour changer le nom MyCompanyName dans votre source code:defaults write com.apple.Xcode PBXCustomTemplateMacroDefinitions '{ORGANIZATIONNAME = &amp;quot;Nobugware&amp;quot;; }'
+⌘[ et ⌘] pour indenter a droite ou a gauche
+⌃/ pour passer d&amp;rsquo;un champ a l&amp;rsquo;autre quand xcode vous propose la completion d&amp;rsquo;une methode avec plusieurs arguments (⌃⇧/ clavier fr)
+⌥⌘↑ (alt shift curseur haut) passe du fichier .m au .h
+⌘⇧D Open Quickly, permet d&amp;rsquo;ouvrir un popup de rechercher pour ouvrir rapidement un fichier</description></item><item><title>Happy new year</title><link>https://blog.nobugware.com/post/2009/01/05/happy-new-year/</link><pubDate>Mon, 05 Jan 2009 10:04:59 -0400</pubDate><guid>https://blog.nobugware.com/post/2009/01/05/happy-new-year/</guid><description>新年快乐 كل عام وأنتم بخير שנה טובה
+Un moyen comme un autre de tester l&amp;rsquo;utf8 ;)</description></item><item><title>NSThread iPhone Template</title><link>https://blog.nobugware.com/post/2008/12/22/nsthread-iphone-template/</link><pubDate>Mon, 22 Dec 2008 14:42:12 -0400</pubDate><guid>https://blog.nobugware.com/post/2008/12/22/nsthread-iphone-template/</guid><description>This is firstly a reminder for myself, here is a great example how to fire up a thread to perform long operation on iphone, without blocking reactivity.
 Stanford CS 193P iPhone application programming is still the best place to find optimised example that works.
 All this examples was taken from this courses, see chap 10 &amp;amp; 11 about TableView optimisation
 `
-// LetsMakeAThreadAppDelegate.m // LetsMakeAThread // // Created by Evan Doll on 10/27/08.</description>
-    </item>
-    
-    <item>
-      <title>Un peu de statistiques</title>
-      <link>https://blog.nobugware.com/post/2008/12/16/un-peu-de-statistiques/</link>
-      <pubDate>Tue, 16 Dec 2008 21:25:33 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2008/12/16/un-peu-de-statistiques/</guid>
-      <description>Comment lisez vous ce blog ?
+// LetsMakeAThreadAppDelegate.m // LetsMakeAThread // // Created by Evan Doll on 10/27/08.</description></item><item><title>Un peu de statistiques</title><link>https://blog.nobugware.com/post/2008/12/16/un-peu-de-statistiques/</link><pubDate>Tue, 16 Dec 2008 21:25:33 -0400</pubDate><guid>https://blog.nobugware.com/post/2008/12/16/un-peu-de-statistiques/</guid><description>Comment lisez vous ce blog ?
 Pour le feed RSS:
- 18 29 a lire ce blog dans Google Reader 2 dans Bloglines 5 a lire le RSS via un browser  Pour le site web sur un an 30 410 visites, soit une centaine de visite par jour, 80% des lecteurs ne viennent qu&amp;rsquo;une fois.
-Un page rank de 3: 75% du traffic pour le site web vient de Google.</description>
-    </item>
-    
-    <item>
-      <title>Les applications essentielles pour Mac</title>
-      <link>https://blog.nobugware.com/post/2008/12/14/les-applications-essentielles-pour-mac/</link>
-      <pubDate>Sun, 14 Dec 2008 19:29:16 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2008/12/14/les-applications-essentielles-pour-mac/</guid>
-      <description>Voici la liste des applications indispensables pour votre Mac, la plupart sont gratuites, les applications payantes sont signalées par €€€.
+18 29 a lire ce blog dans Google Reader 2 dans Bloglines 5 a lire le RSS via un browser Pour le site web sur un an 30 410 visites, soit une centaine de visite par jour, 80% des lecteurs ne viennent qu&amp;rsquo;une fois.
+Un page rank de 3: 75% du traffic pour le site web vient de Google.</description></item><item><title>Les applications essentielles pour Mac</title><link>https://blog.nobugware.com/post/2008/12/14/les-applications-essentielles-pour-mac/</link><pubDate>Sun, 14 Dec 2008 19:29:16 -0400</pubDate><guid>https://blog.nobugware.com/post/2008/12/14/les-applications-essentielles-pour-mac/</guid><description>Voici la liste des applications indispensables pour votre Mac, la plupart sont gratuites, les applications payantes sont signalées par €€€.
 Nouvelle liste !
 Après une installation ou une réinstallation de votre Mac, vous trouverez cette liste peut être aussi utile que moi.
 Firefox Le browser web libre et gratuit
 OpenOffice 3 Enfin une alternative viable et gratuite à Microsoft Office, associé aux templates
 VLC Le player vidéo multiformat
-Windows Media Components for QuickTime Les CODECS windows media pour permettre la lecture dans Quicktime</description>
-    </item>
-    
-    <item>
-      <title>Python 3.0 is out</title>
-      <link>https://blog.nobugware.com/post/2008/12/04/python-30-out/</link>
-      <pubDate>Thu, 04 Dec 2008 10:08:35 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2008/12/04/python-30-out/</guid>
-      <description>Python 3.0 is here.
+[Windows Media Components for QuickTime](http://www.</description></item><item><title>Python 3.0 is out</title><link>https://blog.nobugware.com/post/2008/12/04/python-30-out/</link><pubDate>Thu, 04 Dec 2008 10:08:35 -0400</pubDate><guid>https://blog.nobugware.com/post/2008/12/04/python-30-out/</guid><description>Python 3.0 is here.
 Guido and others released Python 3.0, a major &amp;ldquo;backward&amp;rdquo; incompatible python release.
 It was a necessary choice to remove many old libraries, rework the std library, and change some behaviour.
 You can see it all in What&amp;rsquo;s new in Python 3.0.
- The most visible change is maybe the print statement, print is now a function:  print &amp;ldquo;toto&amp;rdquo;
+The most visible change is maybe the print statement, print is now a function:
+print &amp;ldquo;toto&amp;rdquo;
 becomes
-print(&amp;quot;toto&amp;quot;)   The % operator whis is supplented by the format() method:  old: &amp;ldquo;Name: %s&amp;rdquo; % &amp;ldquo;john&amp;rdquo;</description>
-    </item>
-    
-    <item>
-      <title>Apprendre à coder pour l&#39;iphone avec l&#39;universite de Stanford</title>
-      <link>https://blog.nobugware.com/post/2008/12/04/apprendre-coder-pour-liphone-avec-luniversite-de-stanford/</link>
-      <pubDate>Thu, 04 Dec 2008 09:17:43 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2008/12/04/apprendre-coder-pour-liphone-avec-luniversite-de-stanford/</guid>
-      <description>Tous les cours, tous les slides, tous les exemples en lignes, sont forts ces californiens.
+print(&amp;quot;toto&amp;quot;) The % operator whis is supplented by the format() method:</description></item><item><title>Apprendre à coder pour l'iphone avec l'universite de Stanford</title><link>https://blog.nobugware.com/post/2008/12/04/apprendre-coder-pour-liphone-avec-luniversite-de-stanford/</link><pubDate>Thu, 04 Dec 2008 09:17:43 -0400</pubDate><guid>https://blog.nobugware.com/post/2008/12/04/apprendre-coder-pour-liphone-avec-luniversite-de-stanford/</guid><description>Tous les cours, tous les slides, tous les exemples en lignes, sont forts ces californiens.
 [le cours Iphone development](http://www.stanford.edu/class/cs193p/cgi- bin/index.php) ainsi que le cours sur cocoa:
-Je vous remet mon article sur [apprendre objective C](/post/2008/10/20/iphone- sdk-exemple-de-code-et-documentation).</description>
-    </item>
-    
-    <item>
-      <title>Gentoo bref récap des commandes de gestion de paquets</title>
-      <link>https://blog.nobugware.com/post/2008/12/03/gentoo-bref-recap-des-commandes-de-gestion-de-paquets/</link>
-      <pubDate>Wed, 03 Dec 2008 10:32:54 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2008/12/03/gentoo-bref-recap-des-commandes-de-gestion-de-paquets/</guid>
-      <description>Avant toute chose installer l&amp;rsquo;outil gentoolkit
+Je vous remet mon article sur [apprendre objective C](/post/2008/10/20/iphone- sdk-exemple-de-code-et-documentation).</description></item><item><title>Gentoo bref récap des commandes de gestion de paquets</title><link>https://blog.nobugware.com/post/2008/12/03/gentoo-bref-recap-des-commandes-de-gestion-de-paquets/</link><pubDate>Wed, 03 Dec 2008 10:32:54 -0400</pubDate><guid>https://blog.nobugware.com/post/2008/12/03/gentoo-bref-recap-des-commandes-de-gestion-de-paquets/</guid><description>Avant toute chose installer l&amp;rsquo;outil gentoolkit
 emerge -av gentoolkit
 Ces nouvelles commandes vont vous permettre de:
 A quel port appartient un binaire:
- equery belongs cjpeg [ Searching for file(s) cjpeg in *... ] media-libs/jpeg-6b-r8 (/usr/bin/cjpeg)  Quels sont les dependances d&amp;rsquo;un port:
-equery depends gd [ Searching for packages depending on gd... ] dev-lang/php-5.2.6-r7 (gd-external? media-libs/gd)  Quels sont les fichiers installes par un package:
- equery files less [ Searching for packages matching less.</description>
-    </item>
-    
-    <item>
-      <title>Probleme d&#39;affichage avec man</title>
-      <link>https://blog.nobugware.com/post/2008/12/03/probleme-daffichage-avec-man/</link>
-      <pubDate>Wed, 03 Dec 2008 10:25:54 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2008/12/03/probleme-daffichage-avec-man/</guid>
-      <description>Parfois sous linux, souvent sur gentoo les man affichent des caracteres comme ceux ci:
+equery belongs cjpeg [ Searching for file(s) cjpeg in *... ] media-libs/jpeg-6b-r8 (/usr/bin/cjpeg) Quels sont les dependances d&amp;rsquo;un port:
+equery depends gd [ Searching for packages depending on gd... ] dev-lang/php-5.2.6-r7 (gd-external? media-libs/gd) Quels sont les fichiers installes par un package:
+equery files less [ Searching for packages matching less.</description></item><item><title>Probleme d'affichage avec man</title><link>https://blog.nobugware.com/post/2008/12/03/probleme-daffichage-avec-man/</link><pubDate>Wed, 03 Dec 2008 10:25:54 -0400</pubDate><guid>https://blog.nobugware.com/post/2008/12/03/probleme-daffichage-avec-man/</guid><description>Parfois sous linux, souvent sur gentoo les man affichent des caracteres comme ceux ci:
 LESS(1) LESS(1)
 ESC[1mNAMEESC[0m
 less - opposite of more
@@ -1188,8 +304,4 @@ ESC[1mSYNOPSISESC[0m
 ESC[1mless -?ESC[0m
 ESC[1mless &amp;ndash;helpESC[0m
 La solution la plus simple consiste a changer la variable PAGER de votre environnement:
-export PAGER=&amp;quot;less -r&amp;quot;</description>
-    </item>
-    
-  </channel>
-</rss>
+export PAGER=&amp;quot;less -r&amp;quot;</description></item></channel></rss>

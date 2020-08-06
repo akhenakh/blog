@@ -1,113 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta charset="utf-8"/>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<meta name="generator" content="Hugo 0.58.1" />
-		<title>Traefik 2.0 with Kubernetes - Fabrice Aneche</title>
-
-		<meta name="description" content="Traefik v2 is here, let&#39;s install and deploy it in a Kubernetes cluster.">
-
-
-		
-	
-		
-
-
-
-
-<link rel="stylesheet" href="https://blog.nobugware.com/css/ui.css">
-
-	
-		
-
-		<link  rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway">
-
-		
-	</head>
-
-<body>
-<header class="container no-print">
-	<div class="u-header">
-		<nav class="bar">
-	<ul><li>
-			<a href="https://blog.nobugware.com/">
-				<img class="icon-text" src="https://blog.nobugware.com/img/prev.svg"/>
-			</a>
-		</li><li><a href="https://blog.nobugware.com/about">About</a></li><li><a href="https://blog.nobugware.com/post/">Post</a></li></ul>
-</nav>
-
-	</div>
-</header>
-<main class="container">
-
-<article>
-	<header><hgroup id="brand">
-	<h1>Traefik 2.0 with Kubernetes</h1>
-	<h5>
-		
-		<time datetime="2019-09-17 00:00:00 -0400 -0400">Sep 17, 2019</time>
-		<span class="no-print">
-			-
-				
-				<a href="https://blog.nobugware.com/tags/kubernetes">kubernetes</a>
-				
-				<a href="https://blog.nobugware.com/tags/traefik">traefik</a>
-				
-				<a href="https://blog.nobugware.com/tags/devops">devops</a>
-				<span>
-	</h5>
-	
-</hgroup>
-<hr class="sep" />
-</header>
-	
-
-<p>Traefik 2.0 is <a href="%22https://github.com/containous/traefik/releases/tag/v2.0.0%22">here</a> !</p>
-
-<p>Traefik is a reverse proxy load balancer (and more), it can learn the routes to respond to by discovering them in <a href="https://docs.traefik.io/v2.0/providers/overview/">multiple providers, Docker, Kubernetes &hellip;</a></p>
-
-<p>Traefik v1.x is very stable, v2.x is fresh new tech, <a href="https://docs.traefik.io/v2.0/migration/v1-to-v2/">with breaking changes</a> and unfinished documentation, so test it first.</p>
-
-<p>From Traefik&rsquo;s documentation:</p>
-
-<ul>
-<li>Providers discover the services that live on your infrastructure (their IP, health, &hellip;)</li>
-<li>Entrypoints listen for incoming traffic (ports, &hellip;)</li>
-<li>Routers analyze the requests (host, path, headers, SSL, &hellip;)</li>
-<li>Services forward the request to your services (load balancing, &hellip;)</li>
-<li>Middlewares may update the request or make decisions based on the request (authentication, rate limiting, headers, &hellip;)</li>
-</ul>
-
-<h2 id="kubernetes">Kubernetes</h2>
-
-<p>In Traefik v1, Kubernetes ingress were used to discover the routes:</p>
-
-<pre><code>apiVersion: extensions/v1beta1
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=generator content="Hugo 0.74.2"><title>Traefik 2.0 with Kubernetes - Fabrice Aneche</title><meta name=description content="Traefik v2 is here, let's install and deploy it in a Kubernetes cluster."><link rel=stylesheet href=https://blog.nobugware.com/css/ui.css><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway"></head><body><header class="container no-print"><div class=u-header><nav class=bar><ul><li><a href=https://blog.nobugware.com/><img class=icon-text src=https://blog.nobugware.com/img/prev.svg></a></li><li><a href=https://blog.nobugware.com/about>About</a></li><li><a href=https://blog.nobugware.com/post/>Post</a></li></ul></nav></div></header><main class=container><article><header><hgroup id=brand><h1>Traefik 2.0 with Kubernetes</h1><h5><time datetime="2019-09-17 00:00:00 -0400 -0400">Sep 17, 2019</time>
+<span class=no-print>-
+<a href=https://blog.nobugware.com/tags/kubernetes>kubernetes</a>
+<a href=https://blog.nobugware.com/tags/traefik>traefik</a>
+<a href=https://blog.nobugware.com/tags/devops>devops</a>
+<span></h5></hgroup><hr class=sep></header><p>Traefik 2.0 is <a href=%22https://github.com/containous/traefik/releases/tag/v2.0.0%22>here</a> !</p><p>Traefik is a reverse proxy load balancer (and more), it can learn the routes to respond to by discovering them in <a href=https://docs.traefik.io/v2.0/providers/overview/>multiple providers, Docker, Kubernetes &mldr;</a></p><p>Traefik v1.x is very stable, v2.x is fresh new tech, <a href=https://docs.traefik.io/v2.0/migration/v1-to-v2/>with breaking changes</a> and unfinished documentation, so test it first.</p><p>From Traefik&rsquo;s documentation:</p><ul><li>Providers discover the services that live on your infrastructure (their IP, health, &mldr;)</li><li>Entrypoints listen for incoming traffic (ports, &mldr;)</li><li>Routers analyze the requests (host, path, headers, SSL, &mldr;)</li><li>Services forward the request to your services (load balancing, &mldr;)</li><li>Middlewares may update the request or make decisions based on the request (authentication, rate limiting, headers, &mldr;)</li></ul><h2 id=kubernetes>Kubernetes</h2><p>In Traefik v1, Kubernetes ingress were used to discover the routes:</p><pre><code>apiVersion: extensions/v1beta1
 kind: Ingress
-</code></pre>
-
-<p>In Traefik v2, a <a href="https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/">custom resource definition</a> is needed to provide <code>IngressRouter.</code><br />
-With Kubernetes the providers is called <a href="https://docs.traefik.io/v2.0/providers/kubernetes-crd/">Kubernetes-crd</a></p>
-
-<p>The CRD can be found <a href="https://raw.githubusercontent.com/containous/traefik/master/integration/fixtures/k8s/01-crd.yml">here</a></p>
-
-<p>It provides, <a href="https://docs.traefik.io/v2.0/middlewares/overview/">Middleware</a>, <a href="https://docs.traefik.io/v2.0/providers/kubernetes-crd/">IngressRoute</a>, IngressRouteTCP &amp; TLSOption.</p>
-
-<p>We need a service account, same as before, and then deploy Traefik itself, the good thing with Traefik v2 is you don&rsquo;t need a traefik config file anymore, since you can do almost anything with the <code>IngressRoute</code> annotations.</p>
-
-<p>Here is a complete gist which will install the CRD, the needed service account and deploy one Traefik 2.0 pod.</p>
-
-<pre><code>kubectl apply -f https://gist.github.com/akhenakh/56f922f39f7b8b212e3f878f91a00b10
-</code></pre>
-
-<p>Now the real changes, the way you declare a route:</p>
-
-<h2 id="middleware">Middleware</h2>
-
-<p>First in v1, we used to redirect http to https as follow using the <code>traefik.toml</code> config:</p>
-
-<pre><code>    defaultEntryPoints = [&quot;http&quot;,&quot;https&quot;]
+</code></pre><p>In Traefik v2, a <a href=https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/>custom resource definition</a> is needed to provide <code>IngressRouter.</code><br>With Kubernetes the providers is called <a href=https://docs.traefik.io/v2.0/providers/kubernetes-crd/>Kubernetes-crd</a></p><p>The CRD can be found <a href=https://raw.githubusercontent.com/containous/traefik/master/integration/fixtures/k8s/01-crd.yml>here</a></p><p>It provides, <a href=https://docs.traefik.io/v2.0/middlewares/overview/>Middleware</a>, <a href=https://docs.traefik.io/v2.0/providers/kubernetes-crd/>IngressRoute</a>, IngressRouteTCP & TLSOption.</p><p>We need a service account, same as before, and then deploy Traefik itself, the good thing with Traefik v2 is you don&rsquo;t need a traefik config file anymore, since you can do almost anything with the <code>IngressRoute</code> annotations.</p><p>Here is a complete gist which will install the CRD, the needed service account and deploy one Traefik 2.0 pod.</p><pre><code>kubectl apply -f https://gist.github.com/akhenakh/56f922f39f7b8b212e3f878f91a00b10
+</code></pre><p>Now the real changes, the way you declare a route:</p><h2 id=middleware>Middleware</h2><p>First in v1, we used to redirect http to https as follow using the <code>traefik.toml</code> config:</p><pre><code>    defaultEntryPoints = [&quot;http&quot;,&quot;https&quot;]
     [entryPoints]
       [entryPoints.http]
       address = &quot;:80&quot;
@@ -116,26 +15,14 @@ With Kubernetes the providers is called <a href="https://docs.traefik.io/v2.0/pr
           regex = &quot;^http://(.*)&quot;
           replacement = &quot;https://$1&quot;
           permanent = true
-</code></pre>
-
-<p>In v2 we need to create a middleware, expressed like this for Kubernetes</p>
-
-<pre><code>apiVersion: traefik.containo.us/v1alpha1
+</code></pre><p>In v2 we need to create a middleware, expressed like this for Kubernetes</p><pre><code>apiVersion: traefik.containo.us/v1alpha1
 kind: Middleware
 metadata:
   name: https-only
 spec:
   redirectScheme:
     scheme: https
-</code></pre>
-
-<p>Note: Middlewares can be chained using the <a href="https://docs.traefik.io/v2.0/middlewares/chain/">Chain middleware</a>!</p>
-
-<h2 id="route">Route</h2>
-
-<p>In v1 we used to describe a route as follow:</p>
-
-<pre><code>apiVersion: extensions/v1beta1
+</code></pre><p>Note: Middlewares can be chained using the <a href=https://docs.traefik.io/v2.0/middlewares/chain/>Chain middleware</a>!</p><h2 id=route>Route</h2><p>In v1 we used to describe a route as follow:</p><pre><code>apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: caddy-git
@@ -152,11 +39,7 @@ spec:
           backend:
             serviceName: caddy-git
             servicePort: http
-</code></pre>
-
-<p>In v2:</p>
-
-<pre><code>apiVersion: traefik.containo.us/v1alpha1
+</code></pre><p>In v2:</p><pre><code>apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
   name: blog-ingress
@@ -189,85 +72,8 @@ spec:
       services:
         - name: caddy-git
           port: 80
-</code></pre>
-
-<h2 id="conclusion">Conclusion</h2>
-
-<p>There are way more to explore, like <a href="https://blog.containo.us/traefik-2-0-6531ec5196c2">traffic mirroring and canary updates</a>.<br />
-This is a really promising new beginning for Traefik !</p>
-
-<p>If you are are interested in advanced configuration example read <a href="https://blog.nobugware.com/post/2019/advanced-traefik-2-0-with-kubernetes/">my second post about Traefik 2</a>.</p>
-
-</article>
-<nav class="no-print post-nav">
-
-	<a class="prev-post" href="https://blog.nobugware.com/post/2019/using-github-actions-with-golangci-linter/">
-		<img class="icon-text" src="https://blog.nobugware.com/img/prev.svg"/>Using Github Actions with Golangci-linter</a>
-
-
-	<a class="next-post" href="https://blog.nobugware.com/post/2019/google-kubernetes-engine-gcp/">Google Kubernetes Engine &amp; GCP<img class="icon-text" src="https://blog.nobugware.com/img/next.svg"/>
-	</a>
-
-</nav>
-
-
-<section id="related">
-  <h4>See Also</h4>
-  <ul>
-    
-  	<li><a href="https://blog.nobugware.com/post/2019/access-web-interface/">Access Kubernetes Web Interfaces from the Outside</a></li>
-  	
-  	<li><a href="https://blog.nobugware.com/post/2019/deploying-a-website-with-caddy-git-and-kubernetes/">Deploying a website with Caddy, Git and Kubernetes</a></li>
-  	
-  	<li><a href="https://blog.nobugware.com/post/2019/traefik_load_balancing_grpc_services_trace_propagation/">Traefik gRPC Load Balancing and Traces Propagation</a></li>
-  	
-  </ul>
-</section>
-
-
-
-
-			<hr class="sep" />
-		</main>
-		<footer class="container no-print">
-			<div class="u-footer">
-				
-
-<a href="https://github.com/akhenakh/"><img class="icon-social" src="https://blog.nobugware.com/img/github.svg" alt="Github"/></a>
-
-
-<a href="https://twitter.com/akhenakh"><img class="icon-social" src="https://blog.nobugware.com/img/twitter.svg" alt="Twitter"/></a>
-
-<a href="https://blog.nobugware.com/index.xml" target="_blank"><img class="icon-social" src="https://blog.nobugware.com/img/feed.svg" alt="Feed"></a>
-
-				<p>
-					
-					Theme used: <a href="https://github.com/yursan9/manis-hugo-theme">Manis</a><br>
-					
-					
-					
-				</p>
-				
-				<a href="#brand">
-					<img class="icon-text" src="https://blog.nobugware.com/img/toup.svg" alt="To Up"/>
-					<span>Back to Up</span>
-				</a>
-				
-			</div>
-		</footer>
-                
-<script>
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-ga('create', 'UA-1245966-1', 'auto');
-ga('send', 'pageview');
-
-</script>
-
-		
-	</body>
-</html>
-
+</code></pre><h2 id=conclusion>Conclusion</h2><p>There are way more to explore, like <a href=https://blog.containo.us/traefik-2-0-6531ec5196c2>traffic mirroring and canary updates</a>.<br>This is a really promising new beginning for Traefik !</p><p>If you are are interested in advanced configuration example read <a href=https://blog.nobugware.com/post/2019/advanced-traefik-2-0-with-kubernetes/>my second post about Traefik 2</a>.</p></article><nav class="no-print post-nav"><a class=prev-post href=https://blog.nobugware.com/post/2019/using-github-actions-with-golangci-linter/><img class=icon-text src=https://blog.nobugware.com/img/prev.svg>Using Github Actions with Golangci-linter</a>
+<a class=next-post href=https://blog.nobugware.com/post/2019/google-kubernetes-engine-gcp/>Google Kubernetes Engine & GCP<img class=icon-text src=https://blog.nobugware.com/img/next.svg></a></nav><section id=related><h4>See Also</h4><ul><li><a href=https://blog.nobugware.com/post/2019/access-web-interface/>Access Kubernetes Web Interfaces from the Outside</a></li><li><a href=https://blog.nobugware.com/post/2019/deploying-a-website-with-caddy-git-and-kubernetes/>Deploying a website with Caddy, Git and Kubernetes</a></li><li><a href=https://blog.nobugware.com/post/2019/traefik_load_balancing_grpc_services_trace_propagation/>Traefik gRPC Load Balancing and Traces Propagation</a></li></ul></section><hr class=sep></main><footer class="container no-print"><div class=u-footer><a href=https://github.com/akhenakh/><img class=icon-social src=https://blog.nobugware.com/img/github.svg alt=Github></a>
+<a href=https://twitter.com/akhenakh><img class=icon-social src=https://blog.nobugware.com/img/twitter.svg alt=Twitter></a>
+<a href=https://blog.nobugware.com/index.xml target=_blank><img class=icon-social src=https://blog.nobugware.com/img/feed.svg alt=Feed></a><p>Theme used: <a href=https://github.com/yursan9/manis-hugo-theme>Manis</a><br></p><a href=#brand><img class=icon-text src=https://blog.nobugware.com/img/toup.svg alt="To Up">
+<span>Back to Up</span></a></div></footer><script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-1245966-1','auto');ga('send','pageview');</script></body></html>

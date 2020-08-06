@@ -1,124 +1,35 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>linux on Fabrice Aneche</title>
-    <link>https://blog.nobugware.com/tags/linux/</link>
-    <description>Recent content in linux on Fabrice Aneche</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <lastBuildDate>Mon, 09 Sep 2019 00:02:00 -0400</lastBuildDate>
-    
-	<atom:link href="https://blog.nobugware.com/tags/linux/index.xml" rel="self" type="application/rss+xml" />
-    
-    
-    <item>
-      <title>Bare Metal Kubernetes Quick Installation Arm64 &amp; Arch</title>
-      <link>https://blog.nobugware.com/post/2019/bare-metal-kubernetes-quick-installations-on-arch/</link>
-      <pubDate>Mon, 09 Sep 2019 00:02:00 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2019/bare-metal-kubernetes-quick-installations-on-arch/</guid>
-      <description>I&amp;rsquo;m still playing with my 3 nodes arm64 cluster, having some stability issues with k3s, I turned into kubeadm to deploy a bare metal non HA one master two workers Kubernetes cluster.
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>linux on Fabrice Aneche</title><link>https://blog.nobugware.com/tags/linux/</link><description>Recent content in linux on Fabrice Aneche</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Mon, 09 Sep 2019 00:02:00 -0400</lastBuildDate><atom:link href="https://blog.nobugware.com/tags/linux/index.xml" rel="self" type="application/rss+xml"/><item><title>Bare Metal Kubernetes Quick Installation Arm64 &amp; Arch</title><link>https://blog.nobugware.com/post/2019/bare-metal-kubernetes-quick-installations-on-arch/</link><pubDate>Mon, 09 Sep 2019 00:02:00 -0400</pubDate><guid>https://blog.nobugware.com/post/2019/bare-metal-kubernetes-quick-installations-on-arch/</guid><description>I&amp;rsquo;m still playing with my 3 nodes arm64 cluster, having some stability issues with k3s, I turned into kubeadm to deploy a bare metal non HA one master two workers Kubernetes cluster.
 My host is Arch which is theoretically not supported but still works.
-Required tasks sudo pacman -S ethtool ebtables socat cni-plugins  Install aur/kubelet-bin and aur/kubeadm-bin
-I needed a private registry to host my images, on master node:</description>
-    </item>
-    
-    <item>
-      <title>H96 Max&#43; Android box as a Linux server</title>
-      <link>https://blog.nobugware.com/post/2019/h96-max-android-box-as-a-linux-server/</link>
-      <pubDate>Mon, 27 May 2019 00:00:00 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2019/h96-max-android-box-as-a-linux-server/</guid>
-      <description>The H96 Max + is an Android 8.1 box with a Rockchip 3328, 4Gb RAM and 32G or 64G builtin eMMC, it&amp;rsquo;s the same chipset as the Rock64, it costs around 60 USD.
+Required tasks sudo pacman -S ethtool ebtables socat cni-plugins Install aur/kubelet-bin and aur/kubeadm-bin
+I needed a private registry to host my images, on master node:</description></item><item><title>H96 Max+ Android box as a Linux server</title><link>https://blog.nobugware.com/post/2019/h96-max-android-box-as-a-linux-server/</link><pubDate>Mon, 27 May 2019 04:00:00 +0000</pubDate><guid>https://blog.nobugware.com/post/2019/h96-max-android-box-as-a-linux-server/</guid><description>The H96 Max + is an Android 8.1 box with a Rockchip 3328, 4Gb RAM and 32G or 64G builtin eMMC, it&amp;rsquo;s the same chipset as the Rock64, it costs around 60 USD.
 The only downside of this board is the 100Mb network link, can be a non issue using a USB network adapter.
-Here are some notes how to install Arch Linux on the H96 to make it a small server appliance.</description>
-    </item>
-    
-    <item>
-      <title>Arch on Rock64 with USB boot</title>
-      <link>https://blog.nobugware.com/post/2019/arch-on-rock64-with-usb-boot/</link>
-      <pubDate>Wed, 22 May 2019 00:00:00 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2019/arch-on-rock64-with-usb-boot/</guid>
-      <description>Here are my notes to install Arch on a Rock64 and boot on USB first.
+July 2020 EDIT: Works with mainline, look at the bottom.
+Here are some notes how to install Arch Linux on the H96 to make it a small server appliance.</description></item><item><title>Arch on Rock64 with USB boot</title><link>https://blog.nobugware.com/post/2019/arch-on-rock64-with-usb-boot/</link><pubDate>Wed, 22 May 2019 00:00:00 -0400</pubDate><guid>https://blog.nobugware.com/post/2019/arch-on-rock64-with-usb-boot/</guid><description>Here are my notes to install Arch on a Rock64 and boot on USB first.
 Warning, you can brick your device (but can unbrick it), you are on your own.
- Follow Arch Instructions to Install on an SD Card Boot on it Insert your USB device and follow the exact same installation but this time to the /dev/sdadevice
+Follow Arch Instructions to Install on an SD Card
+Boot on it
+Insert your USB device and follow the exact same installation but this time to the /dev/sdadevice
 At the end
-Mount / into root again Run blkid to grab the UUID of your /</description>
-    </item>
-    
-    <item>
-      <title>Arch Linux on a Chromebook Asus C301SA</title>
-      <link>https://blog.nobugware.com/post/2017/asus_c301s_arch_linux_chromeos_write_protection/</link>
-      <pubDate>Sat, 22 Jul 2017 21:28:24 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2017/asus_c301s_arch_linux_chromeos_write_protection/</guid>
-      <description>I&amp;rsquo;ve got an Asus C301S at work, it&amp;rsquo;s a Chromebook with Chromeos.
+Mount / into root again Run blkid to grab the UUID of your /</description></item><item><title>Arch Linux on a Chromebook Asus C301SA</title><link>https://blog.nobugware.com/post/2017/asus_c301s_arch_linux_chromeos_write_protection/</link><pubDate>Sat, 22 Jul 2017 21:28:24 -0400</pubDate><guid>https://blog.nobugware.com/post/2017/asus_c301s_arch_linux_chromeos_write_protection/</guid><description>I&amp;rsquo;ve got an Asus C301S at work, it&amp;rsquo;s a Chromebook with Chromeos.
 I like those little laptops, for the price it&amp;rsquo;s actually a very good little machine.
 ChromeOS is responding very well, ssh and Chrome are working too.
 But I often need more, like X11 forwarding or offline coding &amp;hellip;
 You will see the C301SA is marked as a C300SA internally.
-Here are the steps to install Arch Linux on it, do it at your own risk, you can brick your computer, you will need an external USB keyboard.</description>
-    </item>
-    
-    <item>
-      <title>From OSX to Linux</title>
-      <link>https://blog.nobugware.com/post/2017/back_from_osx_to_linux/</link>
-      <pubDate>Sat, 25 Feb 2017 09:57:56 -0500</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2017/back_from_osx_to_linux/</guid>
-      <description>I&amp;rsquo;ve been a long time UNIX user, ditched Microsoft back in the 90s for FreeBSD, Solaris and Linux on the desktop, but when Apple released MacOS X, I&amp;rsquo;ve used it as a workstation.
+Here are the steps to install Arch Linux on it, do it at your own risk, you can brick your computer, you will need an external USB keyboard.</description></item><item><title>From OSX to Linux</title><link>https://blog.nobugware.com/post/2017/back_from_osx_to_linux/</link><pubDate>Sat, 25 Feb 2017 09:57:56 -0500</pubDate><guid>https://blog.nobugware.com/post/2017/back_from_osx_to_linux/</guid><description>I&amp;rsquo;ve been a long time UNIX user, ditched Microsoft back in the 90s for FreeBSD, Solaris and Linux on the desktop, but when Apple released MacOS X, I&amp;rsquo;ve used it as a workstation.
 For the last years I&amp;rsquo;ve used Linux desktops but not on my main computer, today here I am switching back to Linux.
 This post is not about the reasons I&amp;rsquo;m switching, they are simple.
-My typical work day is mostly about parsing giant files, running VM and Dockers, coding in Go and not about developing for iOS anymore.</description>
-    </item>
-    
-    <item>
-      <title>Airspy on Linux</title>
-      <link>https://blog.nobugware.com/post/2014/12/13/airspy-on-linux/</link>
-      <pubDate>Sat, 13 Dec 2014 07:55:48 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2014/12/13/airspy-on-linux/</guid>
-      <description>Airspy is an SDR with amazing specs, but drivers are slowly coming to your prefered os.
+My typical work day is mostly about parsing giant files, running VM and Dockers, coding in Go and not about developing for iOS anymore.</description></item><item><title>Airspy on Linux</title><link>https://blog.nobugware.com/post/2014/12/13/airspy-on-linux/</link><pubDate>Sat, 13 Dec 2014 07:55:48 -0400</pubDate><guid>https://blog.nobugware.com/post/2014/12/13/airspy-on-linux/</guid><description>Airspy is an SDR with amazing specs, but drivers are slowly coming to your prefered os.
 This apply to Arch but should apply to any recent Linux.
-I&amp;rsquo;ve first compiled libairspy but always had the error AIRSPY_ERROR_NOT_FOUND and &amp;quot;usbfs: interface 0 claimed by airspy while &#39;airspy_info&#39; sets config #1&amp;quot;
-Since Linux 3.17 comes with an airspy v4l autoloaded driver making impossible to use it with libusb: no airspy_info and no gqrx.</description>
-    </item>
-    
-    <item>
-      <title>ZFS on linux</title>
-      <link>https://blog.nobugware.com/post/2010/08/09/zfs-linux/</link>
-      <pubDate>Mon, 09 Aug 2010 14:41:47 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2010/08/09/zfs-linux/</guid>
-      <description>For license reasons (god damn GPL), ZFS can&amp;rsquo;t be integrated into the Linux kernel, but there is a userland fuse version called ZFS-FUSE, so I tried to measure the fuse overhead vs others filesystems presents on my server.
+I&amp;rsquo;ve first compiled libairspy but always had the error AIRSPY_ERROR_NOT_FOUND and &amp;quot;usbfs: interface 0 claimed by airspy while 'airspy_info' sets config #1&amp;quot;
+Since Linux 3.17 comes with an airspy v4l autoloaded driver making impossible to use it with libusb: no airspy_info and no gqrx.</description></item><item><title>ZFS on linux</title><link>https://blog.nobugware.com/post/2010/08/09/zfs-linux/</link><pubDate>Mon, 09 Aug 2010 14:41:47 -0400</pubDate><guid>https://blog.nobugware.com/post/2010/08/09/zfs-linux/</guid><description>For license reasons (god damn GPL), ZFS can&amp;rsquo;t be integrated into the Linux kernel, but there is a userland fuse version called [ZFS-FUSE](http://zfs- fuse.net/), so I tried to measure the fuse overhead vs others filesystems presents on my server.
 This tests are not benchmarks, but just show that ZFS-FUSE is fast enough and seems to be stable (at least for my personal server)
- ZFS with lzjb compression
-dd if=/dev/zero of=/testzfs/toto bs=2048 count=200000 409600000 bytes (410 MB) copied, 9.</description>
-    </item>
-    
-    <item>
-      <title>Gentoo bref récap des commandes de gestion de paquets</title>
-      <link>https://blog.nobugware.com/post/2008/12/03/gentoo-bref-recap-des-commandes-de-gestion-de-paquets/</link>
-      <pubDate>Wed, 03 Dec 2008 10:32:54 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2008/12/03/gentoo-bref-recap-des-commandes-de-gestion-de-paquets/</guid>
-      <description>Avant toute chose installer l&amp;rsquo;outil gentoolkit
+ZFS with lzjb compression dd if=/dev/zero of=/testzfs/toto bs=2048 count=200000 409600000 bytes (410 MB) copied, 9.</description></item><item><title>Gentoo bref récap des commandes de gestion de paquets</title><link>https://blog.nobugware.com/post/2008/12/03/gentoo-bref-recap-des-commandes-de-gestion-de-paquets/</link><pubDate>Wed, 03 Dec 2008 10:32:54 -0400</pubDate><guid>https://blog.nobugware.com/post/2008/12/03/gentoo-bref-recap-des-commandes-de-gestion-de-paquets/</guid><description>Avant toute chose installer l&amp;rsquo;outil gentoolkit
 emerge -av gentoolkit
 Ces nouvelles commandes vont vous permettre de:
 A quel port appartient un binaire:
- equery belongs cjpeg [ Searching for file(s) cjpeg in *... ] media-libs/jpeg-6b-r8 (/usr/bin/cjpeg)  Quels sont les dependances d&amp;rsquo;un port:
-equery depends gd [ Searching for packages depending on gd... ] dev-lang/php-5.2.6-r7 (gd-external? media-libs/gd)  Quels sont les fichiers installes par un package:
- equery files less [ Searching for packages matching less.</description>
-    </item>
-    
-    <item>
-      <title>Probleme d&#39;affichage avec man</title>
-      <link>https://blog.nobugware.com/post/2008/12/03/probleme-daffichage-avec-man/</link>
-      <pubDate>Wed, 03 Dec 2008 10:25:54 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2008/12/03/probleme-daffichage-avec-man/</guid>
-      <description>Parfois sous linux, souvent sur gentoo les man affichent des caracteres comme ceux ci:
+equery belongs cjpeg [ Searching for file(s) cjpeg in *... ] media-libs/jpeg-6b-r8 (/usr/bin/cjpeg) Quels sont les dependances d&amp;rsquo;un port:
+equery depends gd [ Searching for packages depending on gd... ] dev-lang/php-5.2.6-r7 (gd-external? media-libs/gd) Quels sont les fichiers installes par un package:
+equery files less [ Searching for packages matching less.</description></item><item><title>Probleme d'affichage avec man</title><link>https://blog.nobugware.com/post/2008/12/03/probleme-daffichage-avec-man/</link><pubDate>Wed, 03 Dec 2008 10:25:54 -0400</pubDate><guid>https://blog.nobugware.com/post/2008/12/03/probleme-daffichage-avec-man/</guid><description>Parfois sous linux, souvent sur gentoo les man affichent des caracteres comme ceux ci:
 LESS(1) LESS(1)
 ESC[1mNAMEESC[0m
 less - opposite of more
@@ -126,8 +37,4 @@ ESC[1mSYNOPSISESC[0m
 ESC[1mless -?ESC[0m
 ESC[1mless &amp;ndash;helpESC[0m
 La solution la plus simple consiste a changer la variable PAGER de votre environnement:
-export PAGER=&amp;quot;less -r&amp;quot;</description>
-    </item>
-    
-  </channel>
-</rss>
+export PAGER=&amp;quot;less -r&amp;quot;</description></item></channel></rss>

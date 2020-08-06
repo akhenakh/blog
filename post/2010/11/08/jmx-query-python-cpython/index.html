@@ -1,86 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta charset="utf-8"/>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<meta name="generator" content="Hugo 0.58.1" />
-		<title>JMX query in Python (CPython) - Fabrice Aneche</title>
-
-		<meta name="description" content="JMX had good intentions but the API is only implemented in Java, a Java product for Java, with no access to the outside world.
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=generator content="Hugo 0.74.2"><title>JMX query in Python (CPython) - Fabrice Aneche</title><meta name=description content="JMX had good intentions but the API is only implemented in Java, a Java product for Java, with no access to the outside world.
 Jython was one of the solution but many times I had needed to call JMX from a CPython.
 Jpype solved this problem and works extremely well.
 Just install Jpype then try something like this:
-The execution is really really fast, faster than a jvm run ?? and memory usage is really really slow !">
-
-
-		
-	
-		
-
-
-
-
-<link rel="stylesheet" href="https://blog.nobugware.com/css/ui.css">
-
-	
-		
-
-		<link  rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway">
-
-		
-	</head>
-
-<body>
-<header class="container no-print">
-	<div class="u-header">
-		<nav class="bar">
-	<ul><li>
-			<a href="https://blog.nobugware.com/">
-				<img class="icon-text" src="https://blog.nobugware.com/img/prev.svg"/>
-			</a>
-		</li><li><a href="https://blog.nobugware.com/about">About</a></li><li><a href="https://blog.nobugware.com/post/">Post</a></li></ul>
-</nav>
-
-	</div>
-</header>
-<main class="container">
-
-<article>
-	<header><hgroup id="brand">
-	<h1>JMX query in Python (CPython)</h1>
-	<h5>
-		
-		<time datetime="2010-11-08 17:30:03 -0400 -0400">Nov 08, 2010</time>
-		<span class="no-print">
-			-
-				
-				<a href="https://blog.nobugware.com/tags/jmx">jmx</a>
-				
-				<a href="https://blog.nobugware.com/tags/python">python</a>
-				
-				<a href="https://blog.nobugware.com/tags/glassfish">glassfish</a>
-				<span>
-	</h5>
-	
-</hgroup>
-<hr class="sep" />
-</header>
-	<p>JMX had good intentions but the API is only implemented in Java, a Java
-product for Java, with no access to the outside world.</p>
-
-<p>Jython was one of the solution but many times I had needed to call JMX from a
-CPython.</p>
-
-<p><a href="http://jpype.sourceforge.net/">Jpype</a> solved this problem and works extremely
-well.</p>
-
-<p>Just install <a href="http://jpype.sourceforge.net/">Jpype</a> then try something like
-this:</p>
-
-<p>The execution is really really fast, faster than a jvm run ?? and memory usage
-is really really slow !</p>
-
-<pre><code>#!/usr/bin/env python2.6
+The execution is really really fast, faster than a jvm run ?? and memory usage is really really slow !"><link rel=stylesheet href=https://blog.nobugware.com/css/ui.css><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway"></head><body><header class="container no-print"><div class=u-header><nav class=bar><ul><li><a href=https://blog.nobugware.com/><img class=icon-text src=https://blog.nobugware.com/img/prev.svg></a></li><li><a href=https://blog.nobugware.com/about>About</a></li><li><a href=https://blog.nobugware.com/post/>Post</a></li></ul></nav></div></header><main class=container><article><header><hgroup id=brand><h1>JMX query in Python (CPython)</h1><h5><time datetime="2010-11-08 17:30:03 -0400 -0400">Nov 08, 2010</time>
+<span class=no-print>-
+<a href=https://blog.nobugware.com/tags/jmx>jmx</a>
+<a href=https://blog.nobugware.com/tags/python>python</a>
+<a href=https://blog.nobugware.com/tags/glassfish>glassfish</a>
+<span></h5></hgroup><hr class=sep></header><p>JMX had good intentions but the API is only implemented in Java, a Java
+product for Java, with no access to the outside world.</p><p>Jython was one of the solution but many times I had needed to call JMX from a
+CPython.</p><p><a href=http://jpype.sourceforge.net/>Jpype</a> solved this problem and works extremely
+well.</p><p>Just install <a href=http://jpype.sourceforge.net/>Jpype</a> then try something like
+this:</p><p>The execution is really really fast, faster than a jvm run ?? and memory usage
+is really really slow !</p><pre><code>#!/usr/bin/env python2.6
 import jpype
 from jpype import java
 from jpype import javax
@@ -113,76 +45,8 @@ object=&quot;java.lang:type=Memory&quot;
 attribute=&quot;HeapMemoryUsage&quot;
 attr=connection.getAttribute(javax.management.ObjectName(object),attribute)
 print attr.contents.get(&quot;used&quot;)
-</code></pre>
-
-</article>
-<nav class="no-print post-nav">
-
-	<a class="prev-post" href="https://blog.nobugware.com/post/2010/08/09/zfs-linux/">
-		<img class="icon-text" src="https://blog.nobugware.com/img/prev.svg"/>ZFS on linux</a>
-
-
-	<a class="next-post" href="https://blog.nobugware.com/post/2011/01/19/all-my-digital-life/">All my digital life<img class="icon-text" src="https://blog.nobugware.com/img/next.svg"/>
-	</a>
-
-</nav>
-
-
-<section id="related">
-  <h4>See Also</h4>
-  <ul>
-    
-  	<li><a href="https://blog.nobugware.com/post/2009/07/31/python-26-gentoo-stable/">Python 2.6 in Gentoo stable</a></li>
-  	
-  	<li><a href="https://blog.nobugware.com/post/2008/12/04/python-30-out/">Python 3.0 is out</a></li>
-  	
-  </ul>
-</section>
-
-
-
-
-			<hr class="sep" />
-		</main>
-		<footer class="container no-print">
-			<div class="u-footer">
-				
-
-<a href="https://github.com/akhenakh/"><img class="icon-social" src="https://blog.nobugware.com/img/github.svg" alt="Github"/></a>
-
-
-<a href="https://twitter.com/akhenakh"><img class="icon-social" src="https://blog.nobugware.com/img/twitter.svg" alt="Twitter"/></a>
-
-<a href="https://blog.nobugware.com/index.xml" target="_blank"><img class="icon-social" src="https://blog.nobugware.com/img/feed.svg" alt="Feed"></a>
-
-				<p>
-					
-					Theme used: <a href="https://github.com/yursan9/manis-hugo-theme">Manis</a><br>
-					
-					
-					
-				</p>
-				
-				<a href="#brand">
-					<img class="icon-text" src="https://blog.nobugware.com/img/toup.svg" alt="To Up"/>
-					<span>Back to Up</span>
-				</a>
-				
-			</div>
-		</footer>
-                
-<script>
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-ga('create', 'UA-1245966-1', 'auto');
-ga('send', 'pageview');
-
-</script>
-
-		
-	</body>
-</html>
-
+</code></pre></article><nav class="no-print post-nav"><a class=prev-post href=https://blog.nobugware.com/post/2010/08/09/zfs-linux/><img class=icon-text src=https://blog.nobugware.com/img/prev.svg>ZFS on linux</a>
+<a class=next-post href=https://blog.nobugware.com/post/2011/01/19/all-my-digital-life/>All my digital life<img class=icon-text src=https://blog.nobugware.com/img/next.svg></a></nav><section id=related><h4>See Also</h4><ul><li><a href=https://blog.nobugware.com/post/2009/07/31/python-26-gentoo-stable/>Python 2.6 in Gentoo stable</a></li><li><a href=https://blog.nobugware.com/post/2008/12/04/python-30-out/>Python 3.0 is out</a></li></ul></section><hr class=sep></main><footer class="container no-print"><div class=u-footer><a href=https://github.com/akhenakh/><img class=icon-social src=https://blog.nobugware.com/img/github.svg alt=Github></a>
+<a href=https://twitter.com/akhenakh><img class=icon-social src=https://blog.nobugware.com/img/twitter.svg alt=Twitter></a>
+<a href=https://blog.nobugware.com/index.xml target=_blank><img class=icon-social src=https://blog.nobugware.com/img/feed.svg alt=Feed></a><p>Theme used: <a href=https://github.com/yursan9/manis-hugo-theme>Manis</a><br></p><a href=#brand><img class=icon-text src=https://blog.nobugware.com/img/toup.svg alt="To Up">
+<span>Back to Up</span></a></div></footer><script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-1245966-1','auto');ga('send','pageview');</script></body></html>

@@ -1,25 +1,2 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>mapreduce on Fabrice Aneche</title>
-    <link>https://blog.nobugware.com/tags/mapreduce/</link>
-    <description>Recent content in mapreduce on Fabrice Aneche</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <lastBuildDate>Mon, 09 Feb 2009 14:51:46 -0400</lastBuildDate>
-    
-	<atom:link href="https://blog.nobugware.com/tags/mapreduce/index.xml" rel="self" type="application/rss+xml" />
-    
-    
-    <item>
-      <title>LATE : un nouveau scheduler MapReduce</title>
-      <link>https://blog.nobugware.com/post/2009/02/09/late-un-nouveau-scheduler-mapreduce/</link>
-      <pubDate>Mon, 09 Feb 2009 14:51:46 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2009/02/09/late-un-nouveau-scheduler-mapreduce/</guid>
-      <description>Improving MapReduce Performance in Heterogeneous Environments
- &amp;rdquo; MapReduce is emerging as an important programming model for large-scale data-parallel applications such as web indexing, data mining, and scientific simulation. Hadoop is an open-source implementation of MapReduce enjoying wide adoption and is often used for short jobs where low response time is critical. Hadoop&amp;rsquo;s performance is closely tied to its task scheduler, which implicitly assumes that cluster nodes are homogeneous and tasks make progress linearly, and uses these assumptions to decide when to speculatively re-execute tasks that appear to be stragglers.</description>
-    </item>
-    
-  </channel>
-</rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>mapreduce on Fabrice Aneche</title><link>https://blog.nobugware.com/tags/mapreduce/</link><description>Recent content in mapreduce on Fabrice Aneche</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Mon, 09 Feb 2009 14:51:46 -0400</lastBuildDate><atom:link href="https://blog.nobugware.com/tags/mapreduce/index.xml" rel="self" type="application/rss+xml"/><item><title>LATE : un nouveau scheduler MapReduce</title><link>https://blog.nobugware.com/post/2009/02/09/late-un-nouveau-scheduler-mapreduce/</link><pubDate>Mon, 09 Feb 2009 14:51:46 -0400</pubDate><guid>https://blog.nobugware.com/post/2009/02/09/late-un-nouveau-scheduler-mapreduce/</guid><description>[Improving MapReduce Performance in Heterogeneous Environments](http://www.use nix.com/events/osdi08/tech/full_papers/zaharia/zaharia_html/index.html)
+&amp;quot; MapReduce is emerging as an important programming model for large-scale data-parallel applications such as web indexing, data mining, and scientific simulation. Hadoop is an open-source implementation of MapReduce enjoying wide adoption and is often used for short jobs where low response time is critical. Hadoop&amp;rsquo;s performance is closely tied to its task scheduler, which implicitly assumes that cluster nodes are homogeneous and tasks make progress linearly, and uses these assumptions to decide when to speculatively re-execute tasks that appear to be stragglers.</description></item></channel></rss>

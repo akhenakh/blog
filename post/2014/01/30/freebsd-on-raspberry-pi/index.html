@@ -1,167 +1,24 @@
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta charset="utf-8"/>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<meta name="generator" content="Hugo 0.58.1" />
-		<title>FreeBSD on RaspBerry Pi - Fabrice Aneche</title>
-
-		<meta name="description" content="FreeBSD images for arm are now built from the FreeBSD Foundation ! So it&rsquo;s an easy process to get it on your Pi.
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=generator content="Hugo 0.74.2"><title>FreeBSD on RaspBerry Pi - Fabrice Aneche</title><meta name=description content="FreeBSD images for arm are now built from the FreeBSD Foundation ! So it&rsquo;s an easy process to get it on your Pi.
 Download your image from the ftp repository
 Insert a 4Gb or more SD card in your PC and copy the FreeBSD image into it, here are the commands for a Mac:
-sudo diskutil list​ sudo diskutil unmountDisk /dev/disk1​ sudo dd if=/Users/akh/Downloads/FreeBSD-10.0-STABLE-arm- armv6-RPI-B-20140127-r261200.img of=/dev/rdisk1 bs=1m​ sudo diskutil eject /dev/disk1​  Boot your pi with the card and welcome to FreeBSD !">
-
-
-		
-	
-		
-
-
-
-
-<link rel="stylesheet" href="https://blog.nobugware.com/css/ui.css">
-
-	
-		
-
-		<link  rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway">
-
-		
-	</head>
-
-<body>
-<header class="container no-print">
-	<div class="u-header">
-		<nav class="bar">
-	<ul><li>
-			<a href="https://blog.nobugware.com/">
-				<img class="icon-text" src="https://blog.nobugware.com/img/prev.svg"/>
-			</a>
-		</li><li><a href="https://blog.nobugware.com/about">About</a></li><li><a href="https://blog.nobugware.com/post/">Post</a></li></ul>
-</nav>
-
-	</div>
-</header>
-<main class="container">
-
-<article>
-	<header><hgroup id="brand">
-	<h1>FreeBSD on RaspBerry Pi</h1>
-	<h5>
-		
-		<time datetime="2014-01-30 17:37:20.20493 -0400 -0400">Jan 30, 2014</time>
-		<span class="no-print">
-			-
-				
-				<a href="https://blog.nobugware.com/tags/freebsd">freebsd</a>
-				
-				<a href="https://blog.nobugware.com/tags/pi">pi</a>
-				<span>
-	</h5>
-	
-</hgroup>
-<hr class="sep" />
-</header>
-	<p>FreeBSD images for arm are now built from the FreeBSD Foundation ! So it&rsquo;s an
-easy process to get it on your Pi.</p>
-
-<p>Download your image from the <a href="http://ftp.freebsd.org/pub/FreeBSD/snapshots/ISO-IMAGES/10.0/">ftp
-repository</a></p>
-
-<p>Insert a 4Gb or more SD card in your PC and copy the FreeBSD image into it,
-here are the commands for a Mac:</p>
-
-<pre><code>sudo diskutil list​
+sudo diskutil list​ sudo diskutil unmountDisk /dev/disk1​ sudo dd if=/Users/akh/Downloads/FreeBSD-10.0-STABLE-arm- armv6-RPI-B-20140127-r261200.img of=/dev/rdisk1 bs=1m​ sudo diskutil eject /dev/disk1​ Boot your pi with the card and welcome to FreeBSD !"><link rel=stylesheet href=https://blog.nobugware.com/css/ui.css><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway"></head><body><header class="container no-print"><div class=u-header><nav class=bar><ul><li><a href=https://blog.nobugware.com/><img class=icon-text src=https://blog.nobugware.com/img/prev.svg></a></li><li><a href=https://blog.nobugware.com/about>About</a></li><li><a href=https://blog.nobugware.com/post/>Post</a></li></ul></nav></div></header><main class=container><article><header><hgroup id=brand><h1>FreeBSD on RaspBerry Pi</h1><h5><time datetime="2014-01-30 17:37:20.20493 -0400 -0400">Jan 30, 2014</time>
+<span class=no-print>-
+<a href=https://blog.nobugware.com/tags/freebsd>freebsd</a>
+<a href=https://blog.nobugware.com/tags/pi>pi</a>
+<span></h5></hgroup><hr class=sep></header><p>FreeBSD images for arm are now built from the FreeBSD Foundation ! So it&rsquo;s an
+easy process to get it on your Pi.</p><p>Download your image from the <a href=http://ftp.freebsd.org/pub/FreeBSD/snapshots/ISO-IMAGES/10.0/>ftp
+repository</a></p><p>Insert a 4Gb or more SD card in your PC and copy the FreeBSD image into it,
+here are the commands for a Mac:</p><pre><code>sudo diskutil list​
 sudo diskutil unmountDisk /dev/disk1​
 sudo dd if=/Users/akh/Downloads/FreeBSD-10.0-STABLE-arm-
 armv6-RPI-B-20140127-r261200.img  of=/dev/rdisk1 bs=1m​
 sudo diskutil eject /dev/disk1​
-</code></pre>
-
-<p>Boot your pi with the card and welcome to FreeBSD !</p>
-
-<p>If you are using the <a href="http://www.adafruit.com/products/814">wifi dongle from
-Adafruit</a> this may help:</p>
-
-<pre><code>echo legal.realtek.license_ack=1 &gt;&gt; /boot/loader.conf
+</code></pre><p>Boot your pi with the card and welcome to FreeBSD !</p><p>If you are using the <a href=http://www.adafruit.com/products/814>wifi dongle from
+Adafruit</a> this may help:</p><pre><code>echo legal.realtek.license_ack=1 &gt;&gt; /boot/loader.conf
 echo wlans_urtwn0=&quot;wlan0&quot; &gt;&gt; /etc/rc.conf
 echo ifconfig_wlan0=&quot;wpa DHCP&quot; &gt;&gt; /etc/rc.conf`
-</code></pre>
-
-<p>And set your wifi password with wpa_passphrase</p>
-
-<p><code>wpa_passphrase yourssid yourwifipassword &gt;&gt; /etc/wpa_supplicant.conf</code></p>
-
-</article>
-<nav class="no-print post-nav">
-
-	<a class="prev-post" href="https://blog.nobugware.com/post/2013/06/15/7shape-my-first-iphone-application/">
-		<img class="icon-text" src="https://blog.nobugware.com/img/prev.svg"/>7shape my first iphone application</a>
-
-
-	<a class="next-post" href="https://blog.nobugware.com/post/2014/02/19/freebsd-10-on-dedibox-sc-gen-2-or-any-remote-server-with-a-rescue-shell/">FreeBSD 10 on Dedibox SC gen 2 or any remote server with a rescue shell<img class="icon-text" src="https://blog.nobugware.com/img/next.svg"/>
-	</a>
-
-</nav>
-
-
-<section id="related">
-  <h4>See Also</h4>
-  <ul>
-    
-  	<li><a href="https://blog.nobugware.com/post/2012/02/28/freebsd-vimage-jails/">FreeBSD vimage jails</a></li>
-  	
-  	<li><a href="https://blog.nobugware.com/post/2012/02/07/freebsd-90-zfs-root-ovh/">FreeBSD 9.0 ZFS root on OVH</a></li>
-  	
-  	<li><a href="https://blog.nobugware.com/post/2011/10/14/freebsd-90-guest-virtio-support-in-kvm/">FreeBSD 9.0 guest with virtio support in KVM</a></li>
-  	
-  </ul>
-</section>
-
-
-
-
-			<hr class="sep" />
-		</main>
-		<footer class="container no-print">
-			<div class="u-footer">
-				
-
-<a href="https://github.com/akhenakh/"><img class="icon-social" src="https://blog.nobugware.com/img/github.svg" alt="Github"/></a>
-
-
-<a href="https://twitter.com/akhenakh"><img class="icon-social" src="https://blog.nobugware.com/img/twitter.svg" alt="Twitter"/></a>
-
-<a href="https://blog.nobugware.com/index.xml" target="_blank"><img class="icon-social" src="https://blog.nobugware.com/img/feed.svg" alt="Feed"></a>
-
-				<p>
-					
-					Theme used: <a href="https://github.com/yursan9/manis-hugo-theme">Manis</a><br>
-					
-					
-					
-				</p>
-				
-				<a href="#brand">
-					<img class="icon-text" src="https://blog.nobugware.com/img/toup.svg" alt="To Up"/>
-					<span>Back to Up</span>
-				</a>
-				
-			</div>
-		</footer>
-                
-<script>
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-ga('create', 'UA-1245966-1', 'auto');
-ga('send', 'pageview');
-
-</script>
-
-		
-	</body>
-</html>
-
+</code></pre><p>And set your wifi password with wpa_passphrase</p><p><code>wpa_passphrase yourssid yourwifipassword >> /etc/wpa_supplicant.conf</code></p></article><nav class="no-print post-nav"><a class=prev-post href=https://blog.nobugware.com/post/2013/06/15/7shape-my-first-iphone-application/><img class=icon-text src=https://blog.nobugware.com/img/prev.svg>7shape my first iphone application</a>
+<a class=next-post href=https://blog.nobugware.com/post/2014/02/19/freebsd-10-on-dedibox-sc-gen-2-or-any-remote-server-with-a-rescue-shell/>FreeBSD 10 on Dedibox SC gen 2 or any remote server with a rescue shell<img class=icon-text src=https://blog.nobugware.com/img/next.svg></a></nav><section id=related><h4>See Also</h4><ul><li><a href=https://blog.nobugware.com/post/2012/02/28/freebsd-vimage-jails/>FreeBSD vimage jails</a></li><li><a href=https://blog.nobugware.com/post/2012/02/07/freebsd-90-zfs-root-ovh/>FreeBSD 9.0 ZFS root on OVH</a></li><li><a href=https://blog.nobugware.com/post/2011/10/14/freebsd-90-guest-virtio-support-in-kvm/>FreeBSD 9.0 guest with virtio support in KVM</a></li></ul></section><hr class=sep></main><footer class="container no-print"><div class=u-footer><a href=https://github.com/akhenakh/><img class=icon-social src=https://blog.nobugware.com/img/github.svg alt=Github></a>
+<a href=https://twitter.com/akhenakh><img class=icon-social src=https://blog.nobugware.com/img/twitter.svg alt=Twitter></a>
+<a href=https://blog.nobugware.com/index.xml target=_blank><img class=icon-social src=https://blog.nobugware.com/img/feed.svg alt=Feed></a><p>Theme used: <a href=https://github.com/yursan9/manis-hugo-theme>Manis</a><br></p><a href=#brand><img class=icon-text src=https://blog.nobugware.com/img/toup.svg alt="To Up">
+<span>Back to Up</span></a></div></footer><script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-1245966-1','auto');ga('send','pageview');</script></body></html>

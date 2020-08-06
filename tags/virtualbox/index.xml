@@ -1,30 +1,7 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>virtualbox on Fabrice Aneche</title>
-    <link>https://blog.nobugware.com/tags/virtualbox/</link>
-    <description>Recent content in virtualbox on Fabrice Aneche</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <lastBuildDate>Tue, 17 Feb 2009 11:35:49 -0400</lastBuildDate>
-    
-	<atom:link href="https://blog.nobugware.com/tags/virtualbox/index.xml" rel="self" type="application/rss+xml" />
-    
-    
-    <item>
-      <title>Virtualbox NAT ssh to guest</title>
-      <link>https://blog.nobugware.com/post/2009/02/17/virtualbox-nat-ssh-guest/</link>
-      <pubDate>Tue, 17 Feb 2009 11:35:49 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2009/02/17/virtualbox-nat-ssh-guest/</guid>
-      <description>In NAT mode (the default one), virtualbox does not give you the possibility to directly connect to your guest os.
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>virtualbox on Fabrice Aneche</title><link>https://blog.nobugware.com/tags/virtualbox/</link><description>Recent content in virtualbox on Fabrice Aneche</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Tue, 17 Feb 2009 11:35:49 -0400</lastBuildDate><atom:link href="https://blog.nobugware.com/tags/virtualbox/index.xml" rel="self" type="application/rss+xml"/><item><title>Virtualbox NAT ssh to guest</title><link>https://blog.nobugware.com/post/2009/02/17/virtualbox-nat-ssh-guest/</link><pubDate>Tue, 17 Feb 2009 11:35:49 -0400</pubDate><guid>https://blog.nobugware.com/post/2009/02/17/virtualbox-nat-ssh-guest/</guid><description>In NAT mode (the default one), virtualbox does not give you the possibility to directly connect to your guest os.
 Here is how to configure your Virtualbox to simply ssh myguest
 For example my guest is called &amp;ldquo;Solaris10u6&amp;rdquo;, configured to used e1000 card, the default in solaris configuration, (The host os is a Mac).
 Type this command in terminal:
 `VBoxManage setextradata Solaris10u6 &amp;ldquo;VBoxInternal/Devices/e1000/0/LUN#0/Config/ssh/Protocol&amp;rdquo; TCP
 VBoxManage setextradata Solaris10u6 &amp;ldquo;VBoxInternal/Devices/e1000/0/LUN#0/Config/ssh/GuestPort&amp;rdquo; 22
-VBoxManage setextradata Solaris10u6 &amp;ldquo;VBoxInternal/Devices/e1000/0/LUN#0/Config/ssh/HostPort&amp;rdquo; 2222 `</description>
-    </item>
-    
-  </channel>
-</rss>
+VBoxManage setextradata Solaris10u6 &amp;ldquo;VBoxInternal/Devices/e1000/0/LUN#0/Config/ssh/HostPort&amp;rdquo; 2222 `</description></item></channel></rss>

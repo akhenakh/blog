@@ -1,136 +1,31 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>Geo on Fabrice Aneche</title>
-    <link>https://blog.nobugware.com/categories/geo/</link>
-    <description>Recent content in Geo on Fabrice Aneche</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <lastBuildDate>Wed, 11 Dec 2019 11:00:00 +0000</lastBuildDate>
-    
-	<atom:link href="https://blog.nobugware.com/categories/geo/index.xml" rel="self" type="application/rss+xml" />
-    
-    
-    <item>
-      <title>A Time Series Storage for Coordinates</title>
-      <link>https://blog.nobugware.com/post/2019/time_series_storage_for_coordinates/</link>
-      <pubDate>Wed, 11 Dec 2019 11:00:00 +0000</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2019/time_series_storage_for_coordinates/</guid>
-      <description>TL;DR; Knowing your data helps compress them better than common algorithms.
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Geo on Fabrice Aneche</title><link>https://blog.nobugware.com/categories/geo/</link><description>Recent content in Geo on Fabrice Aneche</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Wed, 11 Dec 2019 11:00:00 +0000</lastBuildDate><atom:link href="https://blog.nobugware.com/categories/geo/index.xml" rel="self" type="application/rss+xml"/><item><title>A Time Series Storage for Coordinates</title><link>https://blog.nobugware.com/post/2019/time_series_storage_for_coordinates/</link><pubDate>Wed, 11 Dec 2019 11:00:00 +0000</pubDate><guid>https://blog.nobugware.com/post/2019/time_series_storage_for_coordinates/</guid><description>TL;DR; Knowing your data helps compress them better than common algorithms.
 Problem For one of my side projects, an IoT database, I wanted a specialized time series to store timestamps coupled with coordinates.
 I needed a simple solution which allows live and cold compressed storage with gaps in it: IoT devices can be off for days then reappear.
-But couldn&amp;rsquo;t find anything fitting my needs, the Gorilla Paper from Facebook is really nice but expects a 4 hours maximum gap between time events.</description>
-    </item>
-    
-    <item>
-      <title>An application to map and store your IoT devices data</title>
-      <link>https://blog.nobugware.com/post/2019/an_application_for__mapping_storing_your_iot_devices_data/</link>
-      <pubDate>Fri, 29 Nov 2019 06:00:00 +0000</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2019/an_application_for__mapping_storing_your_iot_devices_data/</guid>
-      <description>Here in Quebec, winter is so cold it can drain your phone battery very fast.
-I wanted a private and secure solution for my hikes, so I can be followed on a map.
+But couldn&amp;rsquo;t find anything fitting my needs, the Gorilla Paper from Facebook is really nice but expects a 4 hours maximum gap between time events.</description></item><item><title>An application to map and store your IoT devices data</title><link>https://blog.nobugware.com/post/2019/an_application_for__mapping_storing_your_iot_devices_data/</link><pubDate>Fri, 29 Nov 2019 06:00:00 +0000</pubDate><guid>https://blog.nobugware.com/post/2019/an_application_for__mapping_storing_your_iot_devices_data/</guid><description>Here in Quebec, winter is so cold it can drain your phone battery very fast. I wanted a private and secure solution for my hikes, so I can be followed on a map.
 This post will introduce you to LoRaWAN and how to install your own IoT mapping application using open source tools and a new project I&amp;rsquo;m working on written in Go.
-Radio Network LoRaWAN is a network layer protocol for managing communication between LoRa devices and gateways.</description>
-    </item>
-    
-    <item>
-      <title>Self Hosted World Maps</title>
-      <link>https://blog.nobugware.com/post/2019/self_hosted_world_maps/</link>
-      <pubDate>Fri, 04 Oct 2019 17:00:00 +0000</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2019/self_hosted_world_maps/</guid>
-      <description>Maps are fun, self hosted maps are awesome !
+Radio Network LoRaWAN is a network layer protocol for managing communication between LoRa devices and gateways.</description></item><item><title>Self Hosted World Maps</title><link>https://blog.nobugware.com/post/2019/self_hosted_world_maps/</link><pubDate>Fri, 04 Oct 2019 17:00:00 +0000</pubDate><guid>https://blog.nobugware.com/post/2019/self_hosted_world_maps/</guid><description>Maps are fun, self hosted maps are awesome !
 Serving world maps was reserved to big companies like Google, thanks to the OpenStreetMap project, we now have access to an open world of data.
 Generating Tiles MapBox (and others) worked hard to create a vector format bundled in a SQLite file: mbtiles format.
 It&amp;rsquo;s vector based as opposed to older raster maps containing 256x256 PNG images.
-The Openmaptiles folks did a great job automating the map generation.</description>
-    </item>
-    
-    <item>
-      <title>My Own Car System, Rear Camera, Offline Maps &amp; Routing, Map Matching with Go on Raspberry Pi part II</title>
-      <link>https://blog.nobugware.com/post/2018/my_own_car_system_raspberry_pi_offline_mapping_map_matching_places_part2/</link>
-      <pubDate>Wed, 01 Aug 2018 00:19:57 -0200</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2018/my_own_car_system_raspberry_pi_offline_mapping_map_matching_places_part2/</guid>
-      <description>This is my journey building an open source car system with Go &amp;amp; Qt, rear camera, live OpenGL map &amp;hellip;
+The Openmaptiles folks did a great job automating the map generation.</description></item><item><title>My Own Car System, Rear Camera, Offline Maps &amp; Routing, Map Matching with Go on Raspberry Pi part II</title><link>https://blog.nobugware.com/post/2018/my_own_car_system_raspberry_pi_offline_mapping_map_matching_places_part2/</link><pubDate>Wed, 01 Aug 2018 00:19:57 -0200</pubDate><guid>https://blog.nobugware.com/post/2018/my_own_car_system_raspberry_pi_offline_mapping_map_matching_places_part2/</guid><description>This is my journey building an open source car system with Go &amp;amp; Qt, rear camera, live OpenGL map &amp;hellip;
 Cross compilation In Part I, I had to patch qtmultimedia for the camera to work, but Qt compilation is resource hungry, same goes for the osrm compilation, the memory of the Raspberry Pi is too small.
-I had to to set up a cross compilation system in my case for armv7h.</description>
-    </item>
-    
-    <item>
-      <title>My Own Car System, Rear Camera, Offline Maps &amp; Routing on Raspberry Pi part I</title>
-      <link>https://blog.nobugware.com/post/2018/my_own_car_system_raspberry_pi_offline_mapping/</link>
-      <pubDate>Sun, 10 Jun 2018 09:19:57 -0500</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2018/my_own_car_system_raspberry_pi_offline_mapping/</guid>
-      <description>At first I needed a car rear camera, one thing led to another&amp;hellip;
+I had to to set up a cross compilation system in my case for armv7h.</description></item><item><title>My Own Car System, Rear Camera, Offline Maps &amp; Routing on Raspberry Pi part I</title><link>https://blog.nobugware.com/post/2018/my_own_car_system_raspberry_pi_offline_mapping/</link><pubDate>Sun, 10 Jun 2018 09:19:57 -0500</pubDate><guid>https://blog.nobugware.com/post/2018/my_own_car_system_raspberry_pi_offline_mapping/</guid><description>At first I needed a car rear camera, one thing led to another&amp;hellip;
 My Car, from 2011, only has an LCD display and no rear camera, so I bought a PAL rear camera, we passed some cables from the rear window to the front then everything begun.
 Here is my journey to transform my car into a modern system running on RPi3 (a never ending project).
-Hardware I&amp;rsquo;m using an Rpi3 (old model).</description>
-    </item>
-    
-    <item>
-      <title>Google S2 with Python &amp; Jupyter</title>
-      <link>https://blog.nobugware.com/post/2018/google-s2-python-jupyter/</link>
-      <pubDate>Thu, 18 Jan 2018 08:20:15 -0500</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2018/google-s2-python-jupyter/</guid>
-      <description>Google is working again on S2 a spatial library !!!
+Hardware I&amp;rsquo;m using an Rpi3 (old model).</description></item><item><title>Google S2 with Python &amp; Jupyter</title><link>https://blog.nobugware.com/post/2018/google-s2-python-jupyter/</link><pubDate>Thu, 18 Jan 2018 08:20:15 -0500</pubDate><guid>https://blog.nobugware.com/post/2018/google-s2-python-jupyter/</guid><description>Google is working again on S2 a spatial library !!!
 And they even have created a website to communicate about it s2geometry.
 The C++ port contains a Python Swig interface.
 I&amp;rsquo;ve been using an unofficial Python port with Jupyter for years now things are way more simpler.
 If you are on Arch I&amp;rsquo;ve create a package, simply install AUR s2geometry-git
 First we want a clean Jupyter install from scratch:
-virtualenv3 ~/dev/venv3 source ~/dev/venv3/bin/activate pip install jupyter pip install cython pip install numpy pip install matplotlib scikit-learn scipy Shapely folium geojson Cartopy cp /usr/lib/python3.</description>
-    </item>
-    
-    <item>
-      <title>A geo database for polygons, optimization</title>
-      <link>https://blog.nobugware.com/post/2016/geo_db_s2_region_polygon_optmization/</link>
-      <pubDate>Tue, 08 Mar 2016 11:23:42 -0500</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2016/geo_db_s2_region_polygon_optmization/</guid>
-      <description>If you read this blog, you know I&amp;rsquo;ve recently released a project called regionagogo, a geo shape lookup database, described in this blogpost.
+virtualenv3 ~/dev/venv3 source ~/dev/venv3/bin/activate pip install jupyter pip install cython pip install numpy pip install matplotlib scikit-learn scipy Shapely folium geojson Cartopy cp /usr/lib/python3.</description></item><item><title>A geo database for polygons, optimization</title><link>https://blog.nobugware.com/post/2016/geo_db_s2_region_polygon_optmization/</link><pubDate>Tue, 08 Mar 2016 11:23:42 -0500</pubDate><guid>https://blog.nobugware.com/post/2016/geo_db_s2_region_polygon_optmization/</guid><description>If you read this blog, you know I&amp;rsquo;ve recently released a project called regionagogo, a geo shape lookup database, described in this blogpost.
 It uses the current Go S2 implementation, which is not yet as complete as the C++ implementation, for example the region coverer of a shape does not really compute cell around the shape but around the bounding box instead.
-Using the shape of the polygon makes the covered cells more precise and smaller, resulting at the end to less PIP tests which are costly.</description>
-    </item>
-    
-    <item>
-      <title>A geo database for polygons, foundations</title>
-      <link>https://blog.nobugware.com/post/2016/geo_db_s2_region_polygon/</link>
-      <pubDate>Thu, 18 Feb 2016 17:16:55 -0500</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2016/geo_db_s2_region_polygon/</guid>
-      <description>On a previous post, I&amp;rsquo;ve described how to use the S2 geo library to create a fast geo database, but it was to store locations (points) and only to perform range queries, a complete geo database would have regions/polygons queries.
+Using the shape of the polygon makes the covered cells more precise and smaller, resulting at the end to less PIP tests which are costly.</description></item><item><title>A geo database for polygons, foundations</title><link>https://blog.nobugware.com/post/2016/geo_db_s2_region_polygon/</link><pubDate>Thu, 18 Feb 2016 17:16:55 -0500</pubDate><guid>https://blog.nobugware.com/post/2016/geo_db_s2_region_polygon/</guid><description>On a previous post, I&amp;rsquo;ve described how to use the S2 geo library to create a fast geo database, but it was to store locations (points) and only to perform range queries, a complete geo database would have regions/polygons queries.
 Looking for a solution I had this need: querying for the countries or subregions of hundreds of coordinates per second, without relying on an external service.
-One solution, using my previous technique, could have been to store every cities in the world and then perform a proximity query around my point to get the closest cities, but it works only in populated area and it&amp;rsquo;s only an approximation.</description>
-    </item>
-    
-    <item>
-      <title>A fast geo database with Google S2 take #2</title>
-      <link>https://blog.nobugware.com/post/2016/geo_db_s2_geohash_database/</link>
-      <pubDate>Tue, 26 Jan 2016 14:01:52 -0500</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2016/geo_db_s2_geohash_database/</guid>
-      <description>Six months ago, I wrote on this blog about Geohashes and LevelDB with Go, to create a fast geo database.
+One solution, using my previous technique, could have been to store every cities in the world and then perform a proximity query around my point to get the closest cities, but it works only in populated area and it&amp;rsquo;s only an approximation.</description></item><item><title>A fast geo database with Google S2 take #2</title><link>https://blog.nobugware.com/post/2016/geo_db_s2_geohash_database/</link><pubDate>Tue, 26 Jan 2016 14:01:52 -0500</pubDate><guid>https://blog.nobugware.com/post/2016/geo_db_s2_geohash_database/</guid><description>Six months ago, I wrote on this blog about Geohashes and LevelDB with Go, to create a fast geo database.
 This post is very similar as it works the same way but replacing GeoHashes with Google S2 library for better performances.
 There is an S2 Golang implementation maintened by Google not as complete as the C++ one but close.
-For the storage this post will stay agnostic to avoid any troll, but it applies to any Key Value storages: LevelDB/RocksDB, LMDB, Redis&amp;hellip;</description>
-    </item>
-    
-    <item>
-      <title>A blazing fast geo database with LevelDB, Go and Geohashes</title>
-      <link>https://blog.nobugware.com/post/2015/leveldb_geohash_golang/</link>
-      <pubDate>Sun, 30 Aug 2015 18:25:02 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2015/leveldb_geohash_golang/</guid>
-      <description>You probably have heard of LevelDB it’s a blazing fast key value store (as a library not a daemon), that uses Snappy compression.
+For the storage this post will stay agnostic to avoid any troll, but it applies to any Key Value storages: LevelDB/RocksDB, LMDB, Redis&amp;hellip;</description></item><item><title>A blazing fast geo database with LevelDB, Go and Geohashes</title><link>https://blog.nobugware.com/post/2015/leveldb_geohash_golang/</link><pubDate>Sun, 30 Aug 2015 18:25:02 -0400</pubDate><guid>https://blog.nobugware.com/post/2015/leveldb_geohash_golang/</guid><description>You probably have heard of LevelDB it’s a blazing fast key value store (as a library not a daemon), that uses Snappy compression.
 There is plenty of usages for it, the API is very simple at least in Go (I will be using Goleveldb).
 The key is a []byte the value is a []byte so you can “get”, “put” &amp;amp; “delete” that’s it.
-I needed a low memory low cpu system that could collect millions of geo data and query over them, Geohash has an interesting property you can encode longitude and latitude into a string : f2m616nn this hash represents the lat &amp;amp; long 46.</description>
-    </item>
-    
-  </channel>
-</rss>
+I needed a low memory low cpu system that could collect millions of geo data and query over them, Geohash has an interesting property you can encode longitude and latitude into a string : f2m616nn this hash represents the lat &amp;amp; long 46.</description></item></channel></rss>

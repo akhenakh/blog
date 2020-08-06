@@ -1,28 +1,5 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>raid on Fabrice Aneche</title>
-    <link>https://blog.nobugware.com/tags/raid/</link>
-    <description>Recent content in raid on Fabrice Aneche</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <lastBuildDate>Wed, 02 Feb 2011 22:06:52 -0400</lastBuildDate>
-    
-	<atom:link href="https://blog.nobugware.com/tags/raid/index.xml" rel="self" type="application/rss+xml" />
-    
-    
-    <item>
-      <title>Gentoo lvm&#43;raid root</title>
-      <link>https://blog.nobugware.com/post/2011/02/02/gentoo-lvmraid-root/</link>
-      <pubDate>Wed, 02 Feb 2011 22:06:52 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2011/02/02/gentoo-lvmraid-root/</guid>
-      <description>Gentoo support for lvm root is still a pain in the ass, here is a working solution.
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>raid on Fabrice Aneche</title><link>https://blog.nobugware.com/tags/raid/</link><description>Recent content in raid on Fabrice Aneche</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Wed, 02 Feb 2011 22:06:52 -0400</lastBuildDate><atom:link href="https://blog.nobugware.com/tags/raid/index.xml" rel="self" type="application/rss+xml"/><item><title>Gentoo lvm+raid root</title><link>https://blog.nobugware.com/post/2011/02/02/gentoo-lvmraid-root/</link><pubDate>Wed, 02 Feb 2011 22:06:52 -0400</pubDate><guid>https://blog.nobugware.com/post/2011/02/02/gentoo-lvmraid-root/</guid><description>Gentoo support for lvm root is still a pain in the ass, here is a working solution.
 Assuming you have 2 disks same size to be mirrored.
 You want a mirrored /boot and a big lvm.
 Start a normal gentoo installation with this disks layout:
-fdisk -l /dev/sda Device Boot Start End Blocks Id System /dev/sda1 * 1 31 248976 fd Linux raid autodetect /dev/sda2 32 242246 1945591987+ fd Linux raid autodetect fdisk -l /dev/sdb Device Boot Start End Blocks Id System /dev/sdb1 * 1 31 248976 fd Linux raid autodetect /dev/sdb2 32 242246 1945591987+ 83 Linux raid autodetect  Set both disk the boot flags on the first partition and set all partitions to FD Linux raid autodetect.</description>
-    </item>
-    
-  </channel>
-</rss>
+fdisk -l /dev/sda Device Boot Start End Blocks Id System /dev/sda1 * 1 31 248976 fd Linux raid autodetect /dev/sda2 32 242246 1945591987+ fd Linux raid autodetect fdisk -l /dev/sdb Device Boot Start End Blocks Id System /dev/sdb1 * 1 31 248976 fd Linux raid autodetect /dev/sdb2 32 242246 1945591987+ 83 Linux raid autodetect Set both disk the boot flags on the first partition and set all partitions to FD Linux raid autodetect.</description></item></channel></rss>

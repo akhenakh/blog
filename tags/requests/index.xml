@@ -1,26 +1,3 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>requests on Fabrice Aneche</title>
-    <link>https://blog.nobugware.com/tags/requests/</link>
-    <description>Recent content in requests on Fabrice Aneche</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <lastBuildDate>Thu, 29 Mar 2012 08:23:50 -0400</lastBuildDate>
-    
-	<atom:link href="https://blog.nobugware.com/tags/requests/index.xml" rel="self" type="application/rss+xml" />
-    
-    
-    <item>
-      <title>Python Requests hooks</title>
-      <link>https://blog.nobugware.com/post/2012/03/29/python-requests-hooks/</link>
-      <pubDate>Thu, 29 Mar 2012 08:23:50 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2012/03/29/python-requests-hooks/</guid>
-      <description>Python requests is the de facto HTTP package for Python, nice API, wonderful documentation.
-I had the need to sign my requests and to change the header after the request was built, here is hooks, simply call a function pre_request and your are done:
-def auth_sign(req): user_id = &#39;4f47a5f21aebcedff3001234&#39; secret_key = &#39;C21LHQ5R4RVO2U2UMTEZ&#39; timestamp = str(int(time.mktime(time.gmtime()))) string_to_sign = req.method + &#39;\n&#39; + user_id + &#39;\n&#39; + timestamp + &#39;\n&#39; + req.path_url + &#39;\n&#39; + req.</description>
-    </item>
-    
-  </channel>
-</rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>requests on Fabrice Aneche</title><link>https://blog.nobugware.com/tags/requests/</link><description>Recent content in requests on Fabrice Aneche</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Thu, 29 Mar 2012 08:23:50 -0400</lastBuildDate><atom:link href="https://blog.nobugware.com/tags/requests/index.xml" rel="self" type="application/rss+xml"/><item><title>Python Requests hooks</title><link>https://blog.nobugware.com/post/2012/03/29/python-requests-hooks/</link><pubDate>Thu, 29 Mar 2012 08:23:50 -0400</pubDate><guid>https://blog.nobugware.com/post/2012/03/29/python-requests-hooks/</guid><description>Python requests is the de facto HTTP package for Python, nice API, wonderful documentation.
+I had the need to sign my requests and to change the header after the request was built, [here is hooks](http://docs.python- requests.org/en/v0.10.7/user/advanced/#event-hooks), simply call a function pre_request and your are done:
+def auth_sign(req): user_id = '4f47a5f21aebcedff3001234' secret_key = 'C21LHQ5R4RVO2U2UMTEZ' timestamp = str(int(time.mktime(time.gmtime()))) string_to_sign = req.method + '\n' + user_id + '\n' + timestamp + '\n' + req.</description></item></channel></rss>

@@ -1,27 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>S2 on Fabrice Aneche</title>
-    <link>https://blog.nobugware.com/tags/s2/</link>
-    <description>Recent content in S2 on Fabrice Aneche</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <lastBuildDate>Thu, 22 Sep 2016 15:39:32 -0400</lastBuildDate>
-    
-	<atom:link href="https://blog.nobugware.com/tags/s2/index.xml" rel="self" type="application/rss+xml" />
-    
-    
-    <item>
-      <title>Using Go mobile on iOS for real</title>
-      <link>https://blog.nobugware.com/post/2016/go_mobile_ios_real_usage/</link>
-      <pubDate>Thu, 22 Sep 2016 15:39:32 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2016/go_mobile_ios_real_usage/</guid>
-      <description>Go Mobile can generate native framework for iOS and Android using Go code, I was curious what could be achieved with it.
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>S2 on Fabrice Aneche</title><link>https://blog.nobugware.com/tags/s2/</link><description>Recent content in S2 on Fabrice Aneche</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Thu, 22 Sep 2016 15:39:32 -0400</lastBuildDate><atom:link href="https://blog.nobugware.com/tags/s2/index.xml" rel="self" type="application/rss+xml"/><item><title>Using Go mobile on iOS for real</title><link>https://blog.nobugware.com/post/2016/go_mobile_ios_real_usage/</link><pubDate>Thu, 22 Sep 2016 15:39:32 -0400</pubDate><guid>https://blog.nobugware.com/post/2016/go_mobile_ios_real_usage/</guid><description>Go Mobile can generate native framework for iOS and Android using Go code, I was curious what could be achieved with it.
 Most tutorials are Hello world and I wanted to test it with real code.
 You can use it to generate a full app only using Go code, but I&amp;rsquo;m only interested by the bindings part (SDK applications), using a native ObjC/Swift app calling Go code.
-I&amp;rsquo;m using some existing Go code regionagogo, (a geofence database), moderately complex since it uses BoltDB and Google S2 library.</description>
-    </item>
-    
-  </channel>
-</rss>
+I&amp;rsquo;m using some existing Go code regionagogo, (a geofence database), moderately complex since it uses BoltDB and Google S2 library.</description></item></channel></rss>

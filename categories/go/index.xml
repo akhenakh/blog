@@ -1,27 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>Go on Fabrice Aneche</title>
-    <link>https://blog.nobugware.com/categories/go/</link>
-    <description>Recent content in Go on Fabrice Aneche</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <lastBuildDate>Mon, 27 Aug 2018 00:19:57 -0200</lastBuildDate>
-    
-	<atom:link href="https://blog.nobugware.com/categories/go/index.xml" rel="self" type="application/rss+xml" />
-    
-    
-    <item>
-      <title>Wasm with Go to build an S2 cover map viewer</title>
-      <link>https://blog.nobugware.com/post/2018/wasm_go_s2_javascript/</link>
-      <pubDate>Mon, 27 Aug 2018 00:19:57 -0200</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2018/wasm_go_s2_javascript/</guid>
-      <description>I needed a reason to use the new Go 1.11 Wasm port for &amp;ldquo;real&amp;rdquo;.
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Go on Fabrice Aneche</title><link>https://blog.nobugware.com/categories/go/</link><description>Recent content in Go on Fabrice Aneche</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Mon, 27 Aug 2018 00:19:57 -0200</lastBuildDate><atom:link href="https://blog.nobugware.com/categories/go/index.xml" rel="self" type="application/rss+xml"/><item><title>Wasm with Go to build an S2 cover map viewer</title><link>https://blog.nobugware.com/post/2018/wasm_go_s2_javascript/</link><pubDate>Mon, 27 Aug 2018 00:19:57 -0200</pubDate><guid>https://blog.nobugware.com/post/2018/wasm_go_s2_javascript/</guid><description>I needed a reason to use the new Go 1.11 Wasm port for &amp;ldquo;real&amp;rdquo;.
 To make it short, it compiles Go code to Wasm binary format for a virtual machine running in web browsers.
 I&amp;rsquo;ve always needed a debug tool to display S2 Cells on a map for different shapes, some online tools already exist:
- s2map.com unfortunately the backend is often/currently dead. regioncoverer which doesn&amp;rsquo;t allow polygons.  I&amp;rsquo;ve planned for a Qt Go app or a QGIS plugin with C++ bindings to Python but to ship those modules would be a nightmare.</description>
-    </item>
-    
-  </channel>
-</rss>
+s2map.com unfortunately the backend is often/currently dead. regioncoverer which doesn&amp;rsquo;t allow polygons. I&amp;rsquo;ve planned for a Qt Go app or a QGIS plugin with C++ bindings to Python but to ship those modules would be a nightmare.</description></item></channel></rss>

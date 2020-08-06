@@ -1,138 +1,38 @@
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta charset="utf-8"/>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<meta name="generator" content="Hugo 0.58.1" />
-		<title>Arch on Rock64 with USB boot - Fabrice Aneche</title>
-
-		<meta name="description" content="Installation of Arch Linux on Rock64 with USB boot">
-
-
-		
-	
-		
-
-
-
-
-<link rel="stylesheet" href="https://blog.nobugware.com/css/ui.css">
-
-	
-		
-
-		<link  rel="stylesheet" href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway">
-
-		
-	</head>
-
-<body>
-<header class="container no-print">
-	<div class="u-header">
-		<nav class="bar">
-	<ul><li>
-			<a href="https://blog.nobugware.com/">
-				<img class="icon-text" src="https://blog.nobugware.com/img/prev.svg"/>
-			</a>
-		</li><li><a href="https://blog.nobugware.com/about">About</a></li><li><a href="https://blog.nobugware.com/post/">Post</a></li></ul>
-</nav>
-
-	</div>
-</header>
-<main class="container">
-
-<article>
-	<header><hgroup id="brand">
-	<h1>Arch on Rock64 with USB boot</h1>
-	<h5>
-		
-		<time datetime="2019-05-22 00:00:00 -0400 -0400">May 22, 2019</time>
-		<span class="no-print">
-			-
-				
-				<a href="https://blog.nobugware.com/tags/rock64">rock64</a>
-				
-				<a href="https://blog.nobugware.com/tags/arm">arm</a>
-				
-				<a href="https://blog.nobugware.com/tags/arm64">arm64</a>
-				
-				<a href="https://blog.nobugware.com/tags/linux">linux</a>
-				<span>
-	</h5>
-	
-</hgroup>
-<hr class="sep" />
-</header>
-	
-
-<p>Here are my notes to install <a href="https://www.archlinux.org/">Arch</a> on a <a href="https://wiki.pine64.org/index.php/ROCK64_Main_Page">Rock64</a> and boot on USB first.</p>
-
-<p>Warning, you can brick your device (but can unbrick it), you are on your own.</p>
-
-<ul>
-<li>Follow Arch Instructions to <a href="https://archlinuxarm.org/platforms/armv8/rockchip/rock64">Install on an SD Card</a></li>
-<li>Boot on it</li>
-
-<li><p>Insert your USB device and follow the exact same installation but this time to the <code>/dev/sda</code>device<br />
-At the end<br />
-Mount / into <code>root</code> again
-Run <code>blkid</code> to grab the UUID of your /</p>
-
-<pre><code>/dev/sda1: UUID=&quot;a3490212-03b6-46a6-9e6b-7733513a3efa&quot; TYPE=&quot;ext4&quot;  
-</code></pre></li>
-</ul>
-
-<p>Add the file <code>root/boot/boot.txt</code> as follow and recopy your own UUID</p>
-
-<pre><code>              # MAC address (use spaces instead of colons)
-              setenv macaddr da 19 c8 7b 6d bd
-
-              part uuid ${devtype} ${devnum}:${bootpart} uuid
-              setenv bootargs console=ttyS2,1500000 root=UUID=a3490212-03b6-46a6-9e6b-7733513a3efa rw rootwait earlycon=uart8250,mmio32,0xff130000
-              setenv fdtfile rockchip/rk3328-rock64.dtb
-
-              if load ${devtype} ${devnum}:${bootpart} ${kernel_addr_r} /boot/Image; then
-                if load ${devtype} ${devnum}:${bootpart} ${fdt_addr_r} /boot/dtbs/${fdtfile}; then
-                  fdt addr ${fdt_addr_r}
-                  fdt resize
-                  fdt set /ethernet@ff540000 local-mac-address &quot;[${macaddr}]&quot;
-                  if load ${devtype} ${devnum}:${bootpart} ${ramdisk_addr_r} /boot/initramfs-linux.img; then
-                    booti ${kernel_addr_r} ${ramdisk_addr_r}:${filesize} ${fdt_addr_r};
-                  else
-                    booti ${kernel_addr_r} - ${fdt_addr_r};
-                  fi;
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=generator content="Hugo 0.74.2"><title>Arch on Rock64 with USB boot - Fabrice Aneche</title><meta name=description content="Installation of Arch Linux on Rock64 with USB boot"><link rel=stylesheet href=https://blog.nobugware.com/css/ui.css><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway"></head><body><header class="container no-print"><div class=u-header><nav class=bar><ul><li><a href=https://blog.nobugware.com/><img class=icon-text src=https://blog.nobugware.com/img/prev.svg></a></li><li><a href=https://blog.nobugware.com/about>About</a></li><li><a href=https://blog.nobugware.com/post/>Post</a></li></ul></nav></div></header><main class=container><article><header><hgroup id=brand><h1>Arch on Rock64 with USB boot</h1><h5><time datetime="2019-05-22 00:00:00 -0400 -0400">May 22, 2019</time>
+<span class=no-print>-
+<a href=https://blog.nobugware.com/tags/rock64>rock64</a>
+<a href=https://blog.nobugware.com/tags/arm>arm</a>
+<a href=https://blog.nobugware.com/tags/arm64>arm64</a>
+<a href=https://blog.nobugware.com/tags/linux>linux</a>
+<span></h5></hgroup><hr class=sep></header><p>Here are my notes to install <a href=https://www.archlinux.org/>Arch</a> on a <a href=https://wiki.pine64.org/index.php/ROCK64_Main_Page>Rock64</a> and boot on USB first.</p><p>Warning, you can brick your device (but can unbrick it), you are on your own.</p><ul><li><p>Follow Arch Instructions to <a href=https://archlinuxarm.org/platforms/armv8/rockchip/rock64>Install on an SD Card</a></p></li><li><p>Boot on it</p></li><li><p>Insert your USB device and follow the exact same installation but this time to the <code>/dev/sda</code>device<br>At the end<br>Mount / into <code>root</code> again
+Run <code>blkid</code> to grab the UUID of your /</p><pre><code>/dev/sda1: UUID=&quot;a3490212-03b6-46a6-9e6b-7733513a3efa&quot; TYPE=&quot;ext4&quot;  
+</code></pre><p>Add the file <code>root/boot/boot.txt</code> as follow and recopy your own UUID</p><pre><code>            # MAC address (use spaces instead of colons)
+            setenv macaddr da 19 c8 7b 6d bd
+  
+            part uuid ${devtype} ${devnum}:${bootpart} uuid
+            setenv bootargs console=ttyS2,1500000 root=UUID=a3490212-03b6-46a6-9e6b-7733513a3efa rw rootwait earlycon=uart8250,mmio32,0xff130000
+            setenv fdtfile rockchip/rk3328-rock64.dtb
+  
+            if load ${devtype} ${devnum}:${bootpart} ${kernel_addr_r} /boot/Image; then
+              if load ${devtype} ${devnum}:${bootpart} ${fdt_addr_r} /boot/dtbs/${fdtfile}; then
+                fdt addr ${fdt_addr_r}
+                fdt resize
+                fdt set /ethernet@ff540000 local-mac-address &quot;[${macaddr}]&quot;
+                if load ${devtype} ${devnum}:${bootpart} ${ramdisk_addr_r} /boot/initramfs-linux.img; then
+                  booti ${kernel_addr_r} ${ramdisk_addr_r}:${filesize} ${fdt_addr_r};
+                else
+                  booti ${kernel_addr_r} - ${fdt_addr_r};
                 fi;
-              fi
-</code></pre>
-
-<p>Then write it to the scr</p>
-
-<pre><code>  cd root/boot
-  pacman -S uboot-tools
-  mkimage -A arm -O linux -T script -C none -n &quot;U-Boot boot script&quot; -d boot.txt boot.scr
-</code></pre>
-
-<p>Reboot and remove the USB device</p>
-
-<ul>
-<li>Download a dedicated image labelled <a href="https://github.com/ayufan-rock64/linux-u-boot/releases/download/2017.09-rockchip-ayufan-1045-g9922d32c04/u-boot-flash-spi-rock64.img.xz">u-boot-flash-spi-rock64.img.xz</a> from ayufan&rsquo;s github</li>
-<li>Burn it to an SD Card, turn on your Rock64, wait for the white LED to flash several at 1 second frequency</li>
-<li>Turn it off, remove the SC Card, insert the USB device, it should now boot on your USB device</li>
-</ul>
-
-<h2 id="btrfs">BTRFS</h2>
-
-<p>Here is a config for a ext4 /boot and / btrfs.</p>
-
-<pre><code>mount -o noatime,ssd,compress=lzo,subvol=@root /dev/sda2 root
+              fi;
+            fi
+</code></pre><p>Then write it to the scr</p><pre><code>cd root/boot
+pacman -S uboot-tools
+mkimage -A arm -O linux -T script -C none -n &quot;U-Boot boot script&quot; -d boot.txt boot.scr
+</code></pre></li></ul><p>Reboot and remove the USB device</p><ul><li>Download a dedicated image labelled <a href=https://github.com/ayufan-rock64/linux-u-boot/releases/download/2017.09-rockchip-ayufan-1045-g9922d32c04/u-boot-flash-spi-rock64.img.xz>u-boot-flash-spi-rock64.img.xz</a> from ayufan&rsquo;s github</li><li>Burn it to an SD Card, turn on your Rock64, wait for the white LED to flash several at 1 second frequency</li><li>Turn it off, remove the SC Card, insert the USB device, it should now boot on your USB device</li></ul><h2 id=btrfs>BTRFS</h2><p>Here is a config for a ext4 /boot and / btrfs.</p><pre><code>mount -o noatime,ssd,compress=lzo,subvol=@root /dev/sda2 root
 mount /dev/sda1 root/boot
 cd root/boot
 mkimage -A arm -O linux -T script -C none -n &quot;U-Boot boot script&quot; -d boot.txt boot.scr
-</code></pre>
-
-<p>And the matching boot.txt</p>
-
-<pre><code># After modifying, run ./mkscr
+</code></pre><p>And the matching boot.txt</p><pre><code># After modifying, run ./mkscr
 # MAC address (use spaces instead of colons)
 setenv macaddr da 19 c8 7a 6d f4
 part uuid ${devtype} ${devnum}:${bootpart} uuid
@@ -149,101 +49,9 @@ if load ${devtype} ${devnum}:${bootpart} ${kernel_addr_r} /Image; then
       booti ${kernel_addr_r} - ${fdt_addr_r};
     fi;
   fi;
-</code></pre>
-
-<p>Do not used <code>zstd</code> compression for now since it was not available in 4.4 ayufan kernel you may find yourself stuck with a filesystem you cannot read back in older kernel (been there).</p>
-
-<h2 id="kernel">Kernel</h2>
-
-<p>I&rsquo;ve tried mainline 5.1 kernel for days, with a lot of instabilities, memory corruption, compilator crashed.<br />
-It looked like cpu overheating problems but was not, simply downgraded to 4.4 ayufan kernel and everything went back to normal.</p>
-
-<p>You can install <code>linux-aarch64-rock64-bin</code> from AUR or used <a href="https://gist.github.com/akhenakh/60a4b859d294b585975bc1d8efae9b62">mine more recent AUR packages</a>.</p>
-
-<h2 id="stability">Stability</h2>
-
-<p>USB 3 port is unstable with ayufan kernel, hopefully it may be fixed in mainline.</p>
-
-<p>Disabling uas for your usb key seems to improve a lot.</p>
-
-<p>Identify your USB storage with <code>lsusb -v</code></p>
-
-<p>Add usb-storage module loading options identifying your device on your bootargs in <code>/boot/boot.txt</code></p>
-
-<pre><code>setenv bootargs console=ttyS2,1500000 rootfstype=btrfs root=UUID=c9136915-614c-4203-ba8d-5f2f202ffbcd rootflags=subvol=@root usb-storage.quirks=0x078
-1:0x5588:u rw rootwait earlycon=uart8250,mmio32,0xff130000
-</code></pre>
-
-</article>
-<nav class="no-print post-nav">
-
-	<a class="prev-post" href="https://blog.nobugware.com/post/2019/deploying-a-website-with-caddy-git-and-kubernetes/">
-		<img class="icon-text" src="https://blog.nobugware.com/img/prev.svg"/>Deploying a website with Caddy, Git and Kubernetes</a>
-
-
-	<a class="next-post" href="https://blog.nobugware.com/post/2019/h96-max-android-box-as-a-linux-server/">H96 Max&#43; Android box as a Linux server<img class="icon-text" src="https://blog.nobugware.com/img/next.svg"/>
-	</a>
-
-</nav>
-
-
-<section id="related">
-  <h4>See Also</h4>
-  <ul>
-    
-  	<li><a href="https://blog.nobugware.com/post/2017/back_from_osx_to_linux/">From OSX to Linux</a></li>
-  	
-  	<li><a href="https://blog.nobugware.com/post/2014/12/13/airspy-on-linux/">Airspy on Linux</a></li>
-  	
-  	<li><a href="https://blog.nobugware.com/post/2010/08/09/zfs-linux/">ZFS on linux</a></li>
-  	
-  </ul>
-</section>
-
-
-
-
-			<hr class="sep" />
-		</main>
-		<footer class="container no-print">
-			<div class="u-footer">
-				
-
-<a href="https://github.com/akhenakh/"><img class="icon-social" src="https://blog.nobugware.com/img/github.svg" alt="Github"/></a>
-
-
-<a href="https://twitter.com/akhenakh"><img class="icon-social" src="https://blog.nobugware.com/img/twitter.svg" alt="Twitter"/></a>
-
-<a href="https://blog.nobugware.com/index.xml" target="_blank"><img class="icon-social" src="https://blog.nobugware.com/img/feed.svg" alt="Feed"></a>
-
-				<p>
-					
-					Theme used: <a href="https://github.com/yursan9/manis-hugo-theme">Manis</a><br>
-					
-					
-					
-				</p>
-				
-				<a href="#brand">
-					<img class="icon-text" src="https://blog.nobugware.com/img/toup.svg" alt="To Up"/>
-					<span>Back to Up</span>
-				</a>
-				
-			</div>
-		</footer>
-                
-<script>
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-ga('create', 'UA-1245966-1', 'auto');
-ga('send', 'pageview');
-
-</script>
-
-		
-	</body>
-</html>
-
+</code></pre><p>Do not used <code>zstd</code> compression for now since it was not available in 4.4 ayufan kernel you may find yourself stuck with a filesystem you cannot read back in older kernel (been there).</p><h2 id=kernel>Kernel</h2><p>I&rsquo;ve tried mainline 5.1 kernel for days, with a lot of instabilities, memory corruption, compilator crashed.<br>It looked like cpu overheating problems but was not, simply downgraded to 4.4 ayufan kernel and everything went back to normal.</p><p>You can install <code>linux-aarch64-rock64-bin</code> from AUR or used <a href=https://gist.github.com/akhenakh/60a4b859d294b585975bc1d8efae9b62>mine more recent AUR packages</a>.</p><h2 id=stability>Stability</h2><p>USB 3 port is unstable with ayufan kernel, hopefully it may be fixed in mainline.</p><p>Disabling uas for your usb key seems to improve a lot.</p><p>Identify your USB storage with <code>lsusb -v</code></p><p>Add usb-storage module loading options identifying your device on your bootargs in <code>/boot/boot.txt</code></p><pre><code>setenv bootargs console=ttyS2,1500000 rootfstype=btrfs root=UUID=c9136915-614c-4203-ba8d-5f2f202ffbcd rootflags=subvol=@root usb-storage.quirks=0x078
+1:0x5588:u rw rootwait earlycon=uart8250,mmio32,0xff130000</code></pre></article><nav class="no-print post-nav"><a class=prev-post href=https://blog.nobugware.com/post/2019/deploying-a-website-with-caddy-git-and-kubernetes/><img class=icon-text src=https://blog.nobugware.com/img/prev.svg>Deploying a website with Caddy, Git and Kubernetes</a>
+<a class=next-post href=https://blog.nobugware.com/post/2019/h96-max-android-box-as-a-linux-server/>H96 Max+ Android box as a Linux server<img class=icon-text src=https://blog.nobugware.com/img/next.svg></a></nav><section id=related><h4>See Also</h4><ul><li><a href=https://blog.nobugware.com/post/2017/back_from_osx_to_linux/>From OSX to Linux</a></li><li><a href=https://blog.nobugware.com/post/2014/12/13/airspy-on-linux/>Airspy on Linux</a></li><li><a href=https://blog.nobugware.com/post/2010/08/09/zfs-linux/>ZFS on linux</a></li></ul></section><hr class=sep></main><footer class="container no-print"><div class=u-footer><a href=https://github.com/akhenakh/><img class=icon-social src=https://blog.nobugware.com/img/github.svg alt=Github></a>
+<a href=https://twitter.com/akhenakh><img class=icon-social src=https://blog.nobugware.com/img/twitter.svg alt=Twitter></a>
+<a href=https://blog.nobugware.com/index.xml target=_blank><img class=icon-social src=https://blog.nobugware.com/img/feed.svg alt=Feed></a><p>Theme used: <a href=https://github.com/yursan9/manis-hugo-theme>Manis</a><br></p><a href=#brand><img class=icon-text src=https://blog.nobugware.com/img/toup.svg alt="To Up">
+<span>Back to Up</span></a></div></footer><script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-1245966-1','auto');ga('send','pageview');</script></body></html>

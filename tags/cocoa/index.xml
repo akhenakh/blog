@@ -1,54 +1,12 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>cocoa on Fabrice Aneche</title>
-    <link>https://blog.nobugware.com/tags/cocoa/</link>
-    <description>Recent content in cocoa on Fabrice Aneche</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <lastBuildDate>Thu, 14 Feb 2013 19:20:35 -0400</lastBuildDate>
-    
-	<atom:link href="https://blog.nobugware.com/tags/cocoa/index.xml" rel="self" type="application/rss+xml" />
-    
-    
-    <item>
-      <title>My developer tools (Mobile)</title>
-      <link>https://blog.nobugware.com/post/2013/02/14/my-developer-tools/</link>
-      <pubDate>Thu, 14 Feb 2013 19:20:35 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2013/02/14/my-developer-tools/</guid>
-      <description>As a day to day Python and iOS developer, I&amp;rsquo;m using a lot of tools on my Mac, here is a list that could help you too.
- Textmate 2, Free, it&amp;rsquo;s funny to see that most people don&amp;rsquo;t know Textmate 2 is open source and totally free, this is a wonderful editor with completion and support for most languages. SublimeText 2, free/pay, I&amp;rsquo;ve switched to Sublime mostly for the Golang support with Gosublime and not regreting it.</description>
-    </item>
-    
-    <item>
-      <title>A better NSLog</title>
-      <link>https://blog.nobugware.com/post/2009/03/11/better-nslog/</link>
-      <pubDate>Wed, 11 Mar 2009 22:44:11 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2009/03/11/better-nslog/</guid>
-      <description>When debugging, I often found that NSLog is really boring, here is an attempt to make it nicer:
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>cocoa on Fabrice Aneche</title><link>https://blog.nobugware.com/tags/cocoa/</link><description>Recent content in cocoa on Fabrice Aneche</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Thu, 14 Feb 2013 19:20:35 -0400</lastBuildDate><atom:link href="https://blog.nobugware.com/tags/cocoa/index.xml" rel="self" type="application/rss+xml"/><item><title>My developer tools (Mobile)</title><link>https://blog.nobugware.com/post/2013/02/14/my-developer-tools/</link><pubDate>Thu, 14 Feb 2013 19:20:35 -0400</pubDate><guid>https://blog.nobugware.com/post/2013/02/14/my-developer-tools/</guid><description>As a day to day Python and iOS developer, I&amp;rsquo;m using a lot of tools on my Mac, here is a list that could help you too.
+Textmate 2, Free, it&amp;rsquo;s funny to see that most people don&amp;rsquo;t know Textmate 2 is open source and totally free, this is a wonderful editor with completion and support for most languages. SublimeText 2, free/pay, I&amp;rsquo;ve switched to Sublime mostly for the Golang support with Gosublime and not regreting it.</description></item><item><title>A better NSLog</title><link>https://blog.nobugware.com/post/2009/03/11/better-nslog/</link><pubDate>Wed, 11 Mar 2009 22:44:11 -0400</pubDate><guid>https://blog.nobugware.com/post/2009/03/11/better-nslog/</guid><description>When debugging, I often found that NSLog is really boring, here is an attempt to make it nicer:
 `
-NSLog(@&amp;quot;mycar: %@&amp;quot;,myCar); NSLog(@&amp;quot; I&#39;M HERE &amp;quot;);  `
+NSLog(@&amp;quot;mycar: %@&amp;quot;,myCar); NSLog(@&amp;quot; I'M HERE &amp;quot;); `
 NSLog doesn&amp;rsquo;t tell you where the call was made (which file or which method), so you end with a lot of:
- 2009-03-11 22:30:53.789 ObjCTest[1565:10b] mycar: Porsche
+2009-03-11 22:30:53.789 ObjCTest[1565:10b] mycar: Porsche
 2009-03-11 22:30:53.791 ObjCTest[1565:10b] I&amp;rsquo;M HERE
- A better NSLog could tell us:
- 2009-03-11 22:32:25.823 ObjCTest[1581:10b] Car.</description>
-    </item>
-    
-    <item>
-      <title>NSThread iPhone Template</title>
-      <link>https://blog.nobugware.com/post/2008/12/22/nsthread-iphone-template/</link>
-      <pubDate>Mon, 22 Dec 2008 14:42:12 -0400</pubDate>
-      
-      <guid>https://blog.nobugware.com/post/2008/12/22/nsthread-iphone-template/</guid>
-      <description>This is firstly a reminder for myself, here is a great example how to fire up a thread to perform long operation on iphone, without blocking reactivity.
+A better NSLog could tell us:</description></item><item><title>NSThread iPhone Template</title><link>https://blog.nobugware.com/post/2008/12/22/nsthread-iphone-template/</link><pubDate>Mon, 22 Dec 2008 14:42:12 -0400</pubDate><guid>https://blog.nobugware.com/post/2008/12/22/nsthread-iphone-template/</guid><description>This is firstly a reminder for myself, here is a great example how to fire up a thread to perform long operation on iphone, without blocking reactivity.
 Stanford CS 193P iPhone application programming is still the best place to find optimised example that works.
 All this examples was taken from this courses, see chap 10 &amp;amp; 11 about TableView optimisation
 `
-// LetsMakeAThreadAppDelegate.m // LetsMakeAThread // // Created by Evan Doll on 10/27/08.</description>
-    </item>
-    
-  </channel>
-</rss>
+// LetsMakeAThreadAppDelegate.m // LetsMakeAThread // // Created by Evan Doll on 10/27/08.</description></item></channel></rss>

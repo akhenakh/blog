@@ -6,7 +6,7 @@
 ^ r : Run (⌘ + r in xcode)
 ^ tab : navigate files
 ⌘ o : open class
-⌘ ⇧ o : open files</description></item><item><title>Xcode raccourcis important</title><link>https://blog.nobugware.com/post/2009/01/27/xcode-raccourcis-important/</link><pubDate>Tue, 27 Jan 2009 20:34:27 -0400</pubDate><guid>https://blog.nobugware.com/post/2009/01/27/xcode-raccourcis-important/</guid><description>Pour changer le nom MyCompanyName dans votre source code:defaults write com.apple.Xcode PBXCustomTemplateMacroDefinitions '{ORGANIZATIONNAME = &amp;quot;Nobugware&amp;quot;; }'
+⌘ ⇧ o : open files</description></item><item><title>Xcode raccourcis important</title><link>https://blog.nobugware.com/post/2009/01/27/xcode-raccourcis-important/</link><pubDate>Tue, 27 Jan 2009 20:34:27 -0400</pubDate><guid>https://blog.nobugware.com/post/2009/01/27/xcode-raccourcis-important/</guid><description>Pour changer le nom MyCompanyName dans votre source code: defaults write com.apple.Xcode PBXCustomTemplateMacroDefinitions '{ORGANIZATIONNAME = &amp;quot;Nobugware&amp;quot;; }'
 ⌘[ et ⌘] pour indenter a droite ou a gauche
 ⌃/ pour passer d&amp;rsquo;un champ a l&amp;rsquo;autre quand xcode vous propose la completion d&amp;rsquo;une methode avec plusieurs arguments (⌃⇧/ clavier fr)
 ⌥⌘↑ (alt shift curseur haut) passe du fichier .m au .h

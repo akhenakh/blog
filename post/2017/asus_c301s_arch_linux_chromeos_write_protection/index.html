@@ -1,16 +1,101 @@
-<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=generator content="Hugo 0.74.2"><title>Arch Linux on a Chromebook Asus C301SA - Fabrice Aneche</title><meta name=description content="Arch Linux on a Chromebook Asus C301SA"><link rel=stylesheet href=https://blog.nobugware.com/css/ui.css><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway"></head><body><header class="container no-print"><div class=u-header><nav class=bar><ul><li><a href=https://blog.nobugware.com/><img class=icon-text src=https://blog.nobugware.com/img/prev.svg></a></li><li><a href=https://blog.nobugware.com/about>About</a></li><li><a href=https://blog.nobugware.com/post/>Post</a></li></ul></nav></div></header><main class=container><article><header><hgroup id=brand><h1>Arch Linux on a Chromebook Asus C301SA</h1><h5><time datetime="2017-07-22 21:28:24 -0400 -0400">Jul 22, 2017</time>
-<span class=no-print>-
+<!doctype html><html lang=en>
+<head>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<meta name=generator content="Hugo 0.89.4">
+<title>Arch Linux on a Chromebook Asus C301SA - Fabrice Aneche</title>
+<meta name=description content="Arch Linux on a Chromebook Asus C301SA">
+<link rel=stylesheet href=https://blog.nobugware.com/css/ui.css>
+<link rel=stylesheet href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway">
+</head>
+<body>
+<header class="container no-print">
+<div class=u-header>
+<nav class=bar>
+<ul><li>
+<a href=https://blog.nobugware.com/>
+<img class=icon-text src=https://blog.nobugware.com/img/prev.svg>
+</a>
+</li><li><a href=https://blog.nobugware.com/about>About</a></li><li><a href=https://blog.nobugware.com/post/>Post</a></li></ul>
+</nav>
+</div>
+</header>
+<main class=container>
+<article>
+<header><hgroup id=brand>
+<h1>Arch Linux on a Chromebook Asus C301SA</h1>
+<h5>
+<time datetime="2017-07-22 21:28:24 -0400 -0400">Jul 22, 2017</time>
+<span class=no-print>
+-
 <a href=https://blog.nobugware.com/tags/Linux>Linux</a>
 <a href=https://blog.nobugware.com/tags/Chromebook>Chromebook</a>
-<span></h5></hgroup><hr class=sep></header><p>I&rsquo;ve got an <a href="https://www.amazon.ca/Asus-Chromebook-C301SA-DB04-Celeron-Silver/dp/B01INVHL2C/ref=sr_1_1?ie=UTF8&qid=1497662974&sr=8-1&keywords=c301">Asus C301S</a> at work, it&rsquo;s a Chromebook with Chromeos.</p><p>I like those little laptops, for the price it&rsquo;s actually a very good little machine.<br>ChromeOS is responding very well, ssh and Chrome are working too.<br>But I often need more, like X11 forwarding or offline coding &mldr;</p><p>You will see the C301SA is marked as a C300SA internally.</p><p>Here are the steps to install Arch Linux on it, do it at your own risk, you can brick your computer, you will need an external USB keyboard.</p><ul><li><p>Activate the recovery mode, by using ESC + F3 (refresh) and the power key</p></li><li><p>Activate the developer mode with ctrl + d, confirm you want to continue, it will take a long time before it&rsquo;s finished preparing the developer mode.</p></li><li><p>Shutdown and remove the write protection screw<br>It&rsquo;s actually written as not mandatory but also &ldquo;could be dangerous&rdquo;, didn&rsquo;t take the chance.<br>Gently dismount the keyboard (by removing the back screws), warning the screws are different, so remember their positions.<br>Locate the write protection screw, mine was covered with a black tape, (on the left close to the USB port) and remove it<br><img src=https://blog.nobugware.com/img/c301.jpg alt="c301 screw"></p></li><li><p>Reboot into ChromeOS by pressing ctrl + d</p></li><li><p>Patch the firmware
-[Ctrl+Alt+T] to get a ChromeOS terminal<br>type or copy paste <code>cd; curl -LO https://mrchromebox.tech/firmware-util.sh && sudo bash firmware-util.sh</code><br>Choose 1 to enable legacy boot then n to boot from internal then shutdown the computer.</p></li><li><p>Create a bootable USB key for Arch Linux<br><code>sudo dd if=/home/akh/Downloads/archlinux-2017.06.01-x86_64.iso of=/dev/sde bs=512</code></p></li><li><p>Boot on Arch by pressing ctrl + l then ctrl + u, sometimes it fails</p></li><li><p>The actual Arch kernel does not see the keyboard &mldr; you&rsquo;ll need an external USB keyboard.</p></li><li><p>Perform a normal installation of Arch (I&rsquo;ve totally removed ChromeOS partitions) and even performed an MBR install (instead of GPT) with only 2 partitions.<br>The internal SSD disk is <code>/dev/mmcblk0</code></p></li><li><p>Install grub<br><code>grub-install --target=i386-pc /dev/mmcblk0</code><br><code>grub-mkconfig -o /boot/grub/grub.cfg</code></p></li><li><p>Install yaourt</p><pre><code></code></pre></li></ul><p>git clone <a href=https://aur.archlinux.org/package-query.git>https://aur.archlinux.org/package-query.git</a>
+<span>
+</h5>
+</hgroup>
+<hr class=sep>
+</header>
+<p>I&rsquo;ve got an <a href="https://www.amazon.ca/Asus-Chromebook-C301SA-DB04-Celeron-Silver/dp/B01INVHL2C/ref=sr_1_1?ie=UTF8&qid=1497662974&sr=8-1&keywords=c301">Asus C301S</a> at work, it&rsquo;s a Chromebook with Chromeos.</p>
+<p>I like those little laptops, for the price it&rsquo;s actually a very good little machine.<br>
+ChromeOS is responding very well, ssh and Chrome are working too.<br>
+But I often need more, like X11 forwarding or offline coding &mldr;</p>
+<p>You will see the C301SA is marked as a C300SA internally.</p>
+<p>Here are the steps to install Arch Linux on it, do it at your own risk, you can brick your computer, you will need an external USB keyboard.</p>
+<ul>
+<li>
+<p>Activate the recovery mode, by using ESC + F3 (refresh) and the power key</p>
+</li>
+<li>
+<p>Activate the developer mode with ctrl + d, confirm you want to continue, it will take a long time before it&rsquo;s finished preparing the developer mode.</p>
+</li>
+<li>
+<p>Shutdown and remove the write protection screw<br>
+It&rsquo;s actually written as not mandatory but also &ldquo;could be dangerous&rdquo;, didn&rsquo;t take the chance.<br>
+Gently dismount the keyboard (by removing the back screws), warning the screws are different, so remember their positions.<br>
+Locate the write protection screw, mine was covered with a black tape, (on the left close to the USB port) and remove it<br>
+<img src=https://blog.nobugware.com/img/c301.jpg alt="c301 screw"></p>
+</li>
+<li>
+<p>Reboot into ChromeOS by pressing ctrl + d</p>
+</li>
+<li>
+<p>Patch the firmware
+[Ctrl+Alt+T] to get a ChromeOS terminal<br>
+type or copy paste <code>cd; curl -LO https://mrchromebox.tech/firmware-util.sh && sudo bash firmware-util.sh</code><br>
+Choose 1 to enable legacy boot then n to boot from internal then shutdown the computer.</p>
+</li>
+<li>
+<p>Create a bootable USB key for Arch Linux<br>
+<code>sudo dd if=/home/akh/Downloads/archlinux-2017.06.01-x86_64.iso of=/dev/sde bs=512</code></p>
+</li>
+<li>
+<p>Boot on Arch by pressing ctrl + l then ctrl + u, sometimes it fails</p>
+</li>
+<li>
+<p>The actual Arch kernel does not see the keyboard &mldr; you&rsquo;ll need an external USB keyboard.</p>
+</li>
+<li>
+<p>Perform a normal installation of Arch (I&rsquo;ve totally removed ChromeOS partitions) and even performed an MBR install (instead of GPT) with only 2 partitions.<br>
+The internal SSD disk is <code>/dev/mmcblk0</code></p>
+</li>
+<li>
+<p>Install grub<br>
+<code>grub-install --target=i386-pc /dev/mmcblk0</code><br>
+<code>grub-mkconfig -o /boot/grub/grub.cfg</code></p>
+</li>
+<li>
+<p>Install yaourt</p>
+<pre tabindex=0><code></code></pre></li>
+</ul>
+<p>git clone <a href=https://aur.archlinux.org/package-query.git>https://aur.archlinux.org/package-query.git</a>
 cd package-query
 makepkg -si
 cd ..
 git clone <a href=https://aur.archlinux.org/yaourt.git>https://aur.archlinux.org/yaourt.git</a>
 cd yaourt
 makepkg -si
-cd ..</p><pre><code>
+cd ..</p>
+<pre tabindex=0><code>
 - Install the galliumos patched kernel, you can go to bed coz it will take a long time to compile  
   `yaourt --tmp /var/tmp -S aur/linux-galliumos-braswell`
 
@@ -19,20 +104,45 @@ Also install or grab the config file from `aur/galliumos-braswell-config` for au
 
 If it won't boot don't worry you can still boot using the Arch USB key, then remount your system:
 </code></pre><p>mount /dev/mmcblk0p1 /mnt
-arch-chroot /mnt</p><pre><code>
+arch-chroot /mnt</p>
+<pre tabindex=0><code>
 Touch pad config:
 </code></pre><p>Section &ldquo;InputClass&rdquo;
 Identifier &ldquo;Elan Touchpad&rdquo;
 Driver &ldquo;libinput&rdquo;
 MatchIsTouchpad &ldquo;on&rdquo;
 Option &ldquo;Tapping&rdquo; &ldquo;on&rdquo;
-Option &ldquo;NaturalScrolling&rdquo; &ldquo;true&rdquo;<br>Option &ldquo;ClickMethod&rdquo; &ldquo;clickfinger&rdquo;
-EndSection</p><pre><code>
+Option &ldquo;NaturalScrolling&rdquo; &ldquo;true&rdquo;<br>
+Option &ldquo;ClickMethod&rdquo; &ldquo;clickfinger&rdquo;
+EndSection</p>
+<pre tabindex=0><code>
 Congratulations you have a fully working computer.
 
 EDIT: Arch kernel 4.12 is fully working without the need to use `aur/linux-galliumos-braswell`, but 4.13 breaks this support, so keep 4.12 for now.
-</code></pre></article><nav class="no-print post-nav"><a class=prev-post href=https://blog.nobugware.com/post/2017/back_from_osx_to_linux/><img class=icon-text src=https://blog.nobugware.com/img/prev.svg>From OSX to Linux</a>
-<a class=next-post href=https://blog.nobugware.com/post/2017/notes_on_pacbsd/>Notes on PacBSD<img class=icon-text src=https://blog.nobugware.com/img/next.svg></a></nav><hr class=sep></main><footer class="container no-print"><div class=u-footer><a href=https://github.com/akhenakh/><img class=icon-social src=https://blog.nobugware.com/img/github.svg alt=Github></a>
+</code></pre>
+</article>
+<nav class="no-print post-nav">
+<a class=prev-post href=https://blog.nobugware.com/post/2017/back_from_osx_to_linux/>
+<img class=icon-text src=https://blog.nobugware.com/img/prev.svg>From OSX to Linux</a>
+<a class=next-post href=https://blog.nobugware.com/post/2017/notes_on_pacbsd/>Notes on PacBSD<img class=icon-text src=https://blog.nobugware.com/img/next.svg>
+</a>
+</nav>
+<hr class=sep>
+</main>
+<footer class="container no-print">
+<div class=u-footer>
+<a href=https://github.com/akhenakh/><img class=icon-social src=https://blog.nobugware.com/img/github.svg alt=Github></a>
 <a href=https://twitter.com/akhenakh><img class=icon-social src=https://blog.nobugware.com/img/twitter.svg alt=Twitter></a>
-<a href=https://blog.nobugware.com/index.xml target=_blank><img class=icon-social src=https://blog.nobugware.com/img/feed.svg alt=Feed></a><p>Theme used: <a href=https://github.com/yursan9/manis-hugo-theme>Manis</a><br></p><a href=#brand><img class=icon-text src=https://blog.nobugware.com/img/toup.svg alt="To Up">
-<span>Back to Up</span></a></div></footer><script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-1245966-1','auto');ga('send','pageview');</script></body></html>
+<a href=https://blog.nobugware.com/index.xml target=_blank><img class=icon-social src=https://blog.nobugware.com/img/feed.svg alt=Feed></a>
+<p>
+Theme used: <a href=https://github.com/yursan9/manis-hugo-theme>Manis</a><br>
+</p>
+<a href=#brand>
+<img class=icon-text src=https://blog.nobugware.com/img/toup.svg alt="To Up">
+<span>Back to Up</span>
+</a>
+</div>
+</footer>
+<script>(function(a,e,f,g,b,c,d){a.GoogleAnalyticsObject=b,a[b]=a[b]||function(){(a[b].q=a[b].q||[]).push(arguments)},a[b].l=1*new Date,c=e.createElement(f),d=e.getElementsByTagName(f)[0],c.async=1,c.src=g,d.parentNode.insertBefore(c,d)})(window,document,'script','//www.google-analytics.com/analytics.js','ga'),ga('create','UA-1245966-1','auto'),ga('send','pageview')</script>
+</body>
+</html>

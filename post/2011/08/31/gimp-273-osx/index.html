@@ -1,4 +1,10 @@
-<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=generator content="Hugo 0.74.2"><title>Gimp 2.7.3 on OSX - Fabrice Aneche</title><meta name=description content="Gimp 2.7.3 has been released but no one ports it to OSX already here is an ugly working way.
+<!doctype html><html lang=en>
+<head>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<meta name=generator content="Hugo 0.89.4">
+<title>Gimp 2.7.3 on OSX - Fabrice Aneche</title>
+<meta name=description content="Gimp 2.7.3 has been released but no one ports it to OSX already here is an ugly working way.
 EDIT: The macport is now up to date so no need to do this anymore !
 It needs a lot of dependencies, get it via macports:
 run port sync
@@ -7,25 +13,113 @@ Change version to 0.1.6 and master_sites
  version 0.1.6
  master_sites ftp://ftp.gimp.org/pub/gegl/0.1/
 remove the path line about atch-gegl-buffer-gegl-buffer.c
-Edit /opt/local/var/macports/sources/rsync."><link rel=stylesheet href=https://blog.nobugware.com/css/ui.css><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway"></head><body><header class="container no-print"><div class=u-header><nav class=bar><ul><li><a href=https://blog.nobugware.com/><img class=icon-text src=https://blog.nobugware.com/img/prev.svg></a></li><li><a href=https://blog.nobugware.com/about>About</a></li><li><a href=https://blog.nobugware.com/post/>Post</a></li></ul></nav></div></header><main class=container><article><header><hgroup id=brand><h1>Gimp 2.7.3 on OSX</h1><h5><time datetime="2011-08-31 15:40:52 -0400 -0400">Aug 31, 2011</time>
-<span class=no-print>-
+Edit /opt/local/var/macports/sources/rsync.">
+<link rel=stylesheet href=https://blog.nobugware.com/css/ui.css>
+<link rel=stylesheet href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway">
+</head>
+<body>
+<header class="container no-print">
+<div class=u-header>
+<nav class=bar>
+<ul><li>
+<a href=https://blog.nobugware.com/>
+<img class=icon-text src=https://blog.nobugware.com/img/prev.svg>
+</a>
+</li><li><a href=https://blog.nobugware.com/about>About</a></li><li><a href=https://blog.nobugware.com/post/>Post</a></li></ul>
+</nav>
+</div>
+</header>
+<main class=container>
+<article>
+<header><hgroup id=brand>
+<h1>Gimp 2.7.3 on OSX</h1>
+<h5>
+<time datetime="2011-08-31 15:40:52 -0400 -0400">Aug 31, 2011</time>
+<span class=no-print>
+-
 <a href=https://blog.nobugware.com/tags/gimp>gimp</a>
 <a href=https://blog.nobugware.com/tags/osx>osx</a>
 <a href=https://blog.nobugware.com/tags/mac>mac</a>
-<span></h5></hgroup><hr class=sep></header><p>Gimp 2.7.3 has been released but no one ports it to OSX already here is an
-ugly working way.</p><p>EDIT: The macport is now up to date so no need to do this anymore !</p><p>It needs a lot of dependencies, get it via macports:</p><p>run port sync</p><p>Edit /opt/local/var/macports/sources/rsync.macports.org/release/ports/graphics
-/gegl/Portfile</p><p>Change version to 0.1.6 and master_sites</p><blockquote><p>version 0.1.6</p></blockquote><p>master_sites <a href=ftp://ftp.gimp.org/pub/gegl/0.1/>ftp://ftp.gimp.org/pub/gegl/0.1/</a></p><p>remove the path line about atch-gegl-buffer-gegl-buffer.c</p><p>Edit /opt/local/var/macports/sources/rsync.macports.org/release/ports/graphics
-/babl/Portfile change version and master_sites</p><blockquote><p>version 0.1.4</p></blockquote><p>master_sites <a href=ftp://ftp.gimp.org/pub/babl/0.1/>ftp://ftp.gimp.org/pub/babl/0.1/</a></p><p>run macports</p><blockquote><p>port install babl</p></blockquote><p>port install gegl</p><p>port install aalib iso-codes libmng librsvg libexif libwmf poppler openjpeg
+<span>
+</h5>
+</hgroup>
+<hr class=sep>
+</header>
+<p>Gimp 2.7.3 has been released but no one ports it to OSX already here is an
+ugly working way.</p>
+<p>EDIT: The macport is now up to date so no need to do this anymore !</p>
+<p>It needs a lot of dependencies, get it via macports:</p>
+<p>run port sync</p>
+<p>Edit /opt/local/var/macports/sources/rsync.macports.org/release/ports/graphics
+/gegl/Portfile</p>
+<p>Change version to 0.1.6 and master_sites</p>
+<blockquote>
+<p>version 0.1.6</p>
+</blockquote>
+<p>master_sites <a href=ftp://ftp.gimp.org/pub/gegl/0.1/>ftp://ftp.gimp.org/pub/gegl/0.1/</a></p>
+<p>remove the path line about atch-gegl-buffer-gegl-buffer.c</p>
+<p>Edit /opt/local/var/macports/sources/rsync.macports.org/release/ports/graphics
+/babl/Portfile change version and master_sites</p>
+<blockquote>
+<p>version 0.1.4</p>
+</blockquote>
+<p>master_sites <a href=ftp://ftp.gimp.org/pub/babl/0.1/>ftp://ftp.gimp.org/pub/babl/0.1/</a></p>
+<p>run macports</p>
+<blockquote>
+<p>port install babl</p>
+</blockquote>
+<p>port install gegl</p>
+<p>port install aalib iso-codes libmng librsvg libexif libwmf poppler openjpeg
 lcms2 poppler-data libwmf poppler openjpeg lcms2 poppler-data py27-gtk
-py27-cairo py27-numpy py27-gobject librsvg libopenraw dbus-glib</p><p>Download gimp 2.7.3 and uncompress it</p><blockquote><p>export
-PATH=$PATH:/opt/local/Library/Frameworks/Python.framework/Versions/2.7/bin</p></blockquote><p>export CPPFLAGS=&rdquo;-I/opt/local/include&rdquo;</p><p>export PYGTK-LIBS=&rdquo;-L/opt/local/lib&rdquo;</p><p>export LDFLAGS=&rdquo;-L/opt/local/lib&rdquo;</p><p>export PYGTK_CFLAGS=&rdquo;-I/opt/local/include -I/opt/local//Library/Frameworks/Pyt
+py27-cairo py27-numpy py27-gobject librsvg libopenraw dbus-glib</p>
+<p>Download gimp 2.7.3 and uncompress it</p>
+<blockquote>
+<p>export
+PATH=$PATH:/opt/local/Library/Frameworks/Python.framework/Versions/2.7/bin</p>
+</blockquote>
+<p>export CPPFLAGS="-I/opt/local/include"</p>
+<p>export PYGTK-LIBS="-L/opt/local/lib"</p>
+<p>export LDFLAGS="-L/opt/local/lib"</p>
+<p>export PYGTK_CFLAGS="-I/opt/local/include -I/opt/local//Library/Frameworks/Pyt
 hon.framework/Versions/2.7/include/python2.7/pygtk-2.0
 -I/opt/local/include/glib-2.0 -I/opt/local/include/gtk-2.0
 -I/opt/local/include/atk-1.0 -I/opt/local/include/cairo
 -I/opt/local/include/pango-1.0 -I/opt/local/include/glib-2.0
 -I/opt/local/include/pixman-1 -I/opt/local/include/freetype2
--I/opt/local/include/libpng14&rdquo;</p><p>./configure &ndash;prefix=/opt/local/gimp-2.7.3 &ndash;without-mac-twain</p><blockquote><p>make -j 8</p></blockquote><blockquote><p>make install</p></blockquote><blockquote><p>/opt/local/gimp-2.7.3/bin/gimp-2.7</p></blockquote></article><nav class="no-print post-nav"><a class=prev-post href=https://blog.nobugware.com/post/2011/08/16/enhance-your-python/><img class=icon-text src=https://blog.nobugware.com/img/prev.svg>Enhance your Python</a>
-<a class=next-post href=https://blog.nobugware.com/post/2011/10/14/install-freebsd-90-zfs-root/>Install FreeBSD 9.0 with ZFS root<img class=icon-text src=https://blog.nobugware.com/img/next.svg></a></nav><hr class=sep></main><footer class="container no-print"><div class=u-footer><a href=https://github.com/akhenakh/><img class=icon-social src=https://blog.nobugware.com/img/github.svg alt=Github></a>
+-I/opt/local/include/libpng14"</p>
+<p>./configure &ndash;prefix=/opt/local/gimp-2.7.3 &ndash;without-mac-twain</p>
+<blockquote>
+<p>make -j 8</p>
+</blockquote>
+<blockquote>
+<p>make install</p>
+</blockquote>
+<blockquote>
+<p>/opt/local/gimp-2.7.3/bin/gimp-2.7</p>
+</blockquote>
+</article>
+<nav class="no-print post-nav">
+<a class=prev-post href=https://blog.nobugware.com/post/2011/08/16/enhance-your-python/>
+<img class=icon-text src=https://blog.nobugware.com/img/prev.svg>Enhance your Python</a>
+<a class=next-post href=https://blog.nobugware.com/post/2011/10/14/install-freebsd-90-zfs-root/>Install FreeBSD 9.0 with ZFS root<img class=icon-text src=https://blog.nobugware.com/img/next.svg>
+</a>
+</nav>
+<hr class=sep>
+</main>
+<footer class="container no-print">
+<div class=u-footer>
+<a href=https://github.com/akhenakh/><img class=icon-social src=https://blog.nobugware.com/img/github.svg alt=Github></a>
 <a href=https://twitter.com/akhenakh><img class=icon-social src=https://blog.nobugware.com/img/twitter.svg alt=Twitter></a>
-<a href=https://blog.nobugware.com/index.xml target=_blank><img class=icon-social src=https://blog.nobugware.com/img/feed.svg alt=Feed></a><p>Theme used: <a href=https://github.com/yursan9/manis-hugo-theme>Manis</a><br></p><a href=#brand><img class=icon-text src=https://blog.nobugware.com/img/toup.svg alt="To Up">
-<span>Back to Up</span></a></div></footer><script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-1245966-1','auto');ga('send','pageview');</script></body></html>
+<a href=https://blog.nobugware.com/index.xml target=_blank><img class=icon-social src=https://blog.nobugware.com/img/feed.svg alt=Feed></a>
+<p>
+Theme used: <a href=https://github.com/yursan9/manis-hugo-theme>Manis</a><br>
+</p>
+<a href=#brand>
+<img class=icon-text src=https://blog.nobugware.com/img/toup.svg alt="To Up">
+<span>Back to Up</span>
+</a>
+</div>
+</footer>
+<script>(function(a,e,f,g,b,c,d){a.GoogleAnalyticsObject=b,a[b]=a[b]||function(){(a[b].q=a[b].q||[]).push(arguments)},a[b].l=1*new Date,c=e.createElement(f),d=e.getElementsByTagName(f)[0],c.async=1,c.src=g,d.parentNode.insertBefore(c,d)})(window,document,'script','//www.google-analytics.com/analytics.js','ga'),ga('create','UA-1245966-1','auto'),ga('send','pageview')</script>
+</body>
+</html>

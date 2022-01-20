@@ -1,4 +1,10 @@
-<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=generator content="Hugo 0.74.2"><title>mercurial usefull stuff - Fabrice Aneche</title><meta name=description content="Using mercurial for the beginner may sounds scarry here are fast tips
+<!doctype html><html lang=en>
+<head>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<meta name=generator content="Hugo 0.89.4">
+<title>mercurial usefull stuff - Fabrice Aneche</title>
+<meta name=description content="Using mercurial for the beginner may sounds scarry here are fast tips
   Edit ~/.hgrc
 This is a Mercurial configuration file. [ui] username = Your Name
 #enable ssh compression ssh = ssh -C
@@ -6,20 +12,80 @@ This is a Mercurial configuration file. [ui] username = Your Name
 enable hg convert to import you old svn repository hgext.convert=
 #enable hg glog command hgext.graphlog =
 enable color diff, need mercurial >=1.1 color=
-enable visual filemerge on OsX [merge-tools] filemerge.executable=opendiff filemerge.args=$other $local -ancestor $base -merge $output filemerge."><link rel=stylesheet href=https://blog.nobugware.com/css/ui.css><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway"></head><body><header class="container no-print"><div class=u-header><nav class=bar><ul><li><a href=https://blog.nobugware.com/><img class=icon-text src=https://blog.nobugware.com/img/prev.svg></a></li><li><a href=https://blog.nobugware.com/about>About</a></li><li><a href=https://blog.nobugware.com/post/>Post</a></li></ul></nav></div></header><main class=container><article><header><hgroup id=brand><h1>mercurial usefull stuff</h1><h5><time datetime="2009-05-01 23:31:25 -0400 -0400">May 01, 2009</time>
-<span class=no-print><span></h5></hgroup><hr class=sep></header><p>Using mercurial for the beginner may sounds scarry here are fast tips</p><ul><li><p>Edit ~/.hgrc</p><h2 id=this-is-a-mercurial-configuration-file>This is a Mercurial configuration file.</h2><p>[ui]
-username = Your Name</p><p>#enable ssh compression
-ssh = ssh -C</p><p>[extensions]</p><h1 id=enable-hg-convert-to-import-you-old-svn-repository>enable hg convert to import you old svn repository</h1><p>hgext.convert=</p><p>#enable hg glog command
-hgext.graphlog =</p><h1 id=enable-color-diff-need-mercurial-11>enable color diff, need mercurial >=1.1</h1><p>color=</p><h1 id=enable-visual-filemerge-on-osx>enable visual filemerge on OsX</h1><p>[merge-tools]
+enable visual filemerge on OsX [merge-tools] filemerge.executable=opendiff filemerge.args=$other $local -ancestor $base -merge $output filemerge.">
+<link rel=stylesheet href=https://blog.nobugware.com/css/ui.css>
+<link rel=stylesheet href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway">
+</head>
+<body>
+<header class="container no-print">
+<div class=u-header>
+<nav class=bar>
+<ul><li>
+<a href=https://blog.nobugware.com/>
+<img class=icon-text src=https://blog.nobugware.com/img/prev.svg>
+</a>
+</li><li><a href=https://blog.nobugware.com/about>About</a></li><li><a href=https://blog.nobugware.com/post/>Post</a></li></ul>
+</nav>
+</div>
+</header>
+<main class=container>
+<article>
+<header><hgroup id=brand>
+<h1>mercurial usefull stuff</h1>
+<h5>
+<time datetime="2009-05-01 23:31:25 -0400 -0400">May 01, 2009</time>
+<span class=no-print>
+<span>
+</h5>
+</hgroup>
+<hr class=sep>
+</header>
+<p>Using mercurial for the beginner may sounds scarry here are fast tips</p>
+<ul>
+<li>
+<p>Edit ~/.hgrc</p>
+<h2 id=this-is-a-mercurial-configuration-file>This is a Mercurial configuration file.</h2>
+<p>[ui]
+username = Your Name</p>
+<p>#enable ssh compression
+ssh = ssh -C</p>
+<p>[extensions]</p>
+<h1 id=enable-hg-convert-to-import-you-old-svn-repository>enable hg convert to import you old svn repository</h1>
+<p>hgext.convert=</p>
+<p>#enable hg glog command
+hgext.graphlog =</p>
+<h1 id=enable-color-diff-need-mercurial-11>enable color diff, need mercurial >=1.1</h1>
+<p>color=</p>
+<h1 id=enable-visual-filemerge-on-osx>enable visual filemerge on OsX</h1>
+<p>[merge-tools]
 filemerge.executable=opendiff
 filemerge.args=$other $local -ancestor $base -merge $output
-filemerge.gui=True</p></li><li><p>At the root of you repository add .hgignore (and commit it) <em>hg add .hgignore</em>,_ hg commit_,_ hg push_</p><p>syntax: glob</p><p>.DS_Store</p><h1 id=xcode>Xcode</h1><p>*.swp
+filemerge.gui=True</p>
+</li>
+<li>
+<p>At the root of you repository add .hgignore (and commit it) <em>hg add .hgignore</em>,_ hg commit_,_ hg push_</p>
+<p>syntax: glob</p>
+<p>.DS_Store</p>
+<h1 id=xcode>Xcode</h1>
+<p>*.swp
 *~.nib
 build
 *.pbxuser
 *.perspective
-*.perspectivev3</p><h1 id=python>Python</h1><p>*.py[oc]c</p><h1 id=no-subversion-directories>no subversion directories</h1><p>.svn</p><p>#others
-*~</p></li><li><p>Remember to <em>hg update</em> after a pull or use <em>hg pull -u</em></p></li><li><p>Use <em>hg glog</em></p><p>@ changeset: 4:1961f87e1d05
+*.perspectivev3</p>
+<h1 id=python>Python</h1>
+<p>*.py[oc]c</p>
+<h1 id=no-subversion-directories>no subversion directories</h1>
+<p>.svn</p>
+<p>#others
+*~</p>
+</li>
+<li>
+<p>Remember to <em>hg update</em> after a pull or use <em>hg pull -u</em></p>
+</li>
+<li>
+<p>Use <em>hg glog</em></p>
+<p>@ changeset: 4:1961f87e1d05
 |\ tag: tip
 | | parent: 2:fb59b74f6239
 | | parent: 3:18393dd152ee
@@ -46,9 +112,43 @@ o changeset: 1:c8785a6f41ec
 o changeset: 0:a2883c1a5659
 user: ME
 date: Thu Apr 30 01:14:57 2009 +0200
-summary: first version of chatclient socket is working</p></li><li><p>Use <em>hg rollback</em> when something go wrong (only last commit)</p></li><li><p>Do not use <em>hg push -f</em> if &ldquo;abort: push creates new remote heads!&rdquo;, Try <em>hg merge</em> and <em>hg update &ndash;all</em> if conflicts occurs, <em>hg commit</em>, then <em>hg push</em></p></li><li><p>Force a merge with my files or their files:</p><p>HGMERGE=internal:local hg merge #keep my files
-HGMERGE=internal:other hg merge #keep their files</p></li></ul></article><nav class="no-print post-nav"><a class=prev-post href=https://blog.nobugware.com/post/2009/03/11/better-nslog/><img class=icon-text src=https://blog.nobugware.com/img/prev.svg>A better NSLog</a>
-<a class=next-post href=https://blog.nobugware.com/post/2009/06/28/use-trac-browser-jira/>Use Trac source browser with Jira<img class=icon-text src=https://blog.nobugware.com/img/next.svg></a></nav><hr class=sep></main><footer class="container no-print"><div class=u-footer><a href=https://github.com/akhenakh/><img class=icon-social src=https://blog.nobugware.com/img/github.svg alt=Github></a>
+summary: first version of chatclient socket is working</p>
+</li>
+<li>
+<p>Use <em>hg rollback</em> when something go wrong (only last commit)</p>
+</li>
+<li>
+<p>Do not use <em>hg push -f</em> if &ldquo;abort: push creates new remote heads!&rdquo;, Try <em>hg merge</em> and <em>hg update &ndash;all</em> if conflicts occurs, <em>hg commit</em>, then <em>hg push</em></p>
+</li>
+<li>
+<p>Force a merge with my files or their files:</p>
+<p>HGMERGE=internal:local hg merge #keep my files
+HGMERGE=internal:other hg merge #keep their files</p>
+</li>
+</ul>
+</article>
+<nav class="no-print post-nav">
+<a class=prev-post href=https://blog.nobugware.com/post/2009/03/11/better-nslog/>
+<img class=icon-text src=https://blog.nobugware.com/img/prev.svg>A better NSLog</a>
+<a class=next-post href=https://blog.nobugware.com/post/2009/06/28/use-trac-browser-jira/>Use Trac source browser with Jira<img class=icon-text src=https://blog.nobugware.com/img/next.svg>
+</a>
+</nav>
+<hr class=sep>
+</main>
+<footer class="container no-print">
+<div class=u-footer>
+<a href=https://github.com/akhenakh/><img class=icon-social src=https://blog.nobugware.com/img/github.svg alt=Github></a>
 <a href=https://twitter.com/akhenakh><img class=icon-social src=https://blog.nobugware.com/img/twitter.svg alt=Twitter></a>
-<a href=https://blog.nobugware.com/index.xml target=_blank><img class=icon-social src=https://blog.nobugware.com/img/feed.svg alt=Feed></a><p>Theme used: <a href=https://github.com/yursan9/manis-hugo-theme>Manis</a><br></p><a href=#brand><img class=icon-text src=https://blog.nobugware.com/img/toup.svg alt="To Up">
-<span>Back to Up</span></a></div></footer><script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-1245966-1','auto');ga('send','pageview');</script></body></html>
+<a href=https://blog.nobugware.com/index.xml target=_blank><img class=icon-social src=https://blog.nobugware.com/img/feed.svg alt=Feed></a>
+<p>
+Theme used: <a href=https://github.com/yursan9/manis-hugo-theme>Manis</a><br>
+</p>
+<a href=#brand>
+<img class=icon-text src=https://blog.nobugware.com/img/toup.svg alt="To Up">
+<span>Back to Up</span>
+</a>
+</div>
+</footer>
+<script>(function(a,e,f,g,b,c,d){a.GoogleAnalyticsObject=b,a[b]=a[b]||function(){(a[b].q=a[b].q||[]).push(arguments)},a[b].l=1*new Date,c=e.createElement(f),d=e.getElementsByTagName(f)[0],c.async=1,c.src=g,d.parentNode.insertBefore(c,d)})(window,document,'script','//www.google-analytics.com/analytics.js','ga'),ga('create','UA-1245966-1','auto'),ga('send','pageview')</script>
+</body>
+</html>

@@ -1,8 +1,72 @@
-<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=generator content="Hugo 0.74.2"><title>Enabling Gometalinter with Jetbrains Editors - Fabrice Aneche</title><meta name=description content="Install Gometalinter support in Jetbrains editors"><link rel=stylesheet href=https://blog.nobugware.com/css/ui.css><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway"></head><body><header class="container no-print"><div class=u-header><nav class=bar><ul><li><a href=https://blog.nobugware.com/><img class=icon-text src=https://blog.nobugware.com/img/prev.svg></a></li><li><a href=https://blog.nobugware.com/about>About</a></li><li><a href=https://blog.nobugware.com/post/>Post</a></li></ul></nav></div></header><main class=container><article><header><hgroup id=brand><h1>Enabling Gometalinter with Jetbrains Editors</h1><h5><time datetime="2016-07-03 08:15:43 +0200 +0200">Jul 03, 2016</time>
-<span class=no-print><span></h5></hgroup><hr class=sep></header><p>I&rsquo;ve been using Jetbrains editor (the free <a href=https://www.jetbrains.com/idea/download/>Idea community edition</a>) or Pycharm with the <a href=https://github.com/go-lang-plugin-org/go-lang-idea-plugin>Go plugins</a> and very happy with this setup, the editor is providing some realtime linting but I was missing <code>gometalinter</code>.</p><p>First install <code>gometalinter</code></p><pre><code>go get -u github.com/alecthomas/gometalinter
+<!doctype html><html lang=en>
+<head>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<meta name=generator content="Hugo 0.89.4">
+<title>Enabling Gometalinter with Jetbrains Editors - Fabrice Aneche</title>
+<meta name=description content="Install Gometalinter support in Jetbrains editors">
+<link rel=stylesheet href=https://blog.nobugware.com/css/ui.css>
+<link rel=stylesheet href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway">
+</head>
+<body>
+<header class="container no-print">
+<div class=u-header>
+<nav class=bar>
+<ul><li>
+<a href=https://blog.nobugware.com/>
+<img class=icon-text src=https://blog.nobugware.com/img/prev.svg>
+</a>
+</li><li><a href=https://blog.nobugware.com/about>About</a></li><li><a href=https://blog.nobugware.com/post/>Post</a></li></ul>
+</nav>
+</div>
+</header>
+<main class=container>
+<article>
+<header><hgroup id=brand>
+<h1>Enabling Gometalinter with Jetbrains Editors</h1>
+<h5>
+<time datetime="2016-07-03 08:15:43 +0200 +0200">Jul 03, 2016</time>
+<span class=no-print>
+<span>
+</h5>
+</hgroup>
+<hr class=sep>
+</header>
+<p>I&rsquo;ve been using Jetbrains editor (the free <a href=https://www.jetbrains.com/idea/download/>Idea community edition</a>) or Pycharm with the <a href=https://github.com/go-lang-plugin-org/go-lang-idea-plugin>Go plugins</a> and very happy with this setup, the editor is providing some realtime linting but I was missing <code>gometalinter</code>.</p>
+<p>First install <code>gometalinter</code></p>
+<pre tabindex=0><code>go get -u github.com/alecthomas/gometalinter
 gometalinter --install --update
-</code></pre><p>To add support inside Jetbrains editors use the External tools feature.<br>In Preferences > Tools > External Tools, add a configuration.</p><p><img src=https://blog.nobugware.com/img/gometalinter.jpg alt="gometalinter setup for jetbrains" title="gometalinter setup for jetbrains"></p><p>Set the Program path to your <code>$GOPATH/bin/gometalinter</code><br>Parameters to <code>--deadline=15s --vendor $FileDir$</code><br>Working directory to <code>$ProjectFileDir$</code></p><p>For the linters messages to be clickable and jump to code add an Output filter with Regular expression to match output <code>$FILE_PATH$:$LINE$</code></p><p><img src=https://blog.nobugware.com/img/gometalinter2.jpg alt="gometalinter setup filter for jetbrains" title="gometalinter setup filter for jetbrains"></p></article><nav class="no-print post-nav"><a class=prev-post href=https://blog.nobugware.com/post/2016/geo_db_s2_region_polygon_optmization/><img class=icon-text src=https://blog.nobugware.com/img/prev.svg>A geo database for polygons, optimization</a>
-<a class=next-post href=https://blog.nobugware.com/post/2016/streaming_raspberry_twitch_audio_rtl_sdr/>Streaming using a Raspberry Pi Camera to Twitch in Full HD while injecting audio from rtl sdr<img class=icon-text src=https://blog.nobugware.com/img/next.svg></a></nav><hr class=sep></main><footer class="container no-print"><div class=u-footer><a href=https://github.com/akhenakh/><img class=icon-social src=https://blog.nobugware.com/img/github.svg alt=Github></a>
+</code></pre><p>To add support inside Jetbrains editors use the External tools feature.<br>
+In Preferences > Tools > External Tools, add a configuration.</p>
+<p><img src=https://blog.nobugware.com/img/gometalinter.jpg alt="gometalinter setup for jetbrains" title="gometalinter setup for jetbrains"></p>
+<p>Set the Program path to your <code>$GOPATH/bin/gometalinter</code><br>
+Parameters to <code>--deadline=15s --vendor $FileDir$</code><br>
+Working directory to <code>$ProjectFileDir$</code></p>
+<p>For the linters messages to be clickable and jump to code add an Output filter with Regular expression to match output <code>$FILE_PATH$:$LINE$</code></p>
+<p><img src=https://blog.nobugware.com/img/gometalinter2.jpg alt="gometalinter setup filter for jetbrains" title="gometalinter setup filter for jetbrains"></p>
+</article>
+<nav class="no-print post-nav">
+<a class=prev-post href=https://blog.nobugware.com/post/2016/geo_db_s2_region_polygon_optmization/>
+<img class=icon-text src=https://blog.nobugware.com/img/prev.svg>A geo database for polygons, optimization</a>
+<a class=next-post href=https://blog.nobugware.com/post/2016/streaming_raspberry_twitch_audio_rtl_sdr/>Streaming using a Raspberry Pi Camera to Twitch in Full HD while injecting audio from rtl sdr<img class=icon-text src=https://blog.nobugware.com/img/next.svg>
+</a>
+</nav>
+<hr class=sep>
+</main>
+<footer class="container no-print">
+<div class=u-footer>
+<a href=https://github.com/akhenakh/><img class=icon-social src=https://blog.nobugware.com/img/github.svg alt=Github></a>
 <a href=https://twitter.com/akhenakh><img class=icon-social src=https://blog.nobugware.com/img/twitter.svg alt=Twitter></a>
-<a href=https://blog.nobugware.com/index.xml target=_blank><img class=icon-social src=https://blog.nobugware.com/img/feed.svg alt=Feed></a><p>Theme used: <a href=https://github.com/yursan9/manis-hugo-theme>Manis</a><br></p><a href=#brand><img class=icon-text src=https://blog.nobugware.com/img/toup.svg alt="To Up">
-<span>Back to Up</span></a></div></footer><script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-1245966-1','auto');ga('send','pageview');</script></body></html>
+<a href=https://blog.nobugware.com/index.xml target=_blank><img class=icon-social src=https://blog.nobugware.com/img/feed.svg alt=Feed></a>
+<p>
+Theme used: <a href=https://github.com/yursan9/manis-hugo-theme>Manis</a><br>
+</p>
+<a href=#brand>
+<img class=icon-text src=https://blog.nobugware.com/img/toup.svg alt="To Up">
+<span>Back to Up</span>
+</a>
+</div>
+</footer>
+<script>(function(a,e,f,g,b,c,d){a.GoogleAnalyticsObject=b,a[b]=a[b]||function(){(a[b].q=a[b].q||[]).push(arguments)},a[b].l=1*new Date,c=e.createElement(f),d=e.getElementsByTagName(f)[0],c.async=1,c.src=g,d.parentNode.insertBefore(c,d)})(window,document,'script','//www.google-analytics.com/analytics.js','ga'),ga('create','UA-1245966-1','auto'),ga('send','pageview')</script>
+</body>
+</html>

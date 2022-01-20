@@ -1,33 +1,72 @@
-<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=generator content="Hugo 0.74.2"><title>Using Github Actions with Golangci-linter - Fabrice Aneche</title><meta name=description content="Use Github actions to start golangci-lint on every commits."><link rel=stylesheet href=https://blog.nobugware.com/css/ui.css><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway"></head><body><header class="container no-print"><div class=u-header><nav class=bar><ul><li><a href=https://blog.nobugware.com/><img class=icon-text src=https://blog.nobugware.com/img/prev.svg></a></li><li><a href=https://blog.nobugware.com/about>About</a></li><li><a href=https://blog.nobugware.com/post/>Post</a></li></ul></nav></div></header><main class=container><article><header><hgroup id=brand><h1>Using Github Actions with Golangci-linter</h1><h5><time datetime="2019-09-11 00:00:00 -0400 -0400">Sep 11, 2019</time>
-<span class=no-print>-
+<!doctype html><html lang=en>
+<head>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<meta name=generator content="Hugo 0.89.4">
+<title>Using Github Actions with Golangci-linter - Fabrice Aneche</title>
+<meta name=description content="Use Github actions to start golangci-lint on every commits.">
+<link rel=stylesheet href=https://blog.nobugware.com/css/ui.css>
+<link rel=stylesheet href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway">
+</head>
+<body>
+<header class="container no-print">
+<div class=u-header>
+<nav class=bar>
+<ul><li>
+<a href=https://blog.nobugware.com/>
+<img class=icon-text src=https://blog.nobugware.com/img/prev.svg>
+</a>
+</li><li><a href=https://blog.nobugware.com/about>About</a></li><li><a href=https://blog.nobugware.com/post/>Post</a></li></ul>
+</nav>
+</div>
+</header>
+<main class=container>
+<article>
+<header><hgroup id=brand>
+<h1>Using Github Actions with Golangci-linter</h1>
+<h5>
+<time datetime="2019-09-11 00:00:00 -0400 -0400">Sep 11, 2019</time>
+<span class=no-print>
+-
 <a href=https://blog.nobugware.com/tags/go>go</a>
 <a href=https://blog.nobugware.com/tags/github>github</a>
 <a href=https://blog.nobugware.com/tags/golang>golang</a>
-<span></h5></hgroup><hr class=sep></header><p>Github delivered a beta <a href=https://github.com/features/actions>Github Actions</a>, it&rsquo;s a worflow that can run almost anything related to your code, like a CI/CD.</p><p>Here is a workflow for Go 1.13 module projects and golangci-lint.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=color:#66d9ef>name</span>: golangci-lint
-<span style=color:#66d9ef>on</span>: [push]
-<span style=color:#66d9ef>jobs</span>:
+<span>
+</h5>
+</hgroup>
+<hr class=sep>
+</header>
+<p>Github delivered a beta <a href=https://github.com/features/actions>Github Actions</a>, it&rsquo;s a worflow that can run almost anything related to your code, like a CI/CD.</p>
+<p>Here is a workflow for Go 1.13 module projects and golangci-lint.</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=color:#f92672>name</span>: <span style=color:#ae81ff>golangci-lint</span>
+<span style=color:#f92672>on</span>: [<span style=color:#ae81ff>push]</span>
+<span style=color:#f92672>jobs</span>:
 
-  <span style=color:#66d9ef>build</span>:
-    <span style=color:#66d9ef>name</span>: Build
-    <span style=color:#66d9ef>runs-on</span>: ubuntu-latest
-    <span style=color:#66d9ef>steps</span>:
+  <span style=color:#f92672>build</span>:
+    <span style=color:#f92672>name</span>: <span style=color:#ae81ff>Build</span>
+    <span style=color:#f92672>runs-on</span>: <span style=color:#ae81ff>ubuntu-latest</span>
+    <span style=color:#f92672>steps</span>:
 
-    - <span style=color:#66d9ef>name</span>: Set up Go <span style=color:#ae81ff>1.13</span>
-      <span style=color:#66d9ef>uses</span>: actions/setup-go@v1
-      <span style=color:#66d9ef>with</span>:
-        <span style=color:#66d9ef>go-version</span>: <span style=color:#ae81ff>1.13</span>
-      <span style=color:#66d9ef>id</span>: go
+    - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>Set up Go 1.13</span>
+      <span style=color:#f92672>uses</span>: <span style=color:#ae81ff>actions/setup-go@v1</span>
+      <span style=color:#f92672>with</span>:
+        <span style=color:#f92672>go-version</span>: <span style=color:#ae81ff>1.13</span>
+      <span style=color:#f92672>id</span>: <span style=color:#ae81ff>go</span>
 
-    - <span style=color:#66d9ef>name</span>: Check out code into the Go module directory
-      <span style=color:#66d9ef>uses</span>: actions/checkout@v1
+    - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>Check out code into the Go module directory</span>
+      <span style=color:#f92672>uses</span>: <span style=color:#ae81ff>actions/checkout@v1</span>
 
-    - <span style=color:#66d9ef>name</span>: Install golangci-lint
-      <span style=color:#66d9ef>run</span>: curl -sfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh| sh -s -- -b $(go env GOPATH)/bin v1<span style=color:#ae81ff>.18.0</span>
+    - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>Install golangci-lint</span>
+      <span style=color:#f92672>run</span>: <span style=color:#ae81ff>curl -sfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh| sh -s -- -b $(go env GOPATH)/bin v1.18.0</span>
 
-    - <span style=color:#66d9ef>name</span>: Run golangci-lint
-      <span style=color:#66d9ef>run</span>: $(go env GOPATH)/bin/golangci-lint run
-</code></pre></div><p>This file should be placed in your repo under <code>.github/workflows/golangci-lint.yml</code> but the action web editor will do it for you.</p><p>And the usual badge you can put in your <code>README.md</code></p><pre><code>[![Lint Status](https://github.com/myusername/myrepo/workflows/golangci-lint/badge.svg)](https://github.com/myusername/myrepo/actions)
-</code></pre><p>Also remember you can tune <code>golangci-lint</code> by placing a file at the root of your repo like:</p><pre><code>run:
+    - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>Run golangci-lint</span>
+      <span style=color:#f92672>run</span>: <span style=color:#ae81ff>$(go env GOPATH)/bin/golangci-lint run</span>
+</code></pre></div><p>This file should be placed in your repo under <code>.github/workflows/golangci-lint.yml</code> but the action web editor will do it for you.</p>
+<p>And the usual badge you can put in your <code>README.md</code></p>
+<pre><code>[![Lint Status](https://github.com/myusername/myrepo/workflows/golangci-lint/badge.svg)](https://github.com/myusername/myrepo/actions)
+</code></pre>
+<p>Also remember you can tune <code>golangci-lint</code> by placing a file at the root of your repo like:</p>
+<pre><code>run:
  # default concurrency is a available CPU number
  concurrency: 4
 
@@ -50,8 +89,39 @@ linters:
    - unused
    - complexity
    - style
-</code></pre><p>Note: The worflow name part of the badge url is case sensitive ;)</p></article><nav class="no-print post-nav"><a class=prev-post href=https://blog.nobugware.com/post/2019/access-web-interface/><img class=icon-text src=https://blog.nobugware.com/img/prev.svg>Access Kubernetes Web Interfaces from the Outside</a>
-<a class=next-post href=https://blog.nobugware.com/post/2019/traefik-2-0-with-kubernetes/>Traefik 2.0 with Kubernetes<img class=icon-text src=https://blog.nobugware.com/img/next.svg></a></nav><section id=related><h4>See Also</h4><ul><li><a href=https://blog.nobugware.com/post/2018/wasm_go_s2_javascript/>Wasm with Go to build an S2 cover map viewer</a></li><li><a href=https://blog.nobugware.com/post/2016/grpc_envoy_nghttp2_load_balancing/>gRPC Envoy Nghttp2 and Load Balancing</a></li><li><a href=https://blog.nobugware.com/post/2015/metrics_golang_operating_system/>Access OS metrics from Golang</a></li></ul></section><hr class=sep></main><footer class="container no-print"><div class=u-footer><a href=https://github.com/akhenakh/><img class=icon-social src=https://blog.nobugware.com/img/github.svg alt=Github></a>
+</code></pre>
+<p>Note: The worflow name part of the badge url is case sensitive ;)</p>
+</article>
+<nav class="no-print post-nav">
+<a class=prev-post href=https://blog.nobugware.com/post/2019/access-web-interface/>
+<img class=icon-text src=https://blog.nobugware.com/img/prev.svg>Access Kubernetes Web Interfaces from the Outside</a>
+<a class=next-post href=https://blog.nobugware.com/post/2019/traefik-2-0-with-kubernetes/>Traefik 2.0 with Kubernetes<img class=icon-text src=https://blog.nobugware.com/img/next.svg>
+</a>
+</nav>
+<section id=related>
+<h4>See Also</h4>
+<ul>
+<li><a href=https://blog.nobugware.com/post/2018/wasm_go_s2_javascript/>Wasm with Go to build an S2 cover map viewer</a></li>
+<li><a href=https://blog.nobugware.com/post/2016/grpc_envoy_nghttp2_load_balancing/>gRPC Envoy Nghttp2 and Load Balancing</a></li>
+<li><a href=https://blog.nobugware.com/post/2015/metrics_golang_operating_system/>Access OS metrics from Golang</a></li>
+</ul>
+</section>
+<hr class=sep>
+</main>
+<footer class="container no-print">
+<div class=u-footer>
+<a href=https://github.com/akhenakh/><img class=icon-social src=https://blog.nobugware.com/img/github.svg alt=Github></a>
 <a href=https://twitter.com/akhenakh><img class=icon-social src=https://blog.nobugware.com/img/twitter.svg alt=Twitter></a>
-<a href=https://blog.nobugware.com/index.xml target=_blank><img class=icon-social src=https://blog.nobugware.com/img/feed.svg alt=Feed></a><p>Theme used: <a href=https://github.com/yursan9/manis-hugo-theme>Manis</a><br></p><a href=#brand><img class=icon-text src=https://blog.nobugware.com/img/toup.svg alt="To Up">
-<span>Back to Up</span></a></div></footer><script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-1245966-1','auto');ga('send','pageview');</script></body></html>
+<a href=https://blog.nobugware.com/index.xml target=_blank><img class=icon-social src=https://blog.nobugware.com/img/feed.svg alt=Feed></a>
+<p>
+Theme used: <a href=https://github.com/yursan9/manis-hugo-theme>Manis</a><br>
+</p>
+<a href=#brand>
+<img class=icon-text src=https://blog.nobugware.com/img/toup.svg alt="To Up">
+<span>Back to Up</span>
+</a>
+</div>
+</footer>
+<script>(function(a,e,f,g,b,c,d){a.GoogleAnalyticsObject=b,a[b]=a[b]||function(){(a[b].q=a[b].q||[]).push(arguments)},a[b].l=1*new Date,c=e.createElement(f),d=e.getElementsByTagName(f)[0],c.async=1,c.src=g,d.parentNode.insertBefore(c,d)})(window,document,'script','//www.google-analytics.com/analytics.js','ga'),ga('create','UA-1245966-1','auto'),ga('send','pageview')</script>
+</body>
+</html>

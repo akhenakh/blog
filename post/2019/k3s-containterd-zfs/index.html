@@ -1,26 +1,75 @@
-<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=generator content="Hugo 0.74.2"><title>k3s, containerd & ZFS - Fabrice Aneche</title><meta name=description content="To simplify distribution k3s does not ship with zfs support.
+<!doctype html><html lang=en>
+<head>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<meta name=generator content="Hugo 0.89.4">
+<title>k3s, containerd & ZFS - Fabrice Aneche</title>
+<meta name=description content="To simplify distribution k3s does not ship with zfs support.
 But can work with by relying on an existing containerd enabled zfs, here is how:
 Requierements Install cni-plugins and crictl
 Ensure your containerd includes the zfs plugins:
 ctr plugins ls ... io.containerd.snapshotter.v1 zfs linux/amd64 ok  Configuration Create the default containerd config file
 mkdir -p /etc/containerd/ containerd config default > /etc/containerd/config.toml  Change the snapshotter to &#34;zfs&#34;
- [plugins.&#34;io.containerd.grpc.v1.cri&#34;.containerd] snapshotter = &#34;zfs&#34;  And in my special Arch case also change the path to the cni binaries:"><link rel=stylesheet href=https://blog.nobugware.com/css/ui.css><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway"></head><body><header class="container no-print"><div class=u-header><nav class=bar><ul><li><a href=https://blog.nobugware.com/><img class=icon-text src=https://blog.nobugware.com/img/prev.svg></a></li><li><a href=https://blog.nobugware.com/about>About</a></li><li><a href=https://blog.nobugware.com/post/>Post</a></li></ul></nav></div></header><main class=container><article><header><hgroup id=brand><h1>k3s, containerd & ZFS</h1><h5><time datetime="2019-12-18 18:00:00 +0000 UTC">Dec 18, 2019</time>
-<span class=no-print>-
+ [plugins.&#34;io.containerd.grpc.v1.cri&#34;.containerd] snapshotter = &#34;zfs&#34;  And in my special Arch case also change the path to the cni binaries:">
+<link rel=stylesheet href=https://blog.nobugware.com/css/ui.css>
+<link rel=stylesheet href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway">
+</head>
+<body>
+<header class="container no-print">
+<div class=u-header>
+<nav class=bar>
+<ul><li>
+<a href=https://blog.nobugware.com/>
+<img class=icon-text src=https://blog.nobugware.com/img/prev.svg>
+</a>
+</li><li><a href=https://blog.nobugware.com/about>About</a></li><li><a href=https://blog.nobugware.com/post/>Post</a></li></ul>
+</nav>
+</div>
+</header>
+<main class=container>
+<article>
+<header><hgroup id=brand>
+<h1>k3s, containerd & ZFS</h1>
+<h5>
+<time datetime="2019-12-18 18:00:00 +0000 UTC">Dec 18, 2019</time>
+<span class=no-print>
+-
 <a href=https://blog.nobugware.com/tags/k3s>k3s</a>
 <a href=https://blog.nobugware.com/tags/kubernetes>kubernetes</a>
 <a href=https://blog.nobugware.com/tags/devops>devops</a>
 <a href=https://blog.nobugware.com/tags/zfs>zfs</a>
 <a href=https://blog.nobugware.com/tags/containerd>containerd</a>
-<span></h5></hgroup><hr class=sep></header><p>To simplify distribution k3s does not ship with zfs support.</p><p>But can work with by relying on an existing containerd enabled zfs, here is how:</p><h2 id=requierements>Requierements</h2><p>Install <code>cni-plugins</code> and <code>crictl</code></p><p>Ensure your containerd includes the zfs plugins:</p><pre><code>ctr plugins ls
+<span>
+</h5>
+</hgroup>
+<hr class=sep>
+</header>
+<p>To simplify distribution k3s does not ship with zfs support.</p>
+<p>But can work with by relying on an existing containerd enabled zfs, here is how:</p>
+<h2 id=requierements>Requierements</h2>
+<p>Install <code>cni-plugins</code> and <code>crictl</code></p>
+<p>Ensure your containerd includes the zfs plugins:</p>
+<pre><code>ctr plugins ls
 ...
 io.containerd.snapshotter.v1    zfs                   linux/amd64    ok
-</code></pre><h2 id=configuration>Configuration</h2><p>Create the default containerd config file</p><pre><code>mkdir -p /etc/containerd/
+</code></pre>
+<h2 id=configuration>Configuration</h2>
+<p>Create the default containerd config file</p>
+<pre><code>mkdir -p /etc/containerd/
 containerd config default &gt;   /etc/containerd/config.toml
-</code></pre><p>Change the <code>snapshotter</code> to <code>"zfs"</code></p><pre><code>  [plugins.&quot;io.containerd.grpc.v1.cri&quot;.containerd]                             snapshotter = &quot;zfs&quot;
-</code></pre><p>And in my special Arch case also change the path to the cni binaries:</p><pre><code>    [plugins.&quot;io.containerd.grpc.v1.cri&quot;.cni]
+</code></pre>
+<p>Change the <code>snapshotter</code> to <code>"zfs"</code></p>
+<pre><code>  [plugins.&quot;io.containerd.grpc.v1.cri&quot;.containerd]                             snapshotter = &quot;zfs&quot;
+</code></pre>
+<p>And in my special Arch case also change the path to the cni binaries:</p>
+<pre><code>    [plugins.&quot;io.containerd.grpc.v1.cri&quot;.cni]
       bin_dir = &quot;/usr/lib/cni&quot;
-</code></pre><p>Create a ZFS mount on this exact directory to be detected correctly</p><pre><code>zfs create -o mountpoint=/var/lib/containerd/io.containerd.snapshotter.v1.zfs zp00/containerd
-</code></pre><p>Add the file <code>/etc/cni/net.d/net.d/10-flannel.conflist</code></p><pre><code>{
+</code></pre>
+<p>Create a ZFS mount on this exact directory to be detected correctly</p>
+<pre><code>zfs create -o mountpoint=/var/lib/containerd/io.containerd.snapshotter.v1.zfs zp00/containerd
+</code></pre>
+<p>Add the file <code>/etc/cni/net.d/net.d/10-flannel.conflist</code></p>
+<pre><code>{
   &quot;name&quot;:&quot;cbr0&quot;,
   &quot;cniVersion&quot;:&quot;0.3.1&quot;,
   &quot;plugins&quot;:[
@@ -40,12 +89,48 @@ containerd config default &gt;   /etc/containerd/config.toml
     }
   ]
 }
-</code></pre><p>Edit <code>/etc/systemd/system/k3s.service.d/override.conf</code></p><pre><code>[Service]
+</code></pre>
+<p>Edit <code>/etc/systemd/system/k3s.service.d/override.conf</code></p>
+<pre><code>[Service]
 ExecStart=
 ExecStart=-/usr/bin/k3s server --container-runtime-endpoint /run/containerd/containerd.sock
-</code></pre><p>Add the local-path-provisioner for later use:</p><pre><code>zfs create -o mountpoint=/opt/local-path-provisioner zp00/local-path-provisioner
-</code></pre><p>Enable containerd and k3s autostart and you are all set .</p><p>EDIT: Stasting with v1.19.5+k3s2 add <code>--snapshotter native</code></p></article><nav class="no-print post-nav"><a class=prev-post href=https://blog.nobugware.com/post/2019/time_series_storage_for_coordinates/><img class=icon-text src=https://blog.nobugware.com/img/prev.svg>A Time Series Storage for Coordinates</a>
-<a class=next-post href=https://blog.nobugware.com/post/2020/free-maps-for-all/>Free Maps For All<img class=icon-text src=https://blog.nobugware.com/img/next.svg></a></nav><section id=related><h4>See Also</h4><ul><li><a href=https://blog.nobugware.com/post/2019/nomad_an_alternative_to_kubernetes/>Nomad an alternative to Kubernetes</a></li><li><a href=https://blog.nobugware.com/post/2019/advanced-traefik-2-0-with-kubernetes/>Advanced Traefik 2.0 with Kubernetes</a></li><li><a href=https://blog.nobugware.com/post/2019/google-kubernetes-engine-gcp/>Google Kubernetes Engine & GCP</a></li></ul></section><hr class=sep></main><footer class="container no-print"><div class=u-footer><a href=https://github.com/akhenakh/><img class=icon-social src=https://blog.nobugware.com/img/github.svg alt=Github></a>
+</code></pre>
+<p>Add the local-path-provisioner for later use:</p>
+<pre><code>zfs create -o mountpoint=/opt/local-path-provisioner zp00/local-path-provisioner
+</code></pre>
+<p>Enable containerd and k3s autostart and you are all set .</p>
+<p>EDIT: Stasting with v1.19.5+k3s2 add <code>--snapshotter native</code></p>
+</article>
+<nav class="no-print post-nav">
+<a class=prev-post href=https://blog.nobugware.com/post/2019/time_series_storage_for_coordinates/>
+<img class=icon-text src=https://blog.nobugware.com/img/prev.svg>A Time Series Storage for Coordinates</a>
+<a class=next-post href=https://blog.nobugware.com/post/2020/free-maps-for-all/>Free Maps For All<img class=icon-text src=https://blog.nobugware.com/img/next.svg>
+</a>
+</nav>
+<section id=related>
+<h4>See Also</h4>
+<ul>
+<li><a href=https://blog.nobugware.com/post/2019/nomad_an_alternative_to_kubernetes/>Nomad an alternative to Kubernetes</a></li>
+<li><a href=https://blog.nobugware.com/post/2019/advanced-traefik-2-0-with-kubernetes/>Advanced Traefik 2.0 with Kubernetes</a></li>
+<li><a href=https://blog.nobugware.com/post/2019/google-kubernetes-engine-gcp/>Google Kubernetes Engine & GCP</a></li>
+</ul>
+</section>
+<hr class=sep>
+</main>
+<footer class="container no-print">
+<div class=u-footer>
+<a href=https://github.com/akhenakh/><img class=icon-social src=https://blog.nobugware.com/img/github.svg alt=Github></a>
 <a href=https://twitter.com/akhenakh><img class=icon-social src=https://blog.nobugware.com/img/twitter.svg alt=Twitter></a>
-<a href=https://blog.nobugware.com/index.xml target=_blank><img class=icon-social src=https://blog.nobugware.com/img/feed.svg alt=Feed></a><p>Theme used: <a href=https://github.com/yursan9/manis-hugo-theme>Manis</a><br></p><a href=#brand><img class=icon-text src=https://blog.nobugware.com/img/toup.svg alt="To Up">
-<span>Back to Up</span></a></div></footer><script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-1245966-1','auto');ga('send','pageview');</script></body></html>
+<a href=https://blog.nobugware.com/index.xml target=_blank><img class=icon-social src=https://blog.nobugware.com/img/feed.svg alt=Feed></a>
+<p>
+Theme used: <a href=https://github.com/yursan9/manis-hugo-theme>Manis</a><br>
+</p>
+<a href=#brand>
+<img class=icon-text src=https://blog.nobugware.com/img/toup.svg alt="To Up">
+<span>Back to Up</span>
+</a>
+</div>
+</footer>
+<script>(function(a,e,f,g,b,c,d){a.GoogleAnalyticsObject=b,a[b]=a[b]||function(){(a[b].q=a[b].q||[]).push(arguments)},a[b].l=1*new Date,c=e.createElement(f),d=e.getElementsByTagName(f)[0],c.async=1,c.src=g,d.parentNode.insertBefore(c,d)})(window,document,'script','//www.google-analytics.com/analytics.js','ga'),ga('create','UA-1245966-1','auto'),ga('send','pageview')</script>
+</body>
+</html>

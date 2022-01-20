@@ -1,31 +1,100 @@
-<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=generator content="Hugo 0.74.2"><title>A better NSLog - Fabrice Aneche</title><meta name=description content="When debugging, I often found that NSLog is really boring, here is an attempt to make it nicer:
+<!doctype html><html lang=en>
+<head>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<meta name=generator content="Hugo 0.89.4">
+<title>A better NSLog - Fabrice Aneche</title>
+<meta name=description content="When debugging, I often found that NSLog is really boring, here is an attempt to make it nicer:
 `
 NSLog(@&#34;mycar: %@&#34;,myCar); NSLog(@&#34; I'M HERE &#34;);  `
 NSLog doesn&rsquo;t tell you where the call was made (which file or which method), so you end with a lot of:
  2009-03-11 22:30:53.789 ObjCTest[1565:10b] mycar: Porsche
     2009-03-11 22:30:53.791 ObjCTest[1565:10b] I&rsquo;M HERE
- A better NSLog could tell us:"><link rel=stylesheet href=https://blog.nobugware.com/css/ui.css><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway"></head><body><header class="container no-print"><div class=u-header><nav class=bar><ul><li><a href=https://blog.nobugware.com/><img class=icon-text src=https://blog.nobugware.com/img/prev.svg></a></li><li><a href=https://blog.nobugware.com/about>About</a></li><li><a href=https://blog.nobugware.com/post/>Post</a></li></ul></nav></div></header><main class=container><article><header><hgroup id=brand><h1>A better NSLog</h1><h5><time datetime="2009-03-11 22:44:11 -0400 -0400">Mar 11, 2009</time>
-<span class=no-print>-
+ A better NSLog could tell us:">
+<link rel=stylesheet href=https://blog.nobugware.com/css/ui.css>
+<link rel=stylesheet href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway">
+</head>
+<body>
+<header class="container no-print">
+<div class=u-header>
+<nav class=bar>
+<ul><li>
+<a href=https://blog.nobugware.com/>
+<img class=icon-text src=https://blog.nobugware.com/img/prev.svg>
+</a>
+</li><li><a href=https://blog.nobugware.com/about>About</a></li><li><a href=https://blog.nobugware.com/post/>Post</a></li></ul>
+</nav>
+</div>
+</header>
+<main class=container>
+<article>
+<header><hgroup id=brand>
+<h1>A better NSLog</h1>
+<h5>
+<time datetime="2009-03-11 22:44:11 -0400 -0400">Mar 11, 2009</time>
+<span class=no-print>
+-
 <a href=https://blog.nobugware.com/tags/cocoa>cocoa</a>
 <a href=https://blog.nobugware.com/tags/objectivec>objectivec</a>
-<span></h5></hgroup><hr class=sep></header><p>When debugging, I often found that NSLog is really boring, here is an attempt
-to make it nicer:</p><p>`</p><pre><code>NSLog(@&quot;mycar: %@&quot;,myCar);
+<span>
+</h5>
+</hgroup>
+<hr class=sep>
+</header>
+<p>When debugging, I often found that NSLog is really boring, here is an attempt
+to make it nicer:</p>
+<p>`</p>
+<pre><code>NSLog(@&quot;mycar: %@&quot;,myCar);
 NSLog(@&quot; I'M HERE &quot;);
-</code></pre><p>`</p><p>NSLog doesn&rsquo;t tell you where the call was made (which file or which method),
-so you end with a lot of:</p><blockquote><p>2009-03-11 22:30:53.789 ObjCTest[1565:10b] mycar: Porsche</p></blockquote><blockquote></blockquote><blockquote><p>2009-03-11 22:30:53.791 ObjCTest[1565:10b] I&rsquo;M HERE</p></blockquote><p>A better NSLog could tell us:</p><blockquote><p>2009-03-11 22:32:25.823 ObjCTest[1581:10b] <strong>Car.m:32 -[Car init]</strong> I&rsquo;M HERE
-AND I KNOW WHERE I AM</p></blockquote><p>Now we have the sourcefile, the linenumber and the method of the call !!</p><p>Another repeating action when debugging is just to look for the value of
-something (call the description method of an object)</p><p>`</p><pre><code>NSLog(myCar);
+</code></pre>
+<p>`</p>
+<p>NSLog doesn&rsquo;t tell you where the call was made (which file or which method),
+so you end with a lot of:</p>
+<blockquote>
+<p>2009-03-11 22:30:53.789 ObjCTest[1565:10b] mycar: Porsche</p>
+</blockquote>
+<blockquote>
+</blockquote>
+<blockquote>
+<p>2009-03-11 22:30:53.791 ObjCTest[1565:10b] I&rsquo;M HERE</p>
+</blockquote>
+<p>A better NSLog could tell us:</p>
+<blockquote>
+<p>2009-03-11 22:32:25.823 ObjCTest[1581:10b] <strong>Car.m:32 -[Car init]</strong> I&rsquo;M HERE
+AND I KNOW WHERE I AM</p>
+</blockquote>
+<p>Now we have the sourcefile, the linenumber and the method of the call !!</p>
+<p>Another repeating action when debugging is just to look for the value of
+something (call the description method of an object)</p>
+<p>`</p>
+<pre><code>NSLog(myCar);
 NSLog(@&quot;%@&quot;,myCar);
-</code></pre><p>`</p><p>That will produce:</p><blockquote><p>2009-03-11 22:38:22.707 ObjCTest[1625:10b] Porsche</p></blockquote><p>Not really sexy, no filename, no name for that value &mldr; a better answer could
-be:</p><blockquote><p>2009-03-11 22:38:22.708 ObjCTest[1625:10b] <strong>Car.m:35 -[Car init] [myCar
-description] =</strong> Porsche</p></blockquote><p>To enable this &ldquo;better&rdquo; NSLog, in the Source folder of your Xcode you will
-find a file named YOURAPPNAME_Prefix.pch add the following code</p><p>`</p><pre><code>#include &lt;libgen.h&gt;
+</code></pre>
+<p>`</p>
+<p>That will produce:</p>
+<blockquote>
+<p>2009-03-11 22:38:22.707 ObjCTest[1625:10b] Porsche</p>
+</blockquote>
+<p>Not really sexy, no filename, no name for that value &mldr; a better answer could
+be:</p>
+<blockquote>
+<p>2009-03-11 22:38:22.708 ObjCTest[1625:10b] <strong>Car.m:35 -[Car init] [myCar
+description] =</strong> Porsche</p>
+</blockquote>
+<p>To enable this &ldquo;better&rdquo; NSLog, in the Source folder of your Xcode you will
+find a file named YOURAPPNAME_Prefix.pch add the following code</p>
+<p>`</p>
+<pre><code>#include &lt;libgen.h&gt;
 #define ALog(format, ...) NSLog([NSString stringWithFormat:@&quot;%s:%d %s %@&quot;,basename(__FILE__),__LINE__,__FUNCTION__,format], ##__VA_ARGS__)
 #define ALogv(var) NSLog([NSString stringWithFormat:@&quot;%s:%d %s [&quot; # var &quot; description] = %@&quot;,basename(__FILE__),__LINE__,__FUNCTION__, var] )
-</code></pre><p>`</p><p>A much better solution is to associated it with a DEBUG define, and put
+</code></pre>
+<p>`</p>
+<p>A much better solution is to associated it with a DEBUG define, and put
 &lsquo;-DDEBUG=1&rsquo; it in &ldquo;Other C Flags&rdquo; in Xcode Debug configuration, [explained
 here](<a href=http://iphoneincubator.com/blog/debugging/how-to-create-conditional-log->http://iphoneincubator.com/blog/debugging/how-to-create-conditional-log-</a>
-statements-in-xcode), it will remove all calls to ALog when buit for release.</p><p>`</p><pre><code>#ifdef DEBUG
+statements-in-xcode), it will remove all calls to ALog when buit for release.</p>
+<p>`</p>
+<pre><code>#ifdef DEBUG
 #include &lt;libgen.h&gt;
 #define ALog(format, ...) NSLog([NSString stringWithFormat:@&quot;%s:%d %s %@&quot;,basename(__FILE__),__LINE__,__FUNCTION__,format], ##__VA_ARGS__)
 #define ALogv(var) NSLog([NSString stringWithFormat:@&quot;%s:%d %s [&quot; # var &quot; description] = %@&quot;,basename(__FILE__),__LINE__,__FUNCTION__, var] )
@@ -33,20 +102,36 @@ statements-in-xcode), it will remove all calls to ALog when buit for release.</p
 #define ALog(...) /* */
 #define ALogv(var) /* */
 #endif
-</code></pre><p>`</p><p>Then call ALog rather than NSLog and ALogv for the variable name and his
-value:</p><p>`</p><pre><code>  ALog(@&quot;mycar: %@&quot;, myCar);
+</code></pre>
+<p>`</p>
+<p>Then call ALog rather than NSLog and ALogv for the variable name and his
+value:</p>
+<p>`</p>
+<pre><code>  ALog(@&quot;mycar: %@&quot;, myCar);
   ALogv(myCar);
 
 2009-03-11 22:38:22.706 ObjCTest[1625:10b] Car.m:33 -[Car init] mycar: Porsche
 2009-03-11 22:38:22.708 ObjCTest[1625:10b] Car.m:35 -[Car init] [myCar description] = Porsche
-</code></pre><p>`</p><p>Feel free to change the name of this functions.</p><p>Bye Bye NSLog.</p><p>EDIT: here is the update version I&rsquo;m using</p><blockquote><p>2009-07-31 12:22:46.070 WheelOfFate[30351:20b]
+</code></pre>
+<p>`</p>
+<p>Feel free to change the name of this functions.</p>
+<p>Bye Bye NSLog.</p>
+<p>EDIT: here is the update version I&rsquo;m using</p>
+<blockquote>
+<p>2009-07-31 12:22:46.070 WheelOfFate[30351:20b]
 [WheelBrowserViewController.m:26 initWithStyle:] myWheelStorage=&lt;WheelStorage:
-0xd134a0></p></blockquote><p>What is this strange method ? In fact this is just
+0xd134a0></p>
+</blockquote>
+<p>What is this strange method ? In fact this is just
 [TheFileWhereTheMethodeWasCalled:TheLineNumberTheMethodWasCalled TheMethod],
 it sounds strange but it takes less space on debug console, warning sometimes
-where you define multiple class in same file it could fool you.</p><p>Why DLog instead of ALog ? Just run xcode and type dl you will see
-that there is no completion for DL letters &mldr;</p><p>What is this new ALogm method (Log Method) ? Sometimes you just need to
-display &ldquo;the application has gone here&rdquo; without any others informations.</p><p>`</p><pre><code>#ifdef DEBUG
+where you define multiple class in same file it could fool you.</p>
+<p>Why DLog instead of ALog ? Just run xcode and type dl you will see
+that there is no completion for DL letters &mldr;</p>
+<p>What is this new ALogm method (Log Method) ? Sometimes you just need to
+display &ldquo;the application has gone here&rdquo; without any others informations.</p>
+<p>`</p>
+<pre><code>#ifdef DEBUG
 #include &lt;libgen.h&gt;
 #define DLogm() NSLog([NSString stringWithFormat:@&quot;[%s:%d %@]&quot;,basename(__FILE__),__LINE__,NSStringFromSelector(_cmd)])
 #define DLog(format, ...) NSLog([NSString stringWithFormat:@&quot;[%s:%d %@] %@&quot;,basename(__FILE__),__LINE__,NSStringFromSelector(_cmd),format], ##__VA_ARGS__)
@@ -56,8 +141,38 @@ display &ldquo;the application has gone here&rdquo; without any others informati
 #define DLogv(var) /* */
 #define DLogm() /* */
 #endif
-</code></pre><p>`</p></article><nav class="no-print post-nav"><a class=prev-post href=https://blog.nobugware.com/post/2009/02/26/understanding-zfs-tuning/><img class=icon-text src=https://blog.nobugware.com/img/prev.svg>Understanding the ZFS tuning</a>
-<a class=next-post href=https://blog.nobugware.com/post/2009/05/01/mercurial-usefull-stuff/>mercurial usefull stuff<img class=icon-text src=https://blog.nobugware.com/img/next.svg></a></nav><section id=related><h4>See Also</h4><ul><li><a href=https://blog.nobugware.com/post/2008/12/22/nsthread-iphone-template/>NSThread iPhone Template</a></li><li><a href=https://blog.nobugware.com/post/2008/12/04/apprendre-coder-pour-liphone-avec-luniversite-de-stanford/>Apprendre à coder pour l'iphone avec l'universite de Stanford</a></li></ul></section><hr class=sep></main><footer class="container no-print"><div class=u-footer><a href=https://github.com/akhenakh/><img class=icon-social src=https://blog.nobugware.com/img/github.svg alt=Github></a>
+</code></pre>
+<p>`</p>
+</article>
+<nav class="no-print post-nav">
+<a class=prev-post href=https://blog.nobugware.com/post/2009/02/26/understanding-zfs-tuning/>
+<img class=icon-text src=https://blog.nobugware.com/img/prev.svg>Understanding the ZFS tuning</a>
+<a class=next-post href=https://blog.nobugware.com/post/2009/05/01/mercurial-usefull-stuff/>mercurial usefull stuff<img class=icon-text src=https://blog.nobugware.com/img/next.svg>
+</a>
+</nav>
+<section id=related>
+<h4>See Also</h4>
+<ul>
+<li><a href=https://blog.nobugware.com/post/2008/12/22/nsthread-iphone-template/>NSThread iPhone Template</a></li>
+<li><a href=https://blog.nobugware.com/post/2008/12/04/apprendre-coder-pour-liphone-avec-luniversite-de-stanford/>Apprendre à coder pour l'iphone avec l'universite de Stanford</a></li>
+</ul>
+</section>
+<hr class=sep>
+</main>
+<footer class="container no-print">
+<div class=u-footer>
+<a href=https://github.com/akhenakh/><img class=icon-social src=https://blog.nobugware.com/img/github.svg alt=Github></a>
 <a href=https://twitter.com/akhenakh><img class=icon-social src=https://blog.nobugware.com/img/twitter.svg alt=Twitter></a>
-<a href=https://blog.nobugware.com/index.xml target=_blank><img class=icon-social src=https://blog.nobugware.com/img/feed.svg alt=Feed></a><p>Theme used: <a href=https://github.com/yursan9/manis-hugo-theme>Manis</a><br></p><a href=#brand><img class=icon-text src=https://blog.nobugware.com/img/toup.svg alt="To Up">
-<span>Back to Up</span></a></div></footer><script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-1245966-1','auto');ga('send','pageview');</script></body></html>
+<a href=https://blog.nobugware.com/index.xml target=_blank><img class=icon-social src=https://blog.nobugware.com/img/feed.svg alt=Feed></a>
+<p>
+Theme used: <a href=https://github.com/yursan9/manis-hugo-theme>Manis</a><br>
+</p>
+<a href=#brand>
+<img class=icon-text src=https://blog.nobugware.com/img/toup.svg alt="To Up">
+<span>Back to Up</span>
+</a>
+</div>
+</footer>
+<script>(function(a,e,f,g,b,c,d){a.GoogleAnalyticsObject=b,a[b]=a[b]||function(){(a[b].q=a[b].q||[]).push(arguments)},a[b].l=1*new Date,c=e.createElement(f),d=e.getElementsByTagName(f)[0],c.async=1,c.src=g,d.parentNode.insertBefore(c,d)})(window,document,'script','//www.google-analytics.com/analytics.js','ga'),ga('create','UA-1245966-1','auto'),ga('send','pageview')</script>
+</body>
+</html>

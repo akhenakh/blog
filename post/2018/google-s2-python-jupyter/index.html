@@ -1,14 +1,53 @@
-<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=generator content="Hugo 0.74.2"><title>Google S2 with Python & Jupyter - Fabrice Aneche</title><meta name=description content="Google is working again on S2 a spatial library !!!
+<!doctype html><html lang=en>
+<head>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<meta name=generator content="Hugo 0.89.4">
+<title>Google S2 with Python & Jupyter - Fabrice Aneche</title>
+<meta name=description content="Google is working again on S2 a spatial library !!!
 And they even have created a website to communicate about it s2geometry.
 The C++ port contains a Python Swig interface.
 I&rsquo;ve been using an unofficial Python port with Jupyter for years now things are way more simpler.
 If you are on Arch I&rsquo;ve create a package, simply install AUR s2geometry-git
 First we want a clean Jupyter install from scratch:
-virtualenv3 ~/dev/venv3 source ~/dev/venv3/bin/activate pip install jupyter pip install cython pip install numpy pip install matplotlib scikit-learn scipy Shapely folium geojson Cartopy cp /usr/lib/python3."><link rel=stylesheet href=https://blog.nobugware.com/css/ui.css><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway"></head><body><header class="container no-print"><div class=u-header><nav class=bar><ul><li><a href=https://blog.nobugware.com/><img class=icon-text src=https://blog.nobugware.com/img/prev.svg></a></li><li><a href=https://blog.nobugware.com/about>About</a></li><li><a href=https://blog.nobugware.com/post/>Post</a></li></ul></nav></div></header><main class=container><article><header><hgroup id=brand><h1>Google S2 with Python & Jupyter</h1><h5><time datetime="2018-01-18 08:20:15 -0500 -0500">Jan 18, 2018</time>
-<span class=no-print>-
+virtualenv3 ~/dev/venv3 source ~/dev/venv3/bin/activate pip install jupyter pip install cython pip install numpy pip install matplotlib scikit-learn scipy Shapely folium geojson Cartopy cp /usr/lib/python3.">
+<link rel=stylesheet href=https://blog.nobugware.com/css/ui.css>
+<link rel=stylesheet href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway">
+</head>
+<body>
+<header class="container no-print">
+<div class=u-header>
+<nav class=bar>
+<ul><li>
+<a href=https://blog.nobugware.com/>
+<img class=icon-text src=https://blog.nobugware.com/img/prev.svg>
+</a>
+</li><li><a href=https://blog.nobugware.com/about>About</a></li><li><a href=https://blog.nobugware.com/post/>Post</a></li></ul>
+</nav>
+</div>
+</header>
+<main class=container>
+<article>
+<header><hgroup id=brand>
+<h1>Google S2 with Python & Jupyter</h1>
+<h5>
+<time datetime="2018-01-18 08:20:15 -0500 -0500">Jan 18, 2018</time>
+<span class=no-print>
+-
 <a href=https://blog.nobugware.com/tags/Geo>Geo</a>
 <a href=https://blog.nobugware.com/tags/Python>Python</a>
-<span></h5></hgroup><hr class=sep></header><p>Google is working again on <a href=https://blog.nobugware.com/post/2016/geo_db_s2_geohash_database/>S2 a spatial library</a> !!!</p><p>And they even have created a website to communicate about it <a href=https://s2geometry.io/>s2geometry</a>.</p><p>The C++ port contains a <a href=https://github.com/google/s2geometry/tree/master/src/python>Python Swig interface</a>.</p><p>I&rsquo;ve been using an unofficial Python port with Jupyter for years now things are way more simpler.</p><p>If you are on Arch I&rsquo;ve create a package, simply install <a href=https://aur.archlinux.org/packages/s2geometry-git>AUR s2geometry-git</a></p><p>First we want a clean Jupyter install from scratch:</p><pre><code>virtualenv3 ~/dev/venv3
+<span>
+</h5>
+</hgroup>
+<hr class=sep>
+</header>
+<p>Google is working again on <a href=https://blog.nobugware.com/post/2016/geo_db_s2_geohash_database/>S2 a spatial library</a> !!!</p>
+<p>And they even have created a website to communicate about it <a href=https://s2geometry.io/>s2geometry</a>.</p>
+<p>The C++ port contains a <a href=https://github.com/google/s2geometry/tree/master/src/python>Python Swig interface</a>.</p>
+<p>I&rsquo;ve been using an unofficial Python port with Jupyter for years now things are way more simpler.</p>
+<p>If you are on Arch I&rsquo;ve create a package, simply install <a href=https://aur.archlinux.org/packages/s2geometry-git>AUR s2geometry-git</a></p>
+<p>First we want a clean Jupyter install from scratch:</p>
+<pre tabindex=0><code>virtualenv3 ~/dev/venv3
 source ~/dev/venv3/bin/activate
 pip install jupyter
 pip install cython
@@ -16,8 +55,9 @@ pip install numpy
 pip install matplotlib scikit-learn scipy Shapely folium geojson Cartopy
 cp /usr/lib/python3.6/site-packages/_pywraps2.so $VIRTUAL_ENV/lib/python3.6/site-packages      
 cp /usr/lib/python3.6/site-packages/pywraps2.py $VIRTUAL_ENV/lib/python3.6/site-packages
-</code></pre><p>Here is a simple test map.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#f92672>import</span> folium
-<span style=color:#f92672>import</span> pywraps2 <span style=color:#f92672>as</span> s2
+</code></pre><p>Here is a simple test map.</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#f92672>import</span> folium
+<span style=color:#f92672>import</span> pywraps2 <span style=color:#66d9ef>as</span> s2
 
 <span style=color:#75715e># create a rect in s2</span>
 region_rect <span style=color:#f92672>=</span> s2<span style=color:#f92672>.</span>S2LatLngRect(
@@ -30,7 +70,7 @@ coverer<span style=color:#f92672>.</span>set_min_level(<span style=color:#ae81ff
 coverer<span style=color:#f92672>.</span>set_max_level(<span style=color:#ae81ff>30</span>)
 coverer<span style=color:#f92672>.</span>set_max_cells(<span style=color:#ae81ff>60</span>)
 covering <span style=color:#f92672>=</span> coverer<span style=color:#f92672>.</span>GetCovering(region_rect)
-<span style=color:#66d9ef>print</span>([c<span style=color:#f92672>.</span>ToToken() <span style=color:#66d9ef>for</span> c <span style=color:#f92672>in</span> covering])
+print([c<span style=color:#f92672>.</span>ToToken() <span style=color:#66d9ef>for</span> c <span style=color:#f92672>in</span> covering])
 
 <span style=color:#75715e># create a map</span>
 map_osm <span style=color:#f92672>=</span> folium<span style=color:#f92672>.</span>Map(location<span style=color:#f92672>=</span>[<span style=color:#ae81ff>48.86</span>, <span style=color:#ae81ff>2.3</span>],zoom_start<span style=color:#f92672>=</span><span style=color:#ae81ff>12</span>, tiles<span style=color:#f92672>=</span><span style=color:#e6db74>&#39;Stamen Toner&#39;</span>)
@@ -62,8 +102,37 @@ ls<span style=color:#f92672>.</span>add_children(folium<span style=color:#f92672
 ls<span style=color:#f92672>.</span>add_to(map_osm)
     
 map_osm
-</code></pre></div><p>And here is the resulting <a href=https://nbviewer.jupyter.org/gist/akhenakh/142ddeec4cd7138b517579b4f4b1063f/s2%20python.ipynb>Jupyter notebook</a></p></article><nav class="no-print post-nav"><a class=prev-post href=https://blog.nobugware.com/post/2017/hacking_temperature_radio_sensors_and_graphing_with_prometheus/><img class=icon-text src=https://blog.nobugware.com/img/prev.svg>Hacking Temperature Radio Sensors and Graphing with Prometheus</a>
-<a class=next-post href=https://blog.nobugware.com/post/2018/bitlbee_slack_hangouts_facebook_irc_gateway/>Bitlbee: Slack, Hangouts & Facebook via IRC gateway<img class=icon-text src=https://blog.nobugware.com/img/next.svg></a></nav><section id=related><h4>See Also</h4><ul><li><a href=https://blog.nobugware.com/post/2016/go_mobile_ios_real_usage/>Using Go mobile on iOS for real</a></li></ul></section><hr class=sep></main><footer class="container no-print"><div class=u-footer><a href=https://github.com/akhenakh/><img class=icon-social src=https://blog.nobugware.com/img/github.svg alt=Github></a>
+</code></pre></div>
+<p>And here is the resulting <a href=https://nbviewer.jupyter.org/gist/akhenakh/142ddeec4cd7138b517579b4f4b1063f/s2%20python.ipynb>Jupyter notebook</a></p>
+</article>
+<nav class="no-print post-nav">
+<a class=prev-post href=https://blog.nobugware.com/post/2017/hacking_temperature_radio_sensors_and_graphing_with_prometheus/>
+<img class=icon-text src=https://blog.nobugware.com/img/prev.svg>Hacking Temperature Radio Sensors and Graphing with Prometheus</a>
+<a class=next-post href=https://blog.nobugware.com/post/2018/bitlbee_slack_hangouts_facebook_irc_gateway/>Bitlbee: Slack, Hangouts & Facebook via IRC gateway<img class=icon-text src=https://blog.nobugware.com/img/next.svg>
+</a>
+</nav>
+<section id=related>
+<h4>See Also</h4>
+<ul>
+<li><a href=https://blog.nobugware.com/post/2016/go_mobile_ios_real_usage/>Using Go mobile on iOS for real</a></li>
+</ul>
+</section>
+<hr class=sep>
+</main>
+<footer class="container no-print">
+<div class=u-footer>
+<a href=https://github.com/akhenakh/><img class=icon-social src=https://blog.nobugware.com/img/github.svg alt=Github></a>
 <a href=https://twitter.com/akhenakh><img class=icon-social src=https://blog.nobugware.com/img/twitter.svg alt=Twitter></a>
-<a href=https://blog.nobugware.com/index.xml target=_blank><img class=icon-social src=https://blog.nobugware.com/img/feed.svg alt=Feed></a><p>Theme used: <a href=https://github.com/yursan9/manis-hugo-theme>Manis</a><br></p><a href=#brand><img class=icon-text src=https://blog.nobugware.com/img/toup.svg alt="To Up">
-<span>Back to Up</span></a></div></footer><script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-1245966-1','auto');ga('send','pageview');</script></body></html>
+<a href=https://blog.nobugware.com/index.xml target=_blank><img class=icon-social src=https://blog.nobugware.com/img/feed.svg alt=Feed></a>
+<p>
+Theme used: <a href=https://github.com/yursan9/manis-hugo-theme>Manis</a><br>
+</p>
+<a href=#brand>
+<img class=icon-text src=https://blog.nobugware.com/img/toup.svg alt="To Up">
+<span>Back to Up</span>
+</a>
+</div>
+</footer>
+<script>(function(a,e,f,g,b,c,d){a.GoogleAnalyticsObject=b,a[b]=a[b]||function(){(a[b].q=a[b].q||[]).push(arguments)},a[b].l=1*new Date,c=e.createElement(f),d=e.getElementsByTagName(f)[0],c.async=1,c.src=g,d.parentNode.insertBefore(c,d)})(window,document,'script','//www.google-analytics.com/analytics.js','ga'),ga('create','UA-1245966-1','auto'),ga('send','pageview')</script>
+</body>
+</html>

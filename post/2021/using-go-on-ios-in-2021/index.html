@@ -1,0 +1,182 @@
+<!doctype html><html lang=en>
+<head>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<meta name=generator content="Hugo 0.89.4">
+<title>Using Go on iOS in 2021 - Fabrice Aneche</title>
+<meta name=description content="I&rsquo;ve already posted about gomobile on this blog: &ldquo;Using gomobile for real&rdquo;.
+For a lot of people it seems crazy to run Go on iOS and Android for some others it&rsquo;s just routine, Zenly & Tailscale to name a few.
+Since I&rsquo;m reviving the idea for a geo database on iPhone here are some details.
+I&rsquo;ve started to port spatialite with the required dependencies to realize most of them were LGPL and incompatible with iOS distribution, so I went back to a simple solution using Go to display points on a map from a local database.">
+<link rel=stylesheet href=https://blog.nobugware.com/css/ui.css>
+<link rel=stylesheet href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway">
+</head>
+<body>
+<header class="container no-print">
+<div class=u-header>
+<nav class=bar>
+<ul><li>
+<a href=https://blog.nobugware.com/>
+<img class=icon-text src=https://blog.nobugware.com/img/prev.svg>
+</a>
+</li><li><a href=https://blog.nobugware.com/about>About</a></li><li><a href=https://blog.nobugware.com/post/>Post</a></li></ul>
+</nav>
+</div>
+</header>
+<main class=container>
+<article>
+<header><hgroup id=brand>
+<h1>Using Go on iOS in 2021</h1>
+<h5>
+<time datetime="2021-12-29 05:00:00 +0000 UTC">Dec 29, 2021</time>
+<span class=no-print>
+-
+<a href=https://blog.nobugware.com/tags/go>go</a>
+<a href=https://blog.nobugware.com/tags/ios>ios</a>
+<a href=https://blog.nobugware.com/tags/objc>objc</a>
+<span>
+</h5>
+</hgroup>
+<hr class=sep>
+</header>
+<p>I&rsquo;ve already posted about gomobile on this blog: <a href=https://blog.nobugware.com/post/2016/go_mobile_ios_real_usage/>&ldquo;Using gomobile for real&rdquo;</a>.</p>
+<p>For a lot of people it seems crazy to run Go on iOS and Android for some others it&rsquo;s just routine, <a href="https://www.youtube.com/watch?v=x6R9lIekirM">Zenly</a> & <a href=https://tailscale.com/blog/go-linker/>Tailscale</a> to name a few.</p>
+<p>Since I&rsquo;m reviving the idea for a geo database on iPhone here are some details.</p>
+<p>I&rsquo;ve started to port <a href=https://www.gaia-gis.it/fossil/libspatialite/index>spatialite</a> with the required dependencies to realize most of them were LGPL and incompatible with iOS distribution, so I went back to a simple solution using Go to display points on a map from a local database.</p>
+<h2 id=glue-code>Glue Code</h2>
+<p>I have a &ldquo;regular&rdquo; key value Geo aware database based on <a href=https://github.com/etcd-io/bbolt>bbolt</a> and <a href=https://s2geometry.io>s2</a>, because gomobile is <a href=https://pkg.go.dev/golang.org/x/mobile/cmd/gobind#hdr-Type_restrictions>limited to a subset of types</a>, we have to encapsulate it in another package that gomobile can handle.</p>
+<p>So for example my regular Go code is taking a bbolt db as parameter, but from the iOS point of view we just want to pass a path to open a new bbolt db:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#66d9ef>func</span> <span style=color:#a6e22e>NewGeoDB</span>(<span style=color:#a6e22e>db</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>bbolt</span>.<span style=color:#a6e22e>DB</span>) (<span style=color:#f92672>*</span><span style=color:#a6e22e>GeoDB</span>, <span style=color:#66d9ef>error</span>)
+</code></pre></div><p>Then in a package for gomobile we hide most of the work:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#66d9ef>type</span> <span style=color:#a6e22e>GeoDB</span> <span style=color:#66d9ef>struct</span> {
+	<span style=color:#a6e22e>idx</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>index</span>.<span style=color:#a6e22e>GeoDB</span>
+}
+
+<span style=color:#66d9ef>func</span> <span style=color:#a6e22e>Open</span>(<span style=color:#a6e22e>path</span> <span style=color:#66d9ef>string</span>) (<span style=color:#f92672>*</span><span style=color:#a6e22e>GeoDB</span>, <span style=color:#66d9ef>error</span>) 
+</code></pre></div><p>We hide the index package to iOS by encapsulating it.</p>
+<p>Getting data out of the database, because gomobile can&rsquo;t translate into Go slices we have to be creative <code>[]byte</code> is ok:</p>
+<p>In regular Go world:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#66d9ef>func</span> (<span style=color:#a6e22e>g</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>GeoDB</span>) <span style=color:#a6e22e>RectPointQuery</span>(<span style=color:#a6e22e>urlat</span>, <span style=color:#a6e22e>urlng</span>, <span style=color:#a6e22e>bllat</span>, <span style=color:#a6e22e>bllng</span> <span style=color:#66d9ef>float64</span>) []<span style=color:#a6e22e>PointKey</span>
+</code></pre></div><p>Then in gomobile, we call the same API but we rely on Protocol buffer (see later below) as pivot format, we will then read those entries back from iOS.</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#66d9ef>func</span> (<span style=color:#a6e22e>g</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>GeoDB</span>) <span style=color:#a6e22e>RectPointQueryPB</span>(<span style=color:#a6e22e>urlat</span>, <span style=color:#a6e22e>urlng</span>, <span style=color:#a6e22e>bllat</span>, <span style=color:#a6e22e>bllng</span> <span style=color:#66d9ef>float64</span>) ([]<span style=color:#66d9ef>byte</span>, <span style=color:#66d9ef>error</span>) {
+	<span style=color:#a6e22e>keys</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>g</span>.<span style=color:#a6e22e>idx</span>.<span style=color:#a6e22e>RectPointQuery</span>(<span style=color:#a6e22e>urlat</span>, <span style=color:#a6e22e>urlng</span>, <span style=color:#a6e22e>bllat</span>, <span style=color:#a6e22e>bllng</span>)
+    
+	<span style=color:#a6e22e>fc</span> <span style=color:#f92672>:=</span> <span style=color:#f92672>&amp;</span><span style=color:#a6e22e>FeatureCollection</span>{}
+
+	<span style=color:#a6e22e>fc</span>.<span style=color:#a6e22e>Features</span> = make([]<span style=color:#f92672>*</span><span style=color:#a6e22e>Feature</span>, len(<span style=color:#a6e22e>keys</span>))
+	<span style=color:#66d9ef>for</span> <span style=color:#a6e22e>i</span>, <span style=color:#a6e22e>key</span> <span style=color:#f92672>:=</span> <span style=color:#66d9ef>range</span> <span style=color:#a6e22e>keys</span> {
+		<span style=color:#a6e22e>lat</span>, <span style=color:#a6e22e>lng</span>, <span style=color:#a6e22e>mask</span>, <span style=color:#a6e22e>dataKey</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>index</span>.<span style=color:#a6e22e>PointKeySplit</span>(<span style=color:#a6e22e>key</span>)
+		<span style=color:#a6e22e>fc</span>.<span style=color:#a6e22e>Features</span>[<span style=color:#a6e22e>i</span>] = <span style=color:#f92672>&amp;</span><span style=color:#a6e22e>Feature</span>{
+			<span style=color:#a6e22e>Id</span>:   int64(<span style=color:#a6e22e>dataKey</span>),
+			<span style=color:#a6e22e>Mask</span>: <span style=color:#a6e22e>mask</span>,
+			<span style=color:#a6e22e>Geometry</span>: <span style=color:#f92672>&amp;</span><span style=color:#a6e22e>Geometry</span>{
+				<span style=color:#a6e22e>Type</span>:        <span style=color:#a6e22e>Geometry_POINT</span>,
+				<span style=color:#a6e22e>Coordinates</span>: []<span style=color:#66d9ef>float64</span>{<span style=color:#a6e22e>lng</span>, <span style=color:#a6e22e>lat</span>},
+			},
+		}
+	}
+
+	<span style=color:#66d9ef>return</span> <span style=color:#a6e22e>proto</span>.<span style=color:#a6e22e>Marshal</span>(<span style=color:#a6e22e>fc</span>)
+}
+</code></pre></div><p>Note that we are only using informations stored in the keys for listing the points, this is way faster than reading and decoding the values, the properties will be fetched later by a user event asking for details.</p>
+<p>To properly display the point by its &ldquo;kind&rdquo; (in this case tree breed), we are using a uint32 bitmask to store some informations in the key:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#75715e>// KeySet is used with the point mask
+</span><span style=color:#75715e></span><span style=color:#66d9ef>type</span> <span style=color:#a6e22e>KeySet</span> <span style=color:#66d9ef>uint32</span>
+
+<span style=color:#66d9ef>const</span> (
+	<span style=color:#a6e22e>KeySet1</span> <span style=color:#a6e22e>KeySet</span> = <span style=color:#ae81ff>1</span> <span style=color:#f92672>&lt;&lt;</span> <span style=color:#66d9ef>iota</span>
+    <span style=color:#f92672>...</span>
+</code></pre></div><p>The same mask on iOS:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-objc data-lang=objc>    <span style=color:#66d9ef>if</span> (self.mask <span style=color:#f92672>&amp;</span> KeySet2)
+    {
+        <span style=color:#66d9ef>return</span> NSLocalizedString(<span style=color:#e6db74>@&#34;PINE&#34;</span>, <span style=color:#e6db74>@&#34;Pine&#34;</span>);
+    }
+</code></pre></div><p>Rect query on iOS (sorry still using good old Objective-C for this project, but same applies for Swift also note the <a href=https://github.com/apple/swift-protobuf/>Swift protocol buffer implementation from Apple</a>) and read the entries back:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-objc data-lang=objc>- (NSArray<span style=color:#f92672>*</span>)<span style=color:#a6e22e>rectPointQueryPB:</span>(<span style=color:#66d9ef>double</span>)urlat <span style=color:#a6e22e>urlng:</span>(<span style=color:#66d9ef>double</span>)urlng <span style=color:#a6e22e>bllat:</span>(<span style=color:#66d9ef>double</span>)bllat <span style=color:#a6e22e>bllng:</span>(<span style=color:#66d9ef>double</span>)bllng <span style=color:#a6e22e>error:</span>(NSError <span style=color:#f92672>*</span>)error {
+    NSData <span style=color:#f92672>*</span>value <span style=color:#f92672>=</span> [_db rectPointQueryPB:urlat urlng:urlng bllat:bllat bllng:bllng error:<span style=color:#f92672>&amp;</span>error];
+   ...
+    NBFeatureCollection <span style=color:#f92672>*</span>fc <span style=color:#f92672>=</span> [[NBFeatureCollection alloc] initWithData:value error:<span style=color:#f92672>&amp;</span>error];
+   ...
+    
+    NSMutableArray <span style=color:#f92672>*</span>res <span style=color:#f92672>=</span> [NSMutableArray array];
+    <span style=color:#66d9ef>for</span> (NBFeature <span style=color:#f92672>*</span>f <span style=color:#66d9ef>in</span> fc.featuresArray) {
+        NBPoint <span style=color:#f92672>*</span>p <span style=color:#f92672>=</span> [[NBPoint alloc] init];
+        p.coordinate <span style=color:#f92672>=</span> CLLocationCoordinate2DMake([f.geometry.coordinatesArray valueAtIndex:<span style=color:#ae81ff>1</span>],[f.geometry.coordinatesArray valueAtIndex:<span style=color:#ae81ff>0</span>]);
+        p.pid <span style=color:#f92672>=</span> f.id_p;
+        p.mask <span style=color:#f92672>=</span> f.mask;
+        [res addObject:p];
+    }
+    
+    <span style=color:#66d9ef>return</span> res;
+}
+</code></pre></div><p><code>NBPoint</code> is an <code>@interface NBPoint : MKPointAnnotation</code> so we can pass it directly to an <code>MKMapView</code> as an annotation.</p>
+<p>Protocol buffer is more performant but requires you to describe your model in advance, CBOR is a good alternative when you have unstructured data since it can be treated like a JSON dict.<br>
+Here is the example used proto description:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-proto data-lang=proto><span style=color:#66d9ef>message</span> <span style=color:#a6e22e>Geometry</span> {<span style=color:#960050;background-color:#1e0010>
+</span><span style=color:#960050;background-color:#1e0010></span>    Type type <span style=color:#f92672>=</span> <span style=color:#ae81ff>1</span>;<span style=color:#960050;background-color:#1e0010>
+</span><span style=color:#960050;background-color:#1e0010>
+</span><span style=color:#960050;background-color:#1e0010></span>    <span style=color:#66d9ef>repeated</span> Geometry geometries <span style=color:#f92672>=</span> <span style=color:#ae81ff>2</span>;<span style=color:#960050;background-color:#1e0010>
+</span><span style=color:#960050;background-color:#1e0010>
+</span><span style=color:#960050;background-color:#1e0010></span>    <span style=color:#66d9ef>repeated</span> <span style=color:#66d9ef>double</span> coordinates <span style=color:#f92672>=</span> <span style=color:#ae81ff>3</span>;<span style=color:#960050;background-color:#1e0010>
+</span><span style=color:#960050;background-color:#1e0010>
+</span><span style=color:#960050;background-color:#1e0010></span>    <span style=color:#66d9ef>enum</span> Type {<span style=color:#960050;background-color:#1e0010>
+</span><span style=color:#960050;background-color:#1e0010></span>        POINT <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>;<span style=color:#960050;background-color:#1e0010>
+</span><span style=color:#960050;background-color:#1e0010></span>        POLYGON <span style=color:#f92672>=</span> <span style=color:#ae81ff>1</span>;<span style=color:#960050;background-color:#1e0010>
+</span><span style=color:#960050;background-color:#1e0010></span>        MULTIPOLYGON <span style=color:#f92672>=</span> <span style=color:#ae81ff>2</span>;<span style=color:#960050;background-color:#1e0010>
+</span><span style=color:#960050;background-color:#1e0010></span>        LINESTRING <span style=color:#f92672>=</span> <span style=color:#ae81ff>3</span>;<span style=color:#960050;background-color:#1e0010>
+</span><span style=color:#960050;background-color:#1e0010></span>    }<span style=color:#960050;background-color:#1e0010>
+</span><span style=color:#960050;background-color:#1e0010></span>}<span style=color:#960050;background-color:#1e0010>
+</span><span style=color:#960050;background-color:#1e0010>
+</span><span style=color:#960050;background-color:#1e0010></span><span style=color:#66d9ef>message</span> <span style=color:#a6e22e>Feature</span> {<span style=color:#960050;background-color:#1e0010>
+</span><span style=color:#960050;background-color:#1e0010></span>    <span style=color:#66d9ef>int64</span> id <span style=color:#f92672>=</span> <span style=color:#ae81ff>1</span>;<span style=color:#960050;background-color:#1e0010>
+</span><span style=color:#960050;background-color:#1e0010></span>    <span style=color:#960050;background-color:#1e0010>
+</span><span style=color:#960050;background-color:#1e0010></span>    <span style=color:#66d9ef>uint32</span> mask <span style=color:#f92672>=</span> <span style=color:#ae81ff>2</span>;<span style=color:#960050;background-color:#1e0010>
+</span><span style=color:#960050;background-color:#1e0010>
+</span><span style=color:#960050;background-color:#1e0010></span>    Geometry geometry <span style=color:#f92672>=</span> <span style=color:#ae81ff>3</span>;<span style=color:#960050;background-color:#1e0010>
+</span><span style=color:#960050;background-color:#1e0010>
+</span><span style=color:#960050;background-color:#1e0010></span>    map&lt;<span style=color:#66d9ef>string</span>, google.protobuf.Value&gt; properties <span style=color:#f92672>=</span> <span style=color:#ae81ff>4</span>;<span style=color:#960050;background-color:#1e0010>
+</span><span style=color:#960050;background-color:#1e0010></span>}<span style=color:#960050;background-color:#1e0010>
+</span><span style=color:#960050;background-color:#1e0010>
+</span><span style=color:#960050;background-color:#1e0010></span><span style=color:#66d9ef>message</span> <span style=color:#a6e22e>FeatureCollection</span> {<span style=color:#960050;background-color:#1e0010>
+</span><span style=color:#960050;background-color:#1e0010></span>    <span style=color:#66d9ef>repeated</span> Feature features <span style=color:#f92672>=</span> <span style=color:#ae81ff>1</span>;<span style=color:#960050;background-color:#1e0010>
+</span><span style=color:#960050;background-color:#1e0010></span>}<span style=color:#960050;background-color:#1e0010>
+</span></code></pre></div><h2 id=generating-xcframework>Generating xcframework</h2>
+<p>Since Apple transitioned to arm64 with the M1, they needed a new way to package framework to avoid collision with arm64 for the phones, for the M1 simulator and for the Mac itself (maccatalyst).<br>
+Gomobile <a href=https://go-review.googlesource.com/c/mobile/+/334689/>has been udpated recently</a> to switch to the new format:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>gomobile bind -target<span style=color:#f92672>=</span>ios,iossimulator,macos,maccatalyst -o DemoGeoDB/DemoGeoDB/Mobilegeodb.xcframework .	
+</code></pre></div><p>Resulting application:</p>
+<p><img src=https://blog.nobugware.com/img/simulpreviewtree.jpg alt></p>
+</article>
+<nav class="no-print post-nav">
+<a class=prev-post href=https://blog.nobugware.com/post/2020/c-bindings-in-go-and-swig/>
+<img class=icon-text src=https://blog.nobugware.com/img/prev.svg>C++ bindings in Go and Swig</a>
+<a class=next-post href=https://blog.nobugware.com/post/2021/tree-survey-using-machine-learning/>Tree Survey using Machine Learning<img class=icon-text src=https://blog.nobugware.com/img/next.svg>
+</a>
+</nav>
+<section id=related>
+<h4>See Also</h4>
+<ul>
+<li><a href=https://blog.nobugware.com/post/2020/c-bindings-in-go-and-swig/>C++ bindings in Go and Swig</a></li>
+<li><a href=https://blog.nobugware.com/post/2020/free-maps-for-all/>Free Maps For All</a></li>
+<li><a href=https://blog.nobugware.com/post/2019/time_series_storage_for_coordinates/>A Time Series Storage for Coordinates</a></li>
+</ul>
+</section>
+<hr class=sep>
+</main>
+<footer class="container no-print">
+<div class=u-footer>
+<a href=https://github.com/akhenakh/><img class=icon-social src=https://blog.nobugware.com/img/github.svg alt=Github></a>
+<a href=https://twitter.com/akhenakh><img class=icon-social src=https://blog.nobugware.com/img/twitter.svg alt=Twitter></a>
+<a href=https://blog.nobugware.com/index.xml target=_blank><img class=icon-social src=https://blog.nobugware.com/img/feed.svg alt=Feed></a>
+<p>
+Theme used: <a href=https://github.com/yursan9/manis-hugo-theme>Manis</a><br>
+</p>
+<a href=#brand>
+<img class=icon-text src=https://blog.nobugware.com/img/toup.svg alt="To Up">
+<span>Back to Up</span>
+</a>
+</div>
+</footer>
+<script>(function(a,e,f,g,b,c,d){a.GoogleAnalyticsObject=b,a[b]=a[b]||function(){(a[b].q=a[b].q||[]).push(arguments)},a[b].l=1*new Date,c=e.createElement(f),d=e.getElementsByTagName(f)[0],c.async=1,c.src=g,d.parentNode.insertBefore(c,d)})(window,document,'script','//www.google-analytics.com/analytics.js','ga'),ga('create','UA-1245966-1','auto'),ga('send','pageview')</script>
+</body>
+</html>

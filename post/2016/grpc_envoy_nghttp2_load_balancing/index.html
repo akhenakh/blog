@@ -1,12 +1,60 @@
-<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=generator content="Hugo 0.74.2"><title>gRPC Envoy Nghttp2 and Load Balancing - Fabrice Aneche</title><meta name=description content="How to load balance gRPC servers with Envoy or Nghttp2"><link rel=stylesheet href=https://blog.nobugware.com/css/ui.css><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway"></head><body><header class="container no-print"><div class=u-header><nav class=bar><ul><li><a href=https://blog.nobugware.com/><img class=icon-text src=https://blog.nobugware.com/img/prev.svg></a></li><li><a href=https://blog.nobugware.com/about>About</a></li><li><a href=https://blog.nobugware.com/post/>Post</a></li></ul></nav></div></header><main class=container><article><header><hgroup id=brand><h1>gRPC Envoy Nghttp2 and Load Balancing</h1><h5><time datetime="2016-09-20 17:40:04 -0400 -0400">Sep 20, 2016</time>
-<span class=no-print>-
+<!doctype html><html lang=en>
+<head>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<meta name=generator content="Hugo 0.89.4">
+<title>gRPC Envoy Nghttp2 and Load Balancing - Fabrice Aneche</title>
+<meta name=description content="How to load balance gRPC servers with Envoy or Nghttp2">
+<link rel=stylesheet href=https://blog.nobugware.com/css/ui.css>
+<link rel=stylesheet href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway">
+</head>
+<body>
+<header class="container no-print">
+<div class=u-header>
+<nav class=bar>
+<ul><li>
+<a href=https://blog.nobugware.com/>
+<img class=icon-text src=https://blog.nobugware.com/img/prev.svg>
+</a>
+</li><li><a href=https://blog.nobugware.com/about>About</a></li><li><a href=https://blog.nobugware.com/post/>Post</a></li></ul>
+</nav>
+</div>
+</header>
+<main class=container>
+<article>
+<header><hgroup id=brand>
+<h1>gRPC Envoy Nghttp2 and Load Balancing</h1>
+<h5>
+<time datetime="2016-09-20 17:40:04 -0400 -0400">Sep 20, 2016</time>
+<span class=no-print>
+-
 <a href=https://blog.nobugware.com/tags/grpc>grpc</a>
 <a href=https://blog.nobugware.com/tags/go>go</a>
-<span></h5></hgroup><hr class=sep></header><p>I&rsquo;ve been using <a href=http://www.grpc.io/>gRPC</a> at work and in several personal projects for months and happy with it, but when it comes to load balancing gRPC does not come with batteries included.</p><p>For a long time the only document was the <a href=https://github.com/grpc/grpc/commit/b31ec1e81c93d4c9bf30a4600096a6a6f5b90935>Load Balancing draft in the gRPC repo</a>, the clients should implement a Picker interface to know about the servers, so the pooling and controling the load were handled by the clients.<br>HTTP/2 was new and most of the reverse proxies implementations were not capable of load balancing gRPC HTTP2 frames, the only solution was to use a TCP load balancer, generating errors, improper and weird behaviours for the clients.</p><p>At least two projects are now supporting gRPC load balancing easily.</p><ul><li>The recently announced <a href=https://lyft.github.io/envoy/>Envoy</a> from Lyft</li><li>And nghttpx from <a href=https://www.nghttp2.org/>nghttp2</a></li></ul><p>Here are some notes to simply load balance two <a href=https://github.com/grpc/grpc-go/tree/master/examples/helloworld>gRPC Helloworld server!</a> running on ports 50050 & 50051.</p><ul><li>For nghttp2, a simple configuration file will do</li></ul><pre><code>frontend=*,8000;no-tls
+<span>
+</h5>
+</hgroup>
+<hr class=sep>
+</header>
+<p>I&rsquo;ve been using <a href=http://www.grpc.io/>gRPC</a> at work and in several personal projects for months and happy with it, but when it comes to load balancing gRPC does not come with batteries included.</p>
+<p>For a long time the only document was the <a href=https://github.com/grpc/grpc/commit/b31ec1e81c93d4c9bf30a4600096a6a6f5b90935>Load Balancing draft in the gRPC repo</a>, the clients should implement a Picker interface to know about the servers, so the pooling and controling the load were handled by the clients.<br>
+HTTP/2 was new and most of the reverse proxies implementations were not capable of load balancing gRPC HTTP2 frames, the only solution was to use a TCP load balancer, generating errors, improper and weird behaviours for the clients.</p>
+<p>At least two projects are now supporting gRPC load balancing easily.</p>
+<ul>
+<li>The recently announced <a href=https://lyft.github.io/envoy/>Envoy</a> from Lyft</li>
+<li>And nghttpx from <a href=https://www.nghttp2.org/>nghttp2</a></li>
+</ul>
+<p>Here are some notes to simply load balance two <a href=https://github.com/grpc/grpc-go/tree/master/examples/helloworld>gRPC Helloworld server!</a> running on ports 50050 & 50051.</p>
+<ul>
+<li>For nghttp2, a simple configuration file will do</li>
+</ul>
+<pre tabindex=0><code>frontend=*,8000;no-tls
 backend=localhost,50050;;no-tls;proto=h2;fall=2;rise=2
 backend=localhost,50051;;no-tls;proto=h2;fall=2;rise=2
 workers=8
-</code></pre><ul><li>For envoy, here is the cluster part</li></ul><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js>    <span style=color:#e6db74>&#34;clusters&#34;</span><span style=color:#f92672>:</span> [
+</code></pre><ul>
+<li>For envoy, here is the cluster part</li>
+</ul>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-js data-lang=js>    <span style=color:#e6db74>&#34;clusters&#34;</span><span style=color:#f92672>:</span> [
       {
         <span style=color:#e6db74>&#34;name&#34;</span><span style=color:#f92672>:</span> <span style=color:#e6db74>&#34;local_service&#34;</span>,
         <span style=color:#e6db74>&#34;connect_timeout_ms&#34;</span><span style=color:#f92672>:</span> <span style=color:#ae81ff>250</span>,
@@ -23,19 +71,45 @@ workers=8
         ]
       }
     ]
-</code></pre></div><p>You can then tweak the greeter_client to loop for requests, so you can simulate a client doing multiple requests while killing/restarting your servers.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#66d9ef>for</span> {  
+</code></pre></div><p>You can then tweak the greeter_client to loop for requests, so you can simulate a client doing multiple requests while killing/restarting your servers.</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#66d9ef>for</span> {  
     <span style=color:#a6e22e>r</span>, <span style=color:#a6e22e>err</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>c</span>.<span style=color:#a6e22e>SayHello</span>(<span style=color:#a6e22e>context</span>.<span style=color:#a6e22e>Background</span>(), <span style=color:#f92672>&amp;</span><span style=color:#a6e22e>pb</span>.<span style=color:#a6e22e>HelloRequest</span>{<span style=color:#a6e22e>Name</span>: <span style=color:#a6e22e>name</span>}) 
     <span style=color:#66d9ef>if</span> <span style=color:#a6e22e>err</span> <span style=color:#f92672>!=</span> <span style=color:#66d9ef>nil</span> { 
         <span style=color:#a6e22e>log</span>.<span style=color:#a6e22e>Printf</span>(<span style=color:#e6db74>&#34;could not greet: %v&#34;</span>, <span style=color:#a6e22e>err</span>)
     }
     <span style=color:#a6e22e>log</span>.<span style=color:#a6e22e>Printf</span>(<span style=color:#e6db74>&#34;Greeting: %s&#34;</span>, <span style=color:#a6e22e>r</span>.<span style=color:#a6e22e>Message</span>)
 }
-</code></pre></div><p>And modify the greeter_server to show on which port/server you get your response:</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#75715e>// SayHello implements helloworld.GreeterServer
+</code></pre></div><p>And modify the greeter_server to show on which port/server you get your response:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#75715e>// SayHello implements helloworld.GreeterServer
 </span><span style=color:#75715e></span><span style=color:#66d9ef>func</span> (<span style=color:#a6e22e>s</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>server</span>) <span style=color:#a6e22e>SayHello</span>(<span style=color:#a6e22e>ctx</span> <span style=color:#a6e22e>context</span>.<span style=color:#a6e22e>Context</span>, <span style=color:#a6e22e>in</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>pb</span>.<span style=color:#a6e22e>HelloRequest</span>) (<span style=color:#f92672>*</span><span style=color:#a6e22e>pb</span>.<span style=color:#a6e22e>HelloReply</span>, <span style=color:#66d9ef>error</span>) {
     <span style=color:#66d9ef>return</span> <span style=color:#f92672>&amp;</span><span style=color:#a6e22e>pb</span>.<span style=color:#a6e22e>HelloReply</span>{<span style=color:#a6e22e>Message</span>: <span style=color:#e6db74>&#34;Hello &#34;</span> <span style=color:#f92672>+</span> <span style=color:#a6e22e>in</span>.<span style=color:#a6e22e>Name</span> <span style=color:#f92672>+</span> <span style=color:#a6e22e>port</span>}, <span style=color:#66d9ef>nil</span> 
 }
-</code></pre></div><p>Those tests aren&rsquo;t enabling any TLS so use <code>grpc.WithInsecure()</code>.</p><p>Note that Envoy is also capable of <a href=https://lyft.github.io/envoy/docs/configuration/http_filters/grpc_http1_bridge_filter.html>bridging your HTTP/1.1 queries to gRPC</a>, which is a killer feature (I haven&rsquo;t tested it yet) , you would normally do it by code with <a href=https://github.com/grpc-ecosystem/grpc-gateway>gRPC-gateway</a>.</p><p>Envoy is really new and I&rsquo;m still digging into but already proves itself to be a <strong>complete load balancing proxy solution</strong> with or without gRPC in your stack.</p></article><nav class="no-print post-nav"><a class=prev-post href=https://blog.nobugware.com/post/2016/streaming_raspberry_twitch_audio_rtl_sdr/><img class=icon-text src=https://blog.nobugware.com/img/prev.svg>Streaming using a Raspberry Pi Camera to Twitch in Full HD while injecting audio from rtl sdr</a>
-<a class=next-post href=https://blog.nobugware.com/post/2016/go_mobile_ios_real_usage/>Using Go mobile on iOS for real<img class=icon-text src=https://blog.nobugware.com/img/next.svg></a></nav><hr class=sep></main><footer class="container no-print"><div class=u-footer><a href=https://github.com/akhenakh/><img class=icon-social src=https://blog.nobugware.com/img/github.svg alt=Github></a>
+</code></pre></div><p>Those tests aren&rsquo;t enabling any TLS so use <code>grpc.WithInsecure()</code>.</p>
+<p>Note that Envoy is also capable of <a href=https://lyft.github.io/envoy/docs/configuration/http_filters/grpc_http1_bridge_filter.html>bridging your HTTP/1.1 queries to gRPC</a>, which is a killer feature (I haven&rsquo;t tested it yet) , you would normally do it by code with <a href=https://github.com/grpc-ecosystem/grpc-gateway>gRPC-gateway</a>.</p>
+<p>Envoy is really new and I&rsquo;m still digging into but already proves itself to be a <strong>complete load balancing proxy solution</strong> with or without gRPC in your stack.</p>
+</article>
+<nav class="no-print post-nav">
+<a class=prev-post href=https://blog.nobugware.com/post/2016/streaming_raspberry_twitch_audio_rtl_sdr/>
+<img class=icon-text src=https://blog.nobugware.com/img/prev.svg>Streaming using a Raspberry Pi Camera to Twitch in Full HD while injecting audio from rtl sdr</a>
+<a class=next-post href=https://blog.nobugware.com/post/2016/go_mobile_ios_real_usage/>Using Go mobile on iOS for real<img class=icon-text src=https://blog.nobugware.com/img/next.svg>
+</a>
+</nav>
+<hr class=sep>
+</main>
+<footer class="container no-print">
+<div class=u-footer>
+<a href=https://github.com/akhenakh/><img class=icon-social src=https://blog.nobugware.com/img/github.svg alt=Github></a>
 <a href=https://twitter.com/akhenakh><img class=icon-social src=https://blog.nobugware.com/img/twitter.svg alt=Twitter></a>
-<a href=https://blog.nobugware.com/index.xml target=_blank><img class=icon-social src=https://blog.nobugware.com/img/feed.svg alt=Feed></a><p>Theme used: <a href=https://github.com/yursan9/manis-hugo-theme>Manis</a><br></p><a href=#brand><img class=icon-text src=https://blog.nobugware.com/img/toup.svg alt="To Up">
-<span>Back to Up</span></a></div></footer><script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-1245966-1','auto');ga('send','pageview');</script></body></html>
+<a href=https://blog.nobugware.com/index.xml target=_blank><img class=icon-social src=https://blog.nobugware.com/img/feed.svg alt=Feed></a>
+<p>
+Theme used: <a href=https://github.com/yursan9/manis-hugo-theme>Manis</a><br>
+</p>
+<a href=#brand>
+<img class=icon-text src=https://blog.nobugware.com/img/toup.svg alt="To Up">
+<span>Back to Up</span>
+</a>
+</div>
+</footer>
+<script>(function(a,e,f,g,b,c,d){a.GoogleAnalyticsObject=b,a[b]=a[b]||function(){(a[b].q=a[b].q||[]).push(arguments)},a[b].l=1*new Date,c=e.createElement(f),d=e.getElementsByTagName(f)[0],c.async=1,c.src=g,d.parentNode.insertBefore(c,d)})(window,document,'script','//www.google-analytics.com/analytics.js','ga'),ga('create','UA-1245966-1','auto'),ga('send','pageview')</script>
+</body>
+</html>

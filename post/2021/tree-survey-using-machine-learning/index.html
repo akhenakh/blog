@@ -1,0 +1,128 @@
+<!doctype html><html lang=en>
+<head>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<meta name=generator content="Hugo 0.89.4">
+<title>Tree Survey using Machine Learning - Fabrice Aneche</title>
+<meta name=description content="My buddy and I bought some lands (20ha/50acres) in the Quebec province.
+Creating a new problem It all started because as a new &ldquo;forest owner&rdquo;, I wanted to do a tree survey.
+There are some good mobile apps to recognize flowers and trees but nothing professionally graded I knew (except paying for human expert).
+I also needed a solution that would work offline since the mobile network coverage is not good on the field.">
+<link rel=stylesheet href=https://blog.nobugware.com/css/ui.css>
+<link rel=stylesheet href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway">
+</head>
+<body>
+<header class="container no-print">
+<div class=u-header>
+<nav class=bar>
+<ul><li>
+<a href=https://blog.nobugware.com/>
+<img class=icon-text src=https://blog.nobugware.com/img/prev.svg>
+</a>
+</li><li><a href=https://blog.nobugware.com/about>About</a></li><li><a href=https://blog.nobugware.com/post/>Post</a></li></ul>
+</nav>
+</div>
+</header>
+<main class=container>
+<article>
+<header><hgroup id=brand>
+<h1>Tree Survey using Machine Learning</h1>
+<h5>
+<time datetime="2021-12-29 13:00:00 +0000 UTC">Dec 29, 2021</time>
+<span class=no-print>
+-
+<a href=https://blog.nobugware.com/tags/Go>Go</a>
+<a href=https://blog.nobugware.com/tags/ML>ML</a>
+<a href=https://blog.nobugware.com/tags/Machine%20learning>Machine learning</a>
+<a href=https://blog.nobugware.com/tags/Tensorflow>Tensorflow</a>
+<a href=https://blog.nobugware.com/tags/CoreML>CoreML</a>
+<a href=https://blog.nobugware.com/tags/Geo>Geo</a>
+<span>
+</h5>
+</hgroup>
+<hr class=sep>
+</header>
+<p>My buddy and I bought some lands (20ha/50acres) in the Quebec province.</p>
+<h2 id=creating-a-new-problem>Creating a new problem</h2>
+<p>It all started because as a new &ldquo;forest owner&rdquo;, I wanted to do a tree survey.</p>
+<p><img src=https://blog.nobugware.com/img/forest.jpg alt></p>
+<p>There are some good mobile apps to recognize flowers and trees but nothing professionally graded I knew (except paying for human expert).<br>
+I also needed a solution that would work offline since the mobile network coverage is not good on the field.</p>
+<p>So I&rsquo;ve started to look for existing solutions into ML research for the very specific North-East American trees and found one!<br>
+<a href=https://arxiv.org/abs/1803.00949>Tree Species Identification from Bark Images Using Convolutional Neural Networks</a>.<br>
+They created and published a dataset named BarkNet, they also have a working model based on resnet34 and Pytorch.</p>
+<p>Disclaimer: I&rsquo;m a long-time software engineer but totally new to Machine Learning.</p>
+<p>Here is my journey to create a new model and target mobile iOS devices, hopefully performing as good if not better as the paper.</p>
+<p>Since they published the model, I was just hoping to reuse it by simply converting it to something suitable for <a href=https://developer.apple.com/machine-learning/core-ml/>CoreML</a>, but it was a dead end, the project was old (in terms of software) and I was unable to convert the existing model.</p>
+<p>My only hope was to train a new model myself which looked like an impossible mission for an ML novice.</p>
+<p>Apple provides some great tools, one being <a href=https://developer.apple.com/machine-learning/create-ml/>CreateML</a>, drag and drop your images and it can perform a classification for you.<br>
+Unfortunately with the number of images I had (around 800k) CreateML was crashing without completing the training. (It&rsquo;s a great tool though and you should give it a try.)</p>
+<h2 id=creating-some-tools>Creating some tools</h2>
+<p>So I turned into Tensorflow 2.x and Keras, since I&rsquo;m trying to recognize a texture pattern and not a specific shape in a picture I needed some tools to perform the tiling just once and not on every run, in order to have control over the tiled images I will submit to training and to reduce the whole processing time.</p>
+<p><img src=https://blog.nobugware.com/img/tileex.jpg alt>My main language is not Python anymore but Go (sorry Python still loving you), I needed a fast image processing library, I turneded into <a href=https://github.com/libvips/libvips>libvips</a> and the <a href=http://github.com/h2non/bimg>Go bindings for libvips bimg</a>.<br>
+It led me to create this small tool <a href=https://github.com/akhenakh/ml-image-tile>ml-image-tile</a> that took over all the process of pre tiling my images.<br>
+Since it&rsquo;s a &ldquo;texture&rdquo;, for the generation of the validation images we can simply randomly tile into the source images, an option I&rsquo;ve also added to this tool.</p>
+<p>I had mixed results (far from the ones announced in the paper) and had to read the original paper several times to finally get it, they mentioned removing 3 classes and some blurry images but they were still in the published dataset.</p>
+<p>The quality of the dataset was not really uniform and I did not wanted to review 23.000 pictures manually, I resorted to detecting the useless blurry images to remove the worst of them (blurry input is okay to a certain degree&mldr;).<br>
+To do that I turned to <a href=https://gocv.io/>OpenCV for Go</a> to perform Laplacian computations on the images and integrated it into my image tiler.</p>
+<p>For reference, they were using a 224x224 image input to target the resnet34 model, pretrained with imagenet, froze the first layer and fine-tuned the network.<br>
+Thanks fo the <a href=https://www.tensorflow.org/hub>Tensorflow ecosystem</a> It leads me to test for different models and tunings, I had great results with inceptionV3 and 299x299 inputs.</p>
+<p><img src=https://blog.nobugware.com/img/graphbark.jpg alt></p>
+<p>I did most of this work on my Macbook M1, which is a very capable machine, the I/Os are incredibly fast so when dealing with big datasets it performs very well.<br>
+Longer computations I did on a 64GB memory Linux server with a GTX1080 gpu and SSD storage.<br>
+On pure training the PC was 4 times faster than the Mac, but on data manipulations the Mac was sometimes faster.</p>
+<h2 id=coreml>CoreML</h2>
+<p>Apple got it very early, having a great and simple ML framework for mobiles will bring awesome applications to the platform.<br>
+The second you enter the Apple ML world with your model, you&rsquo;re almost done, previews, tests, code generation, it&rsquo;s all done for you.<br>
+But first you need to convert your model to coreml, it&rsquo;s still new and beta (in fact it was not correctly working on M1 the day before I wrote this post), but it&rsquo;s kind of working, <a href=https://coremltools.readme.io/docs>coremltools</a> a Python library to help you convert your model into a .mlmodel, drag this into XCode and voila you are done (almost)!</p>
+<p><img src=https://blog.nobugware.com/img/coreml.jpg alt title="ML in action recognizing a tree"><em>Over confident CoreML finding</em> <a href=https://en.wikipedia.org/wiki/Fraxinus_americana><em>Fraxinus americana</em></a></p>
+<h2 id=enhancing-the-dataset>Enhancing the Dataset</h2>
+<p>For the first dataset they needed to hire some experts to recognize the trees and label the data.<br>
+What if we could find an existing list of trees with labels?<br>
+Thanks to the Opendata movement those data are available in some cities, <a href=https://www.donneesquebec.ca/recherche/dataset/vque_26>I&rsquo;ve found 132.000 labeled trees in Quebec City</a> so I can walk around and take some pictures of new trees, (taking into account trees are probably growing differently in cities &mldr;).</p>
+<p><img src=https://blog.nobugware.com/img/screen-shot-2021-09-15-at-08-23-58.png alt title="Quebec trees Data"></p>
+<p>Let&rsquo;s create an App for that so I can find the trees around, I will need a local geo database for iOS, luckily for me I&rsquo;ve made some similar work, 5 years ago, <a href=https://blog.nobugware.com/post/2016/go_mobile_ios_real_usage/>using Go and gomobile</a> & <a href=https://blog.nobugware.com/post/2016/geo_db_s2_region_polygon/>a geodatabase</a> I did <a href=https://blog.nobugware.com/post/2021/using-go-on-ios-in-2021/>rewrite a specialized geo aware database</a>, in Go, based on <a href=https://github.com/etcd-io/bbolt>bbolt</a> and <a href=https://s2geometry.io>s2</a>.</p>
+<h2 id=creating-two-applications>Creating Two Applications</h2>
+<p>So all the pieces are connecting together, create an app to browse 130,000 trees without using a remote server.<br>
+Reuse the same database code, offer an app capable of recognizing trees in the field using ML, store it into a local geo aware database with GPS coordinates and measure the trunk size using LIDAR.</p>
+<p>Check my <a href=https://blog.nobugware.com/post/2021/using-go-on-ios-in-2021/>other blog post about creating the database using gomobile</a>.</p>
+<p><img src=https://blog.nobugware.com/img/simulpreviewtree.jpg alt></p>
+<p>Can my side project turn into a viable product?</p>
+<h2 id=conclusion>Conclusion</h2>
+<p>I&rsquo;ve worked with data scientists in the past, and it was all about the data.<br>
+Most of the time spent on this project was about cleaning and processing the data.</p>
+<p>The ML ecosystem is mature enough for a novice like me to get some results by reusing existing toolkits.</p>
+<p>The first time I took some pictures of real trees and sent them to the model and saw it perform&mldr; It&rsquo;s surreal, an experiment I wanted to share.</p>
+<p>Thanks to the original paper authors and all the reviewers of this post.</p>
+</article>
+<nav class="no-print post-nav">
+<a class=prev-post href=https://blog.nobugware.com/post/2021/using-go-on-ios-in-2021/>
+<img class=icon-text src=https://blog.nobugware.com/img/prev.svg>Using Go on iOS in 2021</a>
+</nav>
+<section id=related>
+<h4>See Also</h4>
+<ul>
+<li><a href=https://blog.nobugware.com/post/2018/my_own_car_system_raspberry_pi_offline_mapping_map_matching_places_part2/>My Own Car System, Rear Camera, Offline Maps & Routing, Map Matching with Go on Raspberry Pi part II</a></li>
+<li><a href=https://blog.nobugware.com/post/2018/my_own_car_system_raspberry_pi_offline_mapping/>My Own Car System, Rear Camera, Offline Maps & Routing on Raspberry Pi part I</a></li>
+<li><a href=https://blog.nobugware.com/post/2019/deploying-a-website-with-caddy-git-and-kubernetes/>Deploying a website with Caddy, Git and Kubernetes</a></li>
+</ul>
+</section>
+<hr class=sep>
+</main>
+<footer class="container no-print">
+<div class=u-footer>
+<a href=https://github.com/akhenakh/><img class=icon-social src=https://blog.nobugware.com/img/github.svg alt=Github></a>
+<a href=https://twitter.com/akhenakh><img class=icon-social src=https://blog.nobugware.com/img/twitter.svg alt=Twitter></a>
+<a href=https://blog.nobugware.com/index.xml target=_blank><img class=icon-social src=https://blog.nobugware.com/img/feed.svg alt=Feed></a>
+<p>
+Theme used: <a href=https://github.com/yursan9/manis-hugo-theme>Manis</a><br>
+</p>
+<a href=#brand>
+<img class=icon-text src=https://blog.nobugware.com/img/toup.svg alt="To Up">
+<span>Back to Up</span>
+</a>
+</div>
+</footer>
+<script>(function(a,e,f,g,b,c,d){a.GoogleAnalyticsObject=b,a[b]=a[b]||function(){(a[b].q=a[b].q||[]).push(arguments)},a[b].l=1*new Date,c=e.createElement(f),d=e.getElementsByTagName(f)[0],c.async=1,c.src=g,d.parentNode.insertBefore(c,d)})(window,document,'script','//www.google-analytics.com/analytics.js','ga'),ga('create','UA-1245966-1','auto'),ga('send','pageview')</script>
+</body>
+</html>

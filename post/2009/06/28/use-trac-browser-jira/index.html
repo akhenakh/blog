@@ -1,18 +1,82 @@
-<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=generator content="Hugo 0.74.2"><title>Use Trac source browser with Jira - Fabrice Aneche</title><meta name=description content="Jira is a nice product for issue tracking linked to a SCM repository, yes it&rsquo;s not free software but they provide a 5$ starter license for 5 users.
+<!doctype html><html lang=en>
+<head>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<meta name=generator content="Hugo 0.89.4">
+<title>Use Trac source browser with Jira - Fabrice Aneche</title>
+<meta name=description content="Jira is a nice product for issue tracking linked to a SCM repository, yes it&rsquo;s not free software but they provide a 5$ starter license for 5 users.
 But Jira lacks of a part that trac is doing very well, source browser, in facts Atlassian provides one: Fisheye but it&rsquo;s really expensive
-Simply go to your Jira Administration, on the left click on Subversion Repositories (this menu appears after the installation of the subversion&rsquo;s plugin)."><link rel=stylesheet href=https://blog.nobugware.com/css/ui.css><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway"></head><body><header class="container no-print"><div class=u-header><nav class=bar><ul><li><a href=https://blog.nobugware.com/><img class=icon-text src=https://blog.nobugware.com/img/prev.svg></a></li><li><a href=https://blog.nobugware.com/about>About</a></li><li><a href=https://blog.nobugware.com/post/>Post</a></li></ul></nav></div></header><main class=container><article><header><hgroup id=brand><h1>Use Trac source browser with Jira</h1><h5><time datetime="2009-06-28 12:46:35 -0400 -0400">Jun 28, 2009</time>
-<span class=no-print>-
+Simply go to your Jira Administration, on the left click on Subversion Repositories (this menu appears after the installation of the subversion&rsquo;s plugin).">
+<link rel=stylesheet href=https://blog.nobugware.com/css/ui.css>
+<link rel=stylesheet href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway">
+</head>
+<body>
+<header class="container no-print">
+<div class=u-header>
+<nav class=bar>
+<ul><li>
+<a href=https://blog.nobugware.com/>
+<img class=icon-text src=https://blog.nobugware.com/img/prev.svg>
+</a>
+</li><li><a href=https://blog.nobugware.com/about>About</a></li><li><a href=https://blog.nobugware.com/post/>Post</a></li></ul>
+</nav>
+</div>
+</header>
+<main class=container>
+<article>
+<header><hgroup id=brand>
+<h1>Use Trac source browser with Jira</h1>
+<h5>
+<time datetime="2009-06-28 12:46:35 -0400 -0400">Jun 28, 2009</time>
+<span class=no-print>
+-
 <a href=https://blog.nobugware.com/tags/jira>jira</a>
 <a href=https://blog.nobugware.com/tags/trac>trac</a>
-<span></h5></hgroup><hr class=sep></header><p>Jira is a nice product for issue tracking linked to a SCM repository, yes it&rsquo;s
-not free software but they provide a 5$ starter license for 5 users.</p><p>But Jira lacks of a part that <a href=http://trac.edgewall.org/>trac</a> is doing very
+<span>
+</h5>
+</hgroup>
+<hr class=sep>
+</header>
+<p>Jira is a nice product for issue tracking linked to a SCM repository, yes it&rsquo;s
+not free software but they provide a 5$ starter license for 5 users.</p>
+<p>But Jira lacks of a part that <a href=http://trac.edgewall.org/>trac</a> is doing very
 well, source browser, in facts Atlassian provides one:
 <a href=http://www.atlassian.com/software/fisheye/>Fisheye</a> but it&rsquo;s really
-expensive</p><p>Simply go to your Jira Administration, on the left click on Subversion
+expensive</p>
+<p>Simply go to your Jira Administration, on the left click on Subversion
 Repositories (this menu appears after the installation of the subversion&rsquo;s
-plugin).</p><p>Edit your SVN repository entry to match this:</p><p><strong>Changeset Format</strong>: https://yourhost/projects/myproject/changeset/${rev}<br><strong>File Added Format</strong>: https://yourhost/projects/myproject/browser/${path}?rev=${rev}<br><strong>File Modified Format</strong>: https://yourhost/projects/myproject/changeset/${rev}/${path}</p><p>myproject is just the base url of a trac project which is configured to work
-from the root of the SVN repository.</p><p>from trac.ini</p><p>repository_dir = /opt/data/svn/repos/</p></article><nav class="no-print post-nav"><a class=prev-post href=https://blog.nobugware.com/post/2009/05/01/mercurial-usefull-stuff/><img class=icon-text src=https://blog.nobugware.com/img/prev.svg>mercurial usefull stuff</a>
-<a class=next-post href=https://blog.nobugware.com/post/2009/07/28/ultimate-solaris-10-jumpstart-profile/>An ultimate solaris 10 jumpstart profile<img class=icon-text src=https://blog.nobugware.com/img/next.svg></a></nav><hr class=sep></main><footer class="container no-print"><div class=u-footer><a href=https://github.com/akhenakh/><img class=icon-social src=https://blog.nobugware.com/img/github.svg alt=Github></a>
+plugin).</p>
+<p>Edit your SVN repository entry to match this:</p>
+<p><strong>Changeset Format</strong>: https://yourhost/projects/myproject/changeset/${rev}<br>
+<strong>File Added Format</strong>: https://yourhost/projects/myproject/browser/${path}?rev=${rev}<br>
+<strong>File Modified Format</strong>: https://yourhost/projects/myproject/changeset/${rev}/${path}</p>
+<p>myproject is just the base url of a trac project which is configured to work
+from the root of the SVN repository.</p>
+<p>from trac.ini</p>
+<p>repository_dir = /opt/data/svn/repos/</p>
+</article>
+<nav class="no-print post-nav">
+<a class=prev-post href=https://blog.nobugware.com/post/2009/05/01/mercurial-usefull-stuff/>
+<img class=icon-text src=https://blog.nobugware.com/img/prev.svg>mercurial usefull stuff</a>
+<a class=next-post href=https://blog.nobugware.com/post/2009/07/28/ultimate-solaris-10-jumpstart-profile/>An ultimate solaris 10 jumpstart profile<img class=icon-text src=https://blog.nobugware.com/img/next.svg>
+</a>
+</nav>
+<hr class=sep>
+</main>
+<footer class="container no-print">
+<div class=u-footer>
+<a href=https://github.com/akhenakh/><img class=icon-social src=https://blog.nobugware.com/img/github.svg alt=Github></a>
 <a href=https://twitter.com/akhenakh><img class=icon-social src=https://blog.nobugware.com/img/twitter.svg alt=Twitter></a>
-<a href=https://blog.nobugware.com/index.xml target=_blank><img class=icon-social src=https://blog.nobugware.com/img/feed.svg alt=Feed></a><p>Theme used: <a href=https://github.com/yursan9/manis-hugo-theme>Manis</a><br></p><a href=#brand><img class=icon-text src=https://blog.nobugware.com/img/toup.svg alt="To Up">
-<span>Back to Up</span></a></div></footer><script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-1245966-1','auto');ga('send','pageview');</script></body></html>
+<a href=https://blog.nobugware.com/index.xml target=_blank><img class=icon-social src=https://blog.nobugware.com/img/feed.svg alt=Feed></a>
+<p>
+Theme used: <a href=https://github.com/yursan9/manis-hugo-theme>Manis</a><br>
+</p>
+<a href=#brand>
+<img class=icon-text src=https://blog.nobugware.com/img/toup.svg alt="To Up">
+<span>Back to Up</span>
+</a>
+</div>
+</footer>
+<script>(function(a,e,f,g,b,c,d){a.GoogleAnalyticsObject=b,a[b]=a[b]||function(){(a[b].q=a[b].q||[]).push(arguments)},a[b].l=1*new Date,c=e.createElement(f),d=e.getElementsByTagName(f)[0],c.async=1,c.src=g,d.parentNode.insertBefore(c,d)})(window,document,'script','//www.google-analytics.com/analytics.js','ga'),ga('create','UA-1245966-1','auto'),ga('send','pageview')</script>
+</body>
+</html>

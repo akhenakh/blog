@@ -1,13 +1,48 @@
-<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=generator content="Hugo 0.74.2"><title>FreeBSD 9.0 ZFS root on OVH - Fabrice Aneche</title><meta name=description content="I had so much pain to make it work so here is how to have a ZFS root with a raidz pool on 5 disks, specially with OVH without any console or kvm to debug the boot process.
+<!doctype html><html lang=en>
+<head>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<meta name=generator content="Hugo 0.89.4">
+<title>FreeBSD 9.0 ZFS root on OVH - Fabrice Aneche</title>
+<meta name=description content="I had so much pain to make it work so here is how to have a ZFS root with a raidz pool on 5 disks, specially with OVH without any console or kvm to debug the boot process.
 The server has 5 disks that I put in raidz and boot on it, but this should apply to most installation.
-gpart destroy -F ada0 gpart destroy -F ada1 gpart destroy -F ada2 gpart destroy -F ada3 gpart destroy -F ada4 gpart create -s gpt ada0 gpart create -s gpt ada1 gpart create -s gpt ada2 gpart create -s gpt ada3 gpart create -s gpt ada4 gpart add -b 34 -s 64k -t freebsd-boot ada0 gpart add -b 34 -s 64k -t freebsd-boot ada1 gpart add -b 34 -s 64k -t freebsd-boot ada2 gpart add -b 34 -s 64k -t freebsd-boot ada3 gpart add -b 34 -s 64k -t freebsd-boot ada4 # if you are very low on ram use a real partition for swap otherwise don't gpart add -s 4G -t freebsd-swap -l swap0 ada0 gpart add -s 4G -t freebsd-swap -l swap1 ada1 gpart add -s 4G -t freebsd-swap -l swap2 ada2 gpart add -s 4G -t freebsd-swap -l swap3 ada3 gpart add -s 4G -t freebsd-swap -l swap4 ada4 gpart add -t freebsd-zfs -l disk0 ada0 gpart add -t freebsd-zfs -l disk1 ada1 gpart add -t freebsd-zfs -l disk2 ada2 gpart add -t freebsd-zfs -l disk3 ada3 gpart add -t freebsd-zfs -l disk4 ada4 gpart bootcode -b /boot/pmbr -p /boot/gptzfsboot -i 1 ada0 gpart bootcode -b /boot/pmbr -p /boot/gptzfsboot -i 1 ada1 gpart bootcode -b /boot/pmbr -p /boot/gptzfsboot -i 1 ada2 gpart bootcode -b /boot/pmbr -p /boot/gptzfsboot -i 1 ada3 gpart bootcode -b /boot/pmbr -p /boot/gptzfsboot -i 1 ada4 zpool create -o cachefile=/boot/zfs/zpool."><link rel=stylesheet href=https://blog.nobugware.com/css/ui.css><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway"></head><body><header class="container no-print"><div class=u-header><nav class=bar><ul><li><a href=https://blog.nobugware.com/><img class=icon-text src=https://blog.nobugware.com/img/prev.svg></a></li><li><a href=https://blog.nobugware.com/about>About</a></li><li><a href=https://blog.nobugware.com/post/>Post</a></li></ul></nav></div></header><main class=container><article><header><hgroup id=brand><h1>FreeBSD 9.0 ZFS root on OVH</h1><h5><time datetime="2012-02-07 15:05:48 -0400 -0400">Feb 07, 2012</time>
-<span class=no-print>-
+gpart destroy -F ada0 gpart destroy -F ada1 gpart destroy -F ada2 gpart destroy -F ada3 gpart destroy -F ada4 gpart create -s gpt ada0 gpart create -s gpt ada1 gpart create -s gpt ada2 gpart create -s gpt ada3 gpart create -s gpt ada4 gpart add -b 34 -s 64k -t freebsd-boot ada0 gpart add -b 34 -s 64k -t freebsd-boot ada1 gpart add -b 34 -s 64k -t freebsd-boot ada2 gpart add -b 34 -s 64k -t freebsd-boot ada3 gpart add -b 34 -s 64k -t freebsd-boot ada4 # if you are very low on ram use a real partition for swap otherwise don't gpart add -s 4G -t freebsd-swap -l swap0 ada0 gpart add -s 4G -t freebsd-swap -l swap1 ada1 gpart add -s 4G -t freebsd-swap -l swap2 ada2 gpart add -s 4G -t freebsd-swap -l swap3 ada3 gpart add -s 4G -t freebsd-swap -l swap4 ada4 gpart add -t freebsd-zfs -l disk0 ada0 gpart add -t freebsd-zfs -l disk1 ada1 gpart add -t freebsd-zfs -l disk2 ada2 gpart add -t freebsd-zfs -l disk3 ada3 gpart add -t freebsd-zfs -l disk4 ada4 gpart bootcode -b /boot/pmbr -p /boot/gptzfsboot -i 1 ada0 gpart bootcode -b /boot/pmbr -p /boot/gptzfsboot -i 1 ada1 gpart bootcode -b /boot/pmbr -p /boot/gptzfsboot -i 1 ada2 gpart bootcode -b /boot/pmbr -p /boot/gptzfsboot -i 1 ada3 gpart bootcode -b /boot/pmbr -p /boot/gptzfsboot -i 1 ada4 zpool create -o cachefile=/boot/zfs/zpool.">
+<link rel=stylesheet href=https://blog.nobugware.com/css/ui.css>
+<link rel=stylesheet href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway">
+</head>
+<body>
+<header class="container no-print">
+<div class=u-header>
+<nav class=bar>
+<ul><li>
+<a href=https://blog.nobugware.com/>
+<img class=icon-text src=https://blog.nobugware.com/img/prev.svg>
+</a>
+</li><li><a href=https://blog.nobugware.com/about>About</a></li><li><a href=https://blog.nobugware.com/post/>Post</a></li></ul>
+</nav>
+</div>
+</header>
+<main class=container>
+<article>
+<header><hgroup id=brand>
+<h1>FreeBSD 9.0 ZFS root on OVH</h1>
+<h5>
+<time datetime="2012-02-07 15:05:48 -0400 -0400">Feb 07, 2012</time>
+<span class=no-print>
+-
 <a href=https://blog.nobugware.com/tags/zfs>zfs</a>
 <a href=https://blog.nobugware.com/tags/freebsd>freebsd</a>
-<span></h5></hgroup><hr class=sep></header><p>I had so much pain to make it work so here is how to have a ZFS root with a
+<span>
+</h5>
+</hgroup>
+<hr class=sep>
+</header>
+<p>I had so much pain to make it work so here is how to have a ZFS root with a
 raidz pool on 5 disks, specially with OVH without any console or kvm to debug
-the boot process.</p><p>The server has 5 disks that I put in raidz and boot on it, but this should
-apply to most installation.</p><pre><code>gpart destroy -F ada0
+the boot process.</p>
+<p>The server has 5 disks that I put in raidz and boot on it, but this should
+apply to most installation.</p>
+<pre><code>gpart destroy -F ada0
 gpart destroy -F ada1
 gpart destroy -F ada2
 gpart destroy -F ada3
@@ -104,11 +139,42 @@ touch /tmp/mntzfs/etc/fstab
 # or add the swap if you use real partition 
 cd /   
 zfs umount -a
-</code></pre><p>EDIT: as mentioned here do not put the swap in the zpool if you are low on ram
+</code></pre>
+<p>EDIT: as mentioned here do not put the swap in the zpool if you are low on ram
 or unstability will occur. [http://lists.freebsd.org/pipermail/freebsd-
 current/2007-September/076831.html](<a href=http://lists.freebsd.org/pipermail>http://lists.freebsd.org/pipermail</a>
-/freebsd-current/2007-September/076831.html)</p></article><nav class="no-print post-nav"><a class=prev-post href=https://blog.nobugware.com/post/2012/01/05/compile-and-run-xv6-mac-os-x-6828/><img class=icon-text src=https://blog.nobugware.com/img/prev.svg>compile and run xv6 on Mac Os X 6.828</a>
-<a class=next-post href=https://blog.nobugware.com/post/2012/02/28/freebsd-vimage-jails/>FreeBSD vimage jails<img class=icon-text src=https://blog.nobugware.com/img/next.svg></a></nav><section id=related><h4>See Also</h4><ul><li><a href=https://blog.nobugware.com/post/2011/10/14/install-freebsd-90-zfs-root/>Install FreeBSD 9.0 with ZFS root</a></li><li><a href=https://blog.nobugware.com/post/2011/03/31/freebsd-zfs/>(Re)Discovering FreeBSD and ZFS</a></li><li><a href=https://blog.nobugware.com/post/2011/10/14/freebsd-90-guest-virtio-support-in-kvm/>FreeBSD 9.0 guest with virtio support in KVM</a></li></ul></section><hr class=sep></main><footer class="container no-print"><div class=u-footer><a href=https://github.com/akhenakh/><img class=icon-social src=https://blog.nobugware.com/img/github.svg alt=Github></a>
+/freebsd-current/2007-September/076831.html)</p>
+</article>
+<nav class="no-print post-nav">
+<a class=prev-post href=https://blog.nobugware.com/post/2012/01/05/compile-and-run-xv6-mac-os-x-6828/>
+<img class=icon-text src=https://blog.nobugware.com/img/prev.svg>compile and run xv6 on Mac Os X 6.828</a>
+<a class=next-post href=https://blog.nobugware.com/post/2012/02/28/freebsd-vimage-jails/>FreeBSD vimage jails<img class=icon-text src=https://blog.nobugware.com/img/next.svg>
+</a>
+</nav>
+<section id=related>
+<h4>See Also</h4>
+<ul>
+<li><a href=https://blog.nobugware.com/post/2011/10/14/install-freebsd-90-zfs-root/>Install FreeBSD 9.0 with ZFS root</a></li>
+<li><a href=https://blog.nobugware.com/post/2011/03/31/freebsd-zfs/>(Re)Discovering FreeBSD and ZFS</a></li>
+<li><a href=https://blog.nobugware.com/post/2011/10/14/freebsd-90-guest-virtio-support-in-kvm/>FreeBSD 9.0 guest with virtio support in KVM</a></li>
+</ul>
+</section>
+<hr class=sep>
+</main>
+<footer class="container no-print">
+<div class=u-footer>
+<a href=https://github.com/akhenakh/><img class=icon-social src=https://blog.nobugware.com/img/github.svg alt=Github></a>
 <a href=https://twitter.com/akhenakh><img class=icon-social src=https://blog.nobugware.com/img/twitter.svg alt=Twitter></a>
-<a href=https://blog.nobugware.com/index.xml target=_blank><img class=icon-social src=https://blog.nobugware.com/img/feed.svg alt=Feed></a><p>Theme used: <a href=https://github.com/yursan9/manis-hugo-theme>Manis</a><br></p><a href=#brand><img class=icon-text src=https://blog.nobugware.com/img/toup.svg alt="To Up">
-<span>Back to Up</span></a></div></footer><script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-1245966-1','auto');ga('send','pageview');</script></body></html>
+<a href=https://blog.nobugware.com/index.xml target=_blank><img class=icon-social src=https://blog.nobugware.com/img/feed.svg alt=Feed></a>
+<p>
+Theme used: <a href=https://github.com/yursan9/manis-hugo-theme>Manis</a><br>
+</p>
+<a href=#brand>
+<img class=icon-text src=https://blog.nobugware.com/img/toup.svg alt="To Up">
+<span>Back to Up</span>
+</a>
+</div>
+</footer>
+<script>(function(a,e,f,g,b,c,d){a.GoogleAnalyticsObject=b,a[b]=a[b]||function(){(a[b].q=a[b].q||[]).push(arguments)},a[b].l=1*new Date,c=e.createElement(f),d=e.getElementsByTagName(f)[0],c.async=1,c.src=g,d.parentNode.insertBefore(c,d)})(window,document,'script','//www.google-analytics.com/analytics.js','ga'),ga('create','UA-1245966-1','auto'),ga('send','pageview')</script>
+</body>
+</html>

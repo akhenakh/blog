@@ -1,0 +1,149 @@
+<!doctype html><html lang=en>
+<head>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<meta name=generator content="Hugo 0.89.4">
+<title>Enabling Cloudflare in front of your Kubernetes cluster with Traefik - Fabrice Aneche</title>
+<meta name=description content="I&rsquo;m still using my arm64 4 nodes cluster for experimentation and even to serve some websites. Since I wanted to test some new Cloudflare features, I migrated one of my domain which has a bunch of websites on it.
+But first a quick and simple way to serve some static pages:
+Serving Static Pages One way is to build an image with the actual pages in it and let Kubernetes serves them.">
+<link rel=stylesheet href=https://blog.nobugware.com/css/ui.css>
+<link rel=stylesheet href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway">
+</head>
+<body>
+<header class="container no-print">
+<div class=u-header>
+<nav class=bar>
+<ul><li>
+<a href=https://blog.nobugware.com/>
+<img class=icon-text src=https://blog.nobugware.com/img/prev.svg>
+</a>
+</li><li><a href=https://blog.nobugware.com/about>About</a></li><li><a href=https://blog.nobugware.com/post/>Post</a></li></ul>
+</nav>
+</div>
+</header>
+<main class=container>
+<article>
+<header><hgroup id=brand>
+<h1>Enabling Cloudflare in front of your Kubernetes cluster with Traefik</h1>
+<h5>
+<time datetime="2022-05-19 04:00:00 +0000 UTC">May 19, 2022</time>
+<span class=no-print>
+-
+<a href=https://blog.nobugware.com/tags/kubernetes>kubernetes</a>
+<a href=https://blog.nobugware.com/tags/traefik>traefik</a>
+<a href=https://blog.nobugware.com/tags/cloudflare>cloudflare</a>
+<span>
+</h5>
+</hgroup>
+<hr class=sep>
+</header>
+<p>I&rsquo;m still using my arm64 4 nodes cluster for experimentation and even to serve some websites.
+Since I wanted to test some new Cloudflare features, I migrated one of my domain which has a bunch of websites on it.</p>
+<p>But first a quick and simple way to serve some static pages:</p>
+<h2 id=serving-static-pages>Serving Static Pages</h2>
+<p>One way is to build an image with the actual pages in it and let Kubernetes serves them.</p>
+<p>Separate your websites into directories:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>ls www
+mysite.com subsite.mysite.com mysuperothersite.com
+</code></pre></div><p>Using <a href=https://caddyserver.com/>Caddy</a> as base image, create a <code>Dockerfile</code>:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-Dockerfile data-lang=Dockerfile><span style=color:#66d9ef>FROM</span><span style=color:#e6db74> caddy:2</span><span style=color:#960050;background-color:#1e0010>
+</span><span style=color:#960050;background-color:#1e0010>
+</span><span style=color:#960050;background-color:#1e0010></span><span style=color:#66d9ef>COPY</span> Caddyfile /etc/caddy/Caddyfile<span style=color:#960050;background-color:#1e0010>
+</span><span style=color:#960050;background-color:#1e0010></span><span style=color:#66d9ef>ADD</span> www/ /srv/<span style=color:#960050;background-color:#1e0010>
+</span></code></pre></div><p>Create the proper <code>Caddyfile</code>:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-Caddyfile data-lang=Caddyfile>{
+	<span style=color:#66d9ef>email</span> <span style=color:#e6db74>youremail@yourdomain.com</span>
+	<span style=color:#66d9ef>auto_https</span> <span style=color:#66d9ef>off</span>
+}
+
+mysite.com:80 {
+	<span style=color:#66d9ef>root</span> <span style=color:#a6e22e>*</span> <span style=color:#e6db74>/srv/mysite.com</span>
+	<span style=color:#66d9ef>file_server</span>
+}
+subsite.mysite.com:80 {
+	<span style=color:#66d9ef>root</span> <span style=color:#a6e22e>*</span> <span style=color:#e6db74>/srv/subsite.mysite.com</span>
+	<span style=color:#66d9ef>file_server</span>
+}
+...
+</code></pre></div><p>Caddy 2 enabled https by default, in our case we don&rsquo;t want https to be enabled in those pods since the ingress will deal with it.
+Create your deployment and service, and let the ingress knows about it, in my case Traefik:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=color:#f92672>apiVersion</span>: <span style=color:#ae81ff>traefik.containo.us/v1alpha1</span>
+<span style=color:#f92672>kind</span>: <span style=color:#ae81ff>IngressRoute</span>
+<span style=color:#f92672>metadata</span>:
+  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>websites-ingress</span>
+  <span style=color:#f92672>namespace</span>: <span style=color:#ae81ff>web</span>
+<span style=color:#f92672>spec</span>:
+  <span style=color:#f92672>entryPoints</span>:
+    - <span style=color:#ae81ff>websecure</span>
+  <span style=color:#f92672>routes</span>:
+    - <span style=color:#f92672>match</span>: <span style=color:#ae81ff>Host(`mysite.com`) || Host(`subsite.mysite.com`) || Host(`mysuperothersite.com`) </span>
+
+      <span style=color:#f92672>middlewares</span>:
+        - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>compress</span>
+      <span style=color:#f92672>kind</span>: <span style=color:#ae81ff>Rule</span>
+      <span style=color:#f92672>services</span>:
+        - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>websites</span>
+          <span style=color:#f92672>port</span>: <span style=color:#ae81ff>80</span>
+
+</code></pre></div><h2 id=cloudflare-and-traffic-encryption>Cloudflare and Traffic Encryption</h2>
+<p>Remember Cloudflare will proxy all the requests back to your cluster, it means you don&rsquo;t need to have publicly valid certificates anymore (like Let&rsquo;s encrypt), but Cloudflare will provide you with a certificate to sign the exchange between them and your ingress.</p>
+<p>Go to your Cloudflare admin interface in SSL/TLS, then Origin Server, create a certifcate.
+Store the public key in <code>origin.pub</code> the private part in <code>origin.key</code>.</p>
+<p>As mentioned in <a href=https://doc.traefik.io/traefik/https/tls/#default-certificate>Traefik documentation</a> with Kubernetes the certificates can and must be provided by secrets.</p>
+<p>Let&rsquo;s create a secret in the correct Traefik namespace</p>
+<pre tabindex=0><code>kubectl -n kube-system create secret generic default-certificate --from-file=tls.crt=./origin.crt --from-file=tls.key=./origin.key
+</code></pre><p>And point Traefik default store to the secret:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=color:#f92672>apiVersion</span>: <span style=color:#ae81ff>traefik.containo.us/v1alpha1</span>
+<span style=color:#f92672>kind</span>: <span style=color:#ae81ff>TLSStore</span>
+<span style=color:#f92672>metadata</span>:
+  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>default</span>
+  <span style=color:#f92672>namespace</span>: <span style=color:#ae81ff>kube-system</span>
+
+<span style=color:#f92672>spec</span>:
+  <span style=color:#f92672>defaultCertificate</span>:
+    <span style=color:#f92672>secretName</span>: <span style=color:#ae81ff>default-certificate</span>
+</code></pre></div><p>You can now enable Cloudflare full (strict) mode:
+Encrypts end-to-end, but requires a trusted CA or Cloudflare Origin CA certificate on the server.</p>
+<h2 id=common-pitfalls>Common pitfalls</h2>
+<p>Beware of the difference between store and certResolver:<br>
+On your <code>IngressRoute</code> you probably had a certResolver to handle let&rsquo;s encrypt.</p>
+<pre tabindex=0><code>  tls:
+    certResolver: default
+</code></pre><p>On the domain handled by Cloudflare you need the default store (which is now the default).</p>
+<pre tabindex=0><code>  tls:
+    store:
+      name: default
+</code></pre>
+</article>
+<nav class="no-print post-nav">
+<a class=prev-post href=https://blog.nobugware.com/post/2021/tree-survey-using-machine-learning/>
+<img class=icon-text src=https://blog.nobugware.com/img/prev.svg>Tree Survey using Machine Learning</a>
+</nav>
+<section id=related>
+<h4>See Also</h4>
+<ul>
+<li><a href=https://blog.nobugware.com/post/2019/advanced-traefik-2-0-with-kubernetes/>Advanced Traefik 2.0 with Kubernetes</a></li>
+<li><a href=https://blog.nobugware.com/post/2019/traefik-2-0-with-kubernetes/>Traefik 2.0 with Kubernetes</a></li>
+<li><a href=https://blog.nobugware.com/post/2019/access-web-interface/>Access Kubernetes Web Interfaces from the Outside</a></li>
+</ul>
+</section>
+<hr class=sep>
+</main>
+<footer class="container no-print">
+<div class=u-footer>
+<a href=https://github.com/akhenakh/><img class=icon-social src=https://blog.nobugware.com/img/github.svg alt=Github></a>
+<a href=https://twitter.com/akhenakh><img class=icon-social src=https://blog.nobugware.com/img/twitter.svg alt=Twitter></a>
+<a href=https://blog.nobugware.com/index.xml target=_blank><img class=icon-social src=https://blog.nobugware.com/img/feed.svg alt=Feed></a>
+<p>
+Theme used: <a href=https://github.com/yursan9/manis-hugo-theme>Manis</a><br>
+</p>
+<a href=#brand>
+<img class=icon-text src=https://blog.nobugware.com/img/toup.svg alt="To Up">
+<span>Back to Up</span>
+</a>
+</div>
+</footer>
+<script>(function(a,e,f,g,b,c,d){a.GoogleAnalyticsObject=b,a[b]=a[b]||function(){(a[b].q=a[b].q||[]).push(arguments)},a[b].l=1*new Date,c=e.createElement(f),d=e.getElementsByTagName(f)[0],c.async=1,c.src=g,d.parentNode.insertBefore(c,d)})(window,document,'script','//www.google-analytics.com/analytics.js','ga'),ga('create','UA-1245966-1','auto'),ga('send','pageview')</script>
+</body>
+</html>

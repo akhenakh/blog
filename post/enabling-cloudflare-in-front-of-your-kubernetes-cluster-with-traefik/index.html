@@ -86,7 +86,7 @@ Create your deployment and service, and let the ingress knows about it, in my ca
 </code></pre></div><h2 id=cloudflare-and-traffic-encryption>Cloudflare and Traffic Encryption</h2>
 <p><img src=https://blog.nobugware.com/img/cloudflare.jpg alt></p>
 <p>Remember Cloudflare will proxy all the requests back to your cluster, it means you don&rsquo;t need to have publicly valid certificates anymore (like Let&rsquo;s encrypt), but Cloudflare will provide you with a certificate to sign the exchange between them and your ingress.</p>
-<p>Go to your Cloudflare admin interface in SSL/TLS, then Origin Server, create a certifcate.
+<p>Go to your Cloudflare admin interface in SSL/TLS, then Origin Server, create a certifcate. <br>
 Store the public key in <code>origin.pub</code> the private part in <code>origin.key</code>.</p>
 <p>As mentioned in <a href=https://doc.traefik.io/traefik/https/tls/#default-certificate>Traefik documentation</a> with Kubernetes the certificates can and must be provided by secrets.</p>
 <p>Let&rsquo;s create a secret in the correct Traefik namespace</p>
@@ -102,11 +102,11 @@ Store the public key in <code>origin.pub</code> the private part in <code>origin
 <span style=color:#f92672>spec</span>:
   <span style=color:#f92672>defaultCertificate</span>:
     <span style=color:#f92672>secretName</span>: <span style=color:#ae81ff>default-certificate</span>
-</code></pre></div><p>You can now enable Cloudflare full (strict) mode:
+</code></pre></div><p>You can now enable Cloudflare full (strict) mode: <br>
 Encrypts end-to-end, but requires a trusted CA or Cloudflare Origin CA certificate on the server.</p>
 <p><img src=https://blog.nobugware.com/img/cloudflare2.jpg alt></p>
 <h2 id=common-pitfalls>Common pitfalls</h2>
-<p>Beware of the difference between store and certResolver:<br>
+<p>Beware of the difference between store and certResolver: <br>
 On your <code>IngressRoute</code> you probably had a certResolver to handle let&rsquo;s encrypt.</p>
 <pre><code>  tls:
     certResolver: default

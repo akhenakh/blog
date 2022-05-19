@@ -85,15 +85,16 @@ Create your deployment and service, and let the ingress knows about it, in my ca
       <span style=color:#f92672>services</span>:
         - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>websites</span>
           <span style=color:#f92672>port</span>: <span style=color:#ae81ff>80</span>
-
 </code></pre></div><h2 id=cloudflare-and-traffic-encryption>Cloudflare and Traffic Encryption</h2>
+<p><img src=https://blog.nobugware.com/img/cloudflare.jpg alt></p>
 <p>Remember Cloudflare will proxy all the requests back to your cluster, it means you don&rsquo;t need to have publicly valid certificates anymore (like Let&rsquo;s encrypt), but Cloudflare will provide you with a certificate to sign the exchange between them and your ingress.</p>
 <p>Go to your Cloudflare admin interface in SSL/TLS, then Origin Server, create a certifcate.
 Store the public key in <code>origin.pub</code> the private part in <code>origin.key</code>.</p>
 <p>As mentioned in <a href=https://doc.traefik.io/traefik/https/tls/#default-certificate>Traefik documentation</a> with Kubernetes the certificates can and must be provided by secrets.</p>
 <p>Let&rsquo;s create a secret in the correct Traefik namespace</p>
-<pre tabindex=0><code>kubectl -n kube-system create secret generic default-certificate --from-file=tls.crt=./origin.crt --from-file=tls.key=./origin.key
-</code></pre><p>And point Traefik default store to the secret:</p>
+<pre><code>kubectl -n kube-system create secret generic default-certificate --from-file=tls.crt=./origin.crt --from-file=tls.key=./origin.key
+</code></pre>
+<p>And point Traefik default store to the secret:</p>
 <div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=color:#f92672>apiVersion</span>: <span style=color:#ae81ff>traefik.containo.us/v1alpha1</span>
 <span style=color:#f92672>kind</span>: <span style=color:#ae81ff>TLSStore</span>
 <span style=color:#f92672>metadata</span>:
@@ -108,13 +109,13 @@ Encrypts end-to-end, but requires a trusted CA or Cloudflare Origin CA certifica
 <h2 id=common-pitfalls>Common pitfalls</h2>
 <p>Beware of the difference between store and certResolver:<br>
 On your <code>IngressRoute</code> you probably had a certResolver to handle let&rsquo;s encrypt.</p>
-<pre tabindex=0><code>  tls:
+<pre><code>  tls:
     certResolver: default
-</code></pre><p>On the domain handled by Cloudflare you need the default store (which is now the default).</p>
-<pre tabindex=0><code>  tls:
-    store:
-      name: default
 </code></pre>
+<p>On the domain handled by Cloudflare you need the default store (which is now the default).</p>
+<pre><code>  tls:
+    store:
+      name: default</code></pre>
 </article>
 <nav class="no-print post-nav">
 <a class=prev-post href=https://blog.nobugware.com/post/2021/tree-survey-using-machine-learning/>

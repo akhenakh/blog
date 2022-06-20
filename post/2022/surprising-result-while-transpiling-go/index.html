@@ -46,32 +46,32 @@
 <p>The result library is often slower than pure C (~2x magnitude) but still having a native Go port could simplify some aspects of the workflow like testing.</p>
 <p>I&rsquo;m working on a side project where I need to index millions of coordinates using h3 indexation, so I gave ccgo a try, hoping for something working.</p>
 <p>Not 100% of the libc is covered, some builtins are not defined I had to define <code>isFinite</code>:</p>
-<pre tabindex=0><code>bool isXFinite(double f) { return !isnan(f - f); }
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-c data-lang=c><span style=color:#66d9ef>bool</span> <span style=color:#a6e22e>isXFinite</span>(<span style=color:#66d9ef>double</span> f) { <span style=color:#66d9ef>return</span> <span style=color:#f92672>!</span>isnan(f <span style=color:#f92672>-</span> f); }
 
-/**
- * Encodes a coordinate on the sphere to the H3 index of the containing cell at
- * the specified resolution.
- *
- * Returns 0 on invalid input.
- *
- * @param g The spherical coordinates to encode.
- * @param res The desired H3 resolution for the encoding.
- * @return The encoded H3Index (or H3_NULL on failure).
- */
-H3Index H3_EXPORT(geoToH3)(const GeoCoord* g, int res) {
-    if (res &lt; 0 || res &gt; MAX_H3_RES) {
-        return H3_NULL;
+<span style=color:#75715e>/**
+</span><span style=color:#75715e> * Encodes a coordinate on the sphere to the H3 index of the containing cell at
+</span><span style=color:#75715e> * the specified resolution.
+</span><span style=color:#75715e> *
+</span><span style=color:#75715e> * Returns 0 on invalid input.
+</span><span style=color:#75715e> *
+</span><span style=color:#75715e> * @param g The spherical coordinates to encode.
+</span><span style=color:#75715e> * @param res The desired H3 resolution for the encoding.
+</span><span style=color:#75715e> * @return The encoded H3Index (or H3_NULL on failure).
+</span><span style=color:#75715e> */</span>
+H3Index <span style=color:#a6e22e>H3_EXPORT</span>(geoToH3)(<span style=color:#66d9ef>const</span> GeoCoord<span style=color:#f92672>*</span> g, <span style=color:#66d9ef>int</span> res) {
+    <span style=color:#66d9ef>if</span> (res <span style=color:#f92672>&lt;</span> <span style=color:#ae81ff>0</span> <span style=color:#f92672>||</span> res <span style=color:#f92672>&gt;</span> MAX_H3_RES) {
+        <span style=color:#66d9ef>return</span> H3_NULL;
     }
-    if (!isXFinite(g-&gt;lat) || !isXFinite(g-&gt;lon)) {
-        return H3_NULL;
+    <span style=color:#66d9ef>if</span> (<span style=color:#f92672>!</span>isXFinite(g<span style=color:#f92672>-&gt;</span>lat) <span style=color:#f92672>||</span> <span style=color:#f92672>!</span>isXFinite(g<span style=color:#f92672>-&gt;</span>lon)) {
+        <span style=color:#66d9ef>return</span> H3_NULL;
     }
 
     FaceIJK fijk;
-    _geoToFaceIjk(g, res, &amp;fijk);
-    return _faceIjkToH3(&amp;fijk, res);
+    _geoToFaceIjk(g, res, <span style=color:#f92672>&amp;</span>fijk);
+    <span style=color:#66d9ef>return</span> _faceIjkToH3(<span style=color:#f92672>&amp;</span>fijk, res);
 }
 
-</code></pre><p>The C tests are passing, let&rsquo;s continue transpiling:</p>
+</code></pre></div><p>The C tests are passing, let&rsquo;s continue transpiling:</p>
 <pre tabindex=0><code>  CC=/usr/bin/gcc ccgo  -pkgname ch3  -trace-translation-units -export-externs X -export-defines D -export-fields F -export-structs S -export-typedefs T -Isrc/h3lib/include  -I../src/h3lib/include ../src/h3lib/lib/*.c
 </code></pre><p>The generated code is visible on <a href=https://github.com/akhenakh/goh3/tree/main/ch3>my goh3 repo</a>, with some <a href=https://github.com/akhenakh/goh3/blob/main/h3.go>helper functions</a>, it can be used exactly like the original Uber library.</p>
 <p>Note that for this experiment I&rsquo;ve only created the helper functions for the indexation part.</p>

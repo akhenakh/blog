@@ -3,7 +3,7 @@
 <meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1">
 <meta name=generator content="Hugo 0.89.4">
-<title>Surprising result while transpiling Go - Fabrice Aneche</title>
+<title>Surprising result while transpiling C to Go - Fabrice Aneche</title>
 <meta name=description content="Experimenting transpiling Uber h3 library with ccgo.">
 <link rel=stylesheet href=https://blog.nobugware.com/css/ui.css>
 <link rel=stylesheet href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway">
@@ -23,10 +23,15 @@
 <main class=container>
 <article>
 <header><hgroup id=brand>
-<h1>Surprising result while transpiling Go</h1>
+<h1>Surprising result while transpiling C to Go</h1>
 <h5>
 <time datetime="2022-06-20 04:00:00 +0000 UTC">Jun 20, 2022</time>
 <span class=no-print>
+-
+<a href=https://blog.nobugware.com/tags/go>go</a>
+<a href=https://blog.nobugware.com/tags/geo>geo</a>
+<a href=https://blog.nobugware.com/tags/golang>golang</a>
+<a href=https://blog.nobugware.com/tags/h3>h3</a>
 <span>
 </h5>
 </hgroup>
@@ -113,12 +118,20 @@ BenchmarkFromToCCGO-8   	 6580898	      1831 ns/op	       0 B/op	       0 allocs
 BenchmarkFromToCGO-8    	 5373619	      2230 ns/op	      32 B/op	       2 allocs/op
 </code></pre><p>Interestingly it&rsquo;s faster on amd64 but a bit slower on arm64 M1.</p>
 <h2 id=conclusion>Conclusion</h2>
-<p>CCGO is an incredible piece of code with a bright future, it&rsquo;s one more tool in the Go ecosystem that you can rely on.</p>
+<p>CCGO is an incredible piece of code with a bright future, it&rsquo;s one more tool in the Go ecosystem that we can rely on.</p>
 </article>
 <nav class="no-print post-nav">
 <a class=prev-post href=https://blog.nobugware.com/post/enabling-cloudflare-in-front-of-your-kubernetes-cluster-with-traefik/>
 <img class=icon-text src=https://blog.nobugware.com/img/prev.svg>Enabling Cloudflare in front of your Kubernetes cluster with Traefik</a>
 </nav>
+<section id=related>
+<h4>See Also</h4>
+<ul>
+<li><a href=https://blog.nobugware.com/post/2020/free-maps-for-all/>Free Maps For All</a></li>
+<li><a href=https://blog.nobugware.com/post/2019/time_series_storage_for_coordinates/>A Time Series Storage for Coordinates</a></li>
+<li><a href=https://blog.nobugware.com/post/2019/an_application_for__mapping_storing_your_iot_devices_data/>An application to map and store your IoT devices data</a></li>
+</ul>
+</section>
 <hr class=sep>
 </main>
 <footer class="container no-print">

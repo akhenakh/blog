@@ -42,7 +42,7 @@
 <p>Having a native Go library is easier to deal with but would mean a full rewrite.</p>
 <h2 id=transpiling>Transpiling</h2>
 <p>You may have heard about a recent effort to transpile C to Go using <a href=https://pkg.go.dev/modernc.org/ccgo/v3>ccgo</a> and the associated <a href=https://pkg.go.dev/modernc.org/libc>libc</a>.</p>
-<p>Sqlite has been <a href=https://pkg.go.dev/modernc.org/sqlite#section-readme>transpiled using this technic</a> with great success; more recently <a href=https://www.reddit.com/r/golang/comments/v0sdn2/a_cgofree_port_of_the_pcre2_regular_expression/>PCRE2</a> as well.</p>
+<p>Sqlite has been <a href=https://pkg.go.dev/modernc.org/sqlite#section-readme>transpiled using this technique</a> with great success; more recently <a href=https://www.reddit.com/r/golang/comments/v0sdn2/a_cgofree_port_of_the_pcre2_regular_expression/>PCRE2</a> as well.</p>
 <p>The result library is often slower than pure C (~2x magnitude) but still having a native Go port could simplify some aspects of the workflow like testing.</p>
 <p>I&rsquo;m working on a side project where I need to index millions of coordinates using h3 indexation, so I gave ccgo a try, hoping for something working.</p>
 <p>Not 100% of the libc is covered, some builtins are not defined I had to define <code>isFinite</code>:</p>

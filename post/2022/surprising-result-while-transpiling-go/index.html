@@ -105,7 +105,15 @@ H3Index H3_EXPORT(geoToH3)(const GeoCoord* g, int res) {
 }
 </code></pre></div><p>Batching 1 million again: 1.82s</p>
 <p>It&rsquo;s not only working it&rsquo;s as fast and sometimes faster than the C code, probably due to Go runtime scaling on multiple cores.</p>
-<p>I put <a href=https://github.com/akhenakh/h3-bench>some benchmarks comparing CGO & CCGO</a>, interestingly it&rsquo;s faster on amd64 but a bit slower on arm64 M1.</p>
+<p>I put <a href=https://github.com/akhenakh/h3-bench>some benchmarks comparing CGO & CCGO</a>.</p>
+<pre tabindex=0><code>cpu: Intel(R) Core(TM) i7-6700K CPU @ 4.00GHz
+BenchmarkToGeoCCGO-8    	32722182	       367.9 ns/op	       0 B/op	       0 allocs/op
+BenchmarkToGeoCGO-8     	30941000	       389.8 ns/op	      16 B/op	       1 allocs/op
+BenchmarkFromToCCGO-8   	 6580898	      1831 ns/op	       0 B/op	       0 allocs/op
+BenchmarkFromToCGO-8    	 5373619	      2230 ns/op	      32 B/op	       2 allocs/op
+</code></pre><p>Interestingly it&rsquo;s faster on amd64 but a bit slower on arm64 M1.</p>
+<h2 id=conclusion>Conclusion</h2>
+<p>CCGO is an incredible piece of code with a bright future, it&rsquo;s one more tool in the Go ecosystem that you can rely on.</p>
 </article>
 <nav class="no-print post-nav">
 <a class=prev-post href=https://blog.nobugware.com/post/enabling-cloudflare-in-front-of-your-kubernetes-cluster-with-traefik/>

@@ -32,6 +32,78 @@
 </hgroup>
 <hr class=sep>
 </header>
+<p><a href=https://github.com/uber/h3/>H3</a> is a geopacial indexing library created by Uber, if you are familiar with this blog it&rsquo;s similar to <a href=https://s2geometry.io/>S2</a>.</p>
+<p>Uber is providing <a href=https://github.com/uber/h3-go>h3 for Go</a> unfortunately it&rsquo;s a CGO version, a C to Go binding as you may know <a href=https://dave.cheney.net/2016/01/18/cgo-is-not-go>CGO is not Go</a>.</p>
+<p>Having a native Go library is easier to deal with but would mean a full rewrite.</p>
+<p>You may have heard about a recent effort to transpile C to Go using <a href=https://pkg.go.dev/modernc.org/ccgo/v3>ccgo</a> and the associated <a href=https://pkg.go.dev/modernc.org/libc>libc</a>.</p>
+<p>Sqlite has been <a href=https://pkg.go.dev/modernc.org/sqlite#section-readme>transpiled using this technic</a> with great success; more recently <a href=https://www.reddit.com/r/golang/comments/v0sdn2/a_cgofree_port_of_the_pcre2_regular_expression/>PCRE2</a> as well.</p>
+<p>The result library is often slower than pure C (~2x magnitude) but still having a native Go port could simplify some aspects of the workflow like testing.</p>
+<p>I&rsquo;m working on a side project where I need to index millions of coordinates using h3 indexation, so I gave ccgo a try, hoping for something working.</p>
+<p>Not 100% of the libc is covered, some builtins are not defined I had to define <code>isFinite</code>:</p>
+<pre tabindex=0><code>bool isXFinite(double f) { return !isnan(f - f); }
+
+/**
+ * Encodes a coordinate on the sphere to the H3 index of the containing cell at
+ * the specified resolution.
+ *
+ * Returns 0 on invalid input.
+ *
+ * @param g The spherical coordinates to encode.
+ * @param res The desired H3 resolution for the encoding.
+ * @return The encoded H3Index (or H3_NULL on failure).
+ */
+H3Index H3_EXPORT(geoToH3)(const GeoCoord* g, int res) {
+    if (res &lt; 0 || res &gt; MAX_H3_RES) {
+        return H3_NULL;
+    }
+    if (!isXFinite(g-&gt;lat) || !isXFinite(g-&gt;lon)) {
+        return H3_NULL;
+    }
+
+    FaceIJK fijk;
+    _geoToFaceIjk(g, res, &amp;fijk);
+    return _faceIjkToH3(&amp;fijk, res);
+}
+
+</code></pre><p>The C tests are passing, let&rsquo;s continue transpiling:</p>
+<pre tabindex=0><code>  CC=/usr/bin/gcc ccgo  -pkgname ch3  -trace-translation-units -export-externs X -export-defines D -export-fields F -export-structs S -export-typedefs T -Isrc/h3lib/include  -I../src/h3lib/include ../src/h3lib/lib/*.c
+</code></pre><p>The generated code is visible on <a href=https://github.com/akhenakh/goh3/tree/main/ch3>my goh3 repo</a>, with some <a href=https://github.com/akhenakh/goh3/blob/main/h3.go>helper functions</a>, it can be used exactly like the original Uber library.</p>
+<p>Note that for this experiment I&rsquo;ve only created the helper functions for the indexation part.</p>
+<p>It works!! But no surprise it&rsquo;s slower, way slower&mldr;</p>
+<p>1 millions coordinates to cell and back:</p>
+<ul>
+<li>In pure C (-O2): 2.03s</li>
+<li>Using Uber CGO: 2.25s</li>
+<li>Using the transpiled code: 13.07s</li>
+</ul>
+<h2 id=profiline>Profiline</h2>
+<p>What is slow? Using the profiler it&rsquo;s evident the cost to initialize the ccgo libc is too big:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#66d9ef>func</span> <span style=color:#a6e22e>FromGeo</span>(<span style=color:#a6e22e>geo</span> <span style=color:#a6e22e>GeoCoord</span>, <span style=color:#a6e22e>res</span> <span style=color:#66d9ef>int</span>) <span style=color:#a6e22e>H3Index</span> {
+	<span style=color:#a6e22e>tls</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>libc</span>.<span style=color:#a6e22e>NewTLS</span>()
+	<span style=color:#66d9ef>defer</span> <span style=color:#a6e22e>tls</span>.<span style=color:#a6e22e>Close</span>()
+
+	<span style=color:#a6e22e>cgeo</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>ch3</span>.<span style=color:#a6e22e>TGeoCoord</span>{
+		<span style=color:#a6e22e>Flat</span>: <span style=color:#a6e22e>deg2rad</span> <span style=color:#f92672>*</span> <span style=color:#a6e22e>geo</span>.<span style=color:#a6e22e>Latitude</span>,
+		<span style=color:#a6e22e>Flon</span>: <span style=color:#a6e22e>deg2rad</span> <span style=color:#f92672>*</span> <span style=color:#a6e22e>geo</span>.<span style=color:#a6e22e>Longitude</span>,
+	}
+
+	<span style=color:#66d9ef>return</span> <span style=color:#a6e22e>H3Index</span>(<span style=color:#a6e22e>ch3</span>.<span style=color:#a6e22e>XgeoToH3</span>(<span style=color:#a6e22e>tls</span>, uintptr(<span style=color:#a6e22e>unsafe</span>.<span style=color:#a6e22e>Pointer</span>(<span style=color:#f92672>&amp;</span><span style=color:#a6e22e>cgeo</span>)), int32(<span style=color:#a6e22e>res</span>)))
+}
+</code></pre></div><p>What if we could initialize then batch?</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#66d9ef>func</span> <span style=color:#a6e22e>NewBatch</span>() <span style=color:#f92672>*</span><span style=color:#a6e22e>Batch</span> {
+	<span style=color:#66d9ef>return</span> <span style=color:#f92672>&amp;</span><span style=color:#a6e22e>Batch</span>{<span style=color:#a6e22e>TLS</span>: <span style=color:#a6e22e>libc</span>.<span style=color:#a6e22e>NewTLS</span>()}
+}
+
+<span style=color:#66d9ef>func</span> (<span style=color:#a6e22e>c</span> <span style=color:#f92672>*</span><span style=color:#a6e22e>Batch</span>) <span style=color:#a6e22e>FromGeo</span>(<span style=color:#a6e22e>geo</span> <span style=color:#a6e22e>GeoCoord</span>, <span style=color:#a6e22e>res</span> <span style=color:#66d9ef>int</span>) <span style=color:#a6e22e>H3Index</span> {
+	<span style=color:#a6e22e>cgeo</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>ch3</span>.<span style=color:#a6e22e>TGeoCoord</span>{
+		<span style=color:#a6e22e>Flat</span>: <span style=color:#a6e22e>deg2rad</span> <span style=color:#f92672>*</span> <span style=color:#a6e22e>geo</span>.<span style=color:#a6e22e>Latitude</span>,
+		<span style=color:#a6e22e>Flon</span>: <span style=color:#a6e22e>deg2rad</span> <span style=color:#f92672>*</span> <span style=color:#a6e22e>geo</span>.<span style=color:#a6e22e>Longitude</span>,
+	}
+
+	<span style=color:#66d9ef>return</span> <span style=color:#a6e22e>H3Index</span>(<span style=color:#a6e22e>ch3</span>.<span style=color:#a6e22e>XgeoToH3</span>(<span style=color:#a6e22e>c</span>.<span style=color:#a6e22e>TLS</span>, uintptr(<span style=color:#a6e22e>unsafe</span>.<span style=color:#a6e22e>Pointer</span>(<span style=color:#f92672>&amp;</span><span style=color:#a6e22e>cgeo</span>)), int32(<span style=color:#a6e22e>res</span>)))
+}
+</code></pre></div><p>Batching 1 million again: 1.82s</p>
+<p>It&rsquo;s not only working it&rsquo;s as fast and sometimes faster than the C code.</p>
 </article>
 <nav class="no-print post-nav">
 <a class=prev-post href=https://blog.nobugware.com/post/enabling-cloudflare-in-front-of-your-kubernetes-cluster-with-traefik/>

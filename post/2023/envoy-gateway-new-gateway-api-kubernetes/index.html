@@ -43,8 +43,8 @@ For example <a href=https://istio.io/>Istio</a> is using it as a proxy load bala
 <p><a href=https://gateway.envoyproxy.io/>Envoy Gateway</a> is a more recent project to manage Envoy proxies inside Kubernetes, it is meant to be a common foundation to build on top of it, but it can be used directly as it is.</p>
 <p>It has a great advantage, it can be managed through the recent <a href=https://gateway-api.sigs.k8s.io/>Kubernetes Gateway API</a>, this API solves a decade of non standardized ways to provision &ldquo;Ingresses&rdquo;.</p>
 <p>Envoy Gateway first GA version was released on November 1st 2023, you may think it&rsquo;s very early but remember the traffic is actually flowing through Envoy Proxy, Gateway is only provisioning the proxies using <a href=https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/operations/dynamic_configuration>xDS APIs.</a>.</p>
-<p>The actual documentation has some great examples, but some details, for real world scenarios, are sometimes missing, those examples worked for me.</p>
-<p>We&rsquo;ll explore two scenarios, one to deploy it as a public <code>LoadBalancer</code>, one to use it as internal load balancer.</p>
+<p>The <a href=https://gateway.envoyproxy.io/v0.6.0/>actual documentation</a> has some great examples, but some details, for real world scenarios, are sometimes missing, the followings examples worked for me.</p>
+<p>We&rsquo;ll explore two scenarios, one to deploy it as a public <code>LoadBalancer</code>, one to use it as internal <code>ClusterIP</code> load balancer.</p>
 <h2 id=installation>Installation</h2>
 <p>The installation is straightforward and requires only applying some CRDs to the cluster.</p>
 <div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh>kubectl apply -f https://github.com/envoyproxy/gateway/releases/download/latest/install.yaml
@@ -424,7 +424,7 @@ Adress: 10.43.146.30
         <span style=color:#f92672>value</span>: <span style=color:#ae81ff>/</span>
 </code></pre></div><p>Note that at the time of writing this post, <a href=https://github.com/envoyproxy/gateway/issues/2166>there is a bug in 0.6.0</a> when using the <code>clusterIP</code> and setting <code>addresses</code>, it will set <code>externalIPs</code> rather than <code>clusterIPs</code>.</p>
 <h3 id=multiple-gateways>Multiple Gateways</h3>
-<p>If you are planning on a public <strong>and</strong> an internal one, at the same time, you will end up with a conflict, create a second installation for a gateway watching <code>gateway.envoyproxy.io/internal-gatewayclass-controller</code></p>
+<p>If you are planning on a public <strong>and</strong> an internal one, at the same time, you will end up with a conflict, the solution is to create a second installation for a gateway watching <code>gateway.envoyproxy.io/internal-gatewayclass-controller</code></p>
 <div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh>helm template --set config.envoyGateway.gateway.controllerName<span style=color:#f92672>=</span>gateway.envoyproxy.io/internal-gatewayclass-controller eg-internal oci://docker.io/envoyproxy/gateway-helm --version v0.6.0 -n envoy-gateway-internal &gt; install-internal.yaml
 kubectl create ns envoy-gateway-internal 
 kubectl -n  envoy-gateway-internal  apply -f install-internal.yaml
@@ -445,8 +445,8 @@ You need to disable Traefik (the bundled load balancer):</p>
 </code></pre></div><p>Colima is doing the work of exposing the cluster load balanced ports for you, so you can actually talk to localhost on port 80 or 443 to reach the cluster:</p>
 <div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>curl --verbose --header <span style=color:#e6db74>&#34;Host: blog.mydomain.tld&#34;</span> http://localhost/get
 </code></pre></div><h2 id=conclusion>Conclusion</h2>
-<p>Like every fresh projects, you may hit some new issues, but the overall project quality is high.
-It can be used as it is, I&rsquo;ve migrated some services already and we are planning a full migration.</p>
+<p>Like every fresh projects, you may hit some unknown issues, but the overall project quality is high.
+It can be used as it is, I&rsquo;ve migrated some services to it already, and we are planning on a full migration.</p>
 </article>
 <nav class="no-print post-nav">
 <a class=prev-post href=https://blog.nobugware.com/post/2022/surprising-result-while-transpiling-go/>

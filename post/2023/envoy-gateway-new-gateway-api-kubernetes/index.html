@@ -318,7 +318,7 @@ gatewayclasses.gateway.networking.k8s.io   eg-internal
 <p>Access the web interface by port forwarding to the <code>envoy-envoy-gateway-system-eg</code> pods port 19000.</p>
 <div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh>kubectl -n envoy-gateway-system port-forward envoy-envoy-gateway-system-eg-xxxxxx-xxxxxx-xxxxx  <span style=color:#ae81ff>19000</span>  
 </code></pre></div><h2 id=creating-an-internal-proxy>Creating An Internal Proxy</h2>
-<p>A gateway accessible only within the cluster can be provisioned, to act for example as an L7 load balancer in front of gRPC:</p>
+<p>A gateway accessible only within the cluster can be provisioned, to act for example as an L7 load balancer in front of gRPC (this is especially needed for gRPC since there are long-lived TCP connections, see my <a href=https://blog.nobugware.com/post/2019/kubernetes_mesh_network_load_balancing_grpc_services/>older post</a>):</p>
 <div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=color:#f92672>apiVersion</span>: <span style=color:#ae81ff>gateway.networking.k8s.io/v1beta1</span>
 <span style=color:#f92672>kind</span>: <span style=color:#ae81ff>GatewayClass</span>
 <span style=color:#f92672>metadata</span>:

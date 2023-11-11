@@ -1,0 +1,481 @@
+<!doctype html><html lang=en>
+<head>
+<meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<meta name=generator content="Hugo 0.89.4">
+<title>Envoy Gateway a new Gateway API for Kubernetes - Fabrice Aneche</title>
+<meta name=description content="Manages Envoy Proxy with Envoy Gateway in Kubernetes">
+<link rel=stylesheet href=https://blog.nobugware.com/css/ui.css>
+<link rel=stylesheet href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway">
+</head>
+<body>
+<header class="container no-print">
+<div class=u-header>
+<nav class=bar>
+<ul><li>
+<a href=https://blog.nobugware.com/>
+<img class=icon-text src=https://blog.nobugware.com/img/prev.svg>
+</a>
+</li><li><a href=https://blog.nobugware.com/about>About</a></li><li><a href=https://blog.nobugware.com/post/>Post</a></li></ul>
+</nav>
+</div>
+</header>
+<main class=container>
+<article>
+<header><hgroup id=brand>
+<h1>Envoy Gateway a new Gateway API for Kubernetes</h1>
+<h5>
+<time datetime="2023-11-10 23:01:00 +0000 UTC">Nov 10, 2023</time>
+<span class=no-print>
+-
+<a href=https://blog.nobugware.com/tags/kubernetes>kubernetes</a>
+<a href=https://blog.nobugware.com/tags/envoy>envoy</a>
+<a href=https://blog.nobugware.com/tags/proxy>proxy</a>
+<a href=https://blog.nobugware.com/tags/gateway>gateway</a>
+<span>
+</h5>
+</hgroup>
+<hr class=sep>
+</header>
+<p><a href=https://www.envoyproxy.io/docs/envoy/v1.28.0/intro/what_is_envoy>Envoy Proxy</a> is a well known proxy load balancer offering HTTP, gRPC, TCP, customizable with Lua, Go, WASM &mldr;
+It&rsquo;s often the core component used to build gateways/proxies for Kubernetes.
+For example <a href=https://istio.io/>Istio</a> is using it as a proxy load balancer for ingresses but also as a sidecar to create a &ldquo;mesh network&rdquo;.</p>
+<p><a href=https://gateway.envoyproxy.io/>Envoy Gateway</a> is a more recent project to manage Envoy proxies inside Kubernetes, it is meant to be a common foundation to build on top of it, but it can be used directly as it is.</p>
+<p>It has a great advantage, it can be managed through the recent <a href=https://gateway-api.sigs.k8s.io/>Kubernetes Gateway API</a>, this API solves a decade of non standardized ways to provision &ldquo;Ingresses&rdquo;.</p>
+<p>Envoy Gateway first GA version was released on November 1st 2023, you may think it&rsquo;s very early but remember the traffic is actually flowing through Envoy Proxy, Gateway is only provisioning the proxies using <a href=https://www.envoyproxy.io/docs/envoy/latest/intro/arch_overview/operations/dynamic_configuration>xDS APIs.</a>.</p>
+<p>The actual documentation has some great examples, but some details, for real world scenarios, are sometimes missing, those examples worked for me.</p>
+<p>We&rsquo;ll explore two scenarios, one to deploy it as a public <code>LoadBalancer</code>, one to use it as internal load balancer.</p>
+<h2 id=installation>Installation</h2>
+<p>The installation is straightforward and requires only applying some CRDs to the cluster.</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh>kubectl apply -f https://github.com/envoyproxy/gateway/releases/download/latest/install.yaml
+</code></pre></div><h3 id=tls>TLS</h3>
+<p>Add certs to Kubernetes:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh>kubectl create -n envoy-gateway-system secret tls tls-certificate --key<span style=color:#f92672>=</span>tls.key --cert<span style=color:#f92672>=</span>tls.crt 
+</code></pre></div><h3 id=creating-a-public-proxy>Creating A Public Proxy</h3>
+<p>From there provision a <code>GatewayClass</code> and a <code>Gateway</code>.</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=color:#f92672>apiVersion</span>: <span style=color:#ae81ff>gateway.networking.k8s.io/v1beta1</span>
+<span style=color:#f92672>kind</span>: <span style=color:#ae81ff>GatewayClass</span>
+<span style=color:#f92672>metadata</span>:
+  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>eg</span>
+<span style=color:#f92672>spec</span>:
+  <span style=color:#f92672>controllerName</span>: <span style=color:#ae81ff>gateway.envoyproxy.io/gatewayclass-controller</span>
+  <span style=color:#f92672>parametersRef</span>:
+    <span style=color:#f92672>group</span>: <span style=color:#ae81ff>gateway.envoyproxy.io</span>
+    <span style=color:#f92672>kind</span>: <span style=color:#ae81ff>EnvoyProxy</span>
+    <span style=color:#f92672>name</span>: <span style=color:#ae81ff>custom-proxy-config</span>
+    <span style=color:#f92672>namespace</span>: <span style=color:#ae81ff>envoy-gateway-system</span>
+---        
+<span style=color:#f92672>apiVersion</span>: <span style=color:#ae81ff>gateway.networking.k8s.io/v1</span>
+<span style=color:#f92672>kind</span>: <span style=color:#ae81ff>Gateway</span>
+<span style=color:#f92672>metadata</span>:
+  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>eg</span>
+  <span style=color:#f92672>namespace</span>: <span style=color:#ae81ff>envoy-gateway-system</span>
+<span style=color:#f92672>spec</span>:
+  <span style=color:#f92672>gatewayClassName</span>: <span style=color:#ae81ff>eg</span>
+  <span style=color:#f92672>listeners</span>:
+  - <span style=color:#f92672>allowedRoutes</span>:
+      <span style=color:#f92672>namespaces</span>:
+        <span style=color:#f92672>from</span>: <span style=color:#ae81ff>All</span>
+    <span style=color:#f92672>name</span>: <span style=color:#ae81ff>https</span>
+    <span style=color:#f92672>port</span>: <span style=color:#ae81ff>443</span>
+    <span style=color:#f92672>protocol</span>: <span style=color:#ae81ff>HTTPS</span>
+    <span style=color:#f92672>tls</span>:
+      <span style=color:#f92672>certificateRefs</span>:
+      - <span style=color:#f92672>group</span>: <span style=color:#e6db74>&#34;&#34;</span>
+        <span style=color:#f92672>kind</span>: <span style=color:#ae81ff>Secret</span>
+        <span style=color:#f92672>name</span>: <span style=color:#ae81ff>tls-certificate</span>
+      <span style=color:#f92672>mode</span>: <span style=color:#ae81ff>Terminate</span>
+---
+<span style=color:#f92672>apiVersion</span>: <span style=color:#ae81ff>gateway.envoyproxy.io/v1alpha1</span>
+<span style=color:#f92672>kind</span>: <span style=color:#ae81ff>EnvoyProxy</span>
+<span style=color:#f92672>metadata</span>:
+  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>custom-proxy-config</span>
+  <span style=color:#f92672>namespace</span>: <span style=color:#ae81ff>envoy-gateway-system</span>
+<span style=color:#f92672>spec</span>:
+  <span style=color:#f92672>provider</span>:
+    <span style=color:#f92672>type</span>: <span style=color:#ae81ff>Kubernetes</span>
+    <span style=color:#f92672>kubernetes</span>:
+      <span style=color:#f92672>envoyDeployment</span>:
+        <span style=color:#f92672>replicas</span>: <span style=color:#ae81ff>2</span>
+</code></pre></div><p>We will use the <code>EnvoyProxy</code> custom configuration, multiple times in those examples, to modify the default behavior, here we are asking for 2 replicas of the Envoy Proxy.</p>
+<p>Note the extra <code>allowedRoutes:</code> <code>namespaces:</code> <code>from: All</code>, or you won&rsquo;t be able to create routes from other namespaces.</p>
+<p>In the <code>envoy-gateway-system</code> namespace the pods should be visible by now:</p>
+<ul>
+<li><code>envoy-gateway</code> the gateway</li>
+<li><code>envoy-envoy-gateway-system-eg</code> the proxies twice</li>
+</ul>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh>kubectl -n envoy-gateway-system get po
+NAME                                                     READY   STATUS    RESTARTS   AGE
+envoy-gateway-55cd86c564-bxvcd                           1/1     Running   <span style=color:#ae81ff>0</span>          2m47s
+envoy-envoy-gateway-system-eg-5391c79d-c65b975fc-wftkc   1/1     Running   <span style=color:#ae81ff>0</span>          14s
+envoy-envoy-gateway-system-eg-5391c79d-c65b975fc-vm89d   1/1     Running   <span style=color:#ae81ff>0</span>          14s
+</code></pre></div><p>It created a <code>LoadBalancer</code>, in case this cluster is on a public cloud instance, this is the external public entry to your services.</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh>kubectl -n envoy-gateway-system get svc  
+envoy-envoy-gateway-system-eg-5391c79d   LoadBalancer   10.43.198.60   10.0.0.37     443:30761/TCP         3d23h
+</code></pre></div><p>Deploy a test app</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=color:#f92672>apiVersion</span>: <span style=color:#ae81ff>v1</span>
+<span style=color:#f92672>kind</span>: <span style=color:#ae81ff>Service</span>
+<span style=color:#f92672>metadata</span>:
+  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>backend</span>
+  <span style=color:#f92672>namespace</span>: <span style=color:#ae81ff>myproject</span>
+  <span style=color:#f92672>labels</span>:
+    <span style=color:#f92672>app</span>: <span style=color:#ae81ff>backend</span>
+    <span style=color:#f92672>service</span>: <span style=color:#ae81ff>backend</span>
+<span style=color:#f92672>spec</span>:
+  <span style=color:#f92672>ports</span>:
+    - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>http</span>
+      <span style=color:#f92672>port</span>: <span style=color:#ae81ff>3000</span>
+      <span style=color:#f92672>targetPort</span>: <span style=color:#ae81ff>3000</span>
+  <span style=color:#f92672>selector</span>:
+    <span style=color:#f92672>app</span>: <span style=color:#ae81ff>backend</span>
+---
+<span style=color:#f92672>apiVersion</span>: <span style=color:#ae81ff>apps/v1</span>
+<span style=color:#f92672>kind</span>: <span style=color:#ae81ff>Deployment</span>
+<span style=color:#f92672>metadata</span>:
+  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>backend</span>
+  <span style=color:#f92672>namespace</span>: <span style=color:#ae81ff>myproject</span>
+<span style=color:#f92672>spec</span>:
+  <span style=color:#f92672>replicas</span>: <span style=color:#ae81ff>1</span>
+  <span style=color:#f92672>selector</span>:
+    <span style=color:#f92672>matchLabels</span>:
+      <span style=color:#f92672>app</span>: <span style=color:#ae81ff>backend</span>
+  <span style=color:#f92672>template</span>:
+    <span style=color:#f92672>metadata</span>:
+      <span style=color:#f92672>labels</span>:
+        <span style=color:#f92672>app</span>: <span style=color:#ae81ff>backend</span>
+    <span style=color:#f92672>spec</span>:
+      <span style=color:#f92672>containers</span>:
+        - <span style=color:#f92672>image</span>: <span style=color:#ae81ff>gcr.io/k8s-staging-ingressconformance/echoserver:v20221109-7ee2f3e</span>
+          <span style=color:#f92672>imagePullPolicy</span>: <span style=color:#ae81ff>IfNotPresent</span>
+          <span style=color:#f92672>name</span>: <span style=color:#ae81ff>backend</span>
+          <span style=color:#f92672>ports</span>:
+            - <span style=color:#f92672>containerPort</span>: <span style=color:#ae81ff>3000</span>
+</code></pre></div><p>Add some HTTP routes to the app</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=color:#f92672>apiVersion</span>: <span style=color:#ae81ff>gateway.networking.k8s.io/v1</span>
+<span style=color:#f92672>kind</span>: <span style=color:#ae81ff>HTTPRoute</span>
+<span style=color:#f92672>metadata</span>:
+  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>backend-routes</span>
+  <span style=color:#f92672>namespace</span>: <span style=color:#ae81ff>myproject</span>
+<span style=color:#f92672>spec</span>:
+  <span style=color:#f92672>hostnames</span>:
+  - <span style=color:#e6db74>&#34;api.mydomain.tld&#34;</span>
+  <span style=color:#f92672>parentRefs</span>:
+  - <span style=color:#f92672>group</span>: <span style=color:#ae81ff>gateway.networking.k8s.io</span>
+    <span style=color:#f92672>kind</span>: <span style=color:#ae81ff>Gateway</span>
+    <span style=color:#f92672>name</span>: <span style=color:#ae81ff>eg</span>
+    <span style=color:#f92672>namespace</span>: <span style=color:#ae81ff>envoy-gateway-system</span>
+  <span style=color:#f92672>rules</span>:
+  - <span style=color:#f92672>backendRefs</span>:
+    - <span style=color:#f92672>group</span>: <span style=color:#e6db74>&#34;&#34;</span>
+      <span style=color:#f92672>kind</span>: <span style=color:#ae81ff>Service</span>
+      <span style=color:#f92672>name</span>: <span style=color:#ae81ff>backend</span>
+      <span style=color:#f92672>port</span>: <span style=color:#ae81ff>3000</span>
+      <span style=color:#f92672>weight</span>: <span style=color:#ae81ff>1</span>
+    <span style=color:#f92672>matches</span>:
+    - <span style=color:#f92672>path</span>:
+        <span style=color:#f92672>type</span>: <span style=color:#ae81ff>PathPrefix</span>
+        <span style=color:#f92672>value</span>: <span style=color:#ae81ff>/</span>
+</code></pre></div><h3 id=regex-path-matching>Regex Path Matching</h3>
+<p>Envoy Proxy (so upstream) has <a href=https://www.envoyproxy.io/docs/envoy/latest/api-v3/config/route/v3/route_components.proto#config-route-v3-routematch>multiple ways to match paths</a>, but there are no example in Envoy Gateway documentation.</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=color:#f92672>apiVersion</span>: <span style=color:#ae81ff>gateway.networking.k8s.io/v1</span>
+<span style=color:#f92672>kind</span>: <span style=color:#ae81ff>HTTPRoute</span>
+<span style=color:#f92672>metadata</span>:
+  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>api-routes</span>
+  <span style=color:#f92672>namespace</span>: <span style=color:#ae81ff>myproject</span>
+<span style=color:#f92672>spec</span>:
+  <span style=color:#f92672>hostnames</span>:
+  - <span style=color:#e6db74>&#34;api.mydomain.tld&#34;</span>
+  <span style=color:#f92672>parentRefs</span>:
+  - <span style=color:#f92672>group</span>: <span style=color:#ae81ff>gateway.networking.k8s.io</span>
+    <span style=color:#f92672>kind</span>: <span style=color:#ae81ff>Gateway</span>
+    <span style=color:#f92672>name</span>: <span style=color:#ae81ff>eg</span>
+    <span style=color:#f92672>namespace</span>: <span style=color:#ae81ff>envoy-gateway-system</span>
+  <span style=color:#f92672>rules</span>:
+  - <span style=color:#f92672>backendRefs</span>:
+    - <span style=color:#f92672>group</span>: <span style=color:#e6db74>&#34;&#34;</span>
+      <span style=color:#f92672>kind</span>: <span style=color:#ae81ff>Service</span>
+      <span style=color:#f92672>name</span>: <span style=color:#ae81ff>user-send</span>
+      <span style=color:#f92672>port</span>: <span style=color:#ae81ff>8080</span>
+      <span style=color:#f92672>weight</span>: <span style=color:#ae81ff>1</span>
+    <span style=color:#f92672>matches</span>:
+    - <span style=color:#f92672>path</span>:
+        <span style=color:#f92672>type</span>: <span style=color:#ae81ff>RegularExpression</span>
+        <span style=color:#f92672>value</span>: <span style=color:#ae81ff>\/user\/[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}\/send</span>
+</code></pre></div><h3 id=solving-issues>Solving Issues</h3>
+<p>You can tell something is wrong if the <code>gatewayclasses</code> are not accepted:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh>$ k  -n envoy-gateway-system get gatewayclasses.gateway.networking.k8s.io
+NAME          CONTROLLER                                      ACCEPTED   AGE
+eg            gateway.envoyproxy.io/gatewayclass-controller   True       41m
+eg-internal   gateway.envoyproxy.io/gatewayclass-controller   False      6m57s
+</code></pre></div><p>Then using describe on the <code>gatewayclasses</code>:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh>k  -n envoy-gateway-system describe  
+gatewayclasses.gateway.networking.k8s.io   eg-internal 
+</code></pre></div><pre tabindex=0><code>Status:
+  Conditions:
+    Last Transition Time:  2023-11-07T14:51:01Z
+    Message:               Invalid GatewayClass: another older GatewayClass with the same Spec.Controller exists
+    Observed Generation:   2
+    Reason:                OlderGatewayClassExists
+    Status:                False
+    Type:                  Accepted
+</code></pre><h3 id=grpc>gRPC</h3>
+<p>Creating a <code>GRPCRoute</code> is very similar to <code>HTTPRoute</code>:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=color:#f92672>apiVersion</span>: <span style=color:#ae81ff>gateway.networking.k8s.io/v1alpha2</span>
+<span style=color:#f92672>kind</span>: <span style=color:#ae81ff>GRPCRoute</span>
+<span style=color:#f92672>metadata</span>:
+  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>grpc-api</span>
+  <span style=color:#f92672>namespace</span>: <span style=color:#ae81ff>myproject</span>
+<span style=color:#f92672>spec</span>:
+  <span style=color:#f92672>parentRefs</span>:
+  - <span style=color:#f92672>group</span>: <span style=color:#ae81ff>gateway.networking.k8s.io</span>
+    <span style=color:#f92672>kind</span>: <span style=color:#ae81ff>Gateway</span>
+    <span style=color:#f92672>name</span>: <span style=color:#ae81ff>eg</span>
+    <span style=color:#f92672>namespace</span>: <span style=color:#ae81ff>envoy-gateway-system</span>
+  <span style=color:#f92672>hostnames</span>:
+  - <span style=color:#e6db74>&#34;grpc-api.mydomain.tld&#34;</span>
+  <span style=color:#f92672>rules</span>:
+  - <span style=color:#f92672>backendRefs</span>:
+    - <span style=color:#f92672>group</span>: <span style=color:#e6db74>&#34;&#34;</span>
+      <span style=color:#f92672>kind</span>: <span style=color:#ae81ff>Service</span>
+      <span style=color:#f92672>name</span>: <span style=color:#ae81ff>grpc-api</span>
+      <span style=color:#f92672>port</span>: <span style=color:#ae81ff>9000</span>
+      <span style=color:#f92672>weight</span>: <span style=color:#ae81ff>1</span>
+</code></pre></div><p>Note that it can automatically match the service using gRPC reflection:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml>  <span style=color:#f92672>rules</span>:
+    - <span style=color:#f92672>matches</span>:
+      - <span style=color:#f92672>method</span>:
+          <span style=color:#f92672>method</span>: <span style=color:#ae81ff>ServerReflectionInfo</span>
+          <span style=color:#f92672>service</span>: <span style=color:#ae81ff>grpc.reflection.v1alpha.ServerReflection</span>
+</code></pre></div><p>Or using <a href=https://gateway.envoyproxy.io/v0.6.0/user/grpc-routing/#regularexpression>regular expression on the method or service</a>.</p>
+<h3 id=jwt>JWT</h3>
+<p>If you are using Auth0 the JWKS URL is in the form: <code>https://myorg.us.auth0.com/.well-known/jwks.json</code>.</p>
+<p>Let&rsquo;s say we want to restrict the <code>api-routes</code> to valid JWT requests:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=color:#f92672>apiVersion</span>: <span style=color:#ae81ff>gateway.envoyproxy.io/v1alpha1</span>
+<span style=color:#f92672>kind</span>: <span style=color:#ae81ff>SecurityPolicy</span>
+<span style=color:#f92672>metadata</span>:
+  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>backend-api-closed</span>
+  <span style=color:#f92672>namespace</span>: <span style=color:#ae81ff>envoy-gateway-system</span>
+<span style=color:#f92672>spec</span>:
+  <span style=color:#f92672>targetRef</span>:
+    <span style=color:#f92672>group</span>: <span style=color:#e6db74>&#34;gateway.networking.k8s.io&#34;</span>
+    <span style=color:#f92672>kind</span>: <span style=color:#ae81ff>HTTPRoute</span>
+    <span style=color:#f92672>name</span>: <span style=color:#ae81ff>api-routes</span>
+  <span style=color:#f92672>jwt</span>:
+    <span style=color:#f92672>providers</span>:
+      - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>auth0</span>
+        <span style=color:#f92672>remoteJWKS</span>:
+          <span style=color:#f92672>uri</span>: <span style=color:#ae81ff>https://myorg.us.auth0.com/.well-known/jwks.json</span>
+        <span style=color:#f92672>audiences</span>:
+          - <span style=color:#ae81ff>https://myorg.us.auth0.com/userinfo</span>
+        <span style=color:#f92672>issuer</span>: <span style=color:#ae81ff>https://id.mydomain.com/</span>
+        <span style=color:#f92672>claimToHeaders</span>:
+        - <span style=color:#f92672>claim</span>: <span style=color:#ae81ff>azp</span>
+          <span style=color:#f92672>header</span>: <span style=color:#ae81ff>client_id</span>
+</code></pre></div><p>Note the use of <code>claimToHeaders</code> to pass some claims value to the headers.</p>
+<h3 id=external-authorization>External Authorization</h3>
+<p>To use an external authorization <a href=https://www.envoyproxy.io/docs/envoy/latest/configuration/http/http_filters/ext_authz_filter><code>ext_authz</code></a>, it needs a xDS patch (hopefully <a href=https://github.com/envoyproxy/gateway/issues/1059>this will change in the future</a>):</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=color:#f92672>apiVersion</span>: <span style=color:#ae81ff>gateway.envoyproxy.io/v1alpha1</span>
+<span style=color:#f92672>kind</span>: <span style=color:#ae81ff>EnvoyPatchPolicy</span>
+<span style=color:#f92672>metadata</span>:
+  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>ext-authz-patch-policy</span>
+  <span style=color:#f92672>namespace</span>: <span style=color:#ae81ff>envoy-gateway-system</span>
+<span style=color:#f92672>spec</span>:
+  <span style=color:#f92672>targetRef</span>:
+    <span style=color:#f92672>group</span>: <span style=color:#ae81ff>gateway.networking.k8s.io</span>
+    <span style=color:#f92672>kind</span>: <span style=color:#ae81ff>Gateway</span>
+    <span style=color:#f92672>name</span>: <span style=color:#ae81ff>eg</span>
+    <span style=color:#f92672>namespace</span>: <span style=color:#ae81ff>envoy-gateway-system</span>
+  <span style=color:#f92672>type</span>: <span style=color:#ae81ff>JSONPatch</span>
+  <span style=color:#f92672>jsonPatches</span>:
+    - <span style=color:#f92672>type</span>: <span style=color:#e6db74>&#34;type.googleapis.com/envoy.config.listener.v3.Listener&#34;</span>
+      <span style=color:#f92672>name</span>: <span style=color:#e6db74>&#34;envoy-gateway-system/eg/http&#34;</span>
+      <span style=color:#f92672>operation</span>:
+        <span style=color:#f92672>op</span>: <span style=color:#ae81ff>add</span>
+        <span style=color:#f92672>path</span>: <span style=color:#e6db74>&#34;/default_filter_chain/filters/0/typed_config/http_filters/0&#34;</span>
+        <span style=color:#f92672>value</span>:
+          <span style=color:#f92672>name</span>: <span style=color:#e6db74>&#34;envoy.filters.http.ext_authz&#34;</span>
+          <span style=color:#f92672>typed_config</span>:
+            <span style=color:#f92672>&#34;@type&#34;: </span><span style=color:#e6db74>&#34;type.googleapis.com/envoy.extensions.filters.http.ext_authz.v3.ExtAuthz&#34;</span>
+            <span style=color:#f92672>grpc_service</span>:
+              <span style=color:#f92672>envoy_grpc</span>:
+                <span style=color:#f92672>cluster_name</span>: <span style=color:#ae81ff>envoy_ext_jwt_auth</span>
+</code></pre></div><h3 id=patching-default-bootstrap>Patching Default Bootstrap</h3>
+<p>To patch the default Envoy Proxy configuration use <code>EnvoyProxy</code> custom config again:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=color:#f92672>apiVersion</span>: <span style=color:#ae81ff>gateway.envoyproxy.io/v1alpha1</span>
+<span style=color:#f92672>kind</span>: <span style=color:#ae81ff>EnvoyProxy</span>
+<span style=color:#f92672>metadata</span>:
+  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>custom-proxy-config</span>
+  <span style=color:#f92672>namespace</span>: <span style=color:#ae81ff>envoy-gateway-system</span>
+<span style=color:#f92672>spec</span>:
+  <span style=color:#f92672>bootstrap</span>:
+    <span style=color:#f92672>type</span>: <span style=color:#ae81ff>Replace</span>
+    <span style=color:#f92672>value</span>: |<span style=color:#e6db74>
+</span><span style=color:#e6db74>      admin:
+</span><span style=color:#e6db74>        accessLog:</span>      
+	  <span style=color:#ae81ff>...	</span>
+</code></pre></div><p>Beware 0.6.0 documentation has a typo.</p>
+<h3 id=accessing-envoy-proxy-debug-interface>Accessing Envoy Proxy Debug Interface</h3>
+<p>Access the web interface by port forwarding to the <code>envoy-envoy-gateway-system-eg</code> pods port 19000.</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh>kubectl -n envoy-gateway-system port-forward envoy-envoy-gateway-system-eg-xxxxxx-xxxxxx-xxxxx  <span style=color:#ae81ff>19000</span>  
+</code></pre></div><h2 id=creating-an-internal-proxy>Creating An Internal Proxy</h2>
+<p>A gateway accessible only within the cluster can be provisioned, to act for example as an L7 load balancer in front of gRPC:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=color:#f92672>apiVersion</span>: <span style=color:#ae81ff>gateway.networking.k8s.io/v1beta1</span>
+<span style=color:#f92672>kind</span>: <span style=color:#ae81ff>GatewayClass</span>
+<span style=color:#f92672>metadata</span>:
+  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>eg-internal</span>
+<span style=color:#f92672>spec</span>:
+  <span style=color:#f92672>controllerName</span>: <span style=color:#ae81ff>gateway.envoyproxy.io/gatewayclass-controller</span>
+  <span style=color:#f92672>parametersRef</span>:
+    <span style=color:#f92672>group</span>: <span style=color:#ae81ff>gateway.envoyproxy.io</span>
+    <span style=color:#f92672>kind</span>: <span style=color:#ae81ff>EnvoyProxy</span>
+    <span style=color:#f92672>name</span>: <span style=color:#ae81ff>proxy-config-internal</span>
+    <span style=color:#f92672>namespace</span>: <span style=color:#ae81ff>envoy-gateway-system</span>
+---
+<span style=color:#f92672>apiVersion</span>: <span style=color:#ae81ff>gateway.networking.k8s.io/v1</span>
+<span style=color:#f92672>kind</span>: <span style=color:#ae81ff>Gateway</span>
+<span style=color:#f92672>metadata</span>:
+  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>eg-internal</span>
+  <span style=color:#f92672>namespace</span>: <span style=color:#ae81ff>envoy-gateway-system</span>
+<span style=color:#f92672>spec</span>:
+  <span style=color:#f92672>addresses</span>:
+    - <span style=color:#f92672>type</span>: <span style=color:#ae81ff>IPAddress</span>
+      <span style=color:#f92672>value</span>: <span style=color:#ae81ff>10.43.146.30</span>
+  <span style=color:#f92672>gatewayClassName</span>: <span style=color:#ae81ff>eg-internal</span>
+  <span style=color:#f92672>listeners</span>:
+  - <span style=color:#f92672>allowedRoutes</span>:
+      <span style=color:#f92672>namespaces</span>:
+        <span style=color:#f92672>from</span>: <span style=color:#ae81ff>All</span>
+    <span style=color:#f92672>name</span>: <span style=color:#ae81ff>http</span>
+    <span style=color:#f92672>port</span>: <span style=color:#ae81ff>80</span>
+    <span style=color:#f92672>protocol</span>: <span style=color:#ae81ff>HTTP</span>
+---
+<span style=color:#f92672>apiVersion</span>: <span style=color:#ae81ff>gateway.envoyproxy.io/v1alpha1</span>
+<span style=color:#f92672>kind</span>: <span style=color:#ae81ff>EnvoyProxy</span>
+<span style=color:#f92672>metadata</span>:
+  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>proxy-config-internal</span>
+  <span style=color:#f92672>namespace</span>: <span style=color:#ae81ff>envoy-gateway-system</span>
+<span style=color:#f92672>spec</span>:
+  <span style=color:#f92672>provider</span>:
+    <span style=color:#f92672>type</span>: <span style=color:#ae81ff>Kubernetes</span>
+    <span style=color:#f92672>kubernetes</span>:
+      <span style=color:#f92672>envoyService</span>:
+        <span style=color:#f92672>type</span>: <span style=color:#ae81ff>ClusterIP</span>
+</code></pre></div><p>Verify what address the proxy is using:</p>
+<pre tabindex=0><code>kubectl -n envoy-gateway-system get gateway 
+NAME   CLASS   ADDRESS        PROGRAMMED   AGE
+eg     eg      10.43.146.30   True         17m
+</code></pre><p>Using a cloud provider, you also have the option to establish an internal gateway that can be routed to your private networks using annotations:
+GKE:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=color:#f92672>apiVersion</span>: <span style=color:#ae81ff>config.gateway.envoyproxy.io/v1alpha1</span>
+<span style=color:#f92672>kind</span>: <span style=color:#ae81ff>EnvoyProxy</span>
+<span style=color:#f92672>metadata</span>:
+  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>custom-proxy-config</span>
+  <span style=color:#f92672>namespace</span>: <span style=color:#ae81ff>envoy-gateway-system</span>
+<span style=color:#f92672>spec</span>:
+  <span style=color:#f92672>provider</span>:
+    <span style=color:#f92672>kubernetes</span>:
+      <span style=color:#f92672>envoyService</span>:
+        <span style=color:#f92672>annotations</span>:
+          <span style=color:#f92672>cloud.google.com/neg</span>: <span style=color:#e6db74>&#39;{&#34;exposed_ports&#34;: {&#34;80&#34;:{}}}&#39;</span>
+        <span style=color:#f92672>type</span>: <span style=color:#ae81ff>ClusterIP</span>
+    <span style=color:#f92672>type</span>: <span style=color:#ae81ff>Kubernetes</span>
+</code></pre></div><p>Azure:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=color:#f92672>annotations</span>:
+	<span style=color:#f92672>kubernetes.io/ingress.class</span>: <span style=color:#ae81ff>azure/application-gateway</span>
+	<span style=color:#f92672>appgw.ingress.kubernetes.io/use-private-ip</span>: <span style=color:#e6db74>&#34;true&#34;</span>
+</code></pre></div><p>By provisioning an internal proxy with an IP in advance, we can then provision DNS services entries that point to the proxy.</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=color:#f92672>apiVersion</span>: <span style=color:#ae81ff>v1</span>
+<span style=color:#f92672>kind</span>: <span style=color:#ae81ff>Service</span>
+<span style=color:#f92672>metadata</span>:
+  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>myapi</span>
+  <span style=color:#f92672>namespace</span>: <span style=color:#ae81ff>myproject</span>
+<span style=color:#f92672>spec</span>:
+  <span style=color:#f92672>type</span>: <span style=color:#ae81ff>ExternalName</span>
+  <span style=color:#f92672>externalName</span>: <span style=color:#ae81ff>10.43.146.30</span>
+  <span style=color:#f92672>ports</span>:
+    - <span style=color:#f92672>port</span>: <span style=color:#ae81ff>80</span>
+      <span style=color:#f92672>protocol</span>: <span style=color:#ae81ff>TCP</span>
+</code></pre></div><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh>nslookup myapi.myproject.svc.cluster.local
+Adress: 10.43.146.30
+</code></pre></div><p>And finally provision an <code>HTTProute</code> or <code>GRPCRoute</code> matching for this hostname:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=color:#f92672>apiVersion</span>: <span style=color:#ae81ff>gateway.networking.k8s.io/v1</span>
+<span style=color:#f92672>kind</span>: <span style=color:#ae81ff>HTTPRoute</span>
+<span style=color:#f92672>metadata</span>:
+  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>backend-internal-routes</span>
+  <span style=color:#f92672>namespace</span>: <span style=color:#ae81ff>myproject</span>
+<span style=color:#f92672>spec</span>:
+  <span style=color:#f92672>hostnames</span>:
+  - <span style=color:#e6db74>&#34;myapi.myproject.svc.cluster.local&#34;</span>
+  <span style=color:#f92672>parentRefs</span>:
+  - <span style=color:#f92672>group</span>: <span style=color:#ae81ff>gateway.networking.k8s.io</span>
+    <span style=color:#f92672>kind</span>: <span style=color:#ae81ff>Gateway</span>
+    <span style=color:#f92672>name</span>: <span style=color:#ae81ff>eg</span>
+    <span style=color:#f92672>namespace</span>: <span style=color:#ae81ff>envoy-gateway-system</span>
+  <span style=color:#f92672>rules</span>:
+  - <span style=color:#f92672>backendRefs</span>:
+    - <span style=color:#f92672>group</span>: <span style=color:#e6db74>&#34;&#34;</span>
+      <span style=color:#f92672>kind</span>: <span style=color:#ae81ff>Service</span>
+      <span style=color:#f92672>name</span>: <span style=color:#ae81ff>backend</span>
+      <span style=color:#f92672>port</span>: <span style=color:#ae81ff>3000</span>
+      <span style=color:#f92672>weight</span>: <span style=color:#ae81ff>1</span>
+    <span style=color:#f92672>matches</span>:
+    - <span style=color:#f92672>path</span>:
+        <span style=color:#f92672>type</span>: <span style=color:#ae81ff>PathPrefix</span>
+        <span style=color:#f92672>value</span>: <span style=color:#ae81ff>/</span>
+</code></pre></div><p>Note that at the time of writing this post, <a href=https://github.com/envoyproxy/gateway/issues/2166>there is a bug in 0.6.0</a> when using the <code>clusterIP</code> and setting <code>addresses</code>, it will set <code>externalIPs</code> rather than <code>clusterIPs</code>.</p>
+<h3 id=multiple-gateways>Multiple Gateways</h3>
+<p>If you are planning on a public <strong>and</strong> an internal one, at the same time, you will end up with a conflict, create a second installation for a gateway watching <code>gateway.envoyproxy.io/internal-gatewayclass-controller</code></p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh>helm template --set config.envoyGateway.gateway.controllerName<span style=color:#f92672>=</span>gateway.envoyproxy.io/internal-gatewayclass-controller eg-internal oci://docker.io/envoyproxy/gateway-helm --version v0.6.0 -n envoy-gateway-internal &gt; install-internal.yaml
+kubectl create ns envoy-gateway-internal 
+kubectl -n  envoy-gateway-internal  apply -f install-internal.yaml
+</code></pre></div><h2 id=notes-on-k3s>Notes On k3s</h2>
+<p>Here are some notes to explore Envoy Gateway, on a lab, using <a href=https://docs.k3s.io/>k3s</a>.</p>
+<p>Traefik is shipped within k3s, it needs to be disabled, tweak <code>systemctl</code> to add an argument to start k3s without Traefik.</p>
+<pre tabindex=0><code>ExecStart=
+ExecStart=/usr/local/bin/k3s \
+    server \
+	--disable traefik
+</code></pre><h3 id=loadbalancer>LoadBalancer</h3>
+<p>In k3s a component, named <a href=https://docs.k3s.io/networking#service-load-balancer>ServiceLB</a>, will act as a cloud provider to expose ports to the outside world (your host), and should be visible in <code>kube-system</code> namespace.</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh>svclb-envoy-envoy-gateway-system-eg-5391c79d-54a88387-fz4wj   1/1     Running     <span style=color:#ae81ff>0</span>          3d23h
+</code></pre></div><h3 id=mac--colima>Mac & Colima</h3>
+<p>If you are on Mac, <a href=https://github.com/abiosoft/colima#kubernetes>Colima</a> can be used as your Docker host but also to have local Kubernetes cluster using k3s.
+You need to disable Traefik (the bundled load balancer):</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-sh data-lang=sh>colima start -m <span style=color:#ae81ff>4</span> -c <span style=color:#ae81ff>4</span> --kubernetes --k3s-arg <span style=color:#e6db74>&#34;--disable=traefik&#34;</span>  
+</code></pre></div><p>Colima is doing the work of exposing the cluster load balanced ports for you, so you can actually talk to localhost on port 80 or 443 to reach the cluster:</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-shell data-lang=shell>curl --verbose --header <span style=color:#e6db74>&#34;Host: blog.mydomain.tld&#34;</span> http://localhost/get
+</code></pre></div><h2 id=conclusion>Conclusion</h2>
+<p>Like every fresh projects, you may hit some new issues, but the overall project quality is high.
+It can be used as it is, I&rsquo;ve migrated some services already and we are planning a full migration.</p>
+</article>
+<nav class="no-print post-nav">
+<a class=prev-post href=https://blog.nobugware.com/post/2022/surprising-result-while-transpiling-go/>
+<img class=icon-text src=https://blog.nobugware.com/img/prev.svg>Surprising result while transpiling C to Go</a>
+</nav>
+<section id=related>
+<h4>See Also</h4>
+<ul>
+<li><a href=https://blog.nobugware.com/post/enabling-cloudflare-in-front-of-your-kubernetes-cluster-with-traefik/>Enabling Cloudflare in front of your Kubernetes cluster with Traefik</a></li>
+<li><a href=https://blog.nobugware.com/post/2019/k3s-containterd-zfs/>k3s, containerd & ZFS</a></li>
+<li><a href=https://blog.nobugware.com/post/2019/nomad_an_alternative_to_kubernetes/>Nomad an alternative to Kubernetes</a></li>
+</ul>
+</section>
+<hr class=sep>
+</main>
+<footer class="container no-print">
+<div class=u-footer>
+<a href=https://github.com/akhenakh/><img class=icon-social src=https://blog.nobugware.com/img/github.svg alt=Github></a>
+<a href=https://twitter.com/akhenakh><img class=icon-social src=https://blog.nobugware.com/img/twitter.svg alt=Twitter></a>
+<a href=https://blog.nobugware.com/index.xml target=_blank><img class=icon-social src=https://blog.nobugware.com/img/feed.svg alt=Feed></a>
+<p>
+Theme used: <a href=https://github.com/yursan9/manis-hugo-theme>Manis</a><br>
+</p>
+<a href=#brand>
+<img class=icon-text src=https://blog.nobugware.com/img/toup.svg alt="To Up">
+<span>Back to Up</span>
+</a>
+</div>
+</footer>
+<script>(function(a,e,f,g,b,c,d){a.GoogleAnalyticsObject=b,a[b]=a[b]||function(){(a[b].q=a[b].q||[]).push(arguments)},a[b].l=1*new Date,c=e.createElement(f),d=e.getElementsByTagName(f)[0],c.async=1,c.src=g,d.parentNode.insertBefore(c,d)})(window,document,'script','//www.google-analytics.com/analytics.js','ga'),ga('create','UA-1245966-1','auto'),ga('send','pageview')</script>
+</body>
+</html>

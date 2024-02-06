@@ -151,11 +151,11 @@
 </code></pre></div><p>Note the <code>cluster</code> field, it will really help debugging your installation, it will generate the path to the actual container:
 <code>"cluster":"httproute/mycontainer/mycontainer-backend-open-0/rule/0"</code></p>
 <h2 id=cors>CORS</h2>
-<p>Enabling CORS is <a href=https://gateway.envoyproxy.io/v0.6.0/user/cors/>well documented</a>but one detail was missing, if for some reasons the routes are matching on methods (<code>GET</code>,<code>PUT</code> &mldr;), Envoy Proy won&rsquo;t be able to respond to preflights HTTP requests, since they are using <code>OPTIONS</code>:</p>
+<p>Enabling CORS is <a href=https://gateway.envoyproxy.io/v0.6.0/user/cors/>well documented</a> but one detail was missing, if for some reasons the routes are matching on methods (<code>GET</code>,<code>PUT</code> &mldr;), Envoy Proy won&rsquo;t be able to respond to preflights HTTP requests, since they are using <code>OPTIONS</code>:</p>
 <p>The documentation has been updated to reflect that:
 <em>The targeted HTTPRoute or the HTTPRoutes that the targeted Gateway routes to must allow the OPTIONS method for the CORS filter to work. Otherwise, the OPTIONS request won&rsquo;t match the routes and the CORS filter won&rsquo;t be invoked.</em></p>
 <h2 id=regex-match>Regex Match</h2>
-<p>By default, Envoy Proxy is using a very small limit for the regex complexity, it means a very simple regex may be rejected.
+<p>By default, Envoy Proxy is using a very small limit for the regex complexity, it means a very simple regex may be rejected.<br>
 Envoy Gateway (as of 0.6.0) does not increase that value, you should probably do it by changing the default bootstrap config.</p>
 <div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=color:#f92672>apiVersion</span>: <span style=color:#ae81ff>gateway.envoyproxy.io/v1alpha1</span>
 <span style=color:#f92672>kind</span>: <span style=color:#ae81ff>EnvoyProxy</span>
@@ -181,7 +181,7 @@ Envoy Gateway (as of 0.6.0) does not increase that value, you should probably do
 </code></pre><p>It could be a huge issue, if for some reasons Envoy is restarting, <strong>it will respond with 404 for all the routes</strong> until the route is removed or the threshold is increased.</p>
 <p>Tracking the <a href=https://github.com/envoyproxy/gateway/issues/2543>issue</a>.</p>
 <h2 id=external-authorization-authz>External Authorization (Authz)</h2>
-<p>I&rsquo;m running a <a href=https://github.com/akhenakh/gateway>0.6.0 fork</a> with gRPC authz enabled.</p>
+<p>I&rsquo;m running a <a href=https://github.com/akhenakh/gateway/tree/ext_authz>0.6.0 fork</a> with gRPC authz enabled.</p>
 <div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=color:#f92672>apiVersion</span>: <span style=color:#ae81ff>gateway.envoyproxy.io/v1alpha1</span>
 <span style=color:#f92672>kind</span>: <span style=color:#ae81ff>SecurityPolicy</span>
 <span style=color:#f92672>metadata</span>:

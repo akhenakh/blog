@@ -206,7 +206,6 @@ Envoy Gateway (as of 0.6.0) does not increase that value, you should probably do
 <p>An <a href=https://github.com/envoyproxy/gateway/issues/1059>Extauthz solution by the Gateway team</a> is in development and should land soon.</p>
 <h2 id=oidc-openid>OIDC OpenID</h2>
 <p>Not in 0.6.0 but already merged, OIDC is supported to protect an <code>HTTPRoute</code> via a <code>SecurityPolicy</code>.</p>
-<p>If not provided, EG will try to discover it from the provider&rsquo;s <a href=https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderConfigurationResponse>Well-Known Configuration Endpoint</a>.</p>
 <p>With Azure (but similar with other providers), register an application, get the client ID (application ID) and the client secret, the issuer URL is built with the UUID from &ldquo;Directory (tenant) ID&rdquo;.
 Set the Redirect URL to this form:
 <code>https://myapp.mydomain.com/oauth2/callback</code></p>
@@ -227,8 +226,9 @@ Set the Redirect URL to this form:
     <span style=color:#f92672>clientID</span>: <span style=color:#e6db74>&#34;4e550576-cd82-4566-a00c-4c1fee89f808&#34;</span>
     <span style=color:#f92672>clientSecret</span>:
       <span style=color:#f92672>name</span>: <span style=color:#e6db74>&#34;myapp-oidc-client-secret&#34;</span>
-</code></pre></div><h2 id=conclusion>Conclusion</h2>
-<p>Most if not any of those required extra configurations will probably disappear with the 1.0 release.
+</code></pre></div><p>Envoy Gateway will try to discover most of the configuration (Authorization & Token Endpoints) from the provider&rsquo;s <a href=https://openid.net/specs/openid-connect-discovery-1_0.html#ProviderConfigurationResponse>Well-Known Configuration Endpoint</a>.</p>
+<h2 id=conclusion>Conclusion</h2>
+<p>Most if not any of those required extra configurations will probably disappear with the 1.0 release.<br>
 Gateway is flexible enough to provide those in the meantime.</p>
 </article>
 <nav class="no-print post-nav">

@@ -1,104 +1,13 @@
-<!doctype html><html lang=en>
-<head>
-<meta charset=utf-8>
-<meta name=viewport content="width=device-width,initial-scale=1">
-<meta name=generator content="Hugo 0.89.4">
-<title>Free Maps For All - Fabrice Aneche</title>
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=generator content="Hugo 0.123.7"><title>Free Maps For All - Fabrice Aneche</title>
 <meta name=description content="TL;DR; simply run docker pull akhenakh/kvtiles:planet-9-latest for a self hosted free performant world map (more maps and levels available see kvtiles docker tags).
 I&rsquo;ve blogged in the past to describe how to generate and serves your own map tiles server, but I wanted an easier solution.
-KVTiles kvtiles is a map tiles self hosted solution written in Go, it&rsquo;s using Mapbox vector format but rather than using the regular sqlite3 database it&rsquo;s using a key-value storage.">
-<link rel=stylesheet href=https://blog.nobugware.com/css/ui.css>
-<link rel=stylesheet href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway">
-</head>
-<body>
-<header class="container no-print">
-<div class=u-header>
-<nav class=bar>
-<ul><li>
-<a href=https://blog.nobugware.com/>
-<img class=icon-text src=https://blog.nobugware.com/img/prev.svg>
-</a>
-</li><li><a href=https://blog.nobugware.com/about>About</a></li><li><a href=https://blog.nobugware.com/post/>Post</a></li></ul>
-</nav>
-</div>
-</header>
-<main class=container>
-<article>
-<header><hgroup id=brand>
-<h1>Free Maps For All</h1>
-<h5>
-<time datetime="2020-03-17 00:00:00 +0000 UTC">Mar 17, 2020</time>
-<span class=no-print>
--
+KVTiles kvtiles is a map tiles self hosted solution written in Go, it&rsquo;s using Mapbox vector format but rather than using the regular sqlite3 database it&rsquo;s using a key-value storage."><link rel=stylesheet href=https://blog.nobugware.com/css/ui.css><script defer src=https://blog.nobugware.com/js/dark-mode.js></script><link disabled id=dark-mode-theme rel=stylesheet href=https://blog.nobugware.com/css/dark.css><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway"><link rel=stylesheet href=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/ocean.min.css><script src=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js></script><script src=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/languages/go.min.js></script><script src=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/languages/yaml.min.js></script></head><body><header class="container no-print"><div class=u-header><nav class=bar><ul><li><a href=https://blog.nobugware.com/><img class=icon-text src=https://blog.nobugware.com/img/prev.svg></a></li><li><img class=icon-text id=dark-mode-toggle src=https://blog.nobugware.com/img/moon-regular.svg alt="Toggle Dark Mode"></a></li><li><a href=https://blog.nobugware.com/about>About</a></li><li><a href=https://blog.nobugware.com/post/>Post</a></li></ul></nav></div></header><main class=container><article><header><hgroup id=brand><h1>Free Maps For All</h1><h5><time datetime="2020-03-17 00:00:00 +0000 UTC">Mar 17, 2020</time>
+<span class=no-print>-
 <a href=https://blog.nobugware.com/tags/geo>geo</a>
 <a href=https://blog.nobugware.com/tags/go>go</a>
-<span>
-</h5>
-</hgroup>
-<hr class=sep>
-</header>
-<p><em>TL;DR;</em> simply run <code>docker pull akhenakh/kvtiles:planet-9-latest</code> for a self hosted free performant world map (more maps and levels available see <a href=https://hub.docker.com/r/akhenakh/kvtiles/tags>kvtiles docker tags</a>).</p>
-<p>I&rsquo;ve blogged in the past to describe <a href=https://blog.nobugware.com/post/2019/self_hosted_world_maps/>how to generate and serves your own map tiles server</a>, but I wanted an easier solution.</p>
-<h2 id=kvtiles>KVTiles</h2>
-<p><a href=https://github.com/akhenakh/kvtiles>kvtiles</a> is a map tiles self hosted solution written in Go, it&rsquo;s using <a href=https://docs.mapbox.com/vector-tiles/specification/>Mapbox vector format</a> but rather than using the regular sqlite3 database it&rsquo;s using a key-value storage.</p>
-<p><img src=https://blog.nobugware.com/img/parismap.jpg alt title="paris example map"></p>
-<h3 id=key-value>Key-value</h3>
-<p>The sqlite3 Go client is not native and require compiling using CGO.<br>
-By not using it we can use a lighter Docker image like <a href=https://github.com/GoogleContainerTools/distroless>distroless</a>.<br>
-Also on this specific workload and environment, where we do reads only queries against the database, a key-value storage is more efficient.<br>
-kvtiles is using <a href=https://github.com/etcd-io/bbolt>bbolt</a>.<br>
-I’ve been testing several key-value engines for this type of workloads and you can see some results in <a href=https://github.com/akhenakh/insideout#kv-engines>another geo related project insideout</a>.</p>
-<h2 id=docker--kubernetes>Docker & Kubernetes</h2>
-<p>The main target of kvtiles is to be run in Docker/Kubernetes.<br>
-During the build, the maps are pregenerated then stored in a key value database.<br>
-The database is then embedded in a Docker image with the proper tags.</p>
-<p>You can browse all the different regions and levels on docker hub via <a href=https://hub.docker.com/r/akhenakh/kvtiles/tags>kvtiles docker tags</a></p>
-<pre><code> docker run --rm -it -p 8080:8080 akhenakh/kvtiles:us-9-latest
-</code></pre>
-<p>Then point your browser to <code>http://yourdockerip:8080/static/</code></p>
-<p>Having giant images is not a proper solution to scale, so chose the smallest map you need.<br>
-Since kvtiles is capable of serving thousands of requests per seconds you won&rsquo;t need extra solutions but if you plan on very high traffic a reverse proxy cache and/or CDNs are recommended.</p>
-<h2 id=apis--maps>APIs & Maps</h2>
-<p>Tiles are available at <code>/tiles/{z:[0-9]+}/{x:[0-9]+}/{y:[0-9]+}.pbf</code>, an optional <code>key</code> URL param can be passed to secure access to your tiles server, (use the <code>tilesKey</code> option).</p>
-<p>Metrics are provided via Prometheus at <code>http://host:httpMetricsPort/metrics</code>.</p>
-<p>A debug visual map is available at <code>http://host:httpAPIPort/static/</code>.</p>
-<p>Health status is provided via gRPC <code>host:healthPort</code> or via HTTP <code>http://host:httpAPIPort/healthz</code>.</p>
-<p>A <code>http://host:httpAPIPort/version</code> is giving you running version but also information on the dataset.</p>
-<p>kvtiles exposes vectors tiles, use <a href=http://mapbox.com/mapbox.js/>MapBox js</a> or <a href=https://github.com/akhenakh/kvtiles/blob/master/cmd/kvtilesd/static/openlayers.html>Openlayers</a> to build your own map and point to kvtiles file: <code>/static/osm-liberty-gl.style</code></p>
-<p>See the examples in the <a href=https://github.com/akhenakh/kvtiles/blob/master/cmd/kvtilesd/static/>static folder</a></p>
-<h2 id=free>Free</h2>
-<p>I was thinking about creating a paid service to offer supports and maps updates but regarding the situation with Covid-19, having a free self hosted map could maybe help some organizations works in the field.</p>
-</article>
-<nav class="no-print post-nav">
-<a class=prev-post href=https://blog.nobugware.com/post/2019/k3s-containterd-zfs/>
-<img class=icon-text src=https://blog.nobugware.com/img/prev.svg>k3s, containerd & ZFS</a>
-<a class=next-post href=https://blog.nobugware.com/post/2020/c-bindings-in-go-and-swig/>C++ bindings in Go and Swig<img class=icon-text src=https://blog.nobugware.com/img/next.svg>
-</a>
-</nav>
-<section id=related>
-<h4>See Also</h4>
-<ul>
-<li><a href=https://blog.nobugware.com/post/2019/time_series_storage_for_coordinates/>A Time Series Storage for Coordinates</a></li>
-<li><a href=https://blog.nobugware.com/post/2019/an_application_for__mapping_storing_your_iot_devices_data/>An application to map and store your IoT devices data</a></li>
-<li><a href=https://blog.nobugware.com/post/2019/self_hosted_world_maps/>Self Hosted World Maps</a></li>
-</ul>
-</section>
-<hr class=sep>
-</main>
-<footer class="container no-print">
-<div class=u-footer>
-<a href=https://github.com/akhenakh/><img class=icon-social src=https://blog.nobugware.com/img/github.svg alt=Github></a>
-<a href=https://twitter.com/akhenakh><img class=icon-social src=https://blog.nobugware.com/img/twitter.svg alt=Twitter></a>
-<a href=https://blog.nobugware.com/index.xml target=_blank><img class=icon-social src=https://blog.nobugware.com/img/feed.svg alt=Feed></a>
-<p>
-Theme used: <a href=https://github.com/yursan9/manis-hugo-theme>Manis</a><br>
-</p>
-<a href=#brand>
-<img class=icon-text src=https://blog.nobugware.com/img/toup.svg alt="To Up">
-<span>Back to Up</span>
-</a>
-</div>
-</footer>
-<script async src=https://us.umami.is/script.js data-website-id=1566cf98-efb9-475c-b96e-709666a74819></script>
-</body>
-</html>
+<span></h5></hgroup><hr class=sep></header><p><em>TL;DR;</em> simply run <code>docker pull akhenakh/kvtiles:planet-9-latest</code> for a self hosted free performant world map (more maps and levels available see <a href=https://hub.docker.com/r/akhenakh/kvtiles/tags>kvtiles docker tags</a>).</p><p>I&rsquo;ve blogged in the past to describe <a href=https://blog.nobugware.com/post/2019/self_hosted_world_maps/>how to generate and serves your own map tiles server</a>, but I wanted an easier solution.</p><h2 id=kvtiles>KVTiles</h2><p><a href=https://github.com/akhenakh/kvtiles>kvtiles</a> is a map tiles self hosted solution written in Go, it&rsquo;s using <a href=https://docs.mapbox.com/vector-tiles/specification/>Mapbox vector format</a> but rather than using the regular sqlite3 database it&rsquo;s using a key-value storage.</p><p><img src=https://blog.nobugware.com/img/parismap.jpg alt title="paris example map"></p><h3 id=key-value>Key-value</h3><p>The sqlite3 Go client is not native and require compiling using CGO.<br>By not using it we can use a lighter Docker image like <a href=https://github.com/GoogleContainerTools/distroless>distroless</a>.<br>Also on this specific workload and environment, where we do reads only queries against the database, a key-value storage is more efficient.<br>kvtiles is using <a href=https://github.com/etcd-io/bbolt>bbolt</a>.<br>I’ve been testing several key-value engines for this type of workloads and you can see some results in <a href=https://github.com/akhenakh/insideout#kv-engines>another geo related project insideout</a>.</p><h2 id=docker--kubernetes>Docker & Kubernetes</h2><p>The main target of kvtiles is to be run in Docker/Kubernetes.<br>During the build, the maps are pregenerated then stored in a key value database.<br>The database is then embedded in a Docker image with the proper tags.</p><p>You can browse all the different regions and levels on docker hub via <a href=https://hub.docker.com/r/akhenakh/kvtiles/tags>kvtiles docker tags</a></p><pre><code> docker run --rm -it -p 8080:8080 akhenakh/kvtiles:us-9-latest
+</code></pre><p>Then point your browser to <code>http://yourdockerip:8080/static/</code></p><p>Having giant images is not a proper solution to scale, so chose the smallest map you need.<br>Since kvtiles is capable of serving thousands of requests per seconds you won&rsquo;t need extra solutions but if you plan on very high traffic a reverse proxy cache and/or CDNs are recommended.</p><h2 id=apis--maps>APIs & Maps</h2><p>Tiles are available at <code>/tiles/{z:[0-9]+}/{x:[0-9]+}/{y:[0-9]+}.pbf</code>, an optional <code>key</code> URL param can be passed to secure access to your tiles server, (use the <code>tilesKey</code> option).</p><p>Metrics are provided via Prometheus at <code>http://host:httpMetricsPort/metrics</code>.</p><p>A debug visual map is available at <code>http://host:httpAPIPort/static/</code>.</p><p>Health status is provided via gRPC <code>host:healthPort</code> or via HTTP <code>http://host:httpAPIPort/healthz</code>.</p><p>A <code>http://host:httpAPIPort/version</code> is giving you running version but also information on the dataset.</p><p>kvtiles exposes vectors tiles, use <a href=http://mapbox.com/mapbox.js/>MapBox js</a> or <a href=https://github.com/akhenakh/kvtiles/blob/master/cmd/kvtilesd/static/openlayers.html>Openlayers</a> to build your own map and point to kvtiles file: <code>/static/osm-liberty-gl.style</code></p><p>See the examples in the <a href=https://github.com/akhenakh/kvtiles/blob/master/cmd/kvtilesd/static/>static folder</a></p><h2 id=free>Free</h2><p>I was thinking about creating a paid service to offer supports and maps updates but regarding the situation with Covid-19, having a free self hosted map could maybe help some organizations works in the field.</p></article><nav class="no-print post-nav"><a class=prev-post href=https://blog.nobugware.com/post/2019/k3s-containterd-zfs/><img class=icon-text src=https://blog.nobugware.com/img/prev.svg>k3s, containerd & ZFS</a>
+<a class=next-post href=https://blog.nobugware.com/post/2020/c-bindings-in-go-and-swig/>C++ bindings in Go and Swig<img class=icon-text src=https://blog.nobugware.com/img/next.svg></a></nav><section id=related><h4>See Also</h4><ul><li><a href=https://blog.nobugware.com/post/2019/time_series_storage_for_coordinates/>A Time Series Storage for Coordinates</a></li><li><a href=https://blog.nobugware.com/post/2019/an_application_for__mapping_storing_your_iot_devices_data/>An application to map and store your IoT devices data</a></li><li><a href=https://blog.nobugware.com/post/2019/self_hosted_world_maps/>Self Hosted World Maps</a></li></ul></section><hr class=sep></main><footer class="container no-print"><div class=u-footer><a href=https://github.com/akhenakh/><img class=icon-social src=https://blog.nobugware.com/img/github.svg alt=Github></a>
+<a href=https://c.im/@akhenakh><img class=icon-social src=https://blog.nobugware.com/img/mastodon.svg alt=Mastodon></a>
+<a href=https://twitter.com/akhenakh><img class=icon-social src=https://blog.nobugware.com/img/twitter.svg alt=Twitter></a><p>Theme used: <a href=https://github.com/yursan9/manis-hugo-theme>Manis</a><br></p><a href=#brand><img class=icon-text src=https://blog.nobugware.com/img/toup.svg alt="To Up">
+<span>Back to Up</span></a></div></footer><script>hljs.initHighlightingOnLoad()</script></body></html>

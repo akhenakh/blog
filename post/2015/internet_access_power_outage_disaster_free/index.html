@@ -1,51 +1,10 @@
-<!doctype html><html lang=en>
-<head>
-<meta charset=utf-8>
-<meta name=viewport content="width=device-width,initial-scale=1">
-<meta name=generator content="Hugo 0.89.4">
-<title>Offering free internet well almost and survive disaster, power outage, Internet blackout - Fabrice Aneche</title>
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=generator content="Hugo 0.123.7"><title>Offering free internet well almost and survive disaster, power outage, Internet blackout - Fabrice Aneche</title>
 <meta name=description content="In my neighborhood, I&rsquo;m experimenting to give free access to some services, not the full internet but a full access to Wikipedia, maps&mldr;
 Here are some tips do to the same.
 Getting access to the internet may be crucial for our lives, but the commercial providers are here to make money out of it. They don&rsquo;t event provide disasters nor minimum safety access.
-Sometimes even in normal condition, while traveling your roaming will cost you hundreds just to get access to a map or Wikipedia.">
-<link rel=stylesheet href=https://blog.nobugware.com/css/ui.css>
-<link rel=stylesheet href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway">
-</head>
-<body>
-<header class="container no-print">
-<div class=u-header>
-<nav class=bar>
-<ul><li>
-<a href=https://blog.nobugware.com/>
-<img class=icon-text src=https://blog.nobugware.com/img/prev.svg>
-</a>
-</li><li><a href=https://blog.nobugware.com/about>About</a></li><li><a href=https://blog.nobugware.com/post/>Post</a></li></ul>
-</nav>
-</div>
-</header>
-<main class=container>
-<article>
-<header><hgroup id=brand>
-<h1>Offering free internet well almost and survive disaster, power outage, Internet blackout</h1>
-<h5>
-<time datetime="2015-08-02 16:26:38 -0400 -0400">Aug 02, 2015</time>
-<span class=no-print>
-<span>
-</h5>
-</hgroup>
-<hr class=sep>
-</header>
-<p>In my neighborhood, I&rsquo;m experimenting to give free access to some services, not the full internet but a full access to Wikipedia, maps&mldr;<br>
-Here are some tips do to the same.</p>
-<p>Getting access to the internet may be crucial for our lives, but the commercial providers are here to make money out of it.
-They don&rsquo;t event provide disasters nor minimum safety access.</p>
-<p>Sometimes even in normal condition, while traveling your roaming will cost you hundreds just to get access to a map or Wikipedia.</p>
-<p>With a simple RaspberryPi, a wifi antenna and a good geographical position you can reach hundreds of people.</p>
-<h2 id=wifi>Wifi</h2>
-<p>To serve wifi to others you need to get a wifi USB dongle that can be set in AP mode.<br>
-I&rsquo;m using an Alfa network one.</p>
-<p>To enable the AP mode you need to install the package <code>hostapd</code>. Here is my <code>/etc/hostapd/hostapd.conf</code>.</p>
-<pre tabindex=0><code>ssid=freewifi
+Sometimes even in normal condition, while traveling your roaming will cost you hundreds just to get access to a map or Wikipedia."><link rel=stylesheet href=https://blog.nobugware.com/css/ui.css><script defer src=https://blog.nobugware.com/js/dark-mode.js></script><link disabled id=dark-mode-theme rel=stylesheet href=https://blog.nobugware.com/css/dark.css><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway"><link rel=stylesheet href=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/ocean.min.css><script src=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js></script><script src=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/languages/go.min.js></script><script src=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/languages/yaml.min.js></script></head><body><header class="container no-print"><div class=u-header><nav class=bar><ul><li><a href=https://blog.nobugware.com/><img class=icon-text src=https://blog.nobugware.com/img/prev.svg></a></li><li><img class=icon-text id=dark-mode-toggle src=https://blog.nobugware.com/img/moon-regular.svg alt="Toggle Dark Mode"></a></li><li><a href=https://blog.nobugware.com/about>About</a></li><li><a href=https://blog.nobugware.com/post/>Post</a></li></ul></nav></div></header><main class=container><article><header><hgroup id=brand><h1>Offering free internet well almost and survive disaster, power outage, Internet blackout</h1><h5><time datetime="2015-08-02 16:26:38 -0400 -0400">Aug 02, 2015</time>
+<span class=no-print><span></h5></hgroup><hr class=sep></header><p>In my neighborhood, I&rsquo;m experimenting to give free access to some services, not the full internet but a full access to Wikipedia, maps&mldr;<br>Here are some tips do to the same.</p><p>Getting access to the internet may be crucial for our lives, but the commercial providers are here to make money out of it.
+They don&rsquo;t event provide disasters nor minimum safety access.</p><p>Sometimes even in normal condition, while traveling your roaming will cost you hundreds just to get access to a map or Wikipedia.</p><p>With a simple RaspberryPi, a wifi antenna and a good geographical position you can reach hundreds of people.</p><h2 id=wifi>Wifi</h2><p>To serve wifi to others you need to get a wifi USB dongle that can be set in AP mode.<br>I&rsquo;m using an Alfa network one.</p><p>To enable the AP mode you need to install the package <code>hostapd</code>. Here is my <code>/etc/hostapd/hostapd.conf</code>.</p><pre tabindex=0><code>ssid=freewifi
 interface=wlan0
 auth_algs=3
 channel=7
@@ -53,50 +12,15 @@ hw_mode=b
 logger_stdout=-1
 logger_stdout_level=2
 country_code=CA
-</code></pre><p>(Always ensure you are using the correct country to avoid disturbing others and look for a free channel.)</p>
-<p>You also need a DNS & DCHP provider, install <code>dnsmasq</code>, my <code>/etc/dnsmasq.conf</code>.</p>
-<pre tabindex=0><code>no-resolv
+</code></pre><p>(Always ensure you are using the correct country to avoid disturbing others and look for a free channel.)</p><p>You also need a DNS & DCHP provider, install <code>dnsmasq</code>, my <code>/etc/dnsmasq.conf</code>.</p><pre tabindex=0><code>no-resolv
 no-poll
 server=/localnet/10.4.0.1
 address=/#/10.4.0.1
 interface=wlan0
 bind-interfaces
 dhcp-range=10.4.0.10,10.4.0.200,12h
-</code></pre><p>It means all DNS queries will be intercepted and will respond with the same IP 10.4.0.1, by extend every HTTP request will be redirected to 10.4.0.1.</p>
-<p>Enable the same IP on the vlan0 interface.<br>
-<code>ifconfig wlan0 10.4.0.1</code></p>
-<p>You are all set, no need for NAT no need for routing, we just want to provide access to Wikipedia.</p>
-<h2 id=content>Content</h2>
-<p>I&rsquo;m using <a href=http://akhenakh.github.io/gozim/>Gozim</a> to run a full offline copy of Wikipedia. (For example, make it listen on port 8080)</p>
-<p>Install nginx to reverse proxy to your content to a fake domain call <code>wikipedia.wifi</code> (port 8080) or serve any directories you want to be published.</p>
-<h2 id=wispr>Wispr</h2>
-<p>Another issue while running your own wifi AP is that these days almost all traffic is secured by HTTPS so there is no way to intercept these calls with the right certificates, the users will just get a security error page.<br>
-To solve that you need to display a popup page like the one you get when you connect to a Starbucks free wifi network.</p>
-<p>I&rsquo;m working on a set of tool to do just that, uninstall <code>nginx</code> and give it a shot the project is called <a href=http://github.com/akhenakh/wisprgo>WisprGo and the code is on Github too</a>.<br>
-It&rsquo;s a work in progress any help is appreciated.</p>
-</article>
-<nav class="no-print post-nav">
-<a class=prev-post href=https://blog.nobugware.com/post/2015/metrics_golang_operating_system/>
-<img class=icon-text src=https://blog.nobugware.com/img/prev.svg>Access OS metrics from Golang</a>
-<a class=next-post href=https://blog.nobugware.com/post/2015/leveldb_geohash_golang/>A blazing fast geo database with LevelDB, Go and Geohashes<img class=icon-text src=https://blog.nobugware.com/img/next.svg>
-</a>
-</nav>
-<hr class=sep>
-</main>
-<footer class="container no-print">
-<div class=u-footer>
-<a href=https://github.com/akhenakh/><img class=icon-social src=https://blog.nobugware.com/img/github.svg alt=Github></a>
-<a href=https://twitter.com/akhenakh><img class=icon-social src=https://blog.nobugware.com/img/twitter.svg alt=Twitter></a>
-<a href=https://blog.nobugware.com/index.xml target=_blank><img class=icon-social src=https://blog.nobugware.com/img/feed.svg alt=Feed></a>
-<p>
-Theme used: <a href=https://github.com/yursan9/manis-hugo-theme>Manis</a><br>
-</p>
-<a href=#brand>
-<img class=icon-text src=https://blog.nobugware.com/img/toup.svg alt="To Up">
-<span>Back to Up</span>
-</a>
-</div>
-</footer>
-<script async src=https://us.umami.is/script.js data-website-id=1566cf98-efb9-475c-b96e-709666a74819></script>
-</body>
-</html>
+</code></pre><p>It means all DNS queries will be intercepted and will respond with the same IP 10.4.0.1, by extend every HTTP request will be redirected to 10.4.0.1.</p><p>Enable the same IP on the vlan0 interface.<br><code>ifconfig wlan0 10.4.0.1</code></p><p>You are all set, no need for NAT no need for routing, we just want to provide access to Wikipedia.</p><h2 id=content>Content</h2><p>I&rsquo;m using <a href=http://akhenakh.github.io/gozim/>Gozim</a> to run a full offline copy of Wikipedia. (For example, make it listen on port 8080)</p><p>Install nginx to reverse proxy to your content to a fake domain call <code>wikipedia.wifi</code> (port 8080) or serve any directories you want to be published.</p><h2 id=wispr>Wispr</h2><p>Another issue while running your own wifi AP is that these days almost all traffic is secured by HTTPS so there is no way to intercept these calls with the right certificates, the users will just get a security error page.<br>To solve that you need to display a popup page like the one you get when you connect to a Starbucks free wifi network.</p><p>I&rsquo;m working on a set of tool to do just that, uninstall <code>nginx</code> and give it a shot the project is called <a href=http://github.com/akhenakh/wisprgo>WisprGo and the code is on Github too</a>.<br>It&rsquo;s a work in progress any help is appreciated.</p></article><nav class="no-print post-nav"><a class=prev-post href=https://blog.nobugware.com/post/2015/metrics_golang_operating_system/><img class=icon-text src=https://blog.nobugware.com/img/prev.svg>Access OS metrics from Golang</a>
+<a class=next-post href=https://blog.nobugware.com/post/2015/leveldb_geohash_golang/>A blazing fast geo database with LevelDB, Go and Geohashes<img class=icon-text src=https://blog.nobugware.com/img/next.svg></a></nav><hr class=sep></main><footer class="container no-print"><div class=u-footer><a href=https://github.com/akhenakh/><img class=icon-social src=https://blog.nobugware.com/img/github.svg alt=Github></a>
+<a href=https://c.im/@akhenakh><img class=icon-social src=https://blog.nobugware.com/img/mastodon.svg alt=Mastodon></a>
+<a href=https://twitter.com/akhenakh><img class=icon-social src=https://blog.nobugware.com/img/twitter.svg alt=Twitter></a><p>Theme used: <a href=https://github.com/yursan9/manis-hugo-theme>Manis</a><br></p><a href=#brand><img class=icon-text src=https://blog.nobugware.com/img/toup.svg alt="To Up">
+<span>Back to Up</span></a></div></footer><script>hljs.initHighlightingOnLoad()</script></body></html>

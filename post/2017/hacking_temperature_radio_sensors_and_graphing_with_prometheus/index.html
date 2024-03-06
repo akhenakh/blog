@@ -1,82 +1,10 @@
-<!doctype html><html lang=en>
-<head>
-<meta charset=utf-8>
-<meta name=viewport content="width=device-width,initial-scale=1">
-<meta name=generator content="Hugo 0.89.4">
-<title>Hacking Temperature Radio Sensors and Graphing with Prometheus - Fabrice Aneche</title>
-<meta name=description content="Hacking Temperature Radio Sensors and Graphing with Prometheus">
-<link rel=stylesheet href=https://blog.nobugware.com/css/ui.css>
-<link rel=stylesheet href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway">
-</head>
-<body>
-<header class="container no-print">
-<div class=u-header>
-<nav class=bar>
-<ul><li>
-<a href=https://blog.nobugware.com/>
-<img class=icon-text src=https://blog.nobugware.com/img/prev.svg>
-</a>
-</li><li><a href=https://blog.nobugware.com/about>About</a></li><li><a href=https://blog.nobugware.com/post/>Post</a></li></ul>
-</nav>
-</div>
-</header>
-<main class=container>
-<article>
-<header><hgroup id=brand>
-<h1>Hacking Temperature Radio Sensors and Graphing with Prometheus</h1>
-<h5>
-<time datetime="2017-10-08 14:28:46 -0400 -0400">Oct 08, 2017</time>
-<span class=no-print>
--
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=generator content="Hugo 0.123.7"><title>Hacking Temperature Radio Sensors and Graphing with Prometheus - Fabrice Aneche</title>
+<meta name=description content="Hacking Temperature Radio Sensors and Graphing with Prometheus"><link rel=stylesheet href=https://blog.nobugware.com/css/ui.css><script defer src=https://blog.nobugware.com/js/dark-mode.js></script><link disabled id=dark-mode-theme rel=stylesheet href=https://blog.nobugware.com/css/dark.css><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway"><link rel=stylesheet href=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/ocean.min.css><script src=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js></script><script src=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/languages/go.min.js></script><script src=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/languages/yaml.min.js></script></head><body><header class="container no-print"><div class=u-header><nav class=bar><ul><li><a href=https://blog.nobugware.com/><img class=icon-text src=https://blog.nobugware.com/img/prev.svg></a></li><li><img class=icon-text id=dark-mode-toggle src=https://blog.nobugware.com/img/moon-regular.svg alt="Toggle Dark Mode"></a></li><li><a href=https://blog.nobugware.com/about>About</a></li><li><a href=https://blog.nobugware.com/post/>Post</a></li></ul></nav></div></header><main class=container><article><header><hgroup id=brand><h1>Hacking Temperature Radio Sensors and Graphing with Prometheus</h1><h5><time datetime="2017-10-08 14:28:46 -0400 -0400">Oct 08, 2017</time>
+<span class=no-print>-
 <a href=https://blog.nobugware.com/tags/Go>Go</a>
 <a href=https://blog.nobugware.com/tags/HamRadio>HamRadio</a>
-<span>
-</h5>
-</hgroup>
-<hr class=sep>
-</header>
-<p>One year ago I&rsquo;ve started to collect temperature from my house using Acurite sensors.</p>
-<p><img src=https://blog.nobugware.com/img/acurite0.jpg alt="Acurite outddor"> <img src=https://blog.nobugware.com/img/acurite1.jpg alt="Acurite indoor"></p>
-<p>These sensors are not too expensive and good quality but the &ldquo;base&rdquo; aka the radio receiver connected to internet is costly and totally closed, it&rsquo;s sending your data to the Cloud™, it&rsquo;s not just Acurite, all those &ldquo;IOT&rdquo; devices are generally poor on the software side.</p>
-<h2 id=receiving-radio-data>Receiving radio data</h2>
-<p>Most of these sensors have their protocols already reverse engineered you only need the radio receiver part.</p>
-<p><a href=https://www.rtl-sdr.com/rtl-sdr-quick-start-guide/>RTL-SDR</a> dongles to the rescue and a <a href=https://www.rtl-sdr.com/using-rtl-sdr-rtl_433-decode-various-devices/>great community</a> around it.</p>
-<p><a href=http://github.com/prune998>Prune998</a> and I have added some <a href=https://github.com/merbanan/rtl_433/commit/66a3752fbc3949ac19cf9eed36d725741947b6b8>JSON support to the acurite driver</a> and sent it to the projet.</p>
-<h2 id=collecting-and-graphing-the-data>Collecting and graphing the data</h2>
-<p>The last needed piece was something to collect the data and send to prometheus:</p>
-<p>So I wrote a quick Go program to do exactly that <a href=https://github.com/akhenakh/acurite_to_graph>Acurite to graph</a></p>
-<p>Et voila, we can graph all sensors in our home.</p>
-<p><img src=https://blog.nobugware.com/img/graphacurite.jpg alt=graph></p>
-<p>It has been tested on OSX & Linux.</p>
-</article>
-<nav class="no-print post-nav">
-<a class=prev-post href=https://blog.nobugware.com/post/2017/notes_on_pacbsd/>
-<img class=icon-text src=https://blog.nobugware.com/img/prev.svg>Notes on PacBSD</a>
-<a class=next-post href=https://blog.nobugware.com/post/2018/google-s2-python-jupyter/>Google S2 with Python & Jupyter<img class=icon-text src=https://blog.nobugware.com/img/next.svg>
-</a>
-</nav>
-<section id=related>
-<h4>See Also</h4>
-<ul>
-<li><a href=https://blog.nobugware.com/post/2013/04/24/enhance-your-go/>Enhance your Go</a></li>
-</ul>
-</section>
-<hr class=sep>
-</main>
-<footer class="container no-print">
-<div class=u-footer>
-<a href=https://github.com/akhenakh/><img class=icon-social src=https://blog.nobugware.com/img/github.svg alt=Github></a>
-<a href=https://twitter.com/akhenakh><img class=icon-social src=https://blog.nobugware.com/img/twitter.svg alt=Twitter></a>
-<a href=https://blog.nobugware.com/index.xml target=_blank><img class=icon-social src=https://blog.nobugware.com/img/feed.svg alt=Feed></a>
-<p>
-Theme used: <a href=https://github.com/yursan9/manis-hugo-theme>Manis</a><br>
-</p>
-<a href=#brand>
-<img class=icon-text src=https://blog.nobugware.com/img/toup.svg alt="To Up">
-<span>Back to Up</span>
-</a>
-</div>
-</footer>
-<script async src=https://us.umami.is/script.js data-website-id=1566cf98-efb9-475c-b96e-709666a74819></script>
-</body>
-</html>
+<span></h5></hgroup><hr class=sep></header><p>One year ago I&rsquo;ve started to collect temperature from my house using Acurite sensors.</p><p><img src=https://blog.nobugware.com/img/acurite0.jpg alt="Acurite outddor"> <img src=https://blog.nobugware.com/img/acurite1.jpg alt="Acurite indoor"></p><p>These sensors are not too expensive and good quality but the &ldquo;base&rdquo; aka the radio receiver connected to internet is costly and totally closed, it&rsquo;s sending your data to the Cloud™, it&rsquo;s not just Acurite, all those &ldquo;IOT&rdquo; devices are generally poor on the software side.</p><h2 id=receiving-radio-data>Receiving radio data</h2><p>Most of these sensors have their protocols already reverse engineered you only need the radio receiver part.</p><p><a href=https://www.rtl-sdr.com/rtl-sdr-quick-start-guide/>RTL-SDR</a> dongles to the rescue and a <a href=https://www.rtl-sdr.com/using-rtl-sdr-rtl_433-decode-various-devices/>great community</a> around it.</p><p><a href=http://github.com/prune998>Prune998</a> and I have added some <a href=https://github.com/merbanan/rtl_433/commit/66a3752fbc3949ac19cf9eed36d725741947b6b8>JSON support to the acurite driver</a> and sent it to the projet.</p><h2 id=collecting-and-graphing-the-data>Collecting and graphing the data</h2><p>The last needed piece was something to collect the data and send to prometheus:</p><p>So I wrote a quick Go program to do exactly that <a href=https://github.com/akhenakh/acurite_to_graph>Acurite to graph</a></p><p>Et voila, we can graph all sensors in our home.</p><p><img src=https://blog.nobugware.com/img/graphacurite.jpg alt=graph></p><p>It has been tested on OSX & Linux.</p></article><nav class="no-print post-nav"><a class=prev-post href=https://blog.nobugware.com/post/2017/notes_on_pacbsd/><img class=icon-text src=https://blog.nobugware.com/img/prev.svg>Notes on PacBSD</a>
+<a class=next-post href=https://blog.nobugware.com/post/2018/google-s2-python-jupyter/>Google S2 with Python & Jupyter<img class=icon-text src=https://blog.nobugware.com/img/next.svg></a></nav><section id=related><h4>See Also</h4><ul><li><a href=https://blog.nobugware.com/post/2013/04/24/enhance-your-go/>Enhance your Go</a></li></ul></section><hr class=sep></main><footer class="container no-print"><div class=u-footer><a href=https://github.com/akhenakh/><img class=icon-social src=https://blog.nobugware.com/img/github.svg alt=Github></a>
+<a href=https://c.im/@akhenakh><img class=icon-social src=https://blog.nobugware.com/img/mastodon.svg alt=Mastodon></a>
+<a href=https://twitter.com/akhenakh><img class=icon-social src=https://blog.nobugware.com/img/twitter.svg alt=Twitter></a><p>Theme used: <a href=https://github.com/yursan9/manis-hugo-theme>Manis</a><br></p><a href=#brand><img class=icon-text src=https://blog.nobugware.com/img/toup.svg alt="To Up">
+<span>Back to Up</span></a></div></footer><script>hljs.initHighlightingOnLoad()</script></body></html>

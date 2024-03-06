@@ -1,52 +1,15 @@
-<!doctype html><html lang=en>
-<head>
-<meta charset=utf-8>
-<meta name=viewport content="width=device-width,initial-scale=1">
-<meta name=generator content="Hugo 0.89.4">
-<title>ZFS on linux - Fabrice Aneche</title>
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=generator content="Hugo 0.123.7"><title>ZFS on linux - Fabrice Aneche</title>
 <meta name=description content="For license reasons (god damn GPL), ZFS can&rsquo;t be integrated into the Linux kernel, but there is a userland fuse version called [ZFS-FUSE](http://zfs- fuse.net/), so I tried to measure the fuse overhead vs others filesystems presents on my server.
 This tests are not benchmarks, but just show that ZFS-FUSE is fast enough and seems to be stable (at least for my personal server)
- ZFS with lzjb compression  dd if=/dev/zero of=/testzfs/toto bs=2048 count=200000 409600000 bytes (410 MB) copied, 9.">
-<link rel=stylesheet href=https://blog.nobugware.com/css/ui.css>
-<link rel=stylesheet href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway">
-</head>
-<body>
-<header class="container no-print">
-<div class=u-header>
-<nav class=bar>
-<ul><li>
-<a href=https://blog.nobugware.com/>
-<img class=icon-text src=https://blog.nobugware.com/img/prev.svg>
-</a>
-</li><li><a href=https://blog.nobugware.com/about>About</a></li><li><a href=https://blog.nobugware.com/post/>Post</a></li></ul>
-</nav>
-</div>
-</header>
-<main class=container>
-<article>
-<header><hgroup id=brand>
-<h1>ZFS on linux</h1>
-<h5>
-<time datetime="2010-08-09 14:41:47 -0400 -0400">Aug 09, 2010</time>
-<span class=no-print>
--
+ZFS with lzjb compression dd if=/dev/zero of=/testzfs/toto bs=2048 count=200000 409600000 bytes (410 MB) copied, 9."><link rel=stylesheet href=https://blog.nobugware.com/css/ui.css><script defer src=https://blog.nobugware.com/js/dark-mode.js></script><link disabled id=dark-mode-theme rel=stylesheet href=https://blog.nobugware.com/css/dark.css><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway"><link rel=stylesheet href=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/ocean.min.css><script src=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js></script><script src=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/languages/go.min.js></script><script src=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/languages/yaml.min.js></script></head><body><header class="container no-print"><div class=u-header><nav class=bar><ul><li><a href=https://blog.nobugware.com/><img class=icon-text src=https://blog.nobugware.com/img/prev.svg></a></li><li><img class=icon-text id=dark-mode-toggle src=https://blog.nobugware.com/img/moon-regular.svg alt="Toggle Dark Mode"></a></li><li><a href=https://blog.nobugware.com/about>About</a></li><li><a href=https://blog.nobugware.com/post/>Post</a></li></ul></nav></div></header><main class=container><article><header><hgroup id=brand><h1>ZFS on linux</h1><h5><time datetime="2010-08-09 14:41:47 -0400 -0400">Aug 09, 2010</time>
+<span class=no-print>-
 <a href=https://blog.nobugware.com/tags/zfs>zfs</a>
 <a href=https://blog.nobugware.com/tags/linux>linux</a>
-<span>
-</h5>
-</hgroup>
-<hr class=sep>
-</header>
-<p>For license reasons (god damn GPL), ZFS can&rsquo;t be integrated into the Linux
+<span></h5></hgroup><hr class=sep></header><p>For license reasons (god damn GPL), ZFS can&rsquo;t be integrated into the Linux
 kernel, but there is a userland fuse version called [ZFS-FUSE](http://zfs-
 fuse.net/), so I tried to measure the fuse overhead vs others filesystems
-presents on my server.</p>
-<p>This tests are not benchmarks, but just show that ZFS-FUSE is fast enough and
-seems to be stable (at least for my personal server)</p>
-<ul>
-<li>ZFS with lzjb compression</li>
-</ul>
-<pre tabindex=0><code>dd if=/dev/zero of=/testzfs/toto bs=2048 count=200000 
+presents on my server.</p><p>This tests are not benchmarks, but just show that ZFS-FUSE is fast enough and
+seems to be stable (at least for my personal server)</p><ul><li>ZFS with lzjb compression</li></ul><pre tabindex=0><code>dd if=/dev/zero of=/testzfs/toto bs=2048 count=200000 
 409600000 bytes (410 MB) copied, 9.93444 s, 41.2 MB/s
     
 dd if=/dev/zero of=/testzfs/toto bs=2048 count=200000 
@@ -54,10 +17,7 @@ dd if=/dev/zero of=/testzfs/toto bs=2048 count=200000
     
 dd if=/dev/zero of=/testzfs/toto bs=2048 count=200000 
 409600000 bytes (410 MB) copied, 10.2585 s, 39.9 MB/s
-</code></pre><ul>
-<li>ZFS with compression off</li>
-</ul>
-<pre tabindex=0><code>dd if=/dev/zero of=/testzfs/toto bs=2048 count=200000 
+</code></pre><ul><li>ZFS with compression off</li></ul><pre tabindex=0><code>dd if=/dev/zero of=/testzfs/toto bs=2048 count=200000 
 409600000 bytes (410 MB) copied, 17.2505 s, 23.7 MB/s
 
 dd if=/dev/zero of=/testzfs/toto bs=2048 count=200000 
@@ -65,10 +25,7 @@ dd if=/dev/zero of=/testzfs/toto bs=2048 count=200000
 
 dd if=/dev/zero of=/testzfs/toto bs=2048 count=200000 
 409600000 bytes (410 MB) copied, 16.8956 s, 24.2 MB/s
-</code></pre><ul>
-<li>EXT3</li>
-</ul>
-<pre tabindex=0><code>dd if=/dev/zero of=/toto bs=2048 count=200000 
+</code></pre><ul><li>EXT3</li></ul><pre tabindex=0><code>dd if=/dev/zero of=/toto bs=2048 count=200000 
 409600000 bytes (410 MB) copied, 9.92158 s, 41.3 MB/s
     
 dd if=/dev/zero of=/toto bs=2048 count=200000 
@@ -76,10 +33,7 @@ dd if=/dev/zero of=/toto bs=2048 count=200000
     
 dd if=/dev/zero of=/toto bs=2048 count=200000 
 409600000 bytes (410 MB) copied, 9.02419 s, 45.4 MB/s
-</code></pre><ul>
-<li>REISERFS (the way reiserfs works makes this big file creation faster)</li>
-</ul>
-<pre tabindex=0><code>dd if=/dev/zero of=/opt/toto bs=2048 count=200000 
+</code></pre><ul><li>REISERFS (the way reiserfs works makes this big file creation faster)</li></ul><pre tabindex=0><code>dd if=/dev/zero of=/opt/toto bs=2048 count=200000 
 09600000 bytes (410 MB) copied, 2.29901 s, 178 MB/s
     
 dd if=/dev/zero of=/opt/toto bs=2048 count=200000 
@@ -88,38 +42,8 @@ dd if=/dev/zero of=/opt/toto bs=2048 count=200000
 dd if=/dev/zero of=/opt/toto bs=2048 count=200000 
 409600000 bytes (410 MB) copied, 1.9057 s, 215 MB/s
 </code></pre><p>Also remember that FreeBSD 8.1 now includes ZFS version 14, which is a good
-(native) alternative</p>
-</article>
-<nav class="no-print post-nav">
-<a class=prev-post href=https://blog.nobugware.com/post/2010/08/09/using-oracle-django/>
-<img class=icon-text src=https://blog.nobugware.com/img/prev.svg>Using Oracle with Django</a>
-<a class=next-post href=https://blog.nobugware.com/post/2010/11/08/jmx-query-python-cpython/>JMX query in Python (CPython)<img class=icon-text src=https://blog.nobugware.com/img/next.svg>
-</a>
-</nav>
-<section id=related>
-<h4>See Also</h4>
-<ul>
-<li><a href=https://blog.nobugware.com/post/2009/02/26/understanding-zfs-tuning/>Understanding the ZFS tuning</a></li>
-<li><a href=https://blog.nobugware.com/post/2008/12/03/gentoo-bref-recap-des-commandes-de-gestion-de-paquets/>Gentoo bref récap des commandes de gestion de paquets</a></li>
-<li><a href=https://blog.nobugware.com/post/2008/12/03/probleme-daffichage-avec-man/>Probleme d'affichage avec man</a></li>
-</ul>
-</section>
-<hr class=sep>
-</main>
-<footer class="container no-print">
-<div class=u-footer>
-<a href=https://github.com/akhenakh/><img class=icon-social src=https://blog.nobugware.com/img/github.svg alt=Github></a>
-<a href=https://twitter.com/akhenakh><img class=icon-social src=https://blog.nobugware.com/img/twitter.svg alt=Twitter></a>
-<a href=https://blog.nobugware.com/index.xml target=_blank><img class=icon-social src=https://blog.nobugware.com/img/feed.svg alt=Feed></a>
-<p>
-Theme used: <a href=https://github.com/yursan9/manis-hugo-theme>Manis</a><br>
-</p>
-<a href=#brand>
-<img class=icon-text src=https://blog.nobugware.com/img/toup.svg alt="To Up">
-<span>Back to Up</span>
-</a>
-</div>
-</footer>
-<script async src=https://us.umami.is/script.js data-website-id=1566cf98-efb9-475c-b96e-709666a74819></script>
-</body>
-</html>
+(native) alternative</p></article><nav class="no-print post-nav"><a class=prev-post href=https://blog.nobugware.com/post/2010/08/09/using-oracle-django/><img class=icon-text src=https://blog.nobugware.com/img/prev.svg>Using Oracle with Django</a>
+<a class=next-post href=https://blog.nobugware.com/post/2010/11/08/jmx-query-python-cpython/>JMX query in Python (CPython)<img class=icon-text src=https://blog.nobugware.com/img/next.svg></a></nav><section id=related><h4>See Also</h4><ul><li><a href=https://blog.nobugware.com/post/2009/02/26/understanding-zfs-tuning/>Understanding the ZFS tuning</a></li><li><a href=https://blog.nobugware.com/post/2008/12/03/gentoo-bref-recap-des-commandes-de-gestion-de-paquets/>Gentoo bref récap des commandes de gestion de paquets</a></li><li><a href=https://blog.nobugware.com/post/2008/12/03/probleme-daffichage-avec-man/>Probleme d'affichage avec man</a></li></ul></section><hr class=sep></main><footer class="container no-print"><div class=u-footer><a href=https://github.com/akhenakh/><img class=icon-social src=https://blog.nobugware.com/img/github.svg alt=Github></a>
+<a href=https://c.im/@akhenakh><img class=icon-social src=https://blog.nobugware.com/img/mastodon.svg alt=Mastodon></a>
+<a href=https://twitter.com/akhenakh><img class=icon-social src=https://blog.nobugware.com/img/twitter.svg alt=Twitter></a><p>Theme used: <a href=https://github.com/yursan9/manis-hugo-theme>Manis</a><br></p><a href=#brand><img class=icon-text src=https://blog.nobugware.com/img/toup.svg alt="To Up">
+<span>Back to Up</span></a></div></footer><script>hljs.initHighlightingOnLoad()</script></body></html>

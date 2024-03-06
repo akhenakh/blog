@@ -1,54 +1,18 @@
-<!doctype html><html lang=en>
-<head>
-<meta charset=utf-8>
-<meta name=viewport content="width=device-width,initial-scale=1">
-<meta name=generator content="Hugo 0.89.4">
-<title>compile and run xv6 on Mac Os X 6.828 - Fabrice Aneche</title>
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=generator content="Hugo 0.123.7"><title>compile and run xv6 on Mac Os X 6.828 - Fabrice Aneche</title>
 <meta name=description content="The MIT has created xv6: an operating system for learning purpose
-This works better and takes less time to create a working environnement for xv6 on Mac Os X, than the recommandations proposed onTools used in 6.828 simply run this
-port install i386-elf-gcc port install qemu  And change the Makefile like this:
--#TOOLPREFIX = i386-jos-elf- +TOOLPREFIX = i386-elf- -#QEMU = +QEMU = /opt/local/bin/qemu-system-i386 -CC = $(TOOLPREFIX)gcc +CC = $(TOOLPREFIX)gcc-4.3.2  [Here is a working gdb binary](http://dl.">
-<link rel=stylesheet href=https://blog.nobugware.com/css/ui.css>
-<link rel=stylesheet href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway">
-</head>
-<body>
-<header class="container no-print">
-<div class=u-header>
-<nav class=bar>
-<ul><li>
-<a href=https://blog.nobugware.com/>
-<img class=icon-text src=https://blog.nobugware.com/img/prev.svg>
-</a>
-</li><li><a href=https://blog.nobugware.com/about>About</a></li><li><a href=https://blog.nobugware.com/post/>Post</a></li></ul>
-</nav>
-</div>
-</header>
-<main class=container>
-<article>
-<header><hgroup id=brand>
-<h1>compile and run xv6 on Mac Os X 6.828</h1>
-<h5>
-<time datetime="2012-01-05 23:59:14 -0400 -0400">Jan 05, 2012</time>
-<span class=no-print>
--
+This works better and takes less time to create a working environnement for xv6 on Mac Os X, than the recommandations proposed on Tools used in 6.828 simply run this
+port install i386-elf-gcc port install qemu And change the Makefile like this:
+-#TOOLPREFIX = i386-jos-elf- +TOOLPREFIX = i386-elf- -#QEMU = +QEMU = /opt/local/bin/qemu-system-i386 -CC = $(TOOLPREFIX)gcc +CC = $(TOOLPREFIX)gcc-4.3.2 [Here is a working gdb binary](http://dl."><link rel=stylesheet href=https://blog.nobugware.com/css/ui.css><script defer src=https://blog.nobugware.com/js/dark-mode.js></script><link disabled id=dark-mode-theme rel=stylesheet href=https://blog.nobugware.com/css/dark.css><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway"><link rel=stylesheet href=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/ocean.min.css><script src=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js></script><script src=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/languages/go.min.js></script><script src=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/languages/yaml.min.js></script></head><body><header class="container no-print"><div class=u-header><nav class=bar><ul><li><a href=https://blog.nobugware.com/><img class=icon-text src=https://blog.nobugware.com/img/prev.svg></a></li><li><img class=icon-text id=dark-mode-toggle src=https://blog.nobugware.com/img/moon-regular.svg alt="Toggle Dark Mode"></a></li><li><a href=https://blog.nobugware.com/about>About</a></li><li><a href=https://blog.nobugware.com/post/>Post</a></li></ul></nav></div></header><main class=container><article><header><hgroup id=brand><h1>compile and run xv6 on Mac Os X 6.828</h1><h5><time datetime="2012-01-05 23:59:14 -0400 -0400">Jan 05, 2012</time>
+<span class=no-print>-
 <a href=https://blog.nobugware.com/tags/xv6>xv6</a>
 <a href=https://blog.nobugware.com/tags/qemu>qemu</a>
 <a href=https://blog.nobugware.com/tags/osx>osx</a>
-<span>
-</h5>
-</hgroup>
-<hr class=sep>
-</header>
-<p>The MIT has created <a href=http://pdos.csail.mit.edu/6.828/2011/xv6.html>xv6</a>: an
-operating system for learning purpose</p>
-<p>This works better and takes less time to create a working environnement for
+<span></h5></hgroup><hr class=sep></header><p>The MIT has created <a href=http://pdos.csail.mit.edu/6.828/2011/xv6.html>xv6</a>: an
+operating system for learning purpose</p><p>This works better and takes less time to create a working environnement for
 xv6 on Mac Os X, than the recommandations proposed on<a href=http://pdos.csail.mit.edu/6.828/2011/tools.html> Tools used in
-6.828</a> simply run this</p>
-<pre><code>port install i386-elf-gcc
+6.828</a> simply run this</p><pre><code>port install i386-elf-gcc
 port install qemu
-</code></pre>
-<p>And change the Makefile like this:</p>
-<pre><code>-#TOOLPREFIX = i386-jos-elf-
+</code></pre><p>And change the Makefile like this:</p><pre><code>-#TOOLPREFIX = i386-jos-elf-
 +TOOLPREFIX = i386-elf-
  
 -#QEMU = 
@@ -56,43 +20,11 @@ port install qemu
  
 -CC = $(TOOLPREFIX)gcc
 +CC = $(TOOLPREFIX)gcc-4.3.2
-</code></pre>
-<p>[Here is a working gdb binary](<a href=http://dl.dropbox.com/u/524733/gdb->http://dl.dropbox.com/u/524733/gdb-</a>
+</code></pre><p>[Here is a working gdb binary](<a href=http://dl.dropbox.com/u/524733/gdb->http://dl.dropbox.com/u/524733/gdb-</a>
 target-i386-elf.bz2) simply bunzip2 it then invoke it from the xv6 directory
-souce tree, (tested on osx Lion).</p>
-<p>make qemu will compile and run xv6 in qemu</p>
-<p>make qemu-dbg will run xv6 in debug mode, run gdb-target-i386-elf and c for
-continue</p>
-<p>Enjoy, thanks MIT.</p>
-</article>
-<nav class="no-print post-nav">
-<a class=prev-post href=https://blog.nobugware.com/post/2011/11/15/compile-gevent-osx-or-freebsd-pip/>
-<img class=icon-text src=https://blog.nobugware.com/img/prev.svg>compile gevent on OSX or FreeBSD with pip</a>
-<a class=next-post href=https://blog.nobugware.com/post/2012/02/07/freebsd-90-zfs-root-ovh/>FreeBSD 9.0 ZFS root on OVH<img class=icon-text src=https://blog.nobugware.com/img/next.svg>
-</a>
-</nav>
-<section id=related>
-<h4>See Also</h4>
-<ul>
-<li><a href=https://blog.nobugware.com/post/2011/08/31/gimp-273-osx/>Gimp 2.7.3 on OSX</a></li>
-</ul>
-</section>
-<hr class=sep>
-</main>
-<footer class="container no-print">
-<div class=u-footer>
-<a href=https://github.com/akhenakh/><img class=icon-social src=https://blog.nobugware.com/img/github.svg alt=Github></a>
-<a href=https://twitter.com/akhenakh><img class=icon-social src=https://blog.nobugware.com/img/twitter.svg alt=Twitter></a>
-<a href=https://blog.nobugware.com/index.xml target=_blank><img class=icon-social src=https://blog.nobugware.com/img/feed.svg alt=Feed></a>
-<p>
-Theme used: <a href=https://github.com/yursan9/manis-hugo-theme>Manis</a><br>
-</p>
-<a href=#brand>
-<img class=icon-text src=https://blog.nobugware.com/img/toup.svg alt="To Up">
-<span>Back to Up</span>
-</a>
-</div>
-</footer>
-<script async src=https://us.umami.is/script.js data-website-id=1566cf98-efb9-475c-b96e-709666a74819></script>
-</body>
-</html>
+souce tree, (tested on osx Lion).</p><p>make qemu will compile and run xv6 in qemu</p><p>make qemu-dbg will run xv6 in debug mode, run gdb-target-i386-elf and c for
+continue</p><p>Enjoy, thanks MIT.</p></article><nav class="no-print post-nav"><a class=prev-post href=https://blog.nobugware.com/post/2011/11/15/compile-gevent-osx-or-freebsd-pip/><img class=icon-text src=https://blog.nobugware.com/img/prev.svg>compile gevent on OSX or FreeBSD with pip</a>
+<a class=next-post href=https://blog.nobugware.com/post/2012/02/07/freebsd-90-zfs-root-ovh/>FreeBSD 9.0 ZFS root on OVH<img class=icon-text src=https://blog.nobugware.com/img/next.svg></a></nav><section id=related><h4>See Also</h4><ul><li><a href=https://blog.nobugware.com/post/2011/08/31/gimp-273-osx/>Gimp 2.7.3 on OSX</a></li></ul></section><hr class=sep></main><footer class="container no-print"><div class=u-footer><a href=https://github.com/akhenakh/><img class=icon-social src=https://blog.nobugware.com/img/github.svg alt=Github></a>
+<a href=https://c.im/@akhenakh><img class=icon-social src=https://blog.nobugware.com/img/mastodon.svg alt=Mastodon></a>
+<a href=https://twitter.com/akhenakh><img class=icon-social src=https://blog.nobugware.com/img/twitter.svg alt=Twitter></a><p>Theme used: <a href=https://github.com/yursan9/manis-hugo-theme>Manis</a><br></p><a href=#brand><img class=icon-text src=https://blog.nobugware.com/img/toup.svg alt="To Up">
+<span>Back to Up</span></a></div></footer><script>hljs.initHighlightingOnLoad()</script></body></html>

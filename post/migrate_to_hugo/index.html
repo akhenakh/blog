@@ -1,142 +1,83 @@
-<!doctype html><html lang=en>
-<head>
-<meta charset=utf-8>
-<meta name=viewport content="width=device-width,initial-scale=1">
-<meta name=generator content="Hugo 0.89.4">
-<title>Migrate to Hugo - Fabrice Aneche</title>
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=generator content="Hugo 0.123.7"><title>Migrate to Hugo - Fabrice Aneche</title>
 <meta name=description content="This blog is running Hugo with an auto deploy via Wercker and hosted on Github Page. Take #2
 Previous blog was hosted on Google App Engine with a Python blog system, to get the previous articles, I had to run in a small data migration.
-Make a backup from GAE admin web interface: Go to Datastore admin and backup your entity mine was Post and then backup to blobstore, go to Blob Viewer and download your file named around datastore_backup_datastore_backup_2015_08_02_Post-157413521680733022360302ADC43E4-output-1-attempt-1">
-<link rel=stylesheet href=https://blog.nobugware.com/css/ui.css>
-<link rel=stylesheet href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway">
-</head>
-<body>
-<header class="container no-print">
-<div class=u-header>
-<nav class=bar>
-<ul><li>
-<a href=https://blog.nobugware.com/>
-<img class=icon-text src=https://blog.nobugware.com/img/prev.svg>
-</a>
-</li><li><a href=https://blog.nobugware.com/about>About</a></li><li><a href=https://blog.nobugware.com/post/>Post</a></li></ul>
-</nav>
-</div>
-</header>
-<main class=container>
-<article>
-<header><hgroup id=brand>
-<h1>Migrate to Hugo</h1>
-<h5>
-<time datetime="2015-08-01 22:36:51 -0400 -0400">Aug 01, 2015</time>
-<span class=no-print>
-<span>
-</h5>
-</hgroup>
-<hr class=sep>
-</header>
-<p>This blog is running Hugo with an auto deploy via Wercker and hosted on Github Page.
-Take #2</p>
-<p>Previous blog was hosted on Google App Engine with a <a href=http://github.com/akhenakh/bloggae>Python blog system</a>, to get the previous articles, I had to run in a small data migration.</p>
-<p>Make a backup from GAE admin web interface: Go to Datastore admin and backup your entity mine was Post and then backup to blobstore, go to Blob Viewer and download your file named around <code>datastore_backup_datastore_backup_2015_08_02_Post-157413521680733022360302ADC43E4-output-1-attempt-1</code></p>
-<p>I put the migration code I&rsquo;ve used here, it&rsquo;s super ugly but helped me to migrate from GAE to Hugo, so it may be help you too.</p>
-<p>I&rsquo;ve used <a href=http://www.aaronsw.com/2002/html2text/>html2text</a> to convert my HTML data back to Markdown.</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=color:#f92672>import</span> sys
-<span style=color:#f92672>import</span> os
-<span style=color:#f92672>import</span> json
-<span style=color:#f92672>import</span> html2text
-<span style=color:#f92672>import</span> errno
-<span style=color:#f92672>import</span> datetime
-
-sys<span style=color:#f92672>.</span>path<span style=color:#f92672>.</span>append(<span style=color:#e6db74>&#39;/usr/local/google_appengine&#39;</span>)
-<span style=color:#f92672>from</span> google.appengine.api.files <span style=color:#f92672>import</span> records
-<span style=color:#f92672>from</span> google.appengine.datastore <span style=color:#f92672>import</span> entity_pb
-<span style=color:#f92672>from</span> google.appengine.api <span style=color:#f92672>import</span> datastore
-
-<span style=color:#66d9ef>def</span> <span style=color:#a6e22e>mkdir_p</span>(path):
-    <span style=color:#66d9ef>try</span>:
-        os<span style=color:#f92672>.</span>makedirs(path)
-    <span style=color:#66d9ef>except</span> <span style=color:#a6e22e>OSError</span> <span style=color:#66d9ef>as</span> exc:
-        <span style=color:#66d9ef>if</span> exc<span style=color:#f92672>.</span>errno <span style=color:#f92672>==</span> errno<span style=color:#f92672>.</span>EEXIST <span style=color:#f92672>and</span> os<span style=color:#f92672>.</span>path<span style=color:#f92672>.</span>isdir(path):
-            <span style=color:#66d9ef>pass</span>
-        <span style=color:#66d9ef>else</span>: <span style=color:#66d9ef>raise</span>
-
-raw <span style=color:#f92672>=</span> open(<span style=color:#e6db74>&#34;datastore&#34;</span>, <span style=color:#e6db74>&#39;r&#39;</span>)
-titles <span style=color:#f92672>=</span> open(<span style=color:#e6db74>&#34;titles.txt&#34;</span>, <span style=color:#e6db74>&#39;r&#39;</span>)<span style=color:#f92672>.</span>readlines()
-reader <span style=color:#f92672>=</span> records<span style=color:#f92672>.</span>RecordsReader(raw)
-i <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>
-<span style=color:#66d9ef>for</span> record <span style=color:#f92672>in</span> reader:
-    entity_proto <span style=color:#f92672>=</span> entity_pb<span style=color:#f92672>.</span>EntityProto(contents<span style=color:#f92672>=</span>record)
-    entity <span style=color:#f92672>=</span> datastore<span style=color:#f92672>.</span>Entity<span style=color:#f92672>.</span>FromPb(entity_proto)
-
-    <span style=color:#66d9ef>if</span> entity<span style=color:#f92672>.</span>get(<span style=color:#e6db74>&#34;status&#34;</span>) <span style=color:#f92672>==</span> <span style=color:#ae81ff>1</span>:
-        path <span style=color:#f92672>=</span> titles[i]<span style=color:#f92672>.</span>rstrip()
-        content <span style=color:#f92672>=</span> html2text<span style=color:#f92672>.</span>html2text(entity[<span style=color:#e6db74>&#34;content_html&#34;</span>], <span style=color:#e6db74>&#34;http://blog.nobugware.com/&#34;</span>)
-        directory <span style=color:#f92672>=</span> os<span style=color:#f92672>.</span>path<span style=color:#f92672>.</span>dirname(path)
-        mkdir_p(<span style=color:#e6db74>&#34;post&#34;</span> <span style=color:#f92672>+</span> directory)
-
-        <span style=color:#75715e># get current local time and utc time</span>
-        localnow <span style=color:#f92672>=</span> datetime<span style=color:#f92672>.</span>datetime<span style=color:#f92672>.</span>now()
-        utcnow <span style=color:#f92672>=</span> datetime<span style=color:#f92672>.</span>datetime<span style=color:#f92672>.</span>utcnow()
-
-        <span style=color:#75715e># compute the time difference in seconds</span>
-        tzd <span style=color:#f92672>=</span> localnow <span style=color:#f92672>-</span> utcnow
-        secs <span style=color:#f92672>=</span> tzd<span style=color:#f92672>.</span>days <span style=color:#f92672>*</span> <span style=color:#ae81ff>24</span> <span style=color:#f92672>*</span> <span style=color:#ae81ff>3600</span> <span style=color:#f92672>+</span> tzd<span style=color:#f92672>.</span>seconds
-
-        <span style=color:#75715e># get a positive or negative prefix</span>
-        prefix <span style=color:#f92672>=</span> <span style=color:#e6db74>&#39;+&#39;</span>
-        <span style=color:#66d9ef>if</span> secs <span style=color:#f92672>&lt;</span> <span style=color:#ae81ff>0</span>:
-            prefix <span style=color:#f92672>=</span> <span style=color:#e6db74>&#39;-&#39;</span>
-            secs <span style=color:#f92672>=</span> abs(secs)
-
-        <span style=color:#75715e># print the local time with the difference, correctly formatted</span>
-        suffix <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;</span><span style=color:#e6db74>%s%02d</span><span style=color:#e6db74>:</span><span style=color:#e6db74>%02d</span><span style=color:#e6db74>&#34;</span> <span style=color:#f92672>%</span> (prefix, secs<span style=color:#f92672>/</span><span style=color:#ae81ff>3600</span>, secs<span style=color:#f92672>/</span><span style=color:#ae81ff>60</span><span style=color:#f92672>%</span><span style=color:#ae81ff>60</span>)
-        now <span style=color:#f92672>=</span> localnow<span style=color:#f92672>.</span>replace(microsecond<span style=color:#f92672>=</span><span style=color:#ae81ff>0</span>)
-        date <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;</span><span style=color:#e6db74>%s%s</span><span style=color:#e6db74>&#34;</span> <span style=color:#f92672>%</span> (entity[<span style=color:#e6db74>&#34;creation_date&#34;</span>]<span style=color:#f92672>.</span>isoformat(<span style=color:#e6db74>&#39; &#39;</span>), suffix)
-        tags_string <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;&#34;</span>
-        tags_cleaned <span style=color:#f92672>=</span> []
-        <span style=color:#66d9ef>if</span> entity<span style=color:#f92672>.</span>get(<span style=color:#e6db74>&#34;tags&#34;</span>) <span style=color:#f92672>is</span> <span style=color:#f92672>not</span> <span style=color:#66d9ef>None</span>:
-            tags <span style=color:#f92672>=</span> entity<span style=color:#f92672>.</span>get(<span style=color:#e6db74>&#34;tags&#34;</span>)
-            <span style=color:#66d9ef>for</span> tag <span style=color:#f92672>in</span> tags:
-                tags_cleaned<span style=color:#f92672>.</span>append(<span style=color:#e6db74>&#34;</span><span style=color:#ae81ff>\&#34;</span><span style=color:#e6db74>&#34;</span><span style=color:#f92672>+</span> tag <span style=color:#f92672>+</span> <span style=color:#e6db74>&#34;</span><span style=color:#ae81ff>\&#34;</span><span style=color:#e6db74>&#34;</span>)
-            tags_string <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;,&#34;</span><span style=color:#f92672>.</span>join(tags_cleaned)
-
-        print tags_string
-        page <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;&#34;&#34;+++
-</span><span style=color:#e6db74>date = &#34;</span><span style=color:#e6db74>%s</span><span style=color:#e6db74>&#34;
-</span><span style=color:#e6db74>title = &#34;</span><span style=color:#e6db74>%s</span><span style=color:#e6db74>&#34;
-</span><span style=color:#e6db74>tags = [</span><span style=color:#e6db74>%s</span><span style=color:#e6db74>]
-</span><span style=color:#e6db74>+++
-</span><span style=color:#e6db74>
-</span><span style=color:#e6db74></span><span style=color:#e6db74>%s</span><span style=color:#e6db74>
-</span><span style=color:#e6db74>&#34;&#34;&#34;</span> <span style=color:#f92672>%</span> ( date, entity[<span style=color:#e6db74>&#34;title&#34;</span>] , tags_string, content)
-    md<span style=color:#f92672>=</span>open(<span style=color:#e6db74>&#34;post&#34;</span> <span style=color:#f92672>+</span> path <span style=color:#f92672>+</span> <span style=color:#e6db74>&#34;.md&#34;</span>, <span style=color:#e6db74>&#39;w&#39;</span>)
-    md<span style=color:#f92672>.</span>write(page<span style=color:#f92672>.</span>encode(<span style=color:#e6db74>&#39;utf8&#39;</span>))
-    md<span style=color:#f92672>.</span>close()
-    i <span style=color:#f92672>=</span> i <span style=color:#f92672>+</span> <span style=color:#ae81ff>1</span>
-</code></pre></div>
-</article>
-<nav class="no-print post-nav">
-<a class=prev-post href=https://blog.nobugware.com/post/2015/04/grafana_influxdb/>
-<img class=icon-text src=https://blog.nobugware.com/img/prev.svg>A 10 minutes walk into Grafana & Influxdb</a>
-<a class=next-post href=https://blog.nobugware.com/post/hugo_blog_github/>Host your blog on Github with autodeploy<img class=icon-text src=https://blog.nobugware.com/img/next.svg>
-</a>
-</nav>
-<hr class=sep>
-</main>
-<footer class="container no-print">
-<div class=u-footer>
-<a href=https://github.com/akhenakh/><img class=icon-social src=https://blog.nobugware.com/img/github.svg alt=Github></a>
-<a href=https://twitter.com/akhenakh><img class=icon-social src=https://blog.nobugware.com/img/twitter.svg alt=Twitter></a>
-<a href=https://blog.nobugware.com/index.xml target=_blank><img class=icon-social src=https://blog.nobugware.com/img/feed.svg alt=Feed></a>
-<p>
-Theme used: <a href=https://github.com/yursan9/manis-hugo-theme>Manis</a><br>
-</p>
-<a href=#brand>
-<img class=icon-text src=https://blog.nobugware.com/img/toup.svg alt="To Up">
-<span>Back to Up</span>
-</a>
-</div>
-</footer>
-<script async src=https://us.umami.is/script.js data-website-id=1566cf98-efb9-475c-b96e-709666a74819></script>
-</body>
-</html>
+Make a backup from GAE admin web interface: Go to Datastore admin and backup your entity mine was Post and then backup to blobstore, go to Blob Viewer and download your file named around datastore_backup_datastore_backup_2015_08_02_Post-157413521680733022360302ADC43E4-output-1-attempt-1"><link rel=stylesheet href=https://blog.nobugware.com/css/ui.css><script defer src=https://blog.nobugware.com/js/dark-mode.js></script><link disabled id=dark-mode-theme rel=stylesheet href=https://blog.nobugware.com/css/dark.css><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway"><link rel=stylesheet href=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/ocean.min.css><script src=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js></script><script src=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/languages/go.min.js></script><script src=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/languages/yaml.min.js></script></head><body><header class="container no-print"><div class=u-header><nav class=bar><ul><li><a href=https://blog.nobugware.com/><img class=icon-text src=https://blog.nobugware.com/img/prev.svg></a></li><li><img class=icon-text id=dark-mode-toggle src=https://blog.nobugware.com/img/moon-regular.svg alt="Toggle Dark Mode"></a></li><li><a href=https://blog.nobugware.com/about>About</a></li><li><a href=https://blog.nobugware.com/post/>Post</a></li></ul></nav></div></header><main class=container><article><header><hgroup id=brand><h1>Migrate to Hugo</h1><h5><time datetime="2015-08-01 22:36:51 -0400 -0400">Aug 01, 2015</time>
+<span class=no-print><span></h5></hgroup><hr class=sep></header><p>This blog is running Hugo with an auto deploy via Wercker and hosted on Github Page.
+Take #2</p><p>Previous blog was hosted on Google App Engine with a <a href=http://github.com/akhenakh/bloggae>Python blog system</a>, to get the previous articles, I had to run in a small data migration.</p><p>Make a backup from GAE admin web interface: Go to Datastore admin and backup your entity mine was Post and then backup to blobstore, go to Blob Viewer and download your file named around <code>datastore_backup_datastore_backup_2015_08_02_Post-157413521680733022360302ADC43E4-output-1-attempt-1</code></p><p>I put the migration code I&rsquo;ve used here, it&rsquo;s super ugly but helped me to migrate from GAE to Hugo, so it may be help you too.</p><p>I&rsquo;ve used <a href=http://www.aaronsw.com/2002/html2text/>html2text</a> to convert my HTML data back to Markdown.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#f92672>import</span> sys
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> os
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> json
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> html2text
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> errno
+</span></span><span style=display:flex><span><span style=color:#f92672>import</span> datetime
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>sys<span style=color:#f92672>.</span>path<span style=color:#f92672>.</span>append(<span style=color:#e6db74>&#39;/usr/local/google_appengine&#39;</span>)
+</span></span><span style=display:flex><span><span style=color:#f92672>from</span> google.appengine.api.files <span style=color:#f92672>import</span> records
+</span></span><span style=display:flex><span><span style=color:#f92672>from</span> google.appengine.datastore <span style=color:#f92672>import</span> entity_pb
+</span></span><span style=display:flex><span><span style=color:#f92672>from</span> google.appengine.api <span style=color:#f92672>import</span> datastore
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>def</span> <span style=color:#a6e22e>mkdir_p</span>(path):
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>try</span>:
+</span></span><span style=display:flex><span>        os<span style=color:#f92672>.</span>makedirs(path)
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>except</span> <span style=color:#a6e22e>OSError</span> <span style=color:#66d9ef>as</span> exc:
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>if</span> exc<span style=color:#f92672>.</span>errno <span style=color:#f92672>==</span> errno<span style=color:#f92672>.</span>EEXIST <span style=color:#f92672>and</span> os<span style=color:#f92672>.</span>path<span style=color:#f92672>.</span>isdir(path):
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>pass</span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>else</span>: <span style=color:#66d9ef>raise</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>raw <span style=color:#f92672>=</span> open(<span style=color:#e6db74>&#34;datastore&#34;</span>, <span style=color:#e6db74>&#39;r&#39;</span>)
+</span></span><span style=display:flex><span>titles <span style=color:#f92672>=</span> open(<span style=color:#e6db74>&#34;titles.txt&#34;</span>, <span style=color:#e6db74>&#39;r&#39;</span>)<span style=color:#f92672>.</span>readlines()
+</span></span><span style=display:flex><span>reader <span style=color:#f92672>=</span> records<span style=color:#f92672>.</span>RecordsReader(raw)
+</span></span><span style=display:flex><span>i <span style=color:#f92672>=</span> <span style=color:#ae81ff>0</span>
+</span></span><span style=display:flex><span><span style=color:#66d9ef>for</span> record <span style=color:#f92672>in</span> reader:
+</span></span><span style=display:flex><span>    entity_proto <span style=color:#f92672>=</span> entity_pb<span style=color:#f92672>.</span>EntityProto(contents<span style=color:#f92672>=</span>record)
+</span></span><span style=display:flex><span>    entity <span style=color:#f92672>=</span> datastore<span style=color:#f92672>.</span>Entity<span style=color:#f92672>.</span>FromPb(entity_proto)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#66d9ef>if</span> entity<span style=color:#f92672>.</span>get(<span style=color:#e6db74>&#34;status&#34;</span>) <span style=color:#f92672>==</span> <span style=color:#ae81ff>1</span>:
+</span></span><span style=display:flex><span>        path <span style=color:#f92672>=</span> titles[i]<span style=color:#f92672>.</span>rstrip()
+</span></span><span style=display:flex><span>        content <span style=color:#f92672>=</span> html2text<span style=color:#f92672>.</span>html2text(entity[<span style=color:#e6db74>&#34;content_html&#34;</span>], <span style=color:#e6db74>&#34;http://blog.nobugware.com/&#34;</span>)
+</span></span><span style=display:flex><span>        directory <span style=color:#f92672>=</span> os<span style=color:#f92672>.</span>path<span style=color:#f92672>.</span>dirname(path)
+</span></span><span style=display:flex><span>        mkdir_p(<span style=color:#e6db74>&#34;post&#34;</span> <span style=color:#f92672>+</span> directory)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#75715e># get current local time and utc time</span>
+</span></span><span style=display:flex><span>        localnow <span style=color:#f92672>=</span> datetime<span style=color:#f92672>.</span>datetime<span style=color:#f92672>.</span>now()
+</span></span><span style=display:flex><span>        utcnow <span style=color:#f92672>=</span> datetime<span style=color:#f92672>.</span>datetime<span style=color:#f92672>.</span>utcnow()
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#75715e># compute the time difference in seconds</span>
+</span></span><span style=display:flex><span>        tzd <span style=color:#f92672>=</span> localnow <span style=color:#f92672>-</span> utcnow
+</span></span><span style=display:flex><span>        secs <span style=color:#f92672>=</span> tzd<span style=color:#f92672>.</span>days <span style=color:#f92672>*</span> <span style=color:#ae81ff>24</span> <span style=color:#f92672>*</span> <span style=color:#ae81ff>3600</span> <span style=color:#f92672>+</span> tzd<span style=color:#f92672>.</span>seconds
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#75715e># get a positive or negative prefix</span>
+</span></span><span style=display:flex><span>        prefix <span style=color:#f92672>=</span> <span style=color:#e6db74>&#39;+&#39;</span>
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>if</span> secs <span style=color:#f92672>&lt;</span> <span style=color:#ae81ff>0</span>:
+</span></span><span style=display:flex><span>            prefix <span style=color:#f92672>=</span> <span style=color:#e6db74>&#39;-&#39;</span>
+</span></span><span style=display:flex><span>            secs <span style=color:#f92672>=</span> abs(secs)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#75715e># print the local time with the difference, correctly formatted</span>
+</span></span><span style=display:flex><span>        suffix <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;</span><span style=color:#e6db74>%s%02d</span><span style=color:#e6db74>:</span><span style=color:#e6db74>%02d</span><span style=color:#e6db74>&#34;</span> <span style=color:#f92672>%</span> (prefix, secs<span style=color:#f92672>/</span><span style=color:#ae81ff>3600</span>, secs<span style=color:#f92672>/</span><span style=color:#ae81ff>60</span><span style=color:#f92672>%</span><span style=color:#ae81ff>60</span>)
+</span></span><span style=display:flex><span>        now <span style=color:#f92672>=</span> localnow<span style=color:#f92672>.</span>replace(microsecond<span style=color:#f92672>=</span><span style=color:#ae81ff>0</span>)
+</span></span><span style=display:flex><span>        date <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;</span><span style=color:#e6db74>%s%s</span><span style=color:#e6db74>&#34;</span> <span style=color:#f92672>%</span> (entity[<span style=color:#e6db74>&#34;creation_date&#34;</span>]<span style=color:#f92672>.</span>isoformat(<span style=color:#e6db74>&#39; &#39;</span>), suffix)
+</span></span><span style=display:flex><span>        tags_string <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;&#34;</span>
+</span></span><span style=display:flex><span>        tags_cleaned <span style=color:#f92672>=</span> []
+</span></span><span style=display:flex><span>        <span style=color:#66d9ef>if</span> entity<span style=color:#f92672>.</span>get(<span style=color:#e6db74>&#34;tags&#34;</span>) <span style=color:#f92672>is</span> <span style=color:#f92672>not</span> <span style=color:#66d9ef>None</span>:
+</span></span><span style=display:flex><span>            tags <span style=color:#f92672>=</span> entity<span style=color:#f92672>.</span>get(<span style=color:#e6db74>&#34;tags&#34;</span>)
+</span></span><span style=display:flex><span>            <span style=color:#66d9ef>for</span> tag <span style=color:#f92672>in</span> tags:
+</span></span><span style=display:flex><span>                tags_cleaned<span style=color:#f92672>.</span>append(<span style=color:#e6db74>&#34;</span><span style=color:#ae81ff>\&#34;</span><span style=color:#e6db74>&#34;</span><span style=color:#f92672>+</span> tag <span style=color:#f92672>+</span> <span style=color:#e6db74>&#34;</span><span style=color:#ae81ff>\&#34;</span><span style=color:#e6db74>&#34;</span>)
+</span></span><span style=display:flex><span>            tags_string <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;,&#34;</span><span style=color:#f92672>.</span>join(tags_cleaned)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        print tags_string
+</span></span><span style=display:flex><span>        page <span style=color:#f92672>=</span> <span style=color:#e6db74>&#34;&#34;&#34;+++
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>date = &#34;</span><span style=color:#e6db74>%s</span><span style=color:#e6db74>&#34;
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>title = &#34;</span><span style=color:#e6db74>%s</span><span style=color:#e6db74>&#34;
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>tags = [</span><span style=color:#e6db74>%s</span><span style=color:#e6db74>]
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>+++
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>
+</span></span></span><span style=display:flex><span><span style=color:#e6db74></span><span style=color:#e6db74>%s</span><span style=color:#e6db74>
+</span></span></span><span style=display:flex><span><span style=color:#e6db74>&#34;&#34;&#34;</span> <span style=color:#f92672>%</span> ( date, entity[<span style=color:#e6db74>&#34;title&#34;</span>] , tags_string, content)
+</span></span><span style=display:flex><span>    md<span style=color:#f92672>=</span>open(<span style=color:#e6db74>&#34;post&#34;</span> <span style=color:#f92672>+</span> path <span style=color:#f92672>+</span> <span style=color:#e6db74>&#34;.md&#34;</span>, <span style=color:#e6db74>&#39;w&#39;</span>)
+</span></span><span style=display:flex><span>    md<span style=color:#f92672>.</span>write(page<span style=color:#f92672>.</span>encode(<span style=color:#e6db74>&#39;utf8&#39;</span>))
+</span></span><span style=display:flex><span>    md<span style=color:#f92672>.</span>close()
+</span></span><span style=display:flex><span>    i <span style=color:#f92672>=</span> i <span style=color:#f92672>+</span> <span style=color:#ae81ff>1</span>
+</span></span></code></pre></div></article><nav class="no-print post-nav"><a class=prev-post href=https://blog.nobugware.com/post/2015/04/grafana_influxdb/><img class=icon-text src=https://blog.nobugware.com/img/prev.svg>A 10 minutes walk into Grafana & Influxdb</a>
+<a class=next-post href=https://blog.nobugware.com/post/hugo_blog_github/>Host your blog on Github with autodeploy<img class=icon-text src=https://blog.nobugware.com/img/next.svg></a></nav><hr class=sep></main><footer class="container no-print"><div class=u-footer><a href=https://github.com/akhenakh/><img class=icon-social src=https://blog.nobugware.com/img/github.svg alt=Github></a>
+<a href=https://c.im/@akhenakh><img class=icon-social src=https://blog.nobugware.com/img/mastodon.svg alt=Mastodon></a>
+<a href=https://twitter.com/akhenakh><img class=icon-social src=https://blog.nobugware.com/img/twitter.svg alt=Twitter></a><p>Theme used: <a href=https://github.com/yursan9/manis-hugo-theme>Manis</a><br></p><a href=#brand><img class=icon-text src=https://blog.nobugware.com/img/toup.svg alt="To Up">
+<span>Back to Up</span></a></div></footer><script>hljs.initHighlightingOnLoad()</script></body></html>

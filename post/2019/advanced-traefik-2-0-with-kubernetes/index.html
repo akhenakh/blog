@@ -1,91 +1,36 @@
-<!doctype html><html lang=en>
-<head>
-<meta charset=utf-8>
-<meta name=viewport content="width=device-width,initial-scale=1">
-<meta name=generator content="Hugo 0.89.4">
-<title>Advanced Traefik 2.0 with Kubernetes - Fabrice Aneche</title>
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=generator content="Hugo 0.123.7"><title>Advanced Traefik 2.0 with Kubernetes - Fabrice Aneche</title>
 <meta name=description content="Following my earlier post about Traefik 2 and Kubernetes, here are some advanced configuration examples and a full yaml example at the end of this post:
 Protecting a route with a password Create an htpasswd file named users for a user admin
- htpasswd -c users admin  Use kubectl to create the secret (easier for multi lines file).
-kubectl create secret generic admin-authsecret --from-file=users  Create a middleware for authentication:">
-<link rel=stylesheet href=https://blog.nobugware.com/css/ui.css>
-<link rel=stylesheet href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway">
-</head>
-<body>
-<header class="container no-print">
-<div class=u-header>
-<nav class=bar>
-<ul><li>
-<a href=https://blog.nobugware.com/>
-<img class=icon-text src=https://blog.nobugware.com/img/prev.svg>
-</a>
-</li><li><a href=https://blog.nobugware.com/about>About</a></li><li><a href=https://blog.nobugware.com/post/>Post</a></li></ul>
-</nav>
-</div>
-</header>
-<main class=container>
-<article>
-<header><hgroup id=brand>
-<h1>Advanced Traefik 2.0 with Kubernetes</h1>
-<h5>
-<time datetime="2019-10-07 00:00:00 -0400 -0400">Oct 07, 2019</time>
-<span class=no-print>
--
+htpasswd -c users admin Use kubectl to create the secret (easier for multi lines file).
+kubectl create secret generic admin-authsecret --from-file=users Create a middleware for authentication:
+apiVersion: traefik.containo.us/v1alpha1 kind: Middleware metadata: name: admin-auth spec: basicAuth: secret: admin-authsecret Then apply this admin-auth middleware to each IngressRoute you want to protect."><link rel=stylesheet href=https://blog.nobugware.com/css/ui.css><script defer src=https://blog.nobugware.com/js/dark-mode.js></script><link disabled id=dark-mode-theme rel=stylesheet href=https://blog.nobugware.com/css/dark.css><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway"><link rel=stylesheet href=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/ocean.min.css><script src=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js></script><script src=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/languages/go.min.js></script><script src=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/languages/yaml.min.js></script></head><body><header class="container no-print"><div class=u-header><nav class=bar><ul><li><a href=https://blog.nobugware.com/><img class=icon-text src=https://blog.nobugware.com/img/prev.svg></a></li><li><img class=icon-text id=dark-mode-toggle src=https://blog.nobugware.com/img/moon-regular.svg alt="Toggle Dark Mode"></a></li><li><a href=https://blog.nobugware.com/about>About</a></li><li><a href=https://blog.nobugware.com/post/>Post</a></li></ul></nav></div></header><main class=container><article><header><hgroup id=brand><h1>Advanced Traefik 2.0 with Kubernetes</h1><h5><time datetime="2019-10-07 00:00:00 -0400 -0400">Oct 07, 2019</time>
+<span class=no-print>-
 <a href=https://blog.nobugware.com/tags/devops>devops</a>
 <a href=https://blog.nobugware.com/tags/kubernetes>kubernetes</a>
 <a href=https://blog.nobugware.com/tags/traefik>traefik</a>
-<span>
-</h5>
-</hgroup>
-<hr class=sep>
-</header>
-<p>Following my <a href=https://blog.nobugware.com/post/2019/traefik-2-0-with-kubernetes/>earlier post about Traefik 2 and Kubernetes</a>, here are some advanced configuration examples and a full yaml example at the end of this post:</p>
-<h2 id=protecting-a-route-with-a-password>Protecting a route with a password</h2>
-<p>Create an htpasswd file named <code>users</code> for a user <code>admin</code></p>
-<pre><code> htpasswd -c users admin
-</code></pre>
-<p>Use kubectl to create the secret (easier for multi lines file).</p>
-<pre><code>kubectl create secret generic admin-authsecret --from-file=users
-</code></pre>
-<p>Create a middleware for authentication:</p>
-<pre><code>apiVersion: traefik.containo.us/v1alpha1
+<span></h5></hgroup><hr class=sep></header><p>Following my <a href=https://blog.nobugware.com/post/2019/traefik-2-0-with-kubernetes/>earlier post about Traefik 2 and Kubernetes</a>, here are some advanced configuration examples and a full yaml example at the end of this post:</p><h2 id=protecting-a-route-with-a-password>Protecting a route with a password</h2><p>Create an htpasswd file named <code>users</code> for a user <code>admin</code></p><pre><code> htpasswd -c users admin
+</code></pre><p>Use kubectl to create the secret (easier for multi lines file).</p><pre><code>kubectl create secret generic admin-authsecret --from-file=users
+</code></pre><p>Create a middleware for authentication:</p><pre><code>apiVersion: traefik.containo.us/v1alpha1
 kind: Middleware
 metadata:
   name: admin-auth
 spec:
   basicAuth:
     secret: admin-authsecret
-</code></pre>
-<p>Then apply this <code>admin-auth</code> middleware to each <code>IngressRoute</code> you want to protect.</p>
-<h2 id=prometheus>Prometheus</h2>
-<p>To enable Traefik Prometheus metrics, add these args options to the template spec args:</p>
-<pre><code>			# create a dedicated entrypoints for metrics
+</code></pre><p>Then apply this <code>admin-auth</code> middleware to each <code>IngressRoute</code> you want to protect.</p><h2 id=prometheus>Prometheus</h2><p>To enable Traefik Prometheus metrics, add these args options to the template spec args:</p><pre><code>			# create a dedicated entrypoints for metrics
             - --entrypoints.metrics.address=:8888
             - --metrics.prometheus=true
             - --metrics.prometheus.entryPoint=metrics
-</code></pre>
-<p>Add the scrape annotation to the deployment spec metadata:</p>
-<pre><code>      annotations:
+</code></pre><p>Add the scrape annotation to the deployment spec metadata:</p><pre><code>      annotations:
         prometheus.io/scrape: 'true'
         prometheus.io/port: '8888'
-</code></pre>
-<p>Note: The older Traefik Grafana templates are incompatible with Traefik 2.0 since several metrics have been renamed.</p>
-<h2 id=jaeger>Jaeger</h2>
-<p>To enable tracing with Jaeger add these args options to the template spec args:</p>
-<pre><code>        - --tracing=true
+</code></pre><p>Note: The older Traefik Grafana templates are incompatible with Traefik 2.0 since several metrics have been renamed.</p><h2 id=jaeger>Jaeger</h2><p>To enable tracing with Jaeger add these args options to the template spec args:</p><pre><code>        - --tracing=true
         - --tracing.jaeger=true
         - --tracing.jaeger.localAgentHostPort=jaeger-agent:6831
         - --tracing.jaeger.samplingParam=1
         - --tracing.jaeger.samplingType=const
-</code></pre>
-<p>Do not use this configuration in production since it will trace every requests, but use a probabilistic one.</p>
-<p>Note: do not use double quote around <code>localAgentHostPort</code> value &mldr;</p>
-<h2 id=traefik-dashboard>Traefik Dashboard</h2>
-<p>To expose the Traefik dashboard:</p>
-<pre><code>        - --api.dashboard=true
-</code></pre>
-<p>Be sure to have a <code>traefik-admin</code> service:</p>
-<pre><code>apiVersion: v1
+</code></pre><p>Do not use this configuration in production since it will trace every requests, but use a probabilistic one.</p><p>Note: do not use double quote around <code>localAgentHostPort</code> value &mldr;</p><h2 id=traefik-dashboard>Traefik Dashboard</h2><p>To expose the Traefik dashboard:</p><pre><code>        - --api.dashboard=true
+</code></pre><p>Be sure to have a <code>traefik-admin</code> service:</p><pre><code>apiVersion: v1
 kind: Service
 metadata:
   name: traefik-admin
@@ -96,9 +41,7 @@ spec:
       targetPort: admin
   selector:
     app: traefik
-</code></pre>
-<p>Then a route for the dashboard:</p>
-<pre><code>apiVersion: traefik.containo.us/v1alpha1
+</code></pre><p>Then a route for the dashboard:</p><pre><code>apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
   name: traefik-ingress
@@ -117,11 +60,7 @@ spec:
           port: 8080
   tls:
     certResolver: default
-</code></pre>
-<p><code>admin-auth</code> is a login password middleware to protect the page (see above).</p>
-<h2 id=grafana-dashboard>Grafana Dashboard</h2>
-<p>To expose Grafana dashboard:</p>
-<pre><code>apiVersion: traefik.containo.us/v1alpha1
+</code></pre><p><code>admin-auth</code> is a login password middleware to protect the page (see above).</p><h2 id=grafana-dashboard>Grafana Dashboard</h2><p>To expose Grafana dashboard:</p><pre><code>apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
   name: grafana-ingress
@@ -140,10 +79,7 @@ spec:
       port: 80
   tls:
     certResolver: default
-</code></pre>
-<h2 id=lets-encrypt>Let&rsquo;s Encrypt</h2>
-<p>You&rsquo;ll need a storage for the SSL certificates, it&rsquo;s important because each time you&rsquo;ll restart Traefik will regenerate them, possibly hitting let&rsquo;s encrypt rate limits if you don&rsquo;t.</p>
-<pre><code>apiVersion: v1
+</code></pre><h2 id=lets-encrypt>Let&rsquo;s Encrypt</h2><p>You&rsquo;ll need a storage for the SSL certificates, it&rsquo;s important because each time you&rsquo;ll restart Traefik will regenerate them, possibly hitting let&rsquo;s encrypt rate limits if you don&rsquo;t.</p><pre><code>apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   labels:
@@ -157,9 +93,7 @@ spec:
   resources:
     requests:
       storage: &quot;100Mi&quot;
-</code></pre>
-<p>Do not forget to mount the disk:</p>
-<pre><code>          volumeMounts:
+</code></pre><p>Do not forget to mount the disk:</p><pre><code>          volumeMounts:
             - name: storage-volume
               mountPath: /data
               subPath: &quot;&quot;
@@ -167,59 +101,19 @@ spec:
         - name: storage-volume
           persistentVolumeClaim:
             claimName: traefik-acme-storage
-</code></pre>
-<p>To enable let&rsquo;s encrypt, add these args options to the template spec args</p>
-<pre><code>            - --certificatesresolvers.default.acme.email=root@mydomain.tld
+</code></pre><p>To enable let&rsquo;s encrypt, add these args options to the template spec args</p><pre><code>            - --certificatesresolvers.default.acme.email=root@mydomain.tld
             - --certificatesresolvers.default.acme.storage=/data/acme.json
-</code></pre>
-<p>Enable a DNS provider for the dns challenge:
-Look for your <a href=https://go-acme.github.io/lego/dns/>DNS provider settings</a>.</p>
-<p>Example with Gandi:</p>
-<pre><code>            - --certificatesResolvers.default.acme.dnsChallenge.provider=gandiv5
+</code></pre><p>Enable a DNS provider for the dns challenge:
+Look for your <a href=https://go-acme.github.io/lego/dns/>DNS provider settings</a>.</p><p>Example with Gandi:</p><pre><code>            - --certificatesResolvers.default.acme.dnsChallenge.provider=gandiv5
             - --certificatesResolvers.default.acme.dnsChallenge.delayBeforeCheck=5
-</code></pre>
-<p>The provider is looking for a key in the env, set in your deployment as usual:</p>
-<pre><code>          env:
+</code></pre><p>The provider is looking for a key in the env, set in your deployment as usual:</p><pre><code>          env:
             - name: GANDIV5_API_KEY
               valueFrom:
                 secretKeyRef:
                   name: gandi-secret
                   key: secret
-</code></pre>
-<h2 id=overall-example>Overall Example</h2>
-<p>Here is a <a href=https://gist.github.com/akhenakh/a90b9444f8b92364206ab15964bafee9>full example Traefik 2 config</a>.</p>
-<p>Note: this is a non HA setup, do not upscale this deployment if you are using let&rsquo;s encrypt.</p>
-</article>
-<nav class="no-print post-nav">
-<a class=prev-post href=https://blog.nobugware.com/post/2019/self_hosted_world_maps/>
-<img class=icon-text src=https://blog.nobugware.com/img/prev.svg>Self Hosted World Maps</a>
-<a class=next-post href=https://blog.nobugware.com/post/2019/nomad_an_alternative_to_kubernetes/>Nomad an alternative to Kubernetes<img class=icon-text src=https://blog.nobugware.com/img/next.svg>
-</a>
-</nav>
-<section id=related>
-<h4>See Also</h4>
-<ul>
-<li><a href=https://blog.nobugware.com/post/2019/traefik-2-0-with-kubernetes/>Traefik 2.0 with Kubernetes</a></li>
-<li><a href=https://blog.nobugware.com/post/2019/access-web-interface/>Access Kubernetes Web Interfaces from the Outside</a></li>
-<li><a href=https://blog.nobugware.com/post/2019/google-kubernetes-engine-gcp/>Google Kubernetes Engine & GCP</a></li>
-</ul>
-</section>
-<hr class=sep>
-</main>
-<footer class="container no-print">
-<div class=u-footer>
-<a href=https://github.com/akhenakh/><img class=icon-social src=https://blog.nobugware.com/img/github.svg alt=Github></a>
-<a href=https://twitter.com/akhenakh><img class=icon-social src=https://blog.nobugware.com/img/twitter.svg alt=Twitter></a>
-<a href=https://blog.nobugware.com/index.xml target=_blank><img class=icon-social src=https://blog.nobugware.com/img/feed.svg alt=Feed></a>
-<p>
-Theme used: <a href=https://github.com/yursan9/manis-hugo-theme>Manis</a><br>
-</p>
-<a href=#brand>
-<img class=icon-text src=https://blog.nobugware.com/img/toup.svg alt="To Up">
-<span>Back to Up</span>
-</a>
-</div>
-</footer>
-<script async src=https://us.umami.is/script.js data-website-id=1566cf98-efb9-475c-b96e-709666a74819></script>
-</body>
-</html>
+</code></pre><h2 id=overall-example>Overall Example</h2><p>Here is a <a href=https://gist.github.com/akhenakh/a90b9444f8b92364206ab15964bafee9>full example Traefik 2 config</a>.</p><p>Note: this is a non HA setup, do not upscale this deployment if you are using let&rsquo;s encrypt.</p></article><nav class="no-print post-nav"><a class=prev-post href=https://blog.nobugware.com/post/2019/self_hosted_world_maps/><img class=icon-text src=https://blog.nobugware.com/img/prev.svg>Self Hosted World Maps</a>
+<a class=next-post href=https://blog.nobugware.com/post/2019/nomad_an_alternative_to_kubernetes/>Nomad an alternative to Kubernetes<img class=icon-text src=https://blog.nobugware.com/img/next.svg></a></nav><section id=related><h4>See Also</h4><ul><li><a href=https://blog.nobugware.com/post/2019/traefik-2-0-with-kubernetes/>Traefik 2.0 with Kubernetes</a></li><li><a href=https://blog.nobugware.com/post/2019/access-web-interface/>Access Kubernetes Web Interfaces from the Outside</a></li><li><a href=https://blog.nobugware.com/post/2019/google-kubernetes-engine-gcp/>Google Kubernetes Engine & GCP</a></li></ul></section><hr class=sep></main><footer class="container no-print"><div class=u-footer><a href=https://github.com/akhenakh/><img class=icon-social src=https://blog.nobugware.com/img/github.svg alt=Github></a>
+<a href=https://c.im/@akhenakh><img class=icon-social src=https://blog.nobugware.com/img/mastodon.svg alt=Mastodon></a>
+<a href=https://twitter.com/akhenakh><img class=icon-social src=https://blog.nobugware.com/img/twitter.svg alt=Twitter></a><p>Theme used: <a href=https://github.com/yursan9/manis-hugo-theme>Manis</a><br></p><a href=#brand><img class=icon-text src=https://blog.nobugware.com/img/toup.svg alt="To Up">
+<span>Back to Up</span></a></div></footer><script>hljs.initHighlightingOnLoad()</script></body></html>

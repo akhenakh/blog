@@ -1,79 +1,12 @@
-<!doctype html><html lang=en>
-<head>
-<meta charset=utf-8>
-<meta name=viewport content="width=device-width,initial-scale=1">
-<meta name=generator content="Hugo 0.89.4">
-<title>zfs - Fabrice Aneche</title>
-<meta name=description content>
-<link rel=stylesheet href=https://blog.nobugware.com/css/ui.css>
-<link rel=stylesheet href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway">
-</head>
-<body>
-<header class="container no-print">
-<div class=u-header>
-<nav class=bar>
-<ul><li>
-<a href=https://blog.nobugware.com/>
-<img class=icon-text src=https://blog.nobugware.com/img/prev.svg>
-</a>
-</li><li><a href=https://blog.nobugware.com/about>About</a></li><li><a href=https://blog.nobugware.com/post/>Post</a></li></ul>
-</nav>
-</div>
-</header>
-<main class=container>
-<article>
-<header>
-<hgroup id=brand>
-</hgroup>
-<hr class=sep>
-</header>
-<ul class=no-bullet>
-<li>
-<span><time datetime="2019-12-18 18:00:00 +0000 UTC">Dec 18, 2019</time></span>
-<a href=https://blog.nobugware.com/post/2019/k3s-containterd-zfs/>k3s, containerd & ZFS</a>
-</li>
-<li>
-<span><time datetime="2012-02-28 15:32:47 -0400 -0400">Feb 28, 2012</time></span>
-<a href=https://blog.nobugware.com/post/2012/02/28/freebsd-vimage-jails/>FreeBSD vimage jails</a>
-</li>
-<li>
-<span><time datetime="2012-02-07 15:05:48 -0400 -0400">Feb 07, 2012</time></span>
-<a href=https://blog.nobugware.com/post/2012/02/07/freebsd-90-zfs-root-ovh/>FreeBSD 9.0 ZFS root on OVH</a>
-</li>
-<li>
-<span><time datetime="2011-10-14 11:00:22 -0400 -0400">Oct 14, 2011</time></span>
-<a href=https://blog.nobugware.com/post/2011/10/14/install-freebsd-90-zfs-root/>Install FreeBSD 9.0 with ZFS root</a>
-</li>
-<li>
-<span><time datetime="2011-03-31 21:06:13 -0400 -0400">Mar 31, 2011</time></span>
-<a href=https://blog.nobugware.com/post/2011/03/31/freebsd-zfs/>(Re)Discovering FreeBSD and ZFS</a>
-</li>
-<li>
-<span><time datetime="2010-08-09 14:41:47 -0400 -0400">Aug 09, 2010</time></span>
-<a href=https://blog.nobugware.com/post/2010/08/09/zfs-linux/>ZFS on linux</a>
-</li>
-<li>
-<span><time datetime="2009-02-26 11:37:40 -0400 -0400">Feb 26, 2009</time></span>
-<a href=https://blog.nobugware.com/post/2009/02/26/understanding-zfs-tuning/>Understanding the ZFS tuning</a>
-</li>
-</ul>
-</article>
-<hr class=sep>
-</main>
-<footer class="container no-print">
-<div class=u-footer>
-<a href=https://github.com/akhenakh/><img class=icon-social src=https://blog.nobugware.com/img/github.svg alt=Github></a>
-<a href=https://twitter.com/akhenakh><img class=icon-social src=https://blog.nobugware.com/img/twitter.svg alt=Twitter></a>
-<a href=https://blog.nobugware.com/index.xml target=_blank><img class=icon-social src=https://blog.nobugware.com/img/feed.svg alt=Feed></a>
-<p>
-Theme used: <a href=https://github.com/yursan9/manis-hugo-theme>Manis</a><br>
-</p>
-<a href=#brand>
-<img class=icon-text src=https://blog.nobugware.com/img/toup.svg alt="To Up">
-<span>Back to Up</span>
-</a>
-</div>
-</footer>
-<script async src=https://us.umami.is/script.js data-website-id=1566cf98-efb9-475c-b96e-709666a74819></script>
-</body>
-</html>
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=generator content="Hugo 0.123.7"><title>Zfs - Fabrice Aneche</title>
+<meta name=description content><link rel=stylesheet href=https://blog.nobugware.com/css/ui.css><script defer src=https://blog.nobugware.com/js/dark-mode.js></script><link disabled id=dark-mode-theme rel=stylesheet href=https://blog.nobugware.com/css/dark.css><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway"><link rel=stylesheet href=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/ocean.min.css><script src=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js></script><script src=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/languages/go.min.js></script><script src=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/languages/yaml.min.js></script></head><body><header class="container no-print"><div class=u-header><nav class=bar><ul><li><a href=https://blog.nobugware.com/><img class=icon-text src=https://blog.nobugware.com/img/prev.svg></a></li><li><img class=icon-text id=dark-mode-toggle src=https://blog.nobugware.com/img/moon-regular.svg alt="Toggle Dark Mode"></a></li><li><a href=https://blog.nobugware.com/about>About</a></li><li><a href=https://blog.nobugware.com/post/>Post</a></li></ul></nav></div></header><main class=container><article><header><hgroup id=brand></hgroup><hr class=sep></header><ul class=no-bullet><li><span><time datetime="2019-12-18 18:00:00 +0000 UTC">Dec 18, 2019</time></span>
+<a href=https://blog.nobugware.com/post/2019/k3s-containterd-zfs/>k3s, containerd & ZFS</a></li><li><span><time datetime="2012-02-28 15:32:47 -0400 -0400">Feb 28, 2012</time></span>
+<a href=https://blog.nobugware.com/post/2012/02/28/freebsd-vimage-jails/>FreeBSD vimage jails</a></li><li><span><time datetime="2012-02-07 15:05:48 -0400 -0400">Feb 07, 2012</time></span>
+<a href=https://blog.nobugware.com/post/2012/02/07/freebsd-90-zfs-root-ovh/>FreeBSD 9.0 ZFS root on OVH</a></li><li><span><time datetime="2011-10-14 11:00:22 -0400 -0400">Oct 14, 2011</time></span>
+<a href=https://blog.nobugware.com/post/2011/10/14/install-freebsd-90-zfs-root/>Install FreeBSD 9.0 with ZFS root</a></li><li><span><time datetime="2011-03-31 21:06:13 -0400 -0400">Mar 31, 2011</time></span>
+<a href=https://blog.nobugware.com/post/2011/03/31/freebsd-zfs/>(Re)Discovering FreeBSD and ZFS</a></li><li><span><time datetime="2010-08-09 14:41:47 -0400 -0400">Aug 09, 2010</time></span>
+<a href=https://blog.nobugware.com/post/2010/08/09/zfs-linux/>ZFS on linux</a></li><li><span><time datetime="2009-02-26 11:37:40 -0400 -0400">Feb 26, 2009</time></span>
+<a href=https://blog.nobugware.com/post/2009/02/26/understanding-zfs-tuning/>Understanding the ZFS tuning</a></li></ul></article><hr class=sep></main><footer class="container no-print"><div class=u-footer><a href=https://github.com/akhenakh/><img class=icon-social src=https://blog.nobugware.com/img/github.svg alt=Github></a>
+<a href=https://c.im/@akhenakh><img class=icon-social src=https://blog.nobugware.com/img/mastodon.svg alt=Mastodon></a>
+<a href=https://twitter.com/akhenakh><img class=icon-social src=https://blog.nobugware.com/img/twitter.svg alt=Twitter></a><p>Theme used: <a href=https://github.com/yursan9/manis-hugo-theme>Manis</a><br></p><a href=#brand><img class=icon-text src=https://blog.nobugware.com/img/toup.svg alt="To Up">
+<span>Back to Up</span></a></div></footer><script>hljs.initHighlightingOnLoad()</script></body></html>

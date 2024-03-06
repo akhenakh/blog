@@ -1,178 +1,76 @@
-<!doctype html><html lang=en>
-<head>
-<meta charset=utf-8>
-<meta name=viewport content="width=device-width,initial-scale=1">
-<meta name=generator content="Hugo 0.89.4">
-<title>Kubernetes Quick Setup with Prometheus, Grafana & Jaeger - Fabrice Aneche</title>
-<meta name=description content="Kubernetes Quick Development Setup with Prometheus, Grafana & Jaeger for Kubernetes">
-<link rel=stylesheet href=https://blog.nobugware.com/css/ui.css>
-<link rel=stylesheet href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway">
-</head>
-<body>
-<header class="container no-print">
-<div class=u-header>
-<nav class=bar>
-<ul><li>
-<a href=https://blog.nobugware.com/>
-<img class=icon-text src=https://blog.nobugware.com/img/prev.svg>
-</a>
-</li><li><a href=https://blog.nobugware.com/about>About</a></li><li><a href=https://blog.nobugware.com/post/>Post</a></li></ul>
-</nav>
-</div>
-</header>
-<main class=container>
-<article>
-<header><hgroup id=brand>
-<h1>Kubernetes Quick Setup with Prometheus, Grafana & Jaeger</h1>
-<h5>
-<time datetime="2019-02-21 00:19:57 -0200 -0200">Feb 21, 2019</time>
-<span class=no-print>
--
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=generator content="Hugo 0.123.7"><title>Kubernetes Quick Setup with Prometheus, Grafana & Jaeger - Fabrice Aneche</title>
+<meta name=description content="Kubernetes Quick Development Setup with Prometheus, Grafana & Jaeger for Kubernetes"><link rel=stylesheet href=https://blog.nobugware.com/css/ui.css><script defer src=https://blog.nobugware.com/js/dark-mode.js></script><link disabled id=dark-mode-theme rel=stylesheet href=https://blog.nobugware.com/css/dark.css><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway"><link rel=stylesheet href=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/ocean.min.css><script src=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js></script><script src=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/languages/go.min.js></script><script src=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/languages/yaml.min.js></script></head><body><header class="container no-print"><div class=u-header><nav class=bar><ul><li><a href=https://blog.nobugware.com/><img class=icon-text src=https://blog.nobugware.com/img/prev.svg></a></li><li><img class=icon-text id=dark-mode-toggle src=https://blog.nobugware.com/img/moon-regular.svg alt="Toggle Dark Mode"></a></li><li><a href=https://blog.nobugware.com/about>About</a></li><li><a href=https://blog.nobugware.com/post/>Post</a></li></ul></nav></div></header><main class=container><article><header><hgroup id=brand><h1>Kubernetes Quick Setup with Prometheus, Grafana & Jaeger</h1><h5><time datetime="2019-02-21 00:19:57 -0200 -0200">Feb 21, 2019</time>
+<span class=no-print>-
 <a href=https://blog.nobugware.com/tags/Kubernetes>Kubernetes</a>
 <a href=https://blog.nobugware.com/tags/devops>devops</a>
 <a href=https://blog.nobugware.com/tags/Go>Go</a>
-<span>
-</h5>
-</hgroup>
-<hr class=sep>
-</header>
-<h2 id=introduction>Introduction</h2>
-<p>When starting on a new project or prototyping on a new idea, I find myself doing the same tasks again and again. <br>
-Thanks to Kubernetes it&rsquo;s possible to setup a new env from scratch really fast.</p>
-<p>Here is a quick setup (mostly notes) to create a dev environment using Minikube and the workflow I&rsquo;m using with it.</p>
-<p>Not knowing in advance where this future project will be hosted, I try to stay platform agnostic.<br>
-<a href=https://opencensus.io>OpenCensus</a> or <a href=https://opentracing.io>OpenTracing</a> can abstract the target platform, letting you choose what tooling you want for your dev.</p>
-<p>I consider some tools to be mandatory these days:</p>
-<ul>
-<li><a href=https://www.jaegertracing.io/>Jaeger</a> for tracing</li>
-<li><a href=https://prometheus.io/>Prometheus</a> for instrumentation/metrics</li>
-<li><a href=https://grafana.com>Grafana</a> to display these metrics</li>
-<li>A logging solution: this is already taken care of by Kubernetes and depends on your cloud provider (StackDriver on GCP&mldr;), otherwise use another tool like ELK stack.<br>
-On your dev, plain structured logs to stdout with Kubernetes dashboard or <a href=https://github.com/wercker/stern>Stern</a> should be fine.</li>
-<li>A messaging system: for example <a href=https://nats.io/>NATS</a> but out of the scope of this post.</li>
-</ul>
-<h2 id=tools-installation>Tools Installation</h2>
-<p>I find it easier to let Minikube open reserved ports, but not mandatory:</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>minikube start --extra-config<span style=color:#f92672>=</span>apiserver.service-node-port-range<span style=color:#f92672>=</span>80-30000
-</code></pre></div><p>I&rsquo;ll use <a href=https://traefik.io>Traefik</a> as Ingress to simplify access to several admin UI later.</p>
-<p>I&rsquo;m not a big fan of <code>helm</code>, so here is a little trick, I&rsquo;m only using <code>helm</code> to create my deployment templates, using the charts repo as a source template, so I can commit or modify the resulting generated files. (Thanks <a href=https://twitter.com/prune998>Prune</a> for this tips).</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>git clone git@github.com:helm/charts.git 
-
-helm template charts/stable/traefik --name traefik --set metrics.prometheus.enabled<span style=color:#f92672>=</span>true --set rbac.enabled<span style=color:#f92672>=</span>true <span style=color:#ae81ff>\
-</span><span style=color:#ae81ff></span>--set service.nodePorts.http<span style=color:#f92672>=</span><span style=color:#ae81ff>80</span> --set dashboard.enabled<span style=color:#f92672>=</span>true --set dashboard.domain<span style=color:#f92672>=</span>traefik-ui.minikube &gt; traefik.yaml 
-
-helm template charts/stable/grafana --name grafana --set ingress.enabled<span style=color:#f92672>=</span>true <span style=color:#ae81ff>\ </span>
---set ingress.hosts<span style=color:#ae81ff>\[</span>0<span style=color:#ae81ff>\]</span><span style=color:#f92672>=</span>grafana.minikube --set persistence.enabled<span style=color:#f92672>=</span>true --set persistence.size<span style=color:#f92672>=</span>100Mi &gt; grafana.yaml 
-
-helm template charts/stable/prometheus --name prometheus --set server.ingress.enabled<span style=color:#f92672>=</span>true <span style=color:#ae81ff>\ </span>
---set server.ingress.hosts<span style=color:#ae81ff>\[</span>0<span style=color:#ae81ff>\]</span><span style=color:#f92672>=</span>prometheus.minikube --set alertmanager.enabled<span style=color:#f92672>=</span>false <span style=color:#ae81ff>\ </span>
---set kubeStateMetrics.enabled<span style=color:#f92672>=</span>false --set nodeExporter.enabled<span style=color:#f92672>=</span>false --set server.persistentVolume.enabled<span style=color:#f92672>=</span>true <span style=color:#ae81ff>\
-</span><span style=color:#ae81ff></span>--set server.persistentVolume.size<span style=color:#f92672>=</span>1Gi --set pushgateway.enabled<span style=color:#f92672>=</span>false &gt; prometheus.yaml 
-</code></pre></div><p>A lot more templates are available: NATS, Postgresql &mldr;</p>
-<p>For Jaeger a <a href=https://raw.githubusercontent.com/jaegertracing/jaeger-kubernetes/master/all-in-one/jaeger-all-in-one-template.yml>development ready solution</a> exists, here is mine slightly tweaked to use an ingress:</p>
-<pre tabindex=0><code>curl -o jaeger.yaml https://gist.githubusercontent.com/akhenakh/615686891340f5306dcbed82dd1d9d67/raw/41049afecafb05bc29de3b0d25208c784f963695/jaeger.yaml
-</code></pre><p>Deploy to Minikube (ensure your current context is <code>minikube</code>&mldr;), if you need to work on several projects at the same time remember you can use Kubernetes namespaces, (beware some helm templates are overriding it).</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>kubectl create -f traefik.yaml
-kubectl create -f jaeger.yaml
-kubectl create -f grafana.yaml
-kubectl create -f prometheus.yaml
-</code></pre></div><p>Again to ease my workflow I want Traefik to bind 80, edit the service and change it to <code>nodePort 80</code>.</p>
-<pre tabindex=0><code>kubectl edit service traefik
-</code></pre><p>Add some urls to your <code>/etc/hosts</code></p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>echo <span style=color:#e6db74>&#34;</span><span style=color:#66d9ef>$(</span>minikube ip<span style=color:#66d9ef>)</span><span style=color:#e6db74> prometheus.minikube&#34;</span> | sudo tee -a /etc/hosts 
-echo <span style=color:#e6db74>&#34;</span><span style=color:#66d9ef>$(</span>minikube ip<span style=color:#66d9ef>)</span><span style=color:#e6db74> grafana.minikube&#34;</span> | sudo tee -a /etc/hosts 
-echo <span style=color:#e6db74>&#34;</span><span style=color:#66d9ef>$(</span>minikube ip<span style=color:#66d9ef>)</span><span style=color:#e6db74> traefik-ui.minikube&#34;</span> | sudo tee -a /etc/hosts
-echo <span style=color:#e6db74>&#34;</span><span style=color:#66d9ef>$(</span>minikube ip<span style=color:#66d9ef>)</span><span style=color:#e6db74> jaeger.minikube&#34;</span> | sudo tee -a /etc/hosts
-</code></pre></div><p>Point your browser to any of these addresses and you are good to go !</p>
-<h2 id=deploy-your-own-apps>Deploy your own apps</h2>
-<p>First remember to always use the Kubernetes Docker:</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>eval <span style=color:#e6db74>`</span>minikube docker-env<span style=color:#e6db74>`</span> 
-</code></pre></div><p>My applications are reading parameters from environment, in Go, I&rsquo;m using <a href=http://github.com/namsral/flag>namsral/flag</a>, so the flag <code>-httpPort</code> is also set by the environment variable <code>HTTPPORT</code>.</p>
-<p>I then use templates, where I set all my environment variables, to create my yaml deployment.</p>
-<p><a href=https://gist.github.com/akhenakh/8c06186b7d524f6a60d40764b307a5d5>https://gist.github.com/akhenakh/8c06186b7d524f6a60d40764b307a5d5</a></p>
-<p>So typical Makefile targets would fill the template with <code>envsubst</code>:</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-Makefile data-lang=Makefile><span style=color:#a6e22e>.EXPORT_ALL_VARIABLES</span><span style=color:#f92672>:</span>
-VERSION <span style=color:#f92672>:=</span> <span style=color:#66d9ef>$(</span>shell git describe --always --tags<span style=color:#66d9ef>)</span>
-DATE <span style=color:#f92672>:=</span> <span style=color:#66d9ef>$(</span>shell date -u +%Y%m%d.%H%M%S<span style=color:#66d9ef>)</span>
-LDFLAGS <span style=color:#f92672>:=</span> -ldflags <span style=color:#e6db74>&#34;-X=main.version=</span><span style=color:#66d9ef>$(</span>VERSION<span style=color:#66d9ef>)</span><span style=color:#e6db74>-</span><span style=color:#66d9ef>$(</span>DATE<span style=color:#66d9ef>)</span><span style=color:#e6db74>&#34;</span>
-CGO_ENABLED<span style=color:#f92672>=</span><span style=color:#ae81ff>0</span>
-GOOS<span style=color:#f92672>=</span>linux
-GOARCH<span style=color:#f92672>=</span>amd64
-PROJET <span style=color:#f92672>=</span> mysuperproject
-<span style=color:#960050;background-color:#1e0010>...</span>
-
-<span style=color:#a6e22e>helloworld</span><span style=color:#f92672>:</span> 
-	cd helloworld/cmd/helloworld <span style=color:#f92672>&amp;&amp;</span> go build <span style=color:#66d9ef>$(</span>LDFLAGS<span style=color:#66d9ef>)</span>
-
-<span style=color:#a6e22e>helloworld-image</span><span style=color:#f92672>:</span> helloworld
-	cd helloworld/cmd/helloworld <span style=color:#f92672>&amp;&amp;</span> docker build -t helloworld:<span style=color:#66d9ef>$(</span>VERSION<span style=color:#66d9ef>)</span> .
-
-<span style=color:#a6e22e>helloworld-deploy</span><span style=color:#f92672>:</span> NAME=helloworld
-<span style=color:#a6e22e>helloworld-deploy</span><span style=color:#f92672>:</span> helloworld-image 
-	cat deployment/project-apps.yaml | envsubst | kubectl apply -f - 
-	cat deployment/project-services.yaml | envsubst | kubectl apply -f - 
-
-<span style=color:#a6e22e>project-undeploy</span><span style=color:#f92672>:</span>
-    kubectl delete --ignore-not-found<span style=color:#f92672>=</span>true deployments,services,replicasets,pods --selector<span style=color:#f92672>=</span>appgroup<span style=color:#f92672>=</span><span style=color:#66d9ef>$(</span>PROJECT<span style=color:#66d9ef>)</span>
-</code></pre></div><p><code>Dockerfile</code> contains nothing but <code>FROM gcr.io/distroless/base</code> and a copy of the helloworld binary.</p>
-<p>Note all this setup is <strong>only good for your dev</strong>, production deployment is another story.</p>
-<p><code>make helloworld-deploy</code>, compilation, image creation and deployment is less than 2s over here!</p>
-<h2 id=shell-tool>Shell tool</h2>
-<p>Another useful trick when working with new tools is to have a shell available inside Kubernetes to experiment with.</p>
-<p>Create an image for this purpose, and copy your tools and clients.</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-Dockerfile data-lang=Dockerfile><span style=color:#66d9ef>FROM</span><span style=color:#e6db74> alpine:3.9</span><span style=color:#960050;background-color:#1e0010>
-</span><span style=color:#960050;background-color:#1e0010></span><span style=color:#66d9ef>RUN</span> apk add --no-cache curl busybox-extras tcpdump<span style=color:#960050;background-color:#1e0010>
-</span><span style=color:#960050;background-color:#1e0010>
-</span><span style=color:#960050;background-color:#1e0010></span><span style=color:#66d9ef>WORKDIR</span><span style=color:#e6db74> /root/</span><span style=color:#960050;background-color:#1e0010>
-</span><span style=color:#960050;background-color:#1e0010></span><span style=color:#66d9ef>COPY</span> helloworldcli .<span style=color:#960050;background-color:#1e0010>
-</span><span style=color:#960050;background-color:#1e0010></span><span style=color:#66d9ef>ENTRYPOINT</span> [<span style=color:#e6db74>&#34;tail&#34;</span>, <span style=color:#e6db74>&#34;-f&#34;</span>, <span style=color:#e6db74>&#34;/dev/null&#34;</span>]<span style=color:#960050;background-color:#1e0010>
-</span></code></pre></div><p>And the relevant Makefile targets:</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-Makefile data-lang=Makefile><span style=color:#a6e22e>debugtool-image</span><span style=color:#f92672>:</span> helloworldcli
-	cp helloworld/cmd/helloworldcli/helloworldcli debugtool/helloworldcli
-	cd debugtool <span style=color:#f92672>&amp;&amp;</span> docker build  -t debugtool:latest .
-	rm -f debugtool/helloworldcli
-
-<span style=color:#a6e22e>debugtool-deploy</span><span style=color:#f92672>:</span> debugtool-image
-	kubectl delete --ignore-not-found<span style=color:#f92672>=</span>true pod debugtool
-	sleep <span style=color:#ae81ff>2</span>
-	kubectl run --restart<span style=color:#f92672>=</span>Never --image<span style=color:#f92672>=</span>debugtool:latest --image-pull-policy<span style=color:#f92672>=</span>IfNotPresent debugtool
-
-<span style=color:#a6e22e>debugtool-shell</span><span style=color:#f92672>:</span>
-	kubectl exec -it debugtool -- /bin/sh 
-</code></pre></div><p>By calling <code>make debugtool-shell</code>, you&rsquo;ll be connected on a shell inside Kubernetes.</p>
-<h2 id=conclusion>Conclusion</h2>
-<p>Hope this will help some of you, I would love to hear your own tricks and setup to develop on Minikube !</p>
-</article>
-<nav class="no-print post-nav">
-<a class=prev-post href=https://blog.nobugware.com/post/2018/wasm_go_s2_javascript/>
-<img class=icon-text src=https://blog.nobugware.com/img/prev.svg>Wasm with Go to build an S2 cover map viewer</a>
-<a class=next-post href=https://blog.nobugware.com/post/2019/traefik_load_balancing_grpc_services_trace_propagation/>Traefik gRPC Load Balancing and Traces Propagation<img class=icon-text src=https://blog.nobugware.com/img/next.svg>
-</a>
-</nav>
-<section id=related>
-<h4>See Also</h4>
-<ul>
-<li><a href=https://blog.nobugware.com/post/2018/my_own_car_system_raspberry_pi_offline_mapping_map_matching_places_part2/>My Own Car System, Rear Camera, Offline Maps & Routing, Map Matching with Go on Raspberry Pi part II</a></li>
-<li><a href=https://blog.nobugware.com/post/2018/my_own_car_system_raspberry_pi_offline_mapping/>My Own Car System, Rear Camera, Offline Maps & Routing on Raspberry Pi part I</a></li>
-<li><a href=https://blog.nobugware.com/post/2017/hacking_temperature_radio_sensors_and_graphing_with_prometheus/>Hacking Temperature Radio Sensors and Graphing with Prometheus</a></li>
-</ul>
-</section>
-<hr class=sep>
-</main>
-<footer class="container no-print">
-<div class=u-footer>
-<a href=https://github.com/akhenakh/><img class=icon-social src=https://blog.nobugware.com/img/github.svg alt=Github></a>
-<a href=https://twitter.com/akhenakh><img class=icon-social src=https://blog.nobugware.com/img/twitter.svg alt=Twitter></a>
-<a href=https://blog.nobugware.com/index.xml target=_blank><img class=icon-social src=https://blog.nobugware.com/img/feed.svg alt=Feed></a>
-<p>
-Theme used: <a href=https://github.com/yursan9/manis-hugo-theme>Manis</a><br>
-</p>
-<a href=#brand>
-<img class=icon-text src=https://blog.nobugware.com/img/toup.svg alt="To Up">
-<span>Back to Up</span>
-</a>
-</div>
-</footer>
-<script async src=https://us.umami.is/script.js data-website-id=1566cf98-efb9-475c-b96e-709666a74819></script>
-</body>
-</html>
+<span></h5></hgroup><hr class=sep></header><h2 id=introduction>Introduction</h2><p>When starting on a new project or prototyping on a new idea, I find myself doing the same tasks again and again.<br>Thanks to Kubernetes it&rsquo;s possible to setup a new env from scratch really fast.</p><p>Here is a quick setup (mostly notes) to create a dev environment using Minikube and the workflow I&rsquo;m using with it.</p><p>Not knowing in advance where this future project will be hosted, I try to stay platform agnostic.<br><a href=https://opencensus.io>OpenCensus</a> or <a href=https://opentracing.io>OpenTracing</a> can abstract the target platform, letting you choose what tooling you want for your dev.</p><p>I consider some tools to be mandatory these days:</p><ul><li><a href=https://www.jaegertracing.io/>Jaeger</a> for tracing</li><li><a href=https://prometheus.io/>Prometheus</a> for instrumentation/metrics</li><li><a href=https://grafana.com>Grafana</a> to display these metrics</li><li>A logging solution: this is already taken care of by Kubernetes and depends on your cloud provider (StackDriver on GCP&mldr;), otherwise use another tool like ELK stack.<br>On your dev, plain structured logs to stdout with Kubernetes dashboard or <a href=https://github.com/wercker/stern>Stern</a> should be fine.</li><li>A messaging system: for example <a href=https://nats.io/>NATS</a> but out of the scope of this post.</li></ul><h2 id=tools-installation>Tools Installation</h2><p>I find it easier to let Minikube open reserved ports, but not mandatory:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>minikube start --extra-config<span style=color:#f92672>=</span>apiserver.service-node-port-range<span style=color:#f92672>=</span>80-30000
+</span></span></code></pre></div><p>I&rsquo;ll use <a href=https://traefik.io>Traefik</a> as Ingress to simplify access to several admin UI later.</p><p>I&rsquo;m not a big fan of <code>helm</code>, so here is a little trick, I&rsquo;m only using <code>helm</code> to create my deployment templates, using the charts repo as a source template, so I can commit or modify the resulting generated files. (Thanks <a href=https://twitter.com/prune998>Prune</a> for this tips).</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>git clone git@github.com:helm/charts.git 
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>helm template charts/stable/traefik --name traefik --set metrics.prometheus.enabled<span style=color:#f92672>=</span>true --set rbac.enabled<span style=color:#f92672>=</span>true <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>--set service.nodePorts.http<span style=color:#f92672>=</span><span style=color:#ae81ff>80</span> --set dashboard.enabled<span style=color:#f92672>=</span>true --set dashboard.domain<span style=color:#f92672>=</span>traefik-ui.minikube &gt; traefik.yaml 
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>helm template charts/stable/grafana --name grafana --set ingress.enabled<span style=color:#f92672>=</span>true <span style=color:#ae81ff>\ </span>
+</span></span><span style=display:flex><span>--set ingress.hosts<span style=color:#ae81ff>\[</span>0<span style=color:#ae81ff>\]</span><span style=color:#f92672>=</span>grafana.minikube --set persistence.enabled<span style=color:#f92672>=</span>true --set persistence.size<span style=color:#f92672>=</span>100Mi &gt; grafana.yaml 
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>helm template charts/stable/prometheus --name prometheus --set server.ingress.enabled<span style=color:#f92672>=</span>true <span style=color:#ae81ff>\ </span>
+</span></span><span style=display:flex><span>--set server.ingress.hosts<span style=color:#ae81ff>\[</span>0<span style=color:#ae81ff>\]</span><span style=color:#f92672>=</span>prometheus.minikube --set alertmanager.enabled<span style=color:#f92672>=</span>false <span style=color:#ae81ff>\ </span>
+</span></span><span style=display:flex><span>--set kubeStateMetrics.enabled<span style=color:#f92672>=</span>false --set nodeExporter.enabled<span style=color:#f92672>=</span>false --set server.persistentVolume.enabled<span style=color:#f92672>=</span>true <span style=color:#ae81ff>\
+</span></span></span><span style=display:flex><span><span style=color:#ae81ff></span>--set server.persistentVolume.size<span style=color:#f92672>=</span>1Gi --set pushgateway.enabled<span style=color:#f92672>=</span>false &gt; prometheus.yaml 
+</span></span></code></pre></div><p>A lot more templates are available: NATS, Postgresql &mldr;</p><p>For Jaeger a <a href=https://raw.githubusercontent.com/jaegertracing/jaeger-kubernetes/master/all-in-one/jaeger-all-in-one-template.yml>development ready solution</a> exists, here is mine slightly tweaked to use an ingress:</p><pre tabindex=0><code>curl -o jaeger.yaml https://gist.githubusercontent.com/akhenakh/615686891340f5306dcbed82dd1d9d67/raw/41049afecafb05bc29de3b0d25208c784f963695/jaeger.yaml
+</code></pre><p>Deploy to Minikube (ensure your current context is <code>minikube</code>&mldr;), if you need to work on several projects at the same time remember you can use Kubernetes namespaces, (beware some helm templates are overriding it).</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>kubectl create -f traefik.yaml
+</span></span><span style=display:flex><span>kubectl create -f jaeger.yaml
+</span></span><span style=display:flex><span>kubectl create -f grafana.yaml
+</span></span><span style=display:flex><span>kubectl create -f prometheus.yaml
+</span></span></code></pre></div><p>Again to ease my workflow I want Traefik to bind 80, edit the service and change it to <code>nodePort 80</code>.</p><pre tabindex=0><code>kubectl edit service traefik
+</code></pre><p>Add some urls to your <code>/etc/hosts</code></p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>echo <span style=color:#e6db74>&#34;</span><span style=color:#66d9ef>$(</span>minikube ip<span style=color:#66d9ef>)</span><span style=color:#e6db74> prometheus.minikube&#34;</span> | sudo tee -a /etc/hosts 
+</span></span><span style=display:flex><span>echo <span style=color:#e6db74>&#34;</span><span style=color:#66d9ef>$(</span>minikube ip<span style=color:#66d9ef>)</span><span style=color:#e6db74> grafana.minikube&#34;</span> | sudo tee -a /etc/hosts 
+</span></span><span style=display:flex><span>echo <span style=color:#e6db74>&#34;</span><span style=color:#66d9ef>$(</span>minikube ip<span style=color:#66d9ef>)</span><span style=color:#e6db74> traefik-ui.minikube&#34;</span> | sudo tee -a /etc/hosts
+</span></span><span style=display:flex><span>echo <span style=color:#e6db74>&#34;</span><span style=color:#66d9ef>$(</span>minikube ip<span style=color:#66d9ef>)</span><span style=color:#e6db74> jaeger.minikube&#34;</span> | sudo tee -a /etc/hosts
+</span></span></code></pre></div><p>Point your browser to any of these addresses and you are good to go !</p><h2 id=deploy-your-own-apps>Deploy your own apps</h2><p>First remember to always use the Kubernetes Docker:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash><span style=display:flex><span>eval <span style=color:#e6db74>`</span>minikube docker-env<span style=color:#e6db74>`</span> 
+</span></span></code></pre></div><p>My applications are reading parameters from environment, in Go, I&rsquo;m using <a href=http://github.com/namsral/flag>namsral/flag</a>, so the flag <code>-httpPort</code> is also set by the environment variable <code>HTTPPORT</code>.</p><p>I then use templates, where I set all my environment variables, to create my yaml deployment.</p><p><a href=https://gist.github.com/akhenakh/8c06186b7d524f6a60d40764b307a5d5>https://gist.github.com/akhenakh/8c06186b7d524f6a60d40764b307a5d5</a></p><p>So typical Makefile targets would fill the template with <code>envsubst</code>:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-Makefile data-lang=Makefile><span style=display:flex><span><span style=color:#a6e22e>.EXPORT_ALL_VARIABLES</span><span style=color:#f92672>:</span>
+</span></span><span style=display:flex><span>VERSION <span style=color:#f92672>:=</span> <span style=color:#66d9ef>$(</span>shell git describe --always --tags<span style=color:#66d9ef>)</span>
+</span></span><span style=display:flex><span>DATE <span style=color:#f92672>:=</span> <span style=color:#66d9ef>$(</span>shell date -u +%Y%m%d.%H%M%S<span style=color:#66d9ef>)</span>
+</span></span><span style=display:flex><span>LDFLAGS <span style=color:#f92672>:=</span> -ldflags <span style=color:#e6db74>&#34;-X=main.version=</span><span style=color:#66d9ef>$(</span>VERSION<span style=color:#66d9ef>)</span><span style=color:#e6db74>-</span><span style=color:#66d9ef>$(</span>DATE<span style=color:#66d9ef>)</span><span style=color:#e6db74>&#34;</span>
+</span></span><span style=display:flex><span>CGO_ENABLED<span style=color:#f92672>=</span><span style=color:#ae81ff>0</span>
+</span></span><span style=display:flex><span>GOOS<span style=color:#f92672>=</span>linux
+</span></span><span style=display:flex><span>GOARCH<span style=color:#f92672>=</span>amd64
+</span></span><span style=display:flex><span>PROJET <span style=color:#f92672>=</span> mysuperproject
+</span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010>...</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>helloworld</span><span style=color:#f92672>:</span> 
+</span></span><span style=display:flex><span>	cd helloworld/cmd/helloworld <span style=color:#f92672>&amp;&amp;</span> go build <span style=color:#66d9ef>$(</span>LDFLAGS<span style=color:#66d9ef>)</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>helloworld-image</span><span style=color:#f92672>:</span> helloworld
+</span></span><span style=display:flex><span>	cd helloworld/cmd/helloworld <span style=color:#f92672>&amp;&amp;</span> docker build -t helloworld:<span style=color:#66d9ef>$(</span>VERSION<span style=color:#66d9ef>)</span> .
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>helloworld-deploy</span><span style=color:#f92672>:</span> NAME=helloworld
+</span></span><span style=display:flex><span><span style=color:#a6e22e>helloworld-deploy</span><span style=color:#f92672>:</span> helloworld-image 
+</span></span><span style=display:flex><span>	cat deployment/project-apps.yaml | envsubst | kubectl apply -f - 
+</span></span><span style=display:flex><span>	cat deployment/project-services.yaml | envsubst | kubectl apply -f - 
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>project-undeploy</span><span style=color:#f92672>:</span>
+</span></span><span style=display:flex><span>    kubectl delete --ignore-not-found<span style=color:#f92672>=</span>true deployments,services,replicasets,pods --selector<span style=color:#f92672>=</span>appgroup<span style=color:#f92672>=</span><span style=color:#66d9ef>$(</span>PROJECT<span style=color:#66d9ef>)</span>
+</span></span></code></pre></div><p><code>Dockerfile</code> contains nothing but <code>FROM gcr.io/distroless/base</code> and a copy of the helloworld binary.</p><p>Note all this setup is <strong>only good for your dev</strong>, production deployment is another story.</p><p><code>make helloworld-deploy</code>, compilation, image creation and deployment is less than 2s over here!</p><h2 id=shell-tool>Shell tool</h2><p>Another useful trick when working with new tools is to have a shell available inside Kubernetes to experiment with.</p><p>Create an image for this purpose, and copy your tools and clients.</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-Dockerfile data-lang=Dockerfile><span style=display:flex><span><span style=color:#66d9ef>FROM</span><span style=color:#e6db74> alpine:3.9</span><span style=color:#960050;background-color:#1e0010>
+</span></span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010></span><span style=color:#66d9ef>RUN</span> apk add --no-cache curl busybox-extras tcpdump<span style=color:#960050;background-color:#1e0010>
+</span></span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010>
+</span></span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010></span><span style=color:#66d9ef>WORKDIR</span><span style=color:#e6db74> /root/</span><span style=color:#960050;background-color:#1e0010>
+</span></span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010></span><span style=color:#66d9ef>COPY</span> helloworldcli .<span style=color:#960050;background-color:#1e0010>
+</span></span></span><span style=display:flex><span><span style=color:#960050;background-color:#1e0010></span><span style=color:#66d9ef>ENTRYPOINT</span> [<span style=color:#e6db74>&#34;tail&#34;</span>, <span style=color:#e6db74>&#34;-f&#34;</span>, <span style=color:#e6db74>&#34;/dev/null&#34;</span>]<span style=color:#960050;background-color:#1e0010>
+</span></span></span></code></pre></div><p>And the relevant Makefile targets:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-Makefile data-lang=Makefile><span style=display:flex><span><span style=color:#a6e22e>debugtool-image</span><span style=color:#f92672>:</span> helloworldcli
+</span></span><span style=display:flex><span>	cp helloworld/cmd/helloworldcli/helloworldcli debugtool/helloworldcli
+</span></span><span style=display:flex><span>	cd debugtool <span style=color:#f92672>&amp;&amp;</span> docker build  -t debugtool:latest .
+</span></span><span style=display:flex><span>	rm -f debugtool/helloworldcli
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>debugtool-deploy</span><span style=color:#f92672>:</span> debugtool-image
+</span></span><span style=display:flex><span>	kubectl delete --ignore-not-found<span style=color:#f92672>=</span>true pod debugtool
+</span></span><span style=display:flex><span>	sleep <span style=color:#ae81ff>2</span>
+</span></span><span style=display:flex><span>	kubectl run --restart<span style=color:#f92672>=</span>Never --image<span style=color:#f92672>=</span>debugtool:latest --image-pull-policy<span style=color:#f92672>=</span>IfNotPresent debugtool
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#a6e22e>debugtool-shell</span><span style=color:#f92672>:</span>
+</span></span><span style=display:flex><span>	kubectl exec -it debugtool -- /bin/sh 
+</span></span></code></pre></div><p>By calling <code>make debugtool-shell</code>, you&rsquo;ll be connected on a shell inside Kubernetes.</p><h2 id=conclusion>Conclusion</h2><p>Hope this will help some of you, I would love to hear your own tricks and setup to develop on Minikube !</p></article><nav class="no-print post-nav"><a class=prev-post href=https://blog.nobugware.com/post/2018/wasm_go_s2_javascript/><img class=icon-text src=https://blog.nobugware.com/img/prev.svg>Wasm with Go to build an S2 cover map viewer</a>
+<a class=next-post href=https://blog.nobugware.com/post/2019/traefik_load_balancing_grpc_services_trace_propagation/>Traefik gRPC Load Balancing and Traces Propagation<img class=icon-text src=https://blog.nobugware.com/img/next.svg></a></nav><section id=related><h4>See Also</h4><ul><li><a href=https://blog.nobugware.com/post/2018/my_own_car_system_raspberry_pi_offline_mapping_map_matching_places_part2/>My Own Car System, Rear Camera, Offline Maps & Routing, Map Matching with Go on Raspberry Pi part II</a></li><li><a href=https://blog.nobugware.com/post/2018/my_own_car_system_raspberry_pi_offline_mapping/>My Own Car System, Rear Camera, Offline Maps & Routing on Raspberry Pi part I</a></li><li><a href=https://blog.nobugware.com/post/2017/hacking_temperature_radio_sensors_and_graphing_with_prometheus/>Hacking Temperature Radio Sensors and Graphing with Prometheus</a></li></ul></section><hr class=sep></main><footer class="container no-print"><div class=u-footer><a href=https://github.com/akhenakh/><img class=icon-social src=https://blog.nobugware.com/img/github.svg alt=Github></a>
+<a href=https://c.im/@akhenakh><img class=icon-social src=https://blog.nobugware.com/img/mastodon.svg alt=Mastodon></a>
+<a href=https://twitter.com/akhenakh><img class=icon-social src=https://blog.nobugware.com/img/twitter.svg alt=Twitter></a><p>Theme used: <a href=https://github.com/yursan9/manis-hugo-theme>Manis</a><br></p><a href=#brand><img class=icon-text src=https://blog.nobugware.com/img/toup.svg alt="To Up">
+<span>Back to Up</span></a></div></footer><script>hljs.initHighlightingOnLoad()</script></body></html>

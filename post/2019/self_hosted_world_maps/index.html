@@ -1,60 +1,15 @@
-<!doctype html><html lang=en>
-<head>
-<meta charset=utf-8>
-<meta name=viewport content="width=device-width,initial-scale=1">
-<meta name=generator content="Hugo 0.89.4">
-<title>Self Hosted World Maps - Fabrice Aneche</title>
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=generator content="Hugo 0.123.7"><title>Self Hosted World Maps - Fabrice Aneche</title>
 <meta name=description content="Maps are fun, self hosted maps are awesome !
 Serving world maps was reserved to big companies like Google, thanks to the OpenStreetMap project, we now have access to an open world of data.
 Generating Tiles MapBox (and others) worked hard to create a vector format bundled in a SQLite file: mbtiles format.
 It&rsquo;s vector based as opposed to older raster maps containing 256x256 PNG images.
-The Openmaptiles folks did a great job automating the map generation.">
-<link rel=stylesheet href=https://blog.nobugware.com/css/ui.css>
-<link rel=stylesheet href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway">
-</head>
-<body>
-<header class="container no-print">
-<div class=u-header>
-<nav class=bar>
-<ul><li>
-<a href=https://blog.nobugware.com/>
-<img class=icon-text src=https://blog.nobugware.com/img/prev.svg>
-</a>
-</li><li><a href=https://blog.nobugware.com/about>About</a></li><li><a href=https://blog.nobugware.com/post/>Post</a></li></ul>
-</nav>
-</div>
-</header>
-<main class=container>
-<article>
-<header><hgroup id=brand>
-<h1>Self Hosted World Maps</h1>
-<h5>
-<time datetime="2019-10-04 17:00:00 +0000 UTC">Oct 04, 2019</time>
-<span class=no-print>
--
+The Openmaptiles folks did a great job automating the map generation."><link rel=stylesheet href=https://blog.nobugware.com/css/ui.css><script defer src=https://blog.nobugware.com/js/dark-mode.js></script><link disabled id=dark-mode-theme rel=stylesheet href=https://blog.nobugware.com/css/dark.css><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway"><link rel=stylesheet href=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/ocean.min.css><script src=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js></script><script src=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/languages/go.min.js></script><script src=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/languages/yaml.min.js></script></head><body><header class="container no-print"><div class=u-header><nav class=bar><ul><li><a href=https://blog.nobugware.com/><img class=icon-text src=https://blog.nobugware.com/img/prev.svg></a></li><li><img class=icon-text id=dark-mode-toggle src=https://blog.nobugware.com/img/moon-regular.svg alt="Toggle Dark Mode"></a></li><li><a href=https://blog.nobugware.com/about>About</a></li><li><a href=https://blog.nobugware.com/post/>Post</a></li></ul></nav></div></header><main class=container><article><header><hgroup id=brand><h1>Self Hosted World Maps</h1><h5><time datetime="2019-10-04 17:00:00 +0000 UTC">Oct 04, 2019</time>
+<span class=no-print>-
 <a href=https://blog.nobugware.com/tags/devops>devops</a>
 <a href=https://blog.nobugware.com/tags/go>go</a>
 <a href=https://blog.nobugware.com/tags/geo>geo</a>
-<span>
-</h5>
-</hgroup>
-<hr class=sep>
-</header>
-<p>Maps are fun, self hosted maps are awesome !</p>
-<p>Serving world maps was reserved to big companies like Google, thanks to the <a href=https://wiki.openstreetmap.org/wiki/Main_Page>OpenStreetMap project</a>, we now have access to an open world of data.</p>
-<h2 id=generating-tiles>Generating Tiles</h2>
-<p>MapBox (and others) worked hard to create a vector format bundled in a SQLite file: <a href=https://github.com/mapbox/mbtiles-spec>mbtiles format</a>.<br>
-It&rsquo;s vector based as opposed to older raster maps containing 256x256 PNG images.</p>
-<p>The <a href=https://openmaptiles.org/>Openmaptiles folks</a> did a great job automating the map generation.</p>
-<p>Grab <a href=https://github.com/openmaptiles/openmaptiles>Openmaptiles</a> and with memory, cpu and patience you can generate your own map (they offer pre computed paying maps).<br>
-First you have to know that generating full zoom for the whole world is unlikely to work, but dividing the problem will.</p>
-<p>Clone the repo and edit <code>.env</code> to change <code>QUICKSTART_MAX_ZOOM=</code>, I don&rsquo;t always need map with street level zoom, it can reduce the generation time and the final file size.</p>
-<p>Then using the <code>quickstart.sh</code> command you can generate continent per continent files, (or country or subregion since it&rsquo;s using <a href=http://download.geofabrik.de/>Geofabrik</a>).</p>
-<pre><code>./quickstart.sh north-america
-</code></pre>
-<p>Expect hours to complete.</p>
-<p>Here are the generated files sizes for level 11:</p>
-<pre><code>347M africa11.mbtiles
+<span></h5></hgroup><hr class=sep></header><p>Maps are fun, self hosted maps are awesome !</p><p>Serving world maps was reserved to big companies like Google, thanks to the <a href=https://wiki.openstreetmap.org/wiki/Main_Page>OpenStreetMap project</a>, we now have access to an open world of data.</p><h2 id=generating-tiles>Generating Tiles</h2><p>MapBox (and others) worked hard to create a vector format bundled in a SQLite file: <a href=https://github.com/mapbox/mbtiles-spec>mbtiles format</a>.<br>It&rsquo;s vector based as opposed to older raster maps containing 256x256 PNG images.</p><p>The <a href=https://openmaptiles.org/>Openmaptiles folks</a> did a great job automating the map generation.</p><p>Grab <a href=https://github.com/openmaptiles/openmaptiles>Openmaptiles</a> and with memory, cpu and patience you can generate your own map (they offer pre computed paying maps).<br>First you have to know that generating full zoom for the whole world is unlikely to work, but dividing the problem will.</p><p>Clone the repo and edit <code>.env</code> to change <code>QUICKSTART_MAX_ZOOM=</code>, I don&rsquo;t always need map with street level zoom, it can reduce the generation time and the final file size.</p><p>Then using the <code>quickstart.sh</code> command you can generate continent per continent files, (or country or subregion since it&rsquo;s using <a href=http://download.geofabrik.de/>Geofabrik</a>).</p><pre><code>./quickstart.sh north-america
+</code></pre><p>Expect hours to complete.</p><p>Here are the generated files sizes for level 11:</p><pre><code>347M africa11.mbtiles
 1.6G asia11.mbtiles
 167M australia-oceania11.mbtiles
 54M  central-america11.mbtiles
@@ -62,57 +17,10 @@ First you have to know that generating full zoom for the whole world is unlikely
 3.0M hawaii11.mbtiles
 803M north_america11.mbtiles
 344M south-america11.mbtiles
-</code></pre>
-<p>![](/img/Screen Shot 2019-10-04 at 14.28.04.png)</p>
-<h2 id=assembling-maps>Assembling Maps</h2>
-<p>Having multiple maps to serve is painful, we can merge them using <a href=https://github.com/mapbox/tippecanoe>tippecanoe tile-join command</a></p>
-<pre><code>tile-join --maximum-zoom=11 -o planet11.mbtiles africa11.mbtiles asia11.mbtiles australia-oceania11.mbtiles europe11.mbtiles north_america11.mbtiles south-america11.mbtiles central-america11.mbtiles  
-</code></pre>
-<p>Simply serve <code>planet11.mbtiles</code> and your good to go for the whole world.</p>
-<h2 id=serving-tiles>Serving Tiles</h2>
-<p>Serving the mbtiles file is as simple as reading an SQLite database for the right level and right tile.</p>
-<p>I wrote a small <a href=https://github.com/akhenakh/mbmatch>Go web server</a> to do so.</p>
-<p>And a docker image that can start with an embedded level 11 map of Hawaii:</p>
-<pre><code>docker run -it --rm -p 8000:8000 -e HOSTNAME=myip:8000 akhenakh/mbmatch:latest
-</code></pre>
-<p>Replace <code>myip</code> with your own ip address (not localhost) and you should see the map with your browser pointed at <code>http://myip:8000</code>.</p>
-<h2 id=conclusion>Conclusion</h2>
-<p>Those vector maps are wonderful since they are rendered on the fly on the browser, <a href=https://docs.mapbox.com/mapbox-gl-js/overview/>you can change colors, themes, labels&mldr;</a> according to your need using the same mbtiles file.<br>
-You can of course add your own layers and even tweak the data if needed.</p>
-<p>To serve a world map at large scale, you&rsquo;ll need of course the infrastructure to handle it.<br>
-But those tools are proven to work for larger companies and a viable solution for anybody who needs mapping.</p>
-<p>EDIT: Based on the same recipes, I&rsquo;ve worked on <a href=https://blog.nobugware.com/post/2020/free-maps-for-all/>a faster and simpler solution: kvtiles</a></p>
-</article>
-<nav class="no-print post-nav">
-<a class=prev-post href=https://blog.nobugware.com/post/2019/google-kubernetes-engine-gcp/>
-<img class=icon-text src=https://blog.nobugware.com/img/prev.svg>Google Kubernetes Engine & GCP</a>
-<a class=next-post href=https://blog.nobugware.com/post/2019/advanced-traefik-2-0-with-kubernetes/>Advanced Traefik 2.0 with Kubernetes<img class=icon-text src=https://blog.nobugware.com/img/next.svg>
-</a>
-</nav>
-<section id=related>
-<h4>See Also</h4>
-<ul>
-<li><a href=https://blog.nobugware.com/post/2018/wasm_go_s2_javascript/>Wasm with Go to build an S2 cover map viewer</a></li>
-<li><a href=https://blog.nobugware.com/post/2019/google-kubernetes-engine-gcp/>Google Kubernetes Engine & GCP</a></li>
-<li><a href=https://blog.nobugware.com/post/2019/traefik-2-0-with-kubernetes/>Traefik 2.0 with Kubernetes</a></li>
-</ul>
-</section>
-<hr class=sep>
-</main>
-<footer class="container no-print">
-<div class=u-footer>
-<a href=https://github.com/akhenakh/><img class=icon-social src=https://blog.nobugware.com/img/github.svg alt=Github></a>
-<a href=https://twitter.com/akhenakh><img class=icon-social src=https://blog.nobugware.com/img/twitter.svg alt=Twitter></a>
-<a href=https://blog.nobugware.com/index.xml target=_blank><img class=icon-social src=https://blog.nobugware.com/img/feed.svg alt=Feed></a>
-<p>
-Theme used: <a href=https://github.com/yursan9/manis-hugo-theme>Manis</a><br>
-</p>
-<a href=#brand>
-<img class=icon-text src=https://blog.nobugware.com/img/toup.svg alt="To Up">
-<span>Back to Up</span>
-</a>
-</div>
-</footer>
-<script async src=https://us.umami.is/script.js data-website-id=1566cf98-efb9-475c-b96e-709666a74819></script>
-</body>
-</html>
+</code></pre><p>![](/img/Screen Shot 2019-10-04 at 14.28.04.png)</p><h2 id=assembling-maps>Assembling Maps</h2><p>Having multiple maps to serve is painful, we can merge them using <a href=https://github.com/mapbox/tippecanoe>tippecanoe tile-join command</a></p><pre><code>tile-join --maximum-zoom=11 -o planet11.mbtiles africa11.mbtiles asia11.mbtiles australia-oceania11.mbtiles europe11.mbtiles north_america11.mbtiles south-america11.mbtiles central-america11.mbtiles  
+</code></pre><p>Simply serve <code>planet11.mbtiles</code> and your good to go for the whole world.</p><h2 id=serving-tiles>Serving Tiles</h2><p>Serving the mbtiles file is as simple as reading an SQLite database for the right level and right tile.</p><p>I wrote a small <a href=https://github.com/akhenakh/mbmatch>Go web server</a> to do so.</p><p>And a docker image that can start with an embedded level 11 map of Hawaii:</p><pre><code>docker run -it --rm -p 8000:8000 -e HOSTNAME=myip:8000 akhenakh/mbmatch:latest
+</code></pre><p>Replace <code>myip</code> with your own ip address (not localhost) and you should see the map with your browser pointed at <code>http://myip:8000</code>.</p><h2 id=conclusion>Conclusion</h2><p>Those vector maps are wonderful since they are rendered on the fly on the browser, <a href=https://docs.mapbox.com/mapbox-gl-js/overview/>you can change colors, themes, labels&mldr;</a> according to your need using the same mbtiles file.<br>You can of course add your own layers and even tweak the data if needed.</p><p>To serve a world map at large scale, you&rsquo;ll need of course the infrastructure to handle it.<br>But those tools are proven to work for larger companies and a viable solution for anybody who needs mapping.</p><p>EDIT: Based on the same recipes, I&rsquo;ve worked on <a href=https://blog.nobugware.com/post/2020/free-maps-for-all/>a faster and simpler solution: kvtiles</a></p></article><nav class="no-print post-nav"><a class=prev-post href=https://blog.nobugware.com/post/2019/google-kubernetes-engine-gcp/><img class=icon-text src=https://blog.nobugware.com/img/prev.svg>Google Kubernetes Engine & GCP</a>
+<a class=next-post href=https://blog.nobugware.com/post/2019/advanced-traefik-2-0-with-kubernetes/>Advanced Traefik 2.0 with Kubernetes<img class=icon-text src=https://blog.nobugware.com/img/next.svg></a></nav><section id=related><h4>See Also</h4><ul><li><a href=https://blog.nobugware.com/post/2018/wasm_go_s2_javascript/>Wasm with Go to build an S2 cover map viewer</a></li><li><a href=https://blog.nobugware.com/post/2019/google-kubernetes-engine-gcp/>Google Kubernetes Engine & GCP</a></li><li><a href=https://blog.nobugware.com/post/2019/traefik-2-0-with-kubernetes/>Traefik 2.0 with Kubernetes</a></li></ul></section><hr class=sep></main><footer class="container no-print"><div class=u-footer><a href=https://github.com/akhenakh/><img class=icon-social src=https://blog.nobugware.com/img/github.svg alt=Github></a>
+<a href=https://c.im/@akhenakh><img class=icon-social src=https://blog.nobugware.com/img/mastodon.svg alt=Mastodon></a>
+<a href=https://twitter.com/akhenakh><img class=icon-social src=https://blog.nobugware.com/img/twitter.svg alt=Twitter></a><p>Theme used: <a href=https://github.com/yursan9/manis-hugo-theme>Manis</a><br></p><a href=#brand><img class=icon-text src=https://blog.nobugware.com/img/toup.svg alt="To Up">
+<span>Back to Up</span></a></div></footer><script>hljs.initHighlightingOnLoad()</script></body></html>

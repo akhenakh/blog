@@ -1,81 +1,16 @@
-<!doctype html><html lang=en>
-<head>
-<meta charset=utf-8>
-<meta name=viewport content="width=device-width,initial-scale=1">
-<meta name=generator content="Hugo 0.89.4">
-<title>Access OS metrics from Golang - Fabrice Aneche</title>
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=generator content="Hugo 0.123.7"><title>Access OS metrics from Golang - Fabrice Aneche</title>
 <meta name=description content="I&rsquo;ve recently published StatGo, it gives you access to your operating system metrics like free memory, used disk spaces &mldr;
 It&rsquo;s a binding to the C library libstatgrab, a proven stable piece of code that works on many different systems, FreeBSD, Linux, OSX &mldr;
 It&rsquo;s very simple to use:
-s := NewStat() c := s.CPUStats() fmt.Prinln(c.Idle) 98.2 Feel free to contribute, it may need some improvement but it&rsquo;s working I&rsquo;m using it in a small metrics web server to monitor small network of servers.">
-<link rel=stylesheet href=https://blog.nobugware.com/css/ui.css>
-<link rel=stylesheet href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway">
-</head>
-<body>
-<header class="container no-print">
-<div class=u-header>
-<nav class=bar>
-<ul><li>
-<a href=https://blog.nobugware.com/>
-<img class=icon-text src=https://blog.nobugware.com/img/prev.svg>
-</a>
-</li><li><a href=https://blog.nobugware.com/about>About</a></li><li><a href=https://blog.nobugware.com/post/>Post</a></li></ul>
-</nav>
-</div>
-</header>
-<main class=container>
-<article>
-<header><hgroup id=brand>
-<h1>Access OS metrics from Golang</h1>
-<h5>
-<time datetime="2015-08-02 13:10:38 -0400 -0400">Aug 02, 2015</time>
-<span class=no-print>
--
+s := NewStat() c := s.CPUStats() fmt.Prinln(c.Idle) 98.2 Feel free to contribute, it may need some improvement but it&rsquo;s working I&rsquo;m using it in a small metrics web server to monitor small network of servers."><link rel=stylesheet href=https://blog.nobugware.com/css/ui.css><script defer src=https://blog.nobugware.com/js/dark-mode.js></script><link disabled id=dark-mode-theme rel=stylesheet href=https://blog.nobugware.com/css/dark.css><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway"><link rel=stylesheet href=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/ocean.min.css><script src=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js></script><script src=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/languages/go.min.js></script><script src=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/languages/yaml.min.js></script></head><body><header class="container no-print"><div class=u-header><nav class=bar><ul><li><a href=https://blog.nobugware.com/><img class=icon-text src=https://blog.nobugware.com/img/prev.svg></a></li><li><img class=icon-text id=dark-mode-toggle src=https://blog.nobugware.com/img/moon-regular.svg alt="Toggle Dark Mode"></a></li><li><a href=https://blog.nobugware.com/about>About</a></li><li><a href=https://blog.nobugware.com/post/>Post</a></li></ul></nav></div></header><main class=container><article><header><hgroup id=brand><h1>Access OS metrics from Golang</h1><h5><time datetime="2015-08-02 13:10:38 -0400 -0400">Aug 02, 2015</time>
+<span class=no-print>-
 <a href=https://blog.nobugware.com/tags/golang>golang</a>
-<span>
-</h5>
-</hgroup>
-<hr class=sep>
-</header>
-<p>I&rsquo;ve recently published <a href=https://github.com/akhenakh/statgo>StatGo</a>, it gives you access to your operating system metrics like free memory, used disk spaces &mldr;</p>
-<p>It&rsquo;s a binding to the C library <a href=http://www.i-scream.org/libstatgrab/>libstatgrab</a>, a proven stable piece of code that works on many different systems, FreeBSD, Linux, OSX &mldr;</p>
-<p>It&rsquo;s very simple to use:</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=color:#a6e22e>s</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>NewStat</span>()
-<span style=color:#a6e22e>c</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>s</span>.<span style=color:#a6e22e>CPUStats</span>()
-<span style=color:#a6e22e>fmt</span>.<span style=color:#a6e22e>Prinln</span>(<span style=color:#a6e22e>c</span>.<span style=color:#a6e22e>Idle</span>)
-<span style=color:#ae81ff>98.2</span>
-</code></pre></div><p>Feel free to contribute, it may need some improvement but it&rsquo;s working I&rsquo;m using it in a small metrics web server to monitor small network of servers.</p>
-<p>The <a href=https://github.com/akhenakh/statgo>code is on Github</a></p>
-</article>
-<nav class="no-print post-nav">
-<a class=prev-post href=https://blog.nobugware.com/post/hugo_blog_github/>
-<img class=icon-text src=https://blog.nobugware.com/img/prev.svg>Host your blog on Github with autodeploy</a>
-<a class=next-post href=https://blog.nobugware.com/post/2015/internet_access_power_outage_disaster_free/>Offering free internet well almost and survive disaster, power outage, Internet blackout<img class=icon-text src=https://blog.nobugware.com/img/next.svg>
-</a>
-</nav>
-<section id=related>
-<h4>See Also</h4>
-<ul>
-<li><a href=https://blog.nobugware.com/post/2015/01/02/run-a-full-wikipedia-copy-from-any-computers/>Run a full Wikipedia copy from any computers</a></li>
-<li><a href=https://blog.nobugware.com/post/2013/04/24/enhance-your-go/>Enhance your Go</a></li>
-</ul>
-</section>
-<hr class=sep>
-</main>
-<footer class="container no-print">
-<div class=u-footer>
-<a href=https://github.com/akhenakh/><img class=icon-social src=https://blog.nobugware.com/img/github.svg alt=Github></a>
-<a href=https://twitter.com/akhenakh><img class=icon-social src=https://blog.nobugware.com/img/twitter.svg alt=Twitter></a>
-<a href=https://blog.nobugware.com/index.xml target=_blank><img class=icon-social src=https://blog.nobugware.com/img/feed.svg alt=Feed></a>
-<p>
-Theme used: <a href=https://github.com/yursan9/manis-hugo-theme>Manis</a><br>
-</p>
-<a href=#brand>
-<img class=icon-text src=https://blog.nobugware.com/img/toup.svg alt="To Up">
-<span>Back to Up</span>
-</a>
-</div>
-</footer>
-<script async src=https://us.umami.is/script.js data-website-id=1566cf98-efb9-475c-b96e-709666a74819></script>
-</body>
-</html>
+<span></h5></hgroup><hr class=sep></header><p>I&rsquo;ve recently published <a href=https://github.com/akhenakh/statgo>StatGo</a>, it gives you access to your operating system metrics like free memory, used disk spaces &mldr;</p><p>It&rsquo;s a binding to the C library <a href=http://www.i-scream.org/libstatgrab/>libstatgrab</a>, a proven stable piece of code that works on many different systems, FreeBSD, Linux, OSX &mldr;</p><p>It&rsquo;s very simple to use:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-go data-lang=go><span style=display:flex><span><span style=color:#a6e22e>s</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>NewStat</span>()
+</span></span><span style=display:flex><span><span style=color:#a6e22e>c</span> <span style=color:#f92672>:=</span> <span style=color:#a6e22e>s</span>.<span style=color:#a6e22e>CPUStats</span>()
+</span></span><span style=display:flex><span><span style=color:#a6e22e>fmt</span>.<span style=color:#a6e22e>Prinln</span>(<span style=color:#a6e22e>c</span>.<span style=color:#a6e22e>Idle</span>)
+</span></span><span style=display:flex><span><span style=color:#ae81ff>98.2</span>
+</span></span></code></pre></div><p>Feel free to contribute, it may need some improvement but it&rsquo;s working I&rsquo;m using it in a small metrics web server to monitor small network of servers.</p><p>The <a href=https://github.com/akhenakh/statgo>code is on Github</a></p></article><nav class="no-print post-nav"><a class=prev-post href=https://blog.nobugware.com/post/hugo_blog_github/><img class=icon-text src=https://blog.nobugware.com/img/prev.svg>Host your blog on Github with autodeploy</a>
+<a class=next-post href=https://blog.nobugware.com/post/2015/internet_access_power_outage_disaster_free/>Offering free internet well almost and survive disaster, power outage, Internet blackout<img class=icon-text src=https://blog.nobugware.com/img/next.svg></a></nav><section id=related><h4>See Also</h4><ul><li><a href=https://blog.nobugware.com/post/2015/01/02/run-a-full-wikipedia-copy-from-any-computers/>Run a full Wikipedia copy from any computers</a></li><li><a href=https://blog.nobugware.com/post/2013/04/24/enhance-your-go/>Enhance your Go</a></li></ul></section><hr class=sep></main><footer class="container no-print"><div class=u-footer><a href=https://github.com/akhenakh/><img class=icon-social src=https://blog.nobugware.com/img/github.svg alt=Github></a>
+<a href=https://c.im/@akhenakh><img class=icon-social src=https://blog.nobugware.com/img/mastodon.svg alt=Mastodon></a>
+<a href=https://twitter.com/akhenakh><img class=icon-social src=https://blog.nobugware.com/img/twitter.svg alt=Twitter></a><p>Theme used: <a href=https://github.com/yursan9/manis-hugo-theme>Manis</a><br></p><a href=#brand><img class=icon-text src=https://blog.nobugware.com/img/toup.svg alt="To Up">
+<span>Back to Up</span></a></div></footer><script>hljs.initHighlightingOnLoad()</script></body></html>

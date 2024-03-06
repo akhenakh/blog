@@ -1,82 +1,9 @@
-<!doctype html><html lang=en>
-<head>
-<meta charset=utf-8>
-<meta name=viewport content="width=device-width,initial-scale=1">
-<meta name=generator content="Hugo 0.89.4">
-<title>MyAPRS APRS for iPhone - Fabrice Aneche</title>
-<meta name=description content="Free APRS iOS application for radio amateurs, RTL SDR users or curious.">
-<link rel=stylesheet href=https://blog.nobugware.com/css/ui.css>
-<link rel=stylesheet href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway">
-</head>
-<body>
-<header class="container no-print">
-<div class=u-header>
-<nav class=bar>
-<ul><li>
-<a href=https://blog.nobugware.com/>
-<img class=icon-text src=https://blog.nobugware.com/img/prev.svg>
-</a>
-</li><li><a href=https://blog.nobugware.com/about>About</a></li><li><a href=https://blog.nobugware.com/post/>Post</a></li></ul>
-</nav>
-</div>
-</header>
-<main class=container>
-<article>
-<header><hgroup id=brand>
-<h1>MyAPRS APRS for iPhone</h1>
-<h5>
-<time datetime="2016-01-11 09:33:36 -0500 -0500">Jan 11, 2016</time>
-<span class=no-print>
--
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=generator content="Hugo 0.123.7"><title>MyAPRS APRS for iPhone - Fabrice Aneche</title>
+<meta name=description content="Free APRS iOS application for radio amateurs, RTL SDR users or curious."><link rel=stylesheet href=https://blog.nobugware.com/css/ui.css><script defer src=https://blog.nobugware.com/js/dark-mode.js></script><link disabled id=dark-mode-theme rel=stylesheet href=https://blog.nobugware.com/css/dark.css><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway"><link rel=stylesheet href=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/ocean.min.css><script src=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js></script><script src=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/languages/go.min.js></script><script src=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/languages/yaml.min.js></script></head><body><header class="container no-print"><div class=u-header><nav class=bar><ul><li><a href=https://blog.nobugware.com/><img class=icon-text src=https://blog.nobugware.com/img/prev.svg></a></li><li><img class=icon-text id=dark-mode-toggle src=https://blog.nobugware.com/img/moon-regular.svg alt="Toggle Dark Mode"></a></li><li><a href=https://blog.nobugware.com/about>About</a></li><li><a href=https://blog.nobugware.com/post/>Post</a></li></ul></nav></div></header><main class=container><article><header><hgroup id=brand><h1>MyAPRS APRS for iPhone</h1><h5><time datetime="2016-01-11 09:33:36 -0500 -0500">Jan 11, 2016</time>
+<span class=no-print>-
 <a href=https://blog.nobugware.com/tags/hamradio>hamradio</a>
-<span>
-</h5>
-</hgroup>
-<hr class=sep>
-</header>
-<p>I&rsquo;m happy to announce a new side project: <a href=http://myaprs.com>MyAPRS</a>, a modern iOS APRS application, for radio amateur enthusiasts.</p>
-<p>I&rsquo;ve already mentioned <a href=http://blog.nobugware.com/post/2014/07/28/simple-aprs/>APRS on this blog</a>, it will mainly be useful for radio amateurs but can be interesting to RTL-SDR listeners too.</p>
-<p>The application is built around <a href=http://blog.nobugware.com/post/2015/leveldb_geohash_golang/>LevelDB and geo hashing as mentioned in this post blog</a>, it&rsquo;s a lot faster than using SQLite especially on iOS, <a href=http://SatSat.space>SatSat</a> is still using the SQLite cities lookup and you can compare it&rsquo;s terribly slow.<br>
-It receives weather data & APRS data from APRS-IS connections, then decodes and stores the packets into LevelDB for indexation.</p>
-<p><a href=http://myaprs.com>MyAPRS</a> has some extra features over other applications, like transceiver models detection, so it can highlight all C4FM/Fusion users in your area.<br>
-It receives the latest 10mn packets for your area, helped by a small Golang API.</p>
-<p>The first release is simple but works very well to discover repeaters and amateurs around you or a region you plan to visit, I&rsquo;ll add position sharing later: due to the way APRS-IS works it&rsquo;s the responsability of the developer to provide passwords & check for the amateur license of the users (even if the algorithm is known publicly&mldr;).</p>
-<p>I plan to make it work with <a href=https://github.com/akhenakh/nanoAPRS>some bluetooth modems starting with the one I&rsquo;ve worked on</a> to be used completely off the grid, so we can have a cheap and powerful APRS application, with a real keyboard (try to answer a message with a Yaesu&mldr;).</p>
-<p>I had to put some ads in it, a lot of people have asked for a paid <a href=http://SatSat.space>SatSat</a> version to get rid of the ads but that&rsquo;s the only way I can maintain these apps, so I&rsquo;m experimenting with ads for now.</p>
-<p>It was a fun project to develop for, I hope you will find a use for it.</p>
-<p>73 de KK6NXK</p>
-<p><img src=https://blog.nobugware.com/img/myaprspreview.png alt=MyAPRS></p>
-</article>
-<nav class="no-print post-nav">
-<a class=prev-post href=https://blog.nobugware.com/post/2016/freebsd_raspberry_pi2/>
-<img class=icon-text src=https://blog.nobugware.com/img/prev.svg>Freebsd on Raspberry Pi 2 and Golang</a>
-<a class=next-post href=https://blog.nobugware.com/post/2016/geo_db_s2_geohash_database/>A fast geo database with Google S2 take #2<img class=icon-text src=https://blog.nobugware.com/img/next.svg>
-</a>
-</nav>
-<section id=related>
-<h4>See Also</h4>
-<ul>
-<li><a href=https://blog.nobugware.com/post/2014/12/13/airspy-on-linux/>Airspy on Linux</a></li>
-<li><a href=https://blog.nobugware.com/post/2014/07/28/simple-aprs/>Simple APRS KK6NXK</a></li>
-<li><a href=https://blog.nobugware.com/post/2014/07/08/got-my-amateur-radio-license-kk6nxk/>Got my amateur radio license KK6NXK</a></li>
-</ul>
-</section>
-<hr class=sep>
-</main>
-<footer class="container no-print">
-<div class=u-footer>
-<a href=https://github.com/akhenakh/><img class=icon-social src=https://blog.nobugware.com/img/github.svg alt=Github></a>
-<a href=https://twitter.com/akhenakh><img class=icon-social src=https://blog.nobugware.com/img/twitter.svg alt=Twitter></a>
-<a href=https://blog.nobugware.com/index.xml target=_blank><img class=icon-social src=https://blog.nobugware.com/img/feed.svg alt=Feed></a>
-<p>
-Theme used: <a href=https://github.com/yursan9/manis-hugo-theme>Manis</a><br>
-</p>
-<a href=#brand>
-<img class=icon-text src=https://blog.nobugware.com/img/toup.svg alt="To Up">
-<span>Back to Up</span>
-</a>
-</div>
-</footer>
-<script async src=https://us.umami.is/script.js data-website-id=1566cf98-efb9-475c-b96e-709666a74819></script>
-</body>
-</html>
+<span></h5></hgroup><hr class=sep></header><p>I&rsquo;m happy to announce a new side project: <a href=http://myaprs.com>MyAPRS</a>, a modern iOS APRS application, for radio amateur enthusiasts.</p><p>I&rsquo;ve already mentioned <a href=http://blog.nobugware.com/post/2014/07/28/simple-aprs/>APRS on this blog</a>, it will mainly be useful for radio amateurs but can be interesting to RTL-SDR listeners too.</p><p>The application is built around <a href=http://blog.nobugware.com/post/2015/leveldb_geohash_golang/>LevelDB and geo hashing as mentioned in this post blog</a>, it&rsquo;s a lot faster than using SQLite especially on iOS, <a href=http://SatSat.space>SatSat</a> is still using the SQLite cities lookup and you can compare it&rsquo;s terribly slow.<br>It receives weather data & APRS data from APRS-IS connections, then decodes and stores the packets into LevelDB for indexation.</p><p><a href=http://myaprs.com>MyAPRS</a> has some extra features over other applications, like transceiver models detection, so it can highlight all C4FM/Fusion users in your area.<br>It receives the latest 10mn packets for your area, helped by a small Golang API.</p><p>The first release is simple but works very well to discover repeaters and amateurs around you or a region you plan to visit, I&rsquo;ll add position sharing later: due to the way APRS-IS works it&rsquo;s the responsability of the developer to provide passwords & check for the amateur license of the users (even if the algorithm is known publicly&mldr;).</p><p>I plan to make it work with <a href=https://github.com/akhenakh/nanoAPRS>some bluetooth modems starting with the one I&rsquo;ve worked on</a> to be used completely off the grid, so we can have a cheap and powerful APRS application, with a real keyboard (try to answer a message with a Yaesu&mldr;).</p><p>I had to put some ads in it, a lot of people have asked for a paid <a href=http://SatSat.space>SatSat</a> version to get rid of the ads but that&rsquo;s the only way I can maintain these apps, so I&rsquo;m experimenting with ads for now.</p><p>It was a fun project to develop for, I hope you will find a use for it.</p><p>73 de KK6NXK</p><p><img src=https://blog.nobugware.com/img/myaprspreview.png alt=MyAPRS></p></article><nav class="no-print post-nav"><a class=prev-post href=https://blog.nobugware.com/post/2016/freebsd_raspberry_pi2/><img class=icon-text src=https://blog.nobugware.com/img/prev.svg>Freebsd on Raspberry Pi 2 and Golang</a>
+<a class=next-post href=https://blog.nobugware.com/post/2016/geo_db_s2_geohash_database/>A fast geo database with Google S2 take #2<img class=icon-text src=https://blog.nobugware.com/img/next.svg></a></nav><section id=related><h4>See Also</h4><ul><li><a href=https://blog.nobugware.com/post/2014/12/13/airspy-on-linux/>Airspy on Linux</a></li><li><a href=https://blog.nobugware.com/post/2014/07/28/simple-aprs/>Simple APRS KK6NXK</a></li><li><a href=https://blog.nobugware.com/post/2014/07/08/got-my-amateur-radio-license-kk6nxk/>Got my amateur radio license KK6NXK</a></li></ul></section><hr class=sep></main><footer class="container no-print"><div class=u-footer><a href=https://github.com/akhenakh/><img class=icon-social src=https://blog.nobugware.com/img/github.svg alt=Github></a>
+<a href=https://c.im/@akhenakh><img class=icon-social src=https://blog.nobugware.com/img/mastodon.svg alt=Mastodon></a>
+<a href=https://twitter.com/akhenakh><img class=icon-social src=https://blog.nobugware.com/img/twitter.svg alt=Twitter></a><p>Theme used: <a href=https://github.com/yursan9/manis-hugo-theme>Manis</a><br></p><a href=#brand><img class=icon-text src=https://blog.nobugware.com/img/toup.svg alt="To Up">
+<span>Back to Up</span></a></div></footer><script>hljs.initHighlightingOnLoad()</script></body></html>

@@ -1,87 +1,26 @@
-<!doctype html><html lang=en>
-<head>
-<meta charset=utf-8>
-<meta name=viewport content="width=device-width,initial-scale=1">
-<meta name=generator content="Hugo 0.89.4">
-<title>Notes on PacBSD - Fabrice Aneche</title>
-<meta name=description content="PacBSD">
-<link rel=stylesheet href=https://blog.nobugware.com/css/ui.css>
-<link rel=stylesheet href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway">
-</head>
-<body>
-<header class="container no-print">
-<div class=u-header>
-<nav class=bar>
-<ul><li>
-<a href=https://blog.nobugware.com/>
-<img class=icon-text src=https://blog.nobugware.com/img/prev.svg>
-</a>
-</li><li><a href=https://blog.nobugware.com/about>About</a></li><li><a href=https://blog.nobugware.com/post/>Post</a></li></ul>
-</nav>
-</div>
-</header>
-<main class=container>
-<article>
-<header><hgroup id=brand>
-<h1>Notes on PacBSD</h1>
-<h5>
-<time datetime="2017-10-08 09:57:56 -0500 -0500">Oct 08, 2017</time>
-<span class=no-print>
--
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=generator content="Hugo 0.123.7"><title>Notes on PacBSD - Fabrice Aneche</title>
+<meta name=description content="PacBSD"><link rel=stylesheet href=https://blog.nobugware.com/css/ui.css><script defer src=https://blog.nobugware.com/js/dark-mode.js></script><link disabled id=dark-mode-theme rel=stylesheet href=https://blog.nobugware.com/css/dark.css><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway"><link rel=stylesheet href=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/ocean.min.css><script src=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js></script><script src=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/languages/go.min.js></script><script src=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/languages/yaml.min.js></script></head><body><header class="container no-print"><div class=u-header><nav class=bar><ul><li><a href=https://blog.nobugware.com/><img class=icon-text src=https://blog.nobugware.com/img/prev.svg></a></li><li><img class=icon-text id=dark-mode-toggle src=https://blog.nobugware.com/img/moon-regular.svg alt="Toggle Dark Mode"></a></li><li><a href=https://blog.nobugware.com/about>About</a></li><li><a href=https://blog.nobugware.com/post/>Post</a></li></ul></nav></div></header><main class=container><article><header><hgroup id=brand><h1>Notes on PacBSD</h1><h5><time datetime="2017-10-08 09:57:56 -0500 -0500">Oct 08, 2017</time>
+<span class=no-print>-
 <a href=https://blog.nobugware.com/tags/BSD>BSD</a>
-<span>
-</h5>
-</hgroup>
-<hr class=sep>
-</header>
-<p><a href=https://pacbsd.org/>PacBSD</a> is a FreeBSD kernel/world with a <a href=https://wiki.archlinux.org/index.php/Pacman>PacMan</a> Arch package manager and an optionnal <a href=https://wiki.gentoo.org/wiki/OpenRC>OpenRC</a> init system.</p>
-<p>In short ZFS, DTrace and the FreeBSD kernel but the simplicity of Arch for packages management but the Gentoo init.</p>
-<p>It&rsquo;s experimental, uncompleted, unfinished, lacks proper documentations but it works and could be/should be the solution we are waiting for :).</p>
-<p>Here is some notes on installation (in QEMU), note that it slightly diverges from the official install since it&rsquo;s using a whole ZFS disk, so no GPT.</p>
-<pre tabindex=0><code>zpool create tank /dev/vtbd0
+<span></h5></hgroup><hr class=sep></header><p><a href=https://pacbsd.org/>PacBSD</a> is a FreeBSD kernel/world with a <a href=https://wiki.archlinux.org/index.php/Pacman>PacMan</a> Arch package manager and an optionnal <a href=https://wiki.gentoo.org/wiki/OpenRC>OpenRC</a> init system.</p><p>In short ZFS, DTrace and the FreeBSD kernel but the simplicity of Arch for packages management but the Gentoo init.</p><p>It&rsquo;s experimental, uncompleted, unfinished, lacks proper documentations but it works and could be/should be the solution we are waiting for :).</p><p>Here is some notes on installation (in QEMU), note that it slightly diverges from the official install since it&rsquo;s using a whole ZFS disk, so no GPT.</p><pre tabindex=0><code>zpool create tank /dev/vtbd0
 zfs create -o canmount=off -o mountpoint=legacy tank/ROOT
 zfs create -o canmount=on -o compression=lz4 -o mountpoint=/ tank/ROOT/pacbsd
 zfs create -o compression=lz4 -o mountpoint=/home tank/HOME
 zfs create -o compression=lz4 -o mountpoint=/root tank/HOME/root
 pacstrap /mnt base
-</code></pre><p>Add to loader.conf</p>
-<pre tabindex=0><code>zfs_load=&quot;YES&quot;
-vfs.root.mountfrom=&quot;zfs:tank/ROOT/pacbsd&quot;
+</code></pre><p>Add to loader.conf</p><pre tabindex=0><code>zfs_load=&#34;YES&#34;
+vfs.root.mountfrom=&#34;zfs:tank/ROOT/pacbsd&#34;
 </code></pre><pre tabindex=0><code>arch-chroot /mnt
 ln -s /usr/share/zoneinfo/zone/subzone /etc/localtime
 rc-update add zfs default
-echo 'hostname=&quot;pacbsd&quot;' &gt; /etc/conf.d/hostname
+echo &#39;hostname=&#34;pacbsd&#34;&#39; &gt; /etc/conf.d/hostname
 dd if=/boot/zfsboot of=/dev/vtbd0 count=1
 dd if=/boot/zfsboot of=/dev/vtbd0 iseek=1 oseek=1024
-</code></pre><p>Edit loader.conf</p>
-<pre tabindex=0><code>zfs_load=&quot;YES&quot;
-vfs.root.mountfrom=&quot;zfs:tank/ROOT/pacbsd&quot;
-</code></pre><p>Reboot, manually starts dhcpd, explore &mldr;</p>
-<pre tabindex=0><code>dhcpcd vtnet0
-</code></pre><p>Even with you don&rsquo;t plan on installing <a href=https://pacbsd.org/>PacBSD</a>, the <a href=https://packages.pacbsd.org/iso/>provided ISO</a> is a useful bootable FreeBSD 11 kernel with zfs and pacman/pacstrap tools.</p>
-</article>
-<nav class="no-print post-nav">
-<a class=prev-post href=https://blog.nobugware.com/post/2017/asus_c301s_arch_linux_chromeos_write_protection/>
-<img class=icon-text src=https://blog.nobugware.com/img/prev.svg>Arch Linux on a Chromebook Asus C301SA</a>
-<a class=next-post href=https://blog.nobugware.com/post/2017/hacking_temperature_radio_sensors_and_graphing_with_prometheus/>Hacking Temperature Radio Sensors and Graphing with Prometheus<img class=icon-text src=https://blog.nobugware.com/img/next.svg>
-</a>
-</nav>
-<hr class=sep>
-</main>
-<footer class="container no-print">
-<div class=u-footer>
-<a href=https://github.com/akhenakh/><img class=icon-social src=https://blog.nobugware.com/img/github.svg alt=Github></a>
-<a href=https://twitter.com/akhenakh><img class=icon-social src=https://blog.nobugware.com/img/twitter.svg alt=Twitter></a>
-<a href=https://blog.nobugware.com/index.xml target=_blank><img class=icon-social src=https://blog.nobugware.com/img/feed.svg alt=Feed></a>
-<p>
-Theme used: <a href=https://github.com/yursan9/manis-hugo-theme>Manis</a><br>
-</p>
-<a href=#brand>
-<img class=icon-text src=https://blog.nobugware.com/img/toup.svg alt="To Up">
-<span>Back to Up</span>
-</a>
-</div>
-</footer>
-<script async src=https://us.umami.is/script.js data-website-id=1566cf98-efb9-475c-b96e-709666a74819></script>
-</body>
-</html>
+</code></pre><p>Edit loader.conf</p><pre tabindex=0><code>zfs_load=&#34;YES&#34;
+vfs.root.mountfrom=&#34;zfs:tank/ROOT/pacbsd&#34;
+</code></pre><p>Reboot, manually starts dhcpd, explore &mldr;</p><pre tabindex=0><code>dhcpcd vtnet0
+</code></pre><p>Even with you don&rsquo;t plan on installing <a href=https://pacbsd.org/>PacBSD</a>, the <a href=https://packages.pacbsd.org/iso/>provided ISO</a> is a useful bootable FreeBSD 11 kernel with zfs and pacman/pacstrap tools.</p></article><nav class="no-print post-nav"><a class=prev-post href=https://blog.nobugware.com/post/2017/asus_c301s_arch_linux_chromeos_write_protection/><img class=icon-text src=https://blog.nobugware.com/img/prev.svg>Arch Linux on a Chromebook Asus C301SA</a>
+<a class=next-post href=https://blog.nobugware.com/post/2017/hacking_temperature_radio_sensors_and_graphing_with_prometheus/>Hacking Temperature Radio Sensors and Graphing with Prometheus<img class=icon-text src=https://blog.nobugware.com/img/next.svg></a></nav><hr class=sep></main><footer class="container no-print"><div class=u-footer><a href=https://github.com/akhenakh/><img class=icon-social src=https://blog.nobugware.com/img/github.svg alt=Github></a>
+<a href=https://c.im/@akhenakh><img class=icon-social src=https://blog.nobugware.com/img/mastodon.svg alt=Mastodon></a>
+<a href=https://twitter.com/akhenakh><img class=icon-social src=https://blog.nobugware.com/img/twitter.svg alt=Twitter></a><p>Theme used: <a href=https://github.com/yursan9/manis-hugo-theme>Manis</a><br></p><a href=#brand><img class=icon-text src=https://blog.nobugware.com/img/toup.svg alt="To Up">
+<span>Back to Up</span></a></div></footer><script>hljs.initHighlightingOnLoad()</script></body></html>

@@ -1,53 +1,17 @@
-<!doctype html><html lang=en>
-<head>
-<meta charset=utf-8>
-<meta name=viewport content="width=device-width,initial-scale=1">
-<meta name=generator content="Hugo 0.89.4">
-<title>NSThread iPhone Template - Fabrice Aneche</title>
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=generator content="Hugo 0.123.7"><title>NSThread iPhone Template - Fabrice Aneche</title>
 <meta name=description content="This is firstly a reminder for myself, here is a great example how to fire up a thread to perform long operation on iphone, without blocking reactivity.
 Stanford CS 193P iPhone application programming is still the best place to find optimised example that works.
 All this examples was taken from this courses, see chap 10 & 11 about TableView optimisation
 `
-// LetsMakeAThreadAppDelegate.m // LetsMakeAThread // // Created by Evan Doll on 10/27/08.">
-<link rel=stylesheet href=https://blog.nobugware.com/css/ui.css>
-<link rel=stylesheet href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway">
-</head>
-<body>
-<header class="container no-print">
-<div class=u-header>
-<nav class=bar>
-<ul><li>
-<a href=https://blog.nobugware.com/>
-<img class=icon-text src=https://blog.nobugware.com/img/prev.svg>
-</a>
-</li><li><a href=https://blog.nobugware.com/about>About</a></li><li><a href=https://blog.nobugware.com/post/>Post</a></li></ul>
-</nav>
-</div>
-</header>
-<main class=container>
-<article>
-<header><hgroup id=brand>
-<h1>NSThread iPhone Template</h1>
-<h5>
-<time datetime="2008-12-22 14:42:12 -0400 -0400">Dec 22, 2008</time>
-<span class=no-print>
--
+// LetsMakeAThreadAppDelegate.m // LetsMakeAThread // // Created by Evan Doll on 10/27/08."><link rel=stylesheet href=https://blog.nobugware.com/css/ui.css><script defer src=https://blog.nobugware.com/js/dark-mode.js></script><link disabled id=dark-mode-theme rel=stylesheet href=https://blog.nobugware.com/css/dark.css><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway"><link rel=stylesheet href=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/ocean.min.css><script src=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js></script><script src=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/languages/go.min.js></script><script src=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/languages/yaml.min.js></script></head><body><header class="container no-print"><div class=u-header><nav class=bar><ul><li><a href=https://blog.nobugware.com/><img class=icon-text src=https://blog.nobugware.com/img/prev.svg></a></li><li><img class=icon-text id=dark-mode-toggle src=https://blog.nobugware.com/img/moon-regular.svg alt="Toggle Dark Mode"></a></li><li><a href=https://blog.nobugware.com/about>About</a></li><li><a href=https://blog.nobugware.com/post/>Post</a></li></ul></nav></div></header><main class=container><article><header><hgroup id=brand><h1>NSThread iPhone Template</h1><h5><time datetime="2008-12-22 14:42:12 -0400 -0400">Dec 22, 2008</time>
+<span class=no-print>-
 <a href=https://blog.nobugware.com/tags/cocoa>cocoa</a>
 <a href=https://blog.nobugware.com/tags/objectivec>objectivec</a>
-<span>
-</h5>
-</hgroup>
-<hr class=sep>
-</header>
-<p>This is firstly a reminder for myself, here is a great example how to fire up
-a thread to perform long operation on iphone, without blocking reactivity.</p>
-<p><a href=http://www.stanford.edu/class/cs193p/cgi-bin/index.php>Stanford CS 193P iPhone application
+<span></h5></hgroup><hr class=sep></header><p>This is firstly a reminder for myself, here is a great example how to fire up
+a thread to perform long operation on iphone, without blocking reactivity.</p><p><a href=http://www.stanford.edu/class/cs193p/cgi-bin/index.php>Stanford CS 193P iPhone application
 programming</a> is still
-the best place to find optimised example that works.</p>
-<p>All this examples was taken from this courses, see chap 10 & 11 about
-TableView optimisation</p>
-<p>`</p>
-<pre><code>//  LetsMakeAThreadAppDelegate.m
+the best place to find optimised example that works.</p><p>All this examples was taken from this courses, see chap 10 & 11 about
+TableView optimisation</p><p>`</p><pre><code>//  LetsMakeAThreadAppDelegate.m
 //  LetsMakeAThread
 //
 //  Created by Evan Doll on 10/27/08.
@@ -100,13 +64,9 @@ TableView optimisation</p>
 }
 
 @end
-</code></pre>
-<p>`</p>
-<p>By the way here is how to set a lock and how to implement a little cache for
+</code></pre><p>`</p><p>By the way here is how to set a lock and how to implement a little cache for
 loaded pictures (cachedImages is a NSDictionary, ImageLoadingOperation a
-subclass of NSOperation)</p>
-<p>`</p>
-<pre><code>- (void)someMethod
+subclass of NSOperation)</p><p>`</p><pre><code>- (void)someMethod
 {
         [myLock lock];
         // We only want one thread executing this code at once
@@ -144,46 +104,13 @@ subclass of NSOperation)</p>
 
     [self.tableView reloadData];
 }
-</code></pre>
-<p>`</p>
-<p>As you can see @selector can send only one object, here is a quick tips: just
+</code></pre><p>`</p><p>As you can see @selector can send only one object, here is a quick tips: just
 put all your objects into a NSArray or NSDict then send it back with
-withObject:.</p>
-<p>`</p>
-<pre><code>// Package it up to send back to our target.
+withObject:.</p><p>`</p><pre><code>// Package it up to send back to our target.
 NSDictionary *result = [NSDictionary dictionaryWithObjectsAndKeys:image, ImageResultKey, imageURL, URLResultKey, nil];
 [target performSelectorOnMainThread:action withObject:result waitUntilDone:NO];
-</code></pre>
-<p>`</p>
-</article>
-<nav class="no-print post-nav">
-<a class=prev-post href=https://blog.nobugware.com/post/2008/12/16/un-peu-de-statistiques/>
-<img class=icon-text src=https://blog.nobugware.com/img/prev.svg>Un peu de statistiques</a>
-<a class=next-post href=https://blog.nobugware.com/post/2009/01/05/happy-new-year/>Happy new year<img class=icon-text src=https://blog.nobugware.com/img/next.svg>
-</a>
-</nav>
-<section id=related>
-<h4>See Also</h4>
-<ul>
-<li><a href=https://blog.nobugware.com/post/2008/12/04/apprendre-coder-pour-liphone-avec-luniversite-de-stanford/>Apprendre à coder pour l'iphone avec l'universite de Stanford</a></li>
-</ul>
-</section>
-<hr class=sep>
-</main>
-<footer class="container no-print">
-<div class=u-footer>
-<a href=https://github.com/akhenakh/><img class=icon-social src=https://blog.nobugware.com/img/github.svg alt=Github></a>
-<a href=https://twitter.com/akhenakh><img class=icon-social src=https://blog.nobugware.com/img/twitter.svg alt=Twitter></a>
-<a href=https://blog.nobugware.com/index.xml target=_blank><img class=icon-social src=https://blog.nobugware.com/img/feed.svg alt=Feed></a>
-<p>
-Theme used: <a href=https://github.com/yursan9/manis-hugo-theme>Manis</a><br>
-</p>
-<a href=#brand>
-<img class=icon-text src=https://blog.nobugware.com/img/toup.svg alt="To Up">
-<span>Back to Up</span>
-</a>
-</div>
-</footer>
-<script async src=https://us.umami.is/script.js data-website-id=1566cf98-efb9-475c-b96e-709666a74819></script>
-</body>
-</html>
+</code></pre><p>`</p></article><nav class="no-print post-nav"><a class=prev-post href=https://blog.nobugware.com/post/2008/12/16/un-peu-de-statistiques/><img class=icon-text src=https://blog.nobugware.com/img/prev.svg>Un peu de statistiques</a>
+<a class=next-post href=https://blog.nobugware.com/post/2009/01/05/happy-new-year/>Happy new year<img class=icon-text src=https://blog.nobugware.com/img/next.svg></a></nav><section id=related><h4>See Also</h4><ul><li><a href=https://blog.nobugware.com/post/2008/12/04/apprendre-coder-pour-liphone-avec-luniversite-de-stanford/>Apprendre à coder pour l'iphone avec l'universite de Stanford</a></li></ul></section><hr class=sep></main><footer class="container no-print"><div class=u-footer><a href=https://github.com/akhenakh/><img class=icon-social src=https://blog.nobugware.com/img/github.svg alt=Github></a>
+<a href=https://c.im/@akhenakh><img class=icon-social src=https://blog.nobugware.com/img/mastodon.svg alt=Mastodon></a>
+<a href=https://twitter.com/akhenakh><img class=icon-social src=https://blog.nobugware.com/img/twitter.svg alt=Twitter></a><p>Theme used: <a href=https://github.com/yursan9/manis-hugo-theme>Manis</a><br></p><a href=#brand><img class=icon-text src=https://blog.nobugware.com/img/toup.svg alt="To Up">
+<span>Back to Up</span></a></div></footer><script>hljs.initHighlightingOnLoad()</script></body></html>

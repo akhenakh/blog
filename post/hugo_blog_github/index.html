@@ -1,68 +1,17 @@
-<!doctype html><html lang=en>
-<head>
-<meta charset=utf-8>
-<meta name=viewport content="width=device-width,initial-scale=1">
-<meta name=generator content="Hugo 0.89.4">
-<title>Host your blog on Github with autodeploy - Fabrice Aneche</title>
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=generator content="Hugo 0.123.7"><title>Host your blog on Github with autodeploy - Fabrice Aneche</title>
 <meta name=description content="I&rsquo;ve always developed my own blog system, that&rsquo;s a good way to learn a new langage.
 But having to maintain a working server or hosting is no fun, there are some solutions like Jekyll or Hugo they generate static web pages based on some Markdown files you wrote.
-As it&rsquo;s just basic html files, they can be served by Github gh-pages. It opens the door to blogging from anywhere without internet connection or your own laptop, just write some Markdown then publish to github later or event edit your new blog post from the Github editor.">
-<link rel=stylesheet href=https://blog.nobugware.com/css/ui.css>
-<link rel=stylesheet href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway">
-</head>
-<body>
-<header class="container no-print">
-<div class=u-header>
-<nav class=bar>
-<ul><li>
-<a href=https://blog.nobugware.com/>
-<img class=icon-text src=https://blog.nobugware.com/img/prev.svg>
-</a>
-</li><li><a href=https://blog.nobugware.com/about>About</a></li><li><a href=https://blog.nobugware.com/post/>Post</a></li></ul>
-</nav>
-</div>
-</header>
-<main class=container>
-<article>
-<header><hgroup id=brand>
-<h1>Host your blog on Github with autodeploy</h1>
-<h5>
-<time datetime="2015-08-02 00:32:43 -0400 -0400">Aug 02, 2015</time>
-<span class=no-print>
-<span>
-</h5>
-</hgroup>
-<hr class=sep>
-</header>
-<p>I&rsquo;ve always developed my own blog system, that&rsquo;s a good way to learn a new langage.<br>
-But having to maintain a working server or hosting is no fun, there are some solutions like <a href=http://jekyllrb.com/>Jekyll</a> or <a href=http://gohugo.io/>Hugo</a> they generate static web pages based on some Markdown files you wrote.</p>
-<p>As it&rsquo;s just basic html files, they can be served by Github gh-pages. <br>
-It opens the door to blogging from anywhere without internet connection or your own laptop, just write some Markdown then publish to github later or event edit your new blog post from the Github editor.<br>
-Coupled with a <a href=http://wercker.com/>Wercker</a> auto deploy, publishing is automated, no excuse anymore.</p>
-<p>Here is some tips for this to work smoothly with Hugo.</p>
-<h2 id=github-setup>Github setup</h2>
-<p>First create 2 repositories on Github, one for the HTML pages, one for the markdown itself.<br>
-Let&rsquo;s call them <code>blog</code> & <code>hugo-blog</code>.</p>
-<h2 id=dns-setup>DNS setup</h2>
-<p>You can use your own domain, if so you need to <a href=https://help.github.com/articles/adding-a-cname-file-to-your-repository/>enable a CNAME file for your gh-pages</a> to the <code>blog</code> repo, then add a CNAME to your DNS provider:<br>
-<code>blog.mydomain.com. IN CNAME username.github.io.</code></p>
-<h2 id=hugo-setup>Hugo setup</h2>
-<p>Clone the <code>hugo-blog</code> repo, put your new hugo blog files in it (created via <code>hugo new</code>).<br>
-<a href=http://gohugo.io/themes/overview/>Choose a theme for your blog</a> (don&rsquo;t forger to remove the <code>.git</code> directory from it) and set it up in your config.yml as follow:</p>
-<pre tabindex=0><code>baseurl = &quot;http://blog.mydomain.com/&quot;
-languageCode = &quot;en-us&quot;
-title = &quot;My supa blog&quot;
+As it&rsquo;s just basic html files, they can be served by Github gh-pages. It opens the door to blogging from anywhere without internet connection or your own laptop, just write some Markdown then publish to github later or event edit your new blog post from the Github editor."><link rel=stylesheet href=https://blog.nobugware.com/css/ui.css><script defer src=https://blog.nobugware.com/js/dark-mode.js></script><link disabled id=dark-mode-theme rel=stylesheet href=https://blog.nobugware.com/css/dark.css><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway"><link rel=stylesheet href=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/ocean.min.css><script src=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js></script><script src=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/languages/go.min.js></script><script src=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/languages/yaml.min.js></script></head><body><header class="container no-print"><div class=u-header><nav class=bar><ul><li><a href=https://blog.nobugware.com/><img class=icon-text src=https://blog.nobugware.com/img/prev.svg></a></li><li><img class=icon-text id=dark-mode-toggle src=https://blog.nobugware.com/img/moon-regular.svg alt="Toggle Dark Mode"></a></li><li><a href=https://blog.nobugware.com/about>About</a></li><li><a href=https://blog.nobugware.com/post/>Post</a></li></ul></nav></div></header><main class=container><article><header><hgroup id=brand><h1>Host your blog on Github with autodeploy</h1><h5><time datetime="2015-08-02 00:32:43 -0400 -0400">Aug 02, 2015</time>
+<span class=no-print><span></h5></hgroup><hr class=sep></header><p>I&rsquo;ve always developed my own blog system, that&rsquo;s a good way to learn a new langage.<br>But having to maintain a working server or hosting is no fun, there are some solutions like <a href=http://jekyllrb.com/>Jekyll</a> or <a href=http://gohugo.io/>Hugo</a> they generate static web pages based on some Markdown files you wrote.</p><p>As it&rsquo;s just basic html files, they can be served by Github gh-pages.<br>It opens the door to blogging from anywhere without internet connection or your own laptop, just write some Markdown then publish to github later or event edit your new blog post from the Github editor.<br>Coupled with a <a href=http://wercker.com/>Wercker</a> auto deploy, publishing is automated, no excuse anymore.</p><p>Here is some tips for this to work smoothly with Hugo.</p><h2 id=github-setup>Github setup</h2><p>First create 2 repositories on Github, one for the HTML pages, one for the markdown itself.<br>Let&rsquo;s call them <code>blog</code> & <code>hugo-blog</code>.</p><h2 id=dns-setup>DNS setup</h2><p>You can use your own domain, if so you need to <a href=https://help.github.com/articles/adding-a-cname-file-to-your-repository/>enable a CNAME file for your gh-pages</a> to the <code>blog</code> repo, then add a CNAME to your DNS provider:<br><code>blog.mydomain.com. IN CNAME username.github.io.</code></p><h2 id=hugo-setup>Hugo setup</h2><p>Clone the <code>hugo-blog</code> repo, put your new hugo blog files in it (created via <code>hugo new</code>).<br><a href=http://gohugo.io/themes/overview/>Choose a theme for your blog</a> (don&rsquo;t forger to remove the <code>.git</code> directory from it) and set it up in your config.yml as follow:</p><pre tabindex=0><code>baseurl = &#34;http://blog.mydomain.com/&#34;
+languageCode = &#34;en-us&#34;
+title = &#34;My supa blog&#34;
 canonifyurls = true
-theme = &quot;hyde&quot;
-</code></pre><p>Then run <code>hugo server --buildDrafts</code>, point your browser to <a href=http://localhost:1313>http://localhost:1313</a>, no need to reload all modifications appear directly.</p>
-<h2 id=wercker-setup>Wercker setup</h2>
-<p>For the auto deploy to occur after each commits you need a build & deploy system, <a href=http://wercker.com/>Wercker</a> is very cool as you can reproduce the exact same system on your host with Docker, subscribe to the service (it&rsquo;s free) and register your <code>hugo-blog</code> repo, hit next, next &mldr;</p>
-<p>Add a <code>wercker.yml</code> file in your <code>hugo-blog</code> that looks exactly like this.</p>
-<pre tabindex=0><code>box: debian
+theme = &#34;hyde&#34;
+</code></pre><p>Then run <code>hugo server --buildDrafts</code>, point your browser to <a href=http://localhost:1313>http://localhost:1313</a>, no need to reload all modifications appear directly.</p><h2 id=wercker-setup>Wercker setup</h2><p>For the auto deploy to occur after each commits you need a build & deploy system, <a href=http://wercker.com/>Wercker</a> is very cool as you can reproduce the exact same system on your host with Docker, subscribe to the service (it&rsquo;s free) and register your <code>hugo-blog</code> repo, hit next, next &mldr;</p><p>Add a <code>wercker.yml</code> file in your <code>hugo-blog</code> that looks exactly like this.</p><pre tabindex=0><code>box: debian
 build:
   steps:
     - arjen/hugo-build:
-        version: &quot;0.14&quot;
+        version: &#34;0.14&#34;
         theme: purehugo
         flags: --disableSitemap=true
 deploy :
@@ -72,8 +21,8 @@ deploy :
         code: |-
           sudo apt-get -y update
           sudo apt-get -y install git-core
-          git config --global user.email &quot;pleasemailus@wercker.com&quot;
-          git config --global user.name &quot;wercker&quot;
+          git config --global user.email &#34;pleasemailus@wercker.com&#34;
+          git config --global user.name &#34;wercker&#34;
 
           # remove current .git folder
           rm -rf .git
@@ -82,41 +31,13 @@ deploy :
         code: |-
           cd public
           # if you are using a custom domain set it here
-          echo &quot;blog.mydomain.com&quot; &gt; CNAME
+          echo &#34;blog.mydomain.com&#34; &gt; CNAME
           git init
           git add .
-          git commit -m &quot;deploy commit from $WERCKER_STARTED_BY&quot;
+          git commit -m &#34;deploy commit from $WERCKER_STARTED_BY&#34;
           git push -f $GIT_REMOTE master:gh-pages 2&gt; /dev/null
-</code></pre><p>It will use Hugo to generate the pages then deploy to your Github repo on every commit to the <code>blog</code> repo.</p>
-<p>Last step is to get a token from Github for the deploy to occur without your credentials.<br>
-Go to your Github settings, Personal access tokens, generate a token.</p>
-<p>Go to your <a href=https://app.wercker.com/#applications>Wercker app</a> settings, Deploy targets, add a new target, check <code>auto deploy successful builds to branch(es):</code> and type <code>master</code>.<br>
-Add a new variable named <code>GIT_REMOTE</code> check protected and type <code>https://{TOKEN}@github.com/yourusername/blog.git</code> replace <code>{TOKEN}</code> with the token from Github.<br>
-You can use this <a href=http://blog.wercker.com/2013/07/25/Using-wercker-to-publish-to-GitHub-pages.html>outdated blogpost from Wercker</a> for the screenshot but don&rsquo;t follow what they said.</p>
-<p>You are all set, happy blogging, you can check the exact same config on my repos under my username <a href=http://github.com/akhenakh>Github@akhenakh</a>.</p>
-</article>
-<nav class="no-print post-nav">
-<a class=prev-post href=https://blog.nobugware.com/post/migrate_to_hugo/>
-<img class=icon-text src=https://blog.nobugware.com/img/prev.svg>Migrate to Hugo</a>
-<a class=next-post href=https://blog.nobugware.com/post/2015/metrics_golang_operating_system/>Access OS metrics from Golang<img class=icon-text src=https://blog.nobugware.com/img/next.svg>
-</a>
-</nav>
-<hr class=sep>
-</main>
-<footer class="container no-print">
-<div class=u-footer>
-<a href=https://github.com/akhenakh/><img class=icon-social src=https://blog.nobugware.com/img/github.svg alt=Github></a>
-<a href=https://twitter.com/akhenakh><img class=icon-social src=https://blog.nobugware.com/img/twitter.svg alt=Twitter></a>
-<a href=https://blog.nobugware.com/index.xml target=_blank><img class=icon-social src=https://blog.nobugware.com/img/feed.svg alt=Feed></a>
-<p>
-Theme used: <a href=https://github.com/yursan9/manis-hugo-theme>Manis</a><br>
-</p>
-<a href=#brand>
-<img class=icon-text src=https://blog.nobugware.com/img/toup.svg alt="To Up">
-<span>Back to Up</span>
-</a>
-</div>
-</footer>
-<script async src=https://us.umami.is/script.js data-website-id=1566cf98-efb9-475c-b96e-709666a74819></script>
-</body>
-</html>
+</code></pre><p>It will use Hugo to generate the pages then deploy to your Github repo on every commit to the <code>blog</code> repo.</p><p>Last step is to get a token from Github for the deploy to occur without your credentials.<br>Go to your Github settings, Personal access tokens, generate a token.</p><p>Go to your <a href=https://app.wercker.com/#applications>Wercker app</a> settings, Deploy targets, add a new target, check <code>auto deploy successful builds to branch(es):</code> and type <code>master</code>.<br>Add a new variable named <code>GIT_REMOTE</code> check protected and type <code>https://{TOKEN}@github.com/yourusername/blog.git</code> replace <code>{TOKEN}</code> with the token from Github.<br>You can use this <a href=http://blog.wercker.com/2013/07/25/Using-wercker-to-publish-to-GitHub-pages.html>outdated blogpost from Wercker</a> for the screenshot but don&rsquo;t follow what they said.</p><p>You are all set, happy blogging, you can check the exact same config on my repos under my username <a href=http://github.com/akhenakh>Github@akhenakh</a>.</p></article><nav class="no-print post-nav"><a class=prev-post href=https://blog.nobugware.com/post/migrate_to_hugo/><img class=icon-text src=https://blog.nobugware.com/img/prev.svg>Migrate to Hugo</a>
+<a class=next-post href=https://blog.nobugware.com/post/2015/metrics_golang_operating_system/>Access OS metrics from Golang<img class=icon-text src=https://blog.nobugware.com/img/next.svg></a></nav><hr class=sep></main><footer class="container no-print"><div class=u-footer><a href=https://github.com/akhenakh/><img class=icon-social src=https://blog.nobugware.com/img/github.svg alt=Github></a>
+<a href=https://c.im/@akhenakh><img class=icon-social src=https://blog.nobugware.com/img/mastodon.svg alt=Mastodon></a>
+<a href=https://twitter.com/akhenakh><img class=icon-social src=https://blog.nobugware.com/img/twitter.svg alt=Twitter></a><p>Theme used: <a href=https://github.com/yursan9/manis-hugo-theme>Manis</a><br></p><a href=#brand><img class=icon-text src=https://blog.nobugware.com/img/toup.svg alt="To Up">
+<span>Back to Up</span></a></div></footer><script>hljs.initHighlightingOnLoad()</script></body></html>

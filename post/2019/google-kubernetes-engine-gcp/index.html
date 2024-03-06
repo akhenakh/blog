@@ -1,51 +1,14 @@
-<!doctype html><html lang=en>
-<head>
-<meta charset=utf-8>
-<meta name=viewport content="width=device-width,initial-scale=1">
-<meta name=generator content="Hugo 0.89.4">
-<title>Google Kubernetes Engine & GCP - Fabrice Aneche</title>
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=generator content="Hugo 0.123.7"><title>Google Kubernetes Engine & GCP - Fabrice Aneche</title>
 <meta name=description content="I&rsquo;ve been using Google Compute Platform (GCP) & Google Kubernetes Engine (GKE) for years.
 And I love it, I hated AWS since the first release to these days, naming is cumbersome, UX is terrible&mldr;
 Here are a quick survey of the tools and how I&rsquo;ve used them for small to medium projects:
-Cloud Build Cloud Build is super easy, it&rsquo;s a scriptable CI/CD, very similar to Github Actions, there is a one hour free tier per day, the default machine is very slow, it can be tuned in the cloudbuild.">
-<link rel=stylesheet href=https://blog.nobugware.com/css/ui.css>
-<link rel=stylesheet href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway">
-</head>
-<body>
-<header class="container no-print">
-<div class=u-header>
-<nav class=bar>
-<ul><li>
-<a href=https://blog.nobugware.com/>
-<img class=icon-text src=https://blog.nobugware.com/img/prev.svg>
-</a>
-</li><li><a href=https://blog.nobugware.com/about>About</a></li><li><a href=https://blog.nobugware.com/post/>Post</a></li></ul>
-</nav>
-</div>
-</header>
-<main class=container>
-<article>
-<header><hgroup id=brand>
-<h1>Google Kubernetes Engine & GCP</h1>
-<h5>
-<time datetime="2019-09-30 00:00:00 -0400 -0400">Sep 30, 2019</time>
-<span class=no-print>
--
+Cloud Build Cloud Build is super easy, it&rsquo;s a scriptable CI/CD, very similar to Github Actions, there is a one hour free tier per day, the default machine is very slow, it can be tuned in the cloudbuild."><link rel=stylesheet href=https://blog.nobugware.com/css/ui.css><script defer src=https://blog.nobugware.com/js/dark-mode.js></script><link disabled id=dark-mode-theme rel=stylesheet href=https://blog.nobugware.com/css/dark.css><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway"><link rel=stylesheet href=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/ocean.min.css><script src=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js></script><script src=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/languages/go.min.js></script><script src=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/languages/yaml.min.js></script></head><body><header class="container no-print"><div class=u-header><nav class=bar><ul><li><a href=https://blog.nobugware.com/><img class=icon-text src=https://blog.nobugware.com/img/prev.svg></a></li><li><img class=icon-text id=dark-mode-toggle src=https://blog.nobugware.com/img/moon-regular.svg alt="Toggle Dark Mode"></a></li><li><a href=https://blog.nobugware.com/about>About</a></li><li><a href=https://blog.nobugware.com/post/>Post</a></li></ul></nav></div></header><main class=container><article><header><hgroup id=brand><h1>Google Kubernetes Engine & GCP</h1><h5><time datetime="2019-09-30 00:00:00 -0400 -0400">Sep 30, 2019</time>
+<span class=no-print>-
 <a href=https://blog.nobugware.com/tags/devops>devops</a>
 <a href=https://blog.nobugware.com/tags/gcp>gcp</a>
 <a href=https://blog.nobugware.com/tags/gke>gke</a>
 <a href=https://blog.nobugware.com/tags/kubernetes>kubernetes</a>
-<span>
-</h5>
-</hgroup>
-<hr class=sep>
-</header>
-<p>I&rsquo;ve been using Google Compute Platform (GCP) & Google Kubernetes Engine (GKE) for years.<br>
-And I love it, I hated AWS since the first release to these days, naming is cumbersome, UX is terrible&mldr;</p>
-<p>Here are a quick survey of the tools and how I&rsquo;ve used them for small to medium projects:</p>
-<h2 id=cloud-build>Cloud Build</h2>
-<p><a href=https://cloud.google.com/cloud-build/>Cloud Build</a> is super easy, it&rsquo;s a scriptable CI/CD, very similar to Github Actions, there is a one hour free tier per day, the default machine is very slow, it can be tuned in the <code>cloudbuild.yaml</code> file as the following example:</p>
-<pre><code>steps:
+<span></h5></hgroup><hr class=sep></header><p>I&rsquo;ve been using Google Compute Platform (GCP) & Google Kubernetes Engine (GKE) for years.<br>And I love it, I hated AWS since the first release to these days, naming is cumbersome, UX is terrible&mldr;</p><p>Here are a quick survey of the tools and how I&rsquo;ve used them for small to medium projects:</p><h2 id=cloud-build>Cloud Build</h2><p><a href=https://cloud.google.com/cloud-build/>Cloud Build</a> is super easy, it&rsquo;s a scriptable CI/CD, very similar to Github Actions, there is a one hour free tier per day, the default machine is very slow, it can be tuned in the <code>cloudbuild.yaml</code> file as the following example:</p><pre><code>steps:
 - name: 'akhenakh/gotools'
   args:  ['make build-only']
   env: ['GO111MODULE=on', 'VERSION=$SHORT_SHA']
@@ -59,71 +22,9 @@ images:
 - 'gcr.io/$PROJECT_ID/authord'
 options:  
   machineType: N1_HIGHCPU_8
-</code></pre>
-<p>Add a repository (can be Github), add a hook on commit or tag, it will get the image <code>akhenakh/gotools</code> and execute <code>make build-only</code>, then create a docker image, resulting artifacts will be pushed to the &lsquo;gcr.io/$PROJECT_ID/authord&rsquo;</p>
-<p>Note the <a href=https://github.com/akhenakh/goimages/blob/master/gotools/Dockerfile><code>akhenakh/gotools</code></a> is a custom image with several tools like protobuf, golangci-lint and more.
-It&rsquo;s really easy to provide your own build system since Cloud Build is spawning an instance of your docker image then executes the commands your provide.</p>
-<h2 id=container-registry>Container Registry</h2>
-<p>Not much to say here, it&rsquo;s a docker private container registry, accessible at this address: &lsquo;gcr.io/$PROJECT_ID/myimage&rsquo;<br>
-Visble directly from your Kubernetes cluster if they both are in the same GCP project.</p>
-<h2 id=google-kubernetes-engine>Google Kubernetes Engine</h2>
-<p>No surprise since the Kubernetes project is mainly handled by Google, GKE is the most up to date provider, a delight to use almost on every subjects but metrics&mldr;</p>
-<h3 id=logging--metrics>Logging & Metrics</h3>
-<p>Google is offering a service call StackDriver which is supposed to be a fully integrated, metrics, logs, traces, but &mldr; it&rsquo;s terrible, unfinished/WIP product Google bought.</p>
-<p>The provided fluentd is consuming 300MiB per nodes.</p>
-<p>The required <a href=https://opencensus.io/>OpenCensus library</a> to push metrics & traces to StackDriver is &ldquo;stodgy&rdquo;, prefer <a href=https://prometheus.io/>Prometheus</a> & <a href=https://opentracing.io>OpenTracing</a>, I&rsquo;ve migrated several projects to OpenCensus for StackDriver support and regret it.</p>
-<p>Having to manage my own tools is costly but I&rsquo;m back to completely disable StackDriver at cluster creation and use <a href=https://prometheus.io/>Prometheus</a> + <a href=https://grafana.com>Grafana</a> & <a href=https://www.jaegertracing.io/>Jaeger</a>.<br>
-Remember to enable prometheus <code>KubeStateMetrics=true</code> to collect your Kub cluster states.<br>
-Don&rsquo;t worry the <code>kubectl log</code> command still works, also give a shot to <a href=https://grafana.com/oss/loki>Loki</a> for handling your logs history.</p>
-<p>In Grafana install the great <a href=https://grafana.com/grafana/dashboards/8588>Kubernetes dashboard</a>.</p>
-<h3 id=preemptive-vm>Preemptive VM</h3>
-<p>Preemptive VMs are cheap instances with no guarantee from Google, they can be shutdown at any time, it can be use for ephemeral jobs.<br>
-It has a nice side effect as acting as a <a href=https://netflix.github.io/chaosmonkey/>Chaos monkey</a> tool.</p>
-<h3 id=octant-to-the-rescue>Octant to the rescue</h3>
-<p>The state of the Kubernetes dashboards are unclear, the <a href=https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/>Web UI</a> is not supported anymore, Google recommends to use the Cloud console which is okay but won&rsquo;t be available on your developer instance (Minikube, k3s&mldr;).</p>
-<p>I&rsquo;m a big fan of the <a href=https://github.com/vmware/octant>Octant frontend</a>, no installation in your cluster required, it runs on your client machine.</p>
-<h2 id=cloud-sql>Cloud SQL</h2>
-<p>Not everybody wants to manage a database, especially inside Kubernetes, Cloud SQL offers managed Mysql and Postgresql instances with HA & backups.<br>
-Note that Postgresql extensions like Postgis are supported !</p>
-<h2 id=big-query>Big Query</h2>
-<p><a href=https://cloud.google.com/bigquery/>Big Query</a> is an analytics data crunching solution with an SQL frontend.<br>
-Any situations you have some analytics to do you can probably use Big Query, capable of live streaming insertions and <a href=https://cloud.google.com/bigquery/docs/gis-intro>GIS</a>.<br>
-It&rsquo;s also very <a href=https://cloud.google.com/bigquery/#pricing>cheap</a> compared to in house solution.</p>
-<h2 id=overall>Overall</h2>
-<p>Don&rsquo;t be fooled by this post, I had to report the negative parts but I will never exchange GCP for AWS nor Azure !</p>
-<p>I still don&rsquo;t get why people would chose AWS over GCP for new projects, other than bad habits and conservatism.</p>
-<p>And by the way I&rsquo;m not affiliated with Google in any ways :)</p>
-</article>
-<nav class="no-print post-nav">
-<a class=prev-post href=https://blog.nobugware.com/post/2019/traefik-2-0-with-kubernetes/>
-<img class=icon-text src=https://blog.nobugware.com/img/prev.svg>Traefik 2.0 with Kubernetes</a>
-<a class=next-post href=https://blog.nobugware.com/post/2019/self_hosted_world_maps/>Self Hosted World Maps<img class=icon-text src=https://blog.nobugware.com/img/next.svg>
-</a>
-</nav>
-<section id=related>
-<h4>See Also</h4>
-<ul>
-<li><a href=https://blog.nobugware.com/post/2019/traefik-2-0-with-kubernetes/>Traefik 2.0 with Kubernetes</a></li>
-<li><a href=https://blog.nobugware.com/post/2019/access-web-interface/>Access Kubernetes Web Interfaces from the Outside</a></li>
-<li><a href=https://blog.nobugware.com/post/2019/deploying-a-website-with-caddy-git-and-kubernetes/>Deploying a website with Caddy, Git and Kubernetes</a></li>
-</ul>
-</section>
-<hr class=sep>
-</main>
-<footer class="container no-print">
-<div class=u-footer>
-<a href=https://github.com/akhenakh/><img class=icon-social src=https://blog.nobugware.com/img/github.svg alt=Github></a>
-<a href=https://twitter.com/akhenakh><img class=icon-social src=https://blog.nobugware.com/img/twitter.svg alt=Twitter></a>
-<a href=https://blog.nobugware.com/index.xml target=_blank><img class=icon-social src=https://blog.nobugware.com/img/feed.svg alt=Feed></a>
-<p>
-Theme used: <a href=https://github.com/yursan9/manis-hugo-theme>Manis</a><br>
-</p>
-<a href=#brand>
-<img class=icon-text src=https://blog.nobugware.com/img/toup.svg alt="To Up">
-<span>Back to Up</span>
-</a>
-</div>
-</footer>
-<script async src=https://us.umami.is/script.js data-website-id=1566cf98-efb9-475c-b96e-709666a74819></script>
-</body>
-</html>
+</code></pre><p>Add a repository (can be Github), add a hook on commit or tag, it will get the image <code>akhenakh/gotools</code> and execute <code>make build-only</code>, then create a docker image, resulting artifacts will be pushed to the &lsquo;gcr.io/$PROJECT_ID/authord&rsquo;</p><p>Note the <a href=https://github.com/akhenakh/goimages/blob/master/gotools/Dockerfile><code>akhenakh/gotools</code></a> is a custom image with several tools like protobuf, golangci-lint and more.
+It&rsquo;s really easy to provide your own build system since Cloud Build is spawning an instance of your docker image then executes the commands your provide.</p><h2 id=container-registry>Container Registry</h2><p>Not much to say here, it&rsquo;s a docker private container registry, accessible at this address: &lsquo;gcr.io/$PROJECT_ID/myimage&rsquo;<br>Visble directly from your Kubernetes cluster if they both are in the same GCP project.</p><h2 id=google-kubernetes-engine>Google Kubernetes Engine</h2><p>No surprise since the Kubernetes project is mainly handled by Google, GKE is the most up to date provider, a delight to use almost on every subjects but metrics&mldr;</p><h3 id=logging--metrics>Logging & Metrics</h3><p>Google is offering a service call StackDriver which is supposed to be a fully integrated, metrics, logs, traces, but &mldr; it&rsquo;s terrible, unfinished/WIP product Google bought.</p><p>The provided fluentd is consuming 300MiB per nodes.</p><p>The required <a href=https://opencensus.io/>OpenCensus library</a> to push metrics & traces to StackDriver is &ldquo;stodgy&rdquo;, prefer <a href=https://prometheus.io/>Prometheus</a> & <a href=https://opentracing.io>OpenTracing</a>, I&rsquo;ve migrated several projects to OpenCensus for StackDriver support and regret it.</p><p>Having to manage my own tools is costly but I&rsquo;m back to completely disable StackDriver at cluster creation and use <a href=https://prometheus.io/>Prometheus</a> + <a href=https://grafana.com>Grafana</a> & <a href=https://www.jaegertracing.io/>Jaeger</a>.<br>Remember to enable prometheus <code>KubeStateMetrics=true</code> to collect your Kub cluster states.<br>Don&rsquo;t worry the <code>kubectl log</code> command still works, also give a shot to <a href=https://grafana.com/oss/loki>Loki</a> for handling your logs history.</p><p>In Grafana install the great <a href=https://grafana.com/grafana/dashboards/8588>Kubernetes dashboard</a>.</p><h3 id=preemptive-vm>Preemptive VM</h3><p>Preemptive VMs are cheap instances with no guarantee from Google, they can be shutdown at any time, it can be use for ephemeral jobs.<br>It has a nice side effect as acting as a <a href=https://netflix.github.io/chaosmonkey/>Chaos monkey</a> tool.</p><h3 id=octant-to-the-rescue>Octant to the rescue</h3><p>The state of the Kubernetes dashboards are unclear, the <a href=https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/>Web UI</a> is not supported anymore, Google recommends to use the Cloud console which is okay but won&rsquo;t be available on your developer instance (Minikube, k3s&mldr;).</p><p>I&rsquo;m a big fan of the <a href=https://github.com/vmware/octant>Octant frontend</a>, no installation in your cluster required, it runs on your client machine.</p><h2 id=cloud-sql>Cloud SQL</h2><p>Not everybody wants to manage a database, especially inside Kubernetes, Cloud SQL offers managed Mysql and Postgresql instances with HA & backups.<br>Note that Postgresql extensions like Postgis are supported !</p><h2 id=big-query>Big Query</h2><p><a href=https://cloud.google.com/bigquery/>Big Query</a> is an analytics data crunching solution with an SQL frontend.<br>Any situations you have some analytics to do you can probably use Big Query, capable of live streaming insertions and <a href=https://cloud.google.com/bigquery/docs/gis-intro>GIS</a>.<br>It&rsquo;s also very <a href=https://cloud.google.com/bigquery/#pricing>cheap</a> compared to in house solution.</p><h2 id=overall>Overall</h2><p>Don&rsquo;t be fooled by this post, I had to report the negative parts but I will never exchange GCP for AWS nor Azure !</p><p>I still don&rsquo;t get why people would chose AWS over GCP for new projects, other than bad habits and conservatism.</p><p>And by the way I&rsquo;m not affiliated with Google in any ways :)</p></article><nav class="no-print post-nav"><a class=prev-post href=https://blog.nobugware.com/post/2019/traefik-2-0-with-kubernetes/><img class=icon-text src=https://blog.nobugware.com/img/prev.svg>Traefik 2.0 with Kubernetes</a>
+<a class=next-post href=https://blog.nobugware.com/post/2019/self_hosted_world_maps/>Self Hosted World Maps<img class=icon-text src=https://blog.nobugware.com/img/next.svg></a></nav><section id=related><h4>See Also</h4><ul><li><a href=https://blog.nobugware.com/post/2019/traefik-2-0-with-kubernetes/>Traefik 2.0 with Kubernetes</a></li><li><a href=https://blog.nobugware.com/post/2019/access-web-interface/>Access Kubernetes Web Interfaces from the Outside</a></li><li><a href=https://blog.nobugware.com/post/2019/deploying-a-website-with-caddy-git-and-kubernetes/>Deploying a website with Caddy, Git and Kubernetes</a></li></ul></section><hr class=sep></main><footer class="container no-print"><div class=u-footer><a href=https://github.com/akhenakh/><img class=icon-social src=https://blog.nobugware.com/img/github.svg alt=Github></a>
+<a href=https://c.im/@akhenakh><img class=icon-social src=https://blog.nobugware.com/img/mastodon.svg alt=Mastodon></a>
+<a href=https://twitter.com/akhenakh><img class=icon-social src=https://blog.nobugware.com/img/twitter.svg alt=Twitter></a><p>Theme used: <a href=https://github.com/yursan9/manis-hugo-theme>Manis</a><br></p><a href=#brand><img class=icon-text src=https://blog.nobugware.com/img/toup.svg alt="To Up">
+<span>Back to Up</span></a></div></footer><script>hljs.initHighlightingOnLoad()</script></body></html>

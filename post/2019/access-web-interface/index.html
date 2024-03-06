@@ -1,95 +1,28 @@
-<!doctype html><html lang=en>
-<head>
-<meta charset=utf-8>
-<meta name=viewport content="width=device-width,initial-scale=1">
-<meta name=generator content="Hugo 0.89.4">
-<title>Access Kubernetes Web Interfaces from the Outside - Fabrice Aneche</title>
+<!doctype html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=generator content="Hugo 0.123.7"><title>Access Kubernetes Web Interfaces from the Outside - Fabrice Aneche</title>
 <meta name=description content="Here is a simple yet useful trick to access web interface within your cluster.
 As stated in the Kubernetes documentation you can use kubectl proxy.
 I&rsquo;ve seen a lot of people using the proxy to access the dashboard but you can use it to access any web interfaces, without the need to create an ingress and protect it, especially useful in dev environment.
-http://kubernetes_master_address/api/v1/namespaces/namespace_name/services/service_name[:port_name]/proxy  For example here is how to access the Traefik dashboard described as follow:">
-<link rel=stylesheet href=https://blog.nobugware.com/css/ui.css>
-<link rel=stylesheet href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway">
-</head>
-<body>
-<header class="container no-print">
-<div class=u-header>
-<nav class=bar>
-<ul><li>
-<a href=https://blog.nobugware.com/>
-<img class=icon-text src=https://blog.nobugware.com/img/prev.svg>
-</a>
-</li><li><a href=https://blog.nobugware.com/about>About</a></li><li><a href=https://blog.nobugware.com/post/>Post</a></li></ul>
-</nav>
-</div>
-</header>
-<main class=container>
-<article>
-<header><hgroup id=brand>
-<h1>Access Kubernetes Web Interfaces from the Outside</h1>
-<h5>
-<time datetime="2019-09-09 13:00:00 -0400 -0400">Sep 09, 2019</time>
-<span class=no-print>
--
+http://kubernetes_master_address/api/v1/namespaces/namespace_name/services/service_name[:port_name]/proxy For example here is how to access the Traefik dashboard described as follow:"><link rel=stylesheet href=https://blog.nobugware.com/css/ui.css><script defer src=https://blog.nobugware.com/js/dark-mode.js></script><link disabled id=dark-mode-theme rel=stylesheet href=https://blog.nobugware.com/css/dark.css><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Fira+Mono|Lato|Raleway"><link rel=stylesheet href=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/ocean.min.css><script src=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js></script><script src=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/languages/go.min.js></script><script src=//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.4.0/languages/yaml.min.js></script></head><body><header class="container no-print"><div class=u-header><nav class=bar><ul><li><a href=https://blog.nobugware.com/><img class=icon-text src=https://blog.nobugware.com/img/prev.svg></a></li><li><img class=icon-text id=dark-mode-toggle src=https://blog.nobugware.com/img/moon-regular.svg alt="Toggle Dark Mode"></a></li><li><a href=https://blog.nobugware.com/about>About</a></li><li><a href=https://blog.nobugware.com/post/>Post</a></li></ul></nav></div></header><main class=container><article><header><hgroup id=brand><h1>Access Kubernetes Web Interfaces from the Outside</h1><h5><time datetime="2019-09-09 13:00:00 -0400 -0400">Sep 09, 2019</time>
+<span class=no-print>-
 <a href=https://blog.nobugware.com/tags/devops>devops</a>
 <a href=https://blog.nobugware.com/tags/kubernetes>kubernetes</a>
 <a href=https://blog.nobugware.com/tags/traefik>traefik</a>
-<span>
-</h5>
-</hgroup>
-<hr class=sep>
-</header>
-<p>Here is a simple yet useful trick to access web interface within your cluster.</p>
-<p>As stated in the <a href=https://kubernetes.io/docs/tasks/access-application-cluster/access-cluster/#accessing-services-running-on-the-cluster>Kubernetes documentation</a> you can use <code>kubectl proxy</code>.</p>
-<p>I&rsquo;ve seen a lot of people using the proxy to access the dashboard but you can use it to access any web interfaces, without the need to create an ingress and protect it, especially useful in dev environment.</p>
-<pre><code>http://kubernetes_master_address/api/v1/namespaces/namespace_name/services/service_name[:port_name]/proxy
-</code></pre>
-<p>For example here is how to access the Traefik dashboard described as follow:</p>
-<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=color:#f92672>apiVersion</span>: <span style=color:#ae81ff>v1</span>
-<span style=color:#f92672>kind</span>: <span style=color:#ae81ff>Service</span>
-<span style=color:#f92672>metadata</span>:
-  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>traefik-dashboard</span>
-<span style=color:#f92672>spec</span>:
-  <span style=color:#f92672>type</span>: <span style=color:#ae81ff>ClusterIP</span>
-  <span style=color:#f92672>selector</span>:
-    <span style=color:#f92672>app</span>: <span style=color:#ae81ff>traefik</span>
-    <span style=color:#f92672>release</span>: <span style=color:#ae81ff>traefik</span>
-  <span style=color:#f92672>ports</span>:
-  - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>dashboard-http</span>
-    <span style=color:#f92672>port</span>: <span style=color:#ae81ff>80</span>
-    <span style=color:#f92672>targetPort</span>: <span style=color:#ae81ff>8080</span>
-</code></pre></div><p>http://localhost:8001/api/v1/namespaces/default/services/http:traefik-dashboard:dashboard-http/proxy/dashboard/#!/service?namespace=default</p>
-</article>
-<nav class="no-print post-nav">
-<a class=prev-post href=https://blog.nobugware.com/post/2019/bare-metal-kubernetes-quick-installations-on-arch/>
-<img class=icon-text src=https://blog.nobugware.com/img/prev.svg>Bare Metal Kubernetes Quick Installation Arm64 & Arch</a>
-<a class=next-post href=https://blog.nobugware.com/post/2019/using-github-actions-with-golangci-linter/>Using Github Actions with Golangci-linter<img class=icon-text src=https://blog.nobugware.com/img/next.svg>
-</a>
-</nav>
-<section id=related>
-<h4>See Also</h4>
-<ul>
-<li><a href=https://blog.nobugware.com/post/2019/deploying-a-website-with-caddy-git-and-kubernetes/>Deploying a website with Caddy, Git and Kubernetes</a></li>
-<li><a href=https://blog.nobugware.com/post/2019/traefik_load_balancing_grpc_services_trace_propagation/>Traefik gRPC Load Balancing and Traces Propagation</a></li>
-<li><a href=https://blog.nobugware.com/post/2019/bare-metal-kubernetes-quick-installations-on-arch/>Bare Metal Kubernetes Quick Installation Arm64 & Arch</a></li>
-</ul>
-</section>
-<hr class=sep>
-</main>
-<footer class="container no-print">
-<div class=u-footer>
-<a href=https://github.com/akhenakh/><img class=icon-social src=https://blog.nobugware.com/img/github.svg alt=Github></a>
-<a href=https://twitter.com/akhenakh><img class=icon-social src=https://blog.nobugware.com/img/twitter.svg alt=Twitter></a>
-<a href=https://blog.nobugware.com/index.xml target=_blank><img class=icon-social src=https://blog.nobugware.com/img/feed.svg alt=Feed></a>
-<p>
-Theme used: <a href=https://github.com/yursan9/manis-hugo-theme>Manis</a><br>
-</p>
-<a href=#brand>
-<img class=icon-text src=https://blog.nobugware.com/img/toup.svg alt="To Up">
-<span>Back to Up</span>
-</a>
-</div>
-</footer>
-<script async src=https://us.umami.is/script.js data-website-id=1566cf98-efb9-475c-b96e-709666a74819></script>
-</body>
-</html>
+<span></h5></hgroup><hr class=sep></header><p>Here is a simple yet useful trick to access web interface within your cluster.</p><p>As stated in the <a href=https://kubernetes.io/docs/tasks/access-application-cluster/access-cluster/#accessing-services-running-on-the-cluster>Kubernetes documentation</a> you can use <code>kubectl proxy</code>.</p><p>I&rsquo;ve seen a lot of people using the proxy to access the dashboard but you can use it to access any web interfaces, without the need to create an ingress and protect it, especially useful in dev environment.</p><pre><code>http://kubernetes_master_address/api/v1/namespaces/namespace_name/services/service_name[:port_name]/proxy
+</code></pre><p>For example here is how to access the Traefik dashboard described as follow:</p><div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-yaml data-lang=yaml><span style=display:flex><span><span style=color:#f92672>apiVersion</span>: <span style=color:#ae81ff>v1</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>kind</span>: <span style=color:#ae81ff>Service</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>metadata</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>name</span>: <span style=color:#ae81ff>traefik-dashboard</span>
+</span></span><span style=display:flex><span><span style=color:#f92672>spec</span>:
+</span></span><span style=display:flex><span>  <span style=color:#f92672>type</span>: <span style=color:#ae81ff>ClusterIP</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>selector</span>:
+</span></span><span style=display:flex><span>    <span style=color:#f92672>app</span>: <span style=color:#ae81ff>traefik</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>release</span>: <span style=color:#ae81ff>traefik</span>
+</span></span><span style=display:flex><span>  <span style=color:#f92672>ports</span>:
+</span></span><span style=display:flex><span>  - <span style=color:#f92672>name</span>: <span style=color:#ae81ff>dashboard-http</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>port</span>: <span style=color:#ae81ff>80</span>
+</span></span><span style=display:flex><span>    <span style=color:#f92672>targetPort</span>: <span style=color:#ae81ff>8080</span>
+</span></span></code></pre></div><p>http://localhost:8001/api/v1/namespaces/default/services/http:traefik-dashboard:dashboard-http/proxy/dashboard/#!/service?namespace=default</p></article><nav class="no-print post-nav"><a class=prev-post href=https://blog.nobugware.com/post/2019/bare-metal-kubernetes-quick-installations-on-arch/><img class=icon-text src=https://blog.nobugware.com/img/prev.svg>Bare Metal Kubernetes Quick Installation Arm64 & Arch</a>
+<a class=next-post href=https://blog.nobugware.com/post/2019/using-github-actions-with-golangci-linter/>Using Github Actions with Golangci-linter<img class=icon-text src=https://blog.nobugware.com/img/next.svg></a></nav><section id=related><h4>See Also</h4><ul><li><a href=https://blog.nobugware.com/post/2019/deploying-a-website-with-caddy-git-and-kubernetes/>Deploying a website with Caddy, Git and Kubernetes</a></li><li><a href=https://blog.nobugware.com/post/2019/traefik_load_balancing_grpc_services_trace_propagation/>Traefik gRPC Load Balancing and Traces Propagation</a></li><li><a href=https://blog.nobugware.com/post/2019/bare-metal-kubernetes-quick-installations-on-arch/>Bare Metal Kubernetes Quick Installation Arm64 & Arch</a></li></ul></section><hr class=sep></main><footer class="container no-print"><div class=u-footer><a href=https://github.com/akhenakh/><img class=icon-social src=https://blog.nobugware.com/img/github.svg alt=Github></a>
+<a href=https://c.im/@akhenakh><img class=icon-social src=https://blog.nobugware.com/img/mastodon.svg alt=Mastodon></a>
+<a href=https://twitter.com/akhenakh><img class=icon-social src=https://blog.nobugware.com/img/twitter.svg alt=Twitter></a><p>Theme used: <a href=https://github.com/yursan9/manis-hugo-theme>Manis</a><br></p><a href=#brand><img class=icon-text src=https://blog.nobugware.com/img/toup.svg alt="To Up">
+<span>Back to Up</span></a></div></footer><script>hljs.initHighlightingOnLoad()</script></body></html>

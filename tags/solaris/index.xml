@@ -4,7 +4,4 @@ For example my guest is called &amp;ldquo;Solaris10u6&amp;rdquo;, configured to 
 Type this command in terminal:
 `VBoxManage setextradata Solaris10u6 &amp;ldquo;VBoxInternal/Devices/e1000/0/LUN#0/Config/ssh/Protocol&amp;rdquo; TCP
 VBoxManage setextradata Solaris10u6 &amp;ldquo;VBoxInternal/Devices/e1000/0/LUN#0/Config/ssh/GuestPort&amp;rdquo; 22
-VBoxManage setextradata Solaris10u6 &amp;ldquo;VBoxInternal/Devices/e1000/0/LUN#0/Config/ssh/HostPort&amp;rdquo; 2222 `</description></item></channel></rss>e><guid>https://blog.nobugware.com/post/2009/02/26/understanding-zfs-tuning/</guid><description>ZFS is all about performance (many levels of caching, pre-fetch, &amp;hellip;) and memory consumption :-)
-Here are my last links about ZFS [internals](http://src.opensolaris.org/source/xref/onnv/onnv- gate/usr/src/cmd/mdb/common/modules/zfs/zfs.c#333), it&amp;rsquo;s worth a read if you plan to use ZFS on large productions :
-The slides of Adam Leventhal&amp;rsquo;s talk for the OpenSolaris Storage Summit : ZFS, Cache, and Flash
-c0t0d0s0.org : a very good explanation of the ARC cache : most recently used pages, most frequently used pages and their ghosts lists Some insight into the read cache of ZFS - or: The ARC and the writing side</description></item></channel></rss>
+VBoxManage setextradata Solaris10u6 &amp;ldquo;VBoxInternal/Devices/e1000/0/LUN#0/Config/ssh/HostPort&amp;rdquo; 2222 `</description></item></channel></rss>
